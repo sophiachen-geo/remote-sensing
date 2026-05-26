@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - claude/vibrant-turing-lOaJD
   workflow_dispatch:
 
 permissions:
