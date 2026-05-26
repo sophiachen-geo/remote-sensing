@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Working in the Boundary Layer — a companion · CRSS 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* Paper / ink scale, warmer than off-white to evoke fresco */
+    --paper:        oklch(0.965 0.014 78);
+    --paper-2:      oklch(0.940 0.018 78);
+    --paper-3:      oklch(0.900 0.022 78);
+    --paper-4:      oklch(0.860 0.025 78);
+
+    --ink:          oklch(0.20 0.018 250);
+    --ink-2:        oklch(0.36 0.018 250);
+    --ink-3:        oklch(0.52 0.015 250);
+    --ink-4:        oklch(0.66 0.012 250);
+
+    --rule:         oklch(0.78 0.020 78);
+    --rule-soft:    oklch(0.86 0.016 78);
+
+    /* The dialectic — Aristotle (terra), Plato (lapis), gilded ground */
+    --terra:        oklch(0.50 0.130 38);
+    --terra-2:      oklch(0.62 0.140 42);
+    --terra-tint:   oklch(0.93 0.035 42);
+
+    --lapis:        oklch(0.40 0.110 252);
+    --lapis-2:      oklch(0.55 0.110 245);
+    --lapis-tint:   oklch(0.93 0.030 250);
+
+    --ochre:        oklch(0.66 0.115 78);
+    --ochre-2:      oklch(0.78 0.110 82);
+    --ochre-tint:   oklch(0.94 0.045 82);
+
+    --moss:         oklch(0.42 0.075 155);
+    --moss-tint:    oklch(0.93 0.030 155);
+
+    --plum:         oklch(0.42 0.10 330);
+    --plum-tint:    oklch(0.92 0.030 330);
+
+    --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
+    --sans:  "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+    --mono:  "JetBrains Mono", ui-monospace, Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
+  body {
+    font-family: var(--sans);
+    font-size: 15.5px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  a { color: inherit; }
+  ::selection { background: var(--ochre-tint); color: var(--ink); }
+  button { font: inherit; color: inherit; }
+
+  .mono  { font-family: var(--mono); letter-spacing: 0.01em; }
+  .serif { font-family: var(--serif); }
+  .num   { font-family: var(--serif); font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+  .caps  { text-transform: uppercase; letter-spacing: 0.16em; font-size: 11px; font-weight: 500; }
+  .fr    { font-family: var(--serif); font-style: italic; font-weight: 400; }
+
+  .wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 56px;
+  }
+
+  /* ----- Sticky chrome ----- */
+  .chrome {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in oklch, var(--paper) 92%, transparent);
+    backdrop-filter: blur(10px) saturate(1.05);
+    -webkit-backdrop-filter: blur(10px) saturate(1.05);
+    border-bottom: 1px solid var(--rule);
+  }
+  .chrome-strip {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 56px; max-width: 1280px; margin: 0 auto;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.10em;
+    color: var(--ink-3); text-transform: uppercase;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .chrome-tabs {
+    display: flex; gap: 0; max-width: 1280px; margin: 0 auto;
+    padding: 0 56px;
+    overflow-x: auto;
+  }
+  .tab {
+    appearance: none; background: none; border: none; cursor: pointer;
+    padding: 14px 0 16px; margin-right: 36px;
+    font-family: var(--sans); font-size: 13.5px;
+    color: var(--ink-3); position: relative;
+    display: inline-flex; align-items: baseline; gap: 10px;
+    white-space: nowrap;
+    transition: color 120ms;
+  }
+  .tab .roman {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.16em; color: var(--ink-4);
+    text-transform: uppercase;
+  }
+  .tab:hover { color: var(--ink); }
+  .tab.on { color: var(--ink); }
+  .tab.on::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -1px;
+    height: 2px; background: var(--terra);
+  }
+
+  /* layout */
+  .pane { min-height: 100vh; }
+  .pane.dark { background: var(--ink); color: var(--paper); }
+
+  hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 0; }
+
+  /* Boot */
+  #app .boot {
+    display: flex; align-items: center; justify-content: center;
+    height: 70vh; color: var(--ink-3); font-family: var(--mono);
+    font-size: 11px; letter-spacing: 0.20em; text-transform: uppercase;
+  }
+
+  /* universal text balance */
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+
+  /* details polish */
+  .kicker {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.20em;
+    text-transform: uppercase; color: var(--terra);
+  }
+</style>
+</head>
+<body style="font-family: Times; background-color: rgb(250, 246, 246)">
+
+<div id="app"><div class="boot">// loading companion · setting fonts</div></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="talk-data.js"></script>
+<script type="text/babel" src="talk-atoms.jsx"></script>
+<script type="text/babel" src="talk-painting.jsx"></script>
+<script type="text/babel" src="talk-diagrams.jsx"></script>
+<script type="text/babel" src="talk-career.jsx"></script>
+<script type="text/babel" src="talk-tabs-a.jsx"></script>
+<script type="text/babel" src="talk-tabs-b.jsx"></script>
+<script type="text/babel" src="talk-app.jsx"></script>
+
+</body>
+</html>
