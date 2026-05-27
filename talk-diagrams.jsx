@@ -1,31 +1,28 @@
 // =======================================================================
-// Diagrams — SVG + HTML interactive visualisations for the talk.
+// Diagrams, SVG and HTML interactive visualisations for the talk.
 // Loaded after talk-painting.jsx.
 // =======================================================================
 
 // -----------------------------------------------------------------------
-// 1) BoundaryLayerSchematic — vertical altitude schematic, satellite to indoor
+// 1) BoundaryLayerSchematic, vertical altitude schematic, satellite to indoor
 // -----------------------------------------------------------------------
 const BoundaryLayerSchematic = ({ height = 620 }) => {
-  // Altitudes in metres (positive = above ground, negative = below)
   const stops = [
-    { y: 700000, name: "satellite",     note: "700 km · orbit · synoptic",                   color: "var(--lapis)",   glyph: "✦", side: "Plato"     },
-    { y: 12000,  name: "plane / GHGSat", note: "12 km · upper troposphere · column retrievals", color: "var(--lapis-2)", glyph: "✈", side: "Plato"     },
-    { y: 1000,   name: "boundary-layer top", note: "≈ 1 km · top of the layer where weather and pollution mix", color: "var(--ochre)", glyph: "─", side: "frontier"  },
-    { y: 120,    name: "UAV / drone",   note: "120 m · sub-cloud · field campaign",         color: "var(--moss)",    glyph: "◆", side: "drone"     },
-    { y: 25,     name: "canopy · rooftops", note: "25 m · the surface the satellite calls surface", color: "var(--moss)", glyph: "▲", side: "ground"    },
-    { y: 1.4,    name: "body altitude", note: "1.4 m · the bottom 10 m where bodies breathe", color: "var(--terra)",   glyph: "✜", side: "Aristotle" },
-    { y: -15,    name: "indoor · tunnel · subway", note: "−15 m · the M1 metro · 1,693 ppm CO₂",  color: "var(--terra-2)", glyph: "◧", side: "Aristotle" },
+    { y: 700000, name: "satellite",             note: "700 km, orbit, synoptic",                       color: "var(--lapis)",   glyph: "✦", side: "Plato"     },
+    { y: 12000,  name: "plane and GHGSat",       note: "12 km, upper troposphere, column retrievals",  color: "var(--lapis-2)", glyph: "✈", side: "Plato"     },
+    { y: 1000,   name: "boundary layer top",     note: "approximately 1 km, the layer where weather mixes", color: "var(--ochre)", glyph: "─", side: "frontier" },
+    { y: 120,    name: "UAV or drone",           note: "120 m, sub cloud, field campaign",             color: "var(--moss)",    glyph: "◆", side: "drone"     },
+    { y: 25,     name: "canopy and rooftops",    note: "25 m, the surface the satellite calls surface", color: "var(--moss)",   glyph: "▲", side: "ground"    },
+    { y: 1.4,    name: "body altitude",          note: "1.4 m, the bottom ten metres where bodies breathe", color: "var(--terra)", glyph: "✜", side: "Aristotle" },
+    { y: -15,    name: "indoor, tunnel, subway", note: "minus 15 m, the M1 metro, 1,693 ppm CO₂",      color: "var(--terra-2)", glyph: "◧", side: "Aristotle" },
   ];
 
-  // signed log scale
   const sLog = (y) => Math.sign(y || 0.01) * Math.log10(Math.abs(y) + 1);
   const maxY = sLog(900000);
   const minY = sLog(-25);
   const range = maxY - minY;
   const topPct = (y) => ((maxY - sLog(y)) / range) * 100;
 
-  // boundary layer band: 0 → 1000m
   const blTop = topPct(1000);
   const blBottom = topPct(0);
 
@@ -36,7 +33,6 @@ const BoundaryLayerSchematic = ({ height = 620 }) => {
       border: "1px solid var(--rule)",
       overflow: "hidden",
     }}>
-      {/* boundary-layer shaded band */}
       <div style={{
         position: "absolute", left: 0, right: 0,
         top: `${blTop}%`, height: `${blBottom - blTop}%`,
@@ -50,10 +46,9 @@ const BoundaryLayerSchematic = ({ height = 620 }) => {
           color: "var(--ochre)", textTransform: "uppercase",
           padding: "4px 10px", background: "var(--paper)",
           border: "1px solid var(--ochre)",
-        }}>BOUNDARY LAYER · ≈ 1 km</div>
+        }}>BOUNDARY LAYER, ≈ 1 km</div>
       </div>
 
-      {/* underground hatching */}
       <div style={{
         position: "absolute", left: 0, right: 0,
         top: `${blBottom}%`, bottom: 0,
@@ -61,7 +56,6 @@ const BoundaryLayerSchematic = ({ height = 620 }) => {
         opacity: 0.7,
       }} />
 
-      {/* stops */}
       {stops.map((s, i) => (
         <div key={i} style={{
           position: "absolute", left: 0, right: 0,
@@ -70,7 +64,6 @@ const BoundaryLayerSchematic = ({ height = 620 }) => {
           gridTemplateColumns: "120px 36px 1fr auto 110px",
           alignItems: "center", padding: "0 24px", gap: 14,
         }}>
-          {/* left: altitude */}
           <div style={{ textAlign: "right" }}>
             <div className="num" style={{
               fontSize: 18, color: s.color, lineHeight: 1, letterSpacing: "-0.01em",
@@ -82,7 +75,6 @@ const BoundaryLayerSchematic = ({ height = 620 }) => {
             </div>
           </div>
 
-          {/* glyph */}
           <div style={{
             width: 28, height: 28,
             background: s.color, color: "var(--paper)",
@@ -92,7 +84,6 @@ const BoundaryLayerSchematic = ({ height = 620 }) => {
             boxShadow: `0 0 0 1px ${s.color}`,
           }}>{s.glyph}</div>
 
-          {/* name + dashed line */}
           <div style={{
             display: "flex", alignItems: "center", gap: 12,
           }}>
@@ -106,13 +97,11 @@ const BoundaryLayerSchematic = ({ height = 620 }) => {
             }} />
           </div>
 
-          {/* note */}
           <div className="mono" style={{
             fontSize: 10.5, letterSpacing: "0.06em", color: "var(--ink-2)",
             textTransform: "uppercase", textAlign: "right",
           }}>{s.note}</div>
 
-          {/* gesture affinity */}
           <div style={{
             textAlign: "left", fontFamily: "var(--mono)",
             fontSize: 10, letterSpacing: "0.16em", color: s.color,
@@ -122,25 +111,23 @@ const BoundaryLayerSchematic = ({ height = 620 }) => {
         </div>
       ))}
 
-      {/* y-axis label */}
       <div style={{
         position: "absolute", left: 6, top: "50%",
         transform: "translateY(-50%) rotate(-90deg)", transformOrigin: "left center",
         fontFamily: "var(--mono)", fontSize: 9.5, letterSpacing: "0.20em",
         color: "var(--ink-3)", textTransform: "uppercase", whiteSpace: "nowrap",
-      }}>↑ altitude · log scale</div>
+      }}>↑ altitude, log scale</div>
     </div>
   );
 };
 
 // -----------------------------------------------------------------------
-// 2) FivePerspectivesWheel — radial diagram + detail panel
+// 2) FivePerspectivesWheel, radial diagram and detail panel
 // -----------------------------------------------------------------------
 const FivePerspectivesWheel = () => {
   const [active, setActive] = React.useState("sky");
   const data = FIVE_PERSPECTIVES.find(p => p.id === active) || FIVE_PERSPECTIVES[0];
 
-  // Pentagon vertex positions
   const cx = 200, cy = 200, R = 145;
   const vertices = FIVE_PERSPECTIVES.map((p, i) => {
     const angle = (-90 + i * 72) * Math.PI / 180;
@@ -157,19 +144,16 @@ const FivePerspectivesWheel = () => {
       display: "grid", gridTemplateColumns: "minmax(380px, 1fr) 1.2fr",
       gap: 36, alignItems: "stretch",
     }}>
-      {/* Pentagon SVG */}
       <div style={{
         background: "var(--ink)", padding: 8,
         position: "relative",
       }}>
         <svg viewBox="0 0 400 400" width="100%" height="100%" style={{ display: "block" }}>
-          {/* faint pentagon ring */}
           <polygon
             points={vertices.map(v => `${v.x},${v.y}`).join(" ")}
             fill="none" stroke="color-mix(in oklch, var(--paper) 18%, transparent)"
             strokeWidth="1" strokeDasharray="2 4"
           />
-          {/* connecting lines from center to each vertex */}
           {vertices.map((v) => (
             <line key={v.id}
               x1={cx} y1={cy} x2={v.x} y2={v.y}
@@ -179,7 +163,6 @@ const FivePerspectivesWheel = () => {
             />
           ))}
 
-          {/* center node */}
           <circle cx={cx} cy={cy} r="56"
             fill="var(--paper)" stroke="var(--ochre-2)" strokeWidth="2" />
           <text x={cx} y={cy - 8} fontFamily="Newsreader, serif"
@@ -190,12 +173,11 @@ const FivePerspectivesWheel = () => {
             letterSpacing="2">UNDRR</text>
           <text x={cx} y={cy + 28} fontFamily="JetBrains Mono, monospace"
             fontSize="7" fill="var(--ink-3)" textAnchor="middle"
-            letterSpacing="1.2">HAZARD · EXPOSURE</text>
+            letterSpacing="1.2">HAZARD, EXPOSURE</text>
           <text x={cx} y={cy + 40} fontFamily="JetBrains Mono, monospace"
             fontSize="7" fill="var(--ink-3)" textAnchor="middle"
-            letterSpacing="1.2">VULNERABILITY · CAPACITY</text>
+            letterSpacing="1.2">VULNERABILITY, CAPACITY</text>
 
-          {/* vertex nodes */}
           {vertices.map((v) => {
             const on = active === v.id;
             return (
@@ -217,7 +199,6 @@ const FivePerspectivesWheel = () => {
             );
           })}
 
-          {/* perspective labels outside vertices */}
           {vertices.map((v) => {
             const labelR = 188;
             const lx = cx + labelR * Math.cos(v.angle);
@@ -239,18 +220,16 @@ const FivePerspectivesWheel = () => {
           })}
         </svg>
 
-        {/* caption */}
         <div style={{
           position: "absolute", bottom: 16, left: 16, right: 16,
           color: "color-mix(in oklch, var(--paper) 60%, transparent)",
           fontFamily: "var(--mono)", fontSize: 10, letterSpacing: "0.16em",
           textTransform: "uppercase", textAlign: "center",
         }}>
-          fig. 02 · click any perspective
+          fig. 02, click any perspective
         </div>
       </div>
 
-      {/* Detail panel */}
       <div style={{
         background: "var(--paper)", border: "1px solid var(--rule)",
         borderTop: `5px solid ${data.color}`,
@@ -263,7 +242,7 @@ const FivePerspectivesWheel = () => {
           <span className="mono" style={{
             fontSize: 10, color: "var(--ink-3)", letterSpacing: "0.14em",
             textTransform: "uppercase",
-          }}>perspective · {String(FIVE_PERSPECTIVES.findIndex(p=>p.id===data.id)+1).padStart(2,"0")} of 05</span>
+          }}>perspective, {String(FIVE_PERSPECTIVES.findIndex(p=>p.id===data.id)+1).padStart(2,"0")} of 05</span>
         </div>
         <h4 className="serif" style={{
           margin: "12px 0 4px", fontSize: 38, lineHeight: 1.05,
@@ -279,20 +258,20 @@ const FivePerspectivesWheel = () => {
           background: "var(--paper-2)", borderLeft: `3px solid ${data.color}`,
         }}>
           <div className="caps" style={{ color: data.color, marginBottom: 6 }}>Contributes</div>
-          <p style={{ margin: 0, fontSize: 15, lineHeight: 1.5, color: "var(--ink)" }}>
+          <p style={{ margin: 0, fontSize: 15, lineHeight: 1.55, color: "var(--ink)" }}>
             {data.contributes}
           </p>
         </div>
 
         <div style={{ marginTop: 20 }}>
-          <div className="caps" style={{ color: "var(--ink-3)", marginBottom: 10 }}>Sees · knows</div>
+          <div className="caps" style={{ color: "var(--ink-3)", marginBottom: 10 }}>Sees, knows</div>
           <ul style={{
             margin: 0, padding: 0, listStyle: "none",
             display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 18px",
           }}>
             {data.sees.map((it, i) => (
               <li key={i} style={{
-                fontSize: 13.5, color: "var(--ink-2)", lineHeight: 1.4,
+                fontSize: 13.5, color: "var(--ink-2)", lineHeight: 1.45,
                 paddingLeft: 14, position: "relative",
               }}>
                 <span style={{
@@ -309,7 +288,7 @@ const FivePerspectivesWheel = () => {
           <p className="serif" style={{
             margin: "18px 0 0", paddingTop: 14,
             borderTop: "1px solid var(--rule-soft)",
-            fontSize: 14, lineHeight: 1.5, color: "var(--ink-2)",
+            fontSize: 14, lineHeight: 1.55, color: "var(--ink-2)",
             fontStyle: "italic",
           }}>{data.note}</p>
         )}
@@ -319,24 +298,22 @@ const FivePerspectivesWheel = () => {
 };
 
 // -----------------------------------------------------------------------
-// 3) HeuristicStackDiagram — three layers as vertical stack with arrows
+// 3) HeuristicStackDiagram, three layers as vertical stack with arrows
 // -----------------------------------------------------------------------
 const HeuristicStackDiagram = () => {
   const [active, setActive] = React.useState("ethical");
-  const layers = [...HEURISTIC_LAYERS].reverse(); // top-down: ethical → interpretive → physical
+  const layers = [...HEURISTIC_LAYERS].reverse();
 
   return (
     <div>
-      {/* Top "life" annotation */}
       <div style={{
         textAlign: "center", padding: "16px 0 8px",
         fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.20em",
         color: "var(--terra)", textTransform: "uppercase",
       }}>
-        ↑ &nbsp; a life · a decision · a consequence &nbsp; ↑
+        ↑ a life, a decision, a consequence ↑
       </div>
 
-      {/* Stack */}
       <div style={{
         display: "grid", gridTemplateColumns: "1fr",
         border: "1px solid var(--rule)",
@@ -368,16 +345,16 @@ const HeuristicStackDiagram = () => {
                     }}>{L.verb}</div>
                   </div>
                   <div>
-                    <div className="caps" style={{ color: "var(--ink-3)", marginBottom: 8 }}>Layer · {L.name}</div>
+                    <div className="caps" style={{ color: "var(--ink-3)", marginBottom: 8 }}>Layer, {L.name}</div>
                     <h4 className="serif" style={{
-                      margin: 0, fontSize: 22, lineHeight: 1.2, fontWeight: 500,
+                      margin: 0, fontSize: 22, lineHeight: 1.25, fontWeight: 500,
                       color: "var(--ink)", maxWidth: 720,
                     }}>{L.headline}</h4>
 
                     {on && (
                       <>
                         <p style={{
-                          margin: "12px 0 14px", fontSize: 14.5, lineHeight: 1.55,
+                          margin: "12px 0 14px", fontSize: 14.5, lineHeight: 1.6,
                           color: "var(--ink-2)", maxWidth: 720,
                         }}>{L.body}</p>
                         <div style={{
@@ -393,7 +370,6 @@ const HeuristicStackDiagram = () => {
                 </div>
               </button>
 
-              {/* arrow between layers */}
               {i < layers.length - 1 && (
                 <div style={{
                   borderBottom: "1px solid var(--rule)",
@@ -414,20 +390,19 @@ const HeuristicStackDiagram = () => {
         })}
       </div>
 
-      {/* Bottom "signal" annotation */}
       <div style={{
         textAlign: "center", padding: "8px 0 16px",
         fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.20em",
         color: "var(--lapis)", textTransform: "uppercase",
       }}>
-        ↑ &nbsp; signal · reflectance · backscatter · brightness &nbsp; ↑
+        ↑ signal, reflectance, backscatter, brightness ↑
       </div>
     </div>
   );
 };
 
 // -----------------------------------------------------------------------
-// 4) ChangeFourWaysGrid — looks / sounds / felt / means
+// 4) ChangeFourWaysGrid, looks, sounds, felt, means
 // -----------------------------------------------------------------------
 const ChangeFourWaysGrid = () => {
   const [active, setActive] = React.useState(null);
@@ -435,7 +410,7 @@ const ChangeFourWaysGrid = () => {
     <div>
       <div style={{
         textAlign: "center", padding: "12px 0",
-        fontFamily: "var(--serif)", fontSize: 26, lineHeight: 1.25,
+        fontFamily: "var(--serif)", fontSize: 26, lineHeight: 1.3,
         fontStyle: "italic", color: "var(--ink)",
       }}>
         What <em style={{ color: "var(--terra)" }}>is</em> change?
@@ -443,7 +418,7 @@ const ChangeFourWaysGrid = () => {
           display: "block", fontFamily: "var(--mono)", fontSize: 11,
           letterSpacing: "0.20em", color: "var(--ink-3)",
           textTransform: "uppercase", marginTop: 6,
-        }}>four instruments · four questions · one phenomenon</span>
+        }}>four instruments, four questions, one phenomenon</span>
       </div>
 
       <div style={{
@@ -467,7 +442,6 @@ const ChangeFourWaysGrid = () => {
                 color: "var(--ink)", minHeight: 280, position: "relative",
                 transition: "background 200ms",
               }}>
-              {/* glyph */}
               <div style={{
                 position: "absolute", top: 22, right: 24,
                 fontSize: 28, color: c.color,
@@ -485,7 +459,7 @@ const ChangeFourWaysGrid = () => {
               }}>{c.name}</h4>
 
               <p style={{
-                margin: "14px 0 0", fontSize: 14, lineHeight: 1.5,
+                margin: "14px 0 0", fontSize: 14, lineHeight: 1.55,
                 color: "var(--ink-2)", fontStyle: "italic", maxWidth: 380,
               }}>{c.question}</p>
 
@@ -515,21 +489,19 @@ const ChangeFourWaysGrid = () => {
 };
 
 // -----------------------------------------------------------------------
-// 5) AtollVsPixelDiagram — scale collision visual
+// 5) AtollVsPixelDiagram, scale collision visual
 // -----------------------------------------------------------------------
 const AtollVsPixelDiagram = ({ height = 360 }) => (
   <svg viewBox="0 0 540 360" width="100%" height={height} style={{ display: "block" }}>
-    {/* TROPOMI pixel */}
     <rect x="40" y="40" width="380" height="280"
       fill="var(--lapis-tint)" stroke="var(--lapis)" strokeWidth="1.5" />
     <g fontFamily="JetBrains Mono, monospace" fontSize="10" fill="var(--lapis)" letterSpacing="1">
-      <text x="230" y="28" textAnchor="middle">← 5 km · Sentinel-5P TROPOMI pixel →</text>
+      <text x="230" y="28" textAnchor="middle">5 km, Sentinel-5P TROPOMI pixel</text>
       <g transform="translate(28 180) rotate(-90)">
-        <text textAnchor="middle">← 3.5 km →</text>
+        <text textAnchor="middle">3.5 km</text>
       </g>
     </g>
 
-    {/* faint grid */}
     <g stroke="var(--lapis)" strokeOpacity="0.2" strokeWidth="0.5">
       {Array.from({length: 7}).map((_,i) => (
         <line key={"v"+i} x1={40+(380/8)*(i+1)} y1="40" x2={40+(380/8)*(i+1)} y2="320" />
@@ -539,7 +511,6 @@ const AtollVsPixelDiagram = ({ height = 360 }) => (
       ))}
     </g>
 
-    {/* Tuvalu silhouette — tiny ring */}
     <g transform="translate(230, 180)">
       <ellipse cx="0" cy="0" rx="14" ry="3.5"
         fill="none" stroke="var(--terra)" strokeWidth="1.4" />
@@ -547,49 +518,42 @@ const AtollVsPixelDiagram = ({ height = 360 }) => (
         fill="none" stroke="var(--terra)" strokeWidth="1" strokeDasharray="2 1" />
       <circle cx="0" cy="0" r="1" fill="var(--terra)" />
     </g>
-    {/* leader line + label */}
     <line x1="248" y1="180" x2="350" y2="125"
       stroke="var(--terra)" strokeWidth="1" strokeDasharray="3 2" />
     <g transform="translate(354, 110)" fontFamily="Newsreader, serif">
       <text fontSize="14" fill="var(--terra)" fontWeight="500">Tuvalu</text>
       <text y="14" fontFamily="JetBrains Mono, monospace" fontSize="9" fill="var(--ink-3)" letterSpacing="1">
-        ≈ 26 km² · 11,000 people
+        approx. 26 km², 11,000 people
       </text>
     </g>
 
-    {/* uncertainty stack on the right */}
     <g transform="translate(450, 50)">
       <text fontFamily="JetBrains Mono, monospace" fontSize="9" fill="var(--ink-3)" letterSpacing="1.5">VERTICAL</text>
       <text y="12" fontFamily="JetBrains Mono, monospace" fontSize="9" fill="var(--ink-3)" letterSpacing="1.5">UNCERTAINTY</text>
 
-      {/* tower */}
       <rect x="0" y="30" width="60" height="220"
         fill="var(--paper-2)" stroke="var(--rule)" />
 
-      {/* SRTM noise band */}
       <rect x="0" y="30" width="60" height="120"
         fill="color-mix(in oklch, var(--terra-2) 30%, transparent)" />
       <text x="64" y="50" fontFamily="JetBrains Mono, monospace" fontSize="9" fill="var(--terra-2)" letterSpacing="1">
         SRTM RMSE
       </text>
       <text x="64" y="62" fontFamily="Newsreader, serif" fontSize="14" fill="var(--terra-2)" fontWeight="500">
-        6 – 10 m
+        6 to 10 m
       </text>
 
-      {/* Tuvalu max altitude line */}
       <line x1="-6" y1="200" x2="66" y2="200" stroke="var(--terra)" strokeWidth="2" />
       <text x="64" y="205" fontFamily="Newsreader, serif" fontSize="13" fill="var(--terra)" fontWeight="500">
-        4.5 m · Tuvalu max
+        4.5 m, Tuvalu max
       </text>
 
-      {/* sea level */}
       <line x1="-2" y1="250" x2="62" y2="250" stroke="var(--lapis)" strokeWidth="1.5" strokeDasharray="3 2" />
       <text x="64" y="254" fontFamily="JetBrains Mono, monospace" fontSize="9" fill="var(--lapis)" letterSpacing="1">
         sea level
       </text>
     </g>
 
-    {/* caption */}
     <text x="270" y="350" fontFamily="JetBrains Mono, monospace" fontSize="9.5"
       fill="var(--ink-3)" textAnchor="middle" letterSpacing="2">
       THE INSTRUMENT'S NOISE FLOOR EXCEEDS THE THING BEING MEASURED
@@ -598,7 +562,7 @@ const AtollVsPixelDiagram = ({ height = 360 }) => (
 );
 
 // -----------------------------------------------------------------------
-// 6) VisibilityBalance — protection ↔ exposure
+// 6) VisibilityBalance, protection and exposure
 // -----------------------------------------------------------------------
 const VisibilityBalance = () => {
   const [hover, setHover] = React.useState(null);

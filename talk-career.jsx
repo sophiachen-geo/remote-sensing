@@ -1,5 +1,5 @@
 // =======================================================================
-// CareerArc — disciplines, trainings & the relation to remote sensing.
+// CareerArc, disciplines, trainings and their relation to remote sensing.
 // Lives in the Ouverture tab.
 // =======================================================================
 
@@ -31,7 +31,7 @@ const DisciplineLegend = () => (
     border: "1px solid var(--rule)",
     display: "flex", flexWrap: "wrap", gap: "10px 24px", alignItems: "center",
   }}>
-    <span className="caps" style={{ color: "var(--ink-3)", marginRight: 8 }}>Disciplines ·</span>
+    <span className="caps" style={{ color: "var(--ink-3)", marginRight: 8 }}>Disciplines</span>
     {Object.entries(DISCIPLINES).map(([id, d]) => (
       <span key={id} style={{
         display: "inline-flex", alignItems: "center",
@@ -46,12 +46,9 @@ const DisciplineLegend = () => (
 // ---- Formations column -------------------------------------------------
 const FormationsList = () => (
   <div>
-    <Kicker color="var(--terra)">i · Formations · the schools</Kicker>
-    <p style={{ margin: "0 0 18px", fontSize: 14, color: "var(--ink-2)", lineHeight: 1.55 }}>
-      Five trainings, in order. The arc moves from health sciences into physical
-      geography and urban systems, then into the engineering of measurement —
-      the path that produces a remote-sensing practitioner who reads the
-      atmosphere as well as the pixel.
+    <Kicker color="var(--terra)">i, Formations, the schools</Kicker>
+    <p style={{ margin: "0 0 18px", fontSize: 14, color: "var(--ink-2)", lineHeight: 1.6 }}>
+      Five trainings, in academic order. The arc moves from health sciences into physical geography and urban systems, then into the engineering of measurement. The path produces a remote sensing practitioner who reads the atmosphere as carefully as the pixel.
     </p>
     <ol style={{ margin: 0, padding: 0, listStyle: "none", borderTop: "1px solid var(--rule)" }}>
       {FORMATIONS.map((f, i) => {
@@ -88,7 +85,7 @@ const FormationsList = () => (
                 <DiscChip disc={f.disc} />
               </div>
               <p style={{
-                margin: "12px 0 0", fontSize: 13, lineHeight: 1.55,
+                margin: "12px 0 0", fontSize: 13, lineHeight: 1.6,
                 color: "var(--ink-2)",
               }}>{f.note}</p>
             </div>
@@ -102,18 +99,14 @@ const FormationsList = () => (
 // ---- Practices vertical timeline ---------------------------------------
 const PracticesTimeline = () => (
   <div>
-    <Kicker color="var(--terra)">ii · Practices · what each role actually was</Kicker>
-    <p style={{ margin: "0 0 18px", fontSize: 14, color: "var(--ink-2)", lineHeight: 1.55 }}>
-      Ten positions, in chronological order. Each carries a disciplinary tag and
-      a chip locating it inside the remote-sensing chain — from operational
-      classification at ECCC, through spatial-data engineering at NRCan, to
-      community-mapping leadership at the Red Cross.
+    <Kicker color="var(--terra)">ii, Practices, what each role actually was</Kicker>
+    <p style={{ margin: "0 0 18px", fontSize: 14, color: "var(--ink-2)", lineHeight: 1.6 }}>
+      Ten positions, in chronological order. Each carries a disciplinary tag and a chip locating it inside the remote sensing chain. The path runs from operational classification at Environment and Climate Change Canada, through spatial data engineering at the Canada Centre for Mapping and Earth Observation, to community mapping leadership at the Canadian Red Cross.
     </p>
 
     <ol style={{
       margin: 0, padding: 0, listStyle: "none", position: "relative",
     }}>
-      {/* spine */}
       <div style={{
         position: "absolute", left: 7, top: 6, bottom: 6,
         width: 1, background: "var(--rule)",
@@ -129,7 +122,6 @@ const PracticesTimeline = () => (
             paddingBottom: 22,
             borderBottom: i < PRACTICES.length - 1 ? "1px solid var(--rule-soft)" : "none",
           }}>
-            {/* node */}
             <div style={{
               position: "absolute", left: 0, top: i === 0 ? 4 : 26,
               width: 15, height: 15,
@@ -140,7 +132,6 @@ const PracticesTimeline = () => (
               boxShadow: isCurrent ? `0 0 0 6px color-mix(in oklch, ${primary.color} 18%, transparent)` : "none",
             }} />
 
-            {/* year */}
             <div className="mono" style={{
               fontSize: 11, color: primary.color, letterSpacing: "0.10em",
               textTransform: "uppercase", marginBottom: 6,
@@ -159,14 +150,13 @@ const PracticesTimeline = () => (
               marginTop: 8, fontStyle: "italic",
             }}>{p.role}</div>
 
-            {/* chips */}
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 12 }}>
               {p.disc.map(d => <DiscChip key={d} disc={d} />)}
               {p.rs.map(r => <RsChip key={r} rs={r} />)}
             </div>
 
             <p style={{
-              margin: "12px 0 0", fontSize: 13.5, lineHeight: 1.55,
+              margin: "12px 0 0", fontSize: 13.5, lineHeight: 1.6,
               color: "var(--ink-2)", maxWidth: 640,
             }}>{p.body}</p>
           </li>
@@ -176,13 +166,12 @@ const PracticesTimeline = () => (
   </div>
 );
 
-// ---- Bottom strip: languages · service · certifications ---------------
+// ---- Bottom strip, languages, service, certifications ------------------
 const BottomStrip = () => (
   <div style={{
     marginTop: 56, paddingTop: 36, borderTop: "1px solid var(--rule)",
     display: "grid", gridTemplateColumns: "1.2fr 1fr 1fr", gap: 40,
   }}>
-    {/* Languages */}
     <div>
       <Kicker color="var(--ochre)">Working languages</Kicker>
       <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
@@ -203,9 +192,8 @@ const BottomStrip = () => (
       </ul>
     </div>
 
-    {/* Service */}
     <div>
-      <Kicker color="var(--lapis)">Service · United Nations MGCY</Kicker>
+      <Kicker color="var(--lapis)">Service, United Nations MGCY</Kicker>
       <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
         {SERVICE.map((s, i) => (
           <li key={i} style={{
@@ -225,22 +213,21 @@ const BottomStrip = () => (
       </ul>
     </div>
 
-    {/* Certifications */}
     <div>
-      <Kicker color="var(--moss)">Certifications · adjacent</Kicker>
+      <Kicker color="var(--moss)">Certifications, adjacent</Kicker>
       <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
         {CERTS.map((c, i) => (
           <li key={i} style={{
             padding: "10px 0",
             borderBottom: i < CERTS.length - 1 ? "1px solid var(--rule-soft)" : "none",
-            fontSize: 13.5, color: "var(--ink)", lineHeight: 1.45,
+            fontSize: 13.5, color: "var(--ink)", lineHeight: 1.5,
           }}>{c}</li>
         ))}
       </ul>
       <p style={{
-        margin: "16px 0 0", fontSize: 12, color: "var(--ink-3)", lineHeight: 1.5, fontStyle: "italic",
+        margin: "16px 0 0", fontSize: 12, color: "var(--ink-3)", lineHeight: 1.55, fontStyle: "italic",
       }}>
-        Top skills (LinkedIn) · report writing · environmental impact assessment · environmental policy.
+        Top skills declared on LinkedIn, report writing, environmental impact assessment, and environmental policy.
       </p>
     </div>
   </div>
@@ -251,7 +238,7 @@ const CareerArc = () => (
   <section style={{ marginTop: 72 }}>
     <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 40, alignItems: "end", marginBottom: 8 }}>
       <div>
-        <Kicker color="var(--terra)">Career arc · disciplines, trainings, & relation to remote sensing</Kicker>
+        <Kicker color="var(--terra)">Career arc, disciplines, trainings, and relation to remote sensing</Kicker>
         <h3 className="serif" style={{
           margin: 0, fontSize: 44, fontWeight: 400, letterSpacing: "-0.016em", lineHeight: 1.02,
         }}>Five formations. Ten practices.<br/>
@@ -259,14 +246,9 @@ const CareerArc = () => (
         </h3>
       </div>
       <p style={{
-        margin: 0, fontSize: 15, lineHeight: 1.6, color: "var(--ink-2)",
+        margin: 0, fontSize: 15, lineHeight: 1.65, color: "var(--ink-2)",
       }}>
-        The arc reads from health-sciences and physical geography into
-        geomatics engineering and humanitarian GIS. Remote sensing enters
-        explicitly at ECCC AFOLU, runs through CCMEO data engineering, SOCODEVI
-        sensor fusion and Laval sociohydrology, and arrives at the Red Cross
-        community-mapping portfolio. Each node below carries a discipline tag
-        and a chip locating it inside the RS chain.
+        The arc reads from health sciences and physical geography into geomatics engineering and humanitarian GIS. Remote sensing enters explicitly at Environment and Climate Change Canada, in the Agriculture, Forestry, and Other Land Use unit. It runs through the spatial data engineering work at the Canada Centre for Mapping and Earth Observation, the SOCODEVI sensor fusion work in West Africa, and the sociohydrology work at Université Laval, and arrives at the Canadian Red Cross community mapping portfolio. Each node below carries a discipline tag and a chip locating it inside the remote sensing chain.
       </p>
     </div>
 
