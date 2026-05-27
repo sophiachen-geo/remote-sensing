@@ -25,7 +25,7 @@ const DiveNav = ({ active, set }) => (
           <div className="mono" style={{
             fontSize: 11, color: on ? "var(--terra)" : "var(--ink-3)",
             letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: 8,
-          }}>Plongée {d.roman}</div>
+          }}>{d.roman}</div>
           <div className="serif" style={{
             fontSize: 24, lineHeight: 1.1, fontWeight: on ? 500 : 400,
             letterSpacing: "-0.01em",
@@ -90,59 +90,9 @@ const DiveApplications = () => (
       <FivePerspectivesWheel />
     </Card>
 
-    <Pull color="var(--terra)" by="Section claim, Dive I">
+    <Pull color="var(--terra)">
       {SECTION_CLAIMS.applications}
     </Pull>
-
-    {/* RCM, Tuktoyaktuk */}
-    <Card pad={36} style={{ marginTop: 12 }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 36 }}>
-        <div>
-          <Kicker color="var(--terra)">RCM and Tuktoyaktuk, a specifically Canadian case</Kicker>
-          <h3 className="serif" style={{
-            margin: 0, fontSize: 30, lineHeight: 1.1, fontWeight: 400, letterSpacing: "-0.012em",
-          }}>The instrument is here. The community-led partner is here. The funding is in place. One paper remains unwritten.</h3>
-          <P style={{ marginTop: 18 }}>
-            The RADARSAT Constellation Mission is among the strongest operational SAR systems in any national portfolio. Three identical C-band satellites at 592 kilometres altitude, twelve-day individual repeat, four-day exact constellation revisit, up to four daily acquisitions over Arctic latitudes, and the first operational deployment of compact polarimetry as a primary imaging mode. The validation record is strong. Shabanov and colleagues report a correlation of 0.996 between RCM-derived sea ice concentrations and the manual analyst charts produced by the Canadian Ice Service. Jain and colleagues report 97 per cent user accuracy and 98 per cent producer accuracy for Natural Resources Canada's wildfire perimeter algorithm on Sentinel-2 and Landsat during the 2023 fire season.
-          </P>
-          <P>
-            Tuktoyaktuk Island, in the Beaufort Sea, in Inuvialuit territory, is eroding at approximately two metres per year. Pelly Island, nearby, can lose forty metres of coast in one summer. The community is actively confronting whether to relocate. Community-led monitoring is in place through Deva-Lynn Pokiak's time-lapse cameras and the SmartICE program. Federal funding is in place through Climate Change Preparedness in the North and the Coastal Environmental Baseline Program. The opportunity for this room is a peer-reviewed RCM-specific Tuktoyaktuk shoreline change paper, which to my knowledge does not yet exist. I name it not as a criticism of the field but as an invitation.
-          </P>
-        </div>
-        <div style={{ display: "grid", gap: 24 }}>
-          <div>
-            <Kicker color="var(--ink-3)">RCM, operational record</Kicker>
-            <FactList items={RCM_FACTS} color="var(--terra)" />
-          </div>
-          <div>
-            <Kicker color="var(--ink-3)">Tuktoyaktuk, the gap</Kicker>
-            <FactList items={TUK_FACTS} color="var(--lapis)" />
-          </div>
-        </div>
-      </div>
-    </Card>
-
-    {/* Atoll diagram */}
-    <Card pad={36} style={{ marginTop: 24 }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr", gap: 36, alignItems: "start" }}>
-        <div>
-          <Kicker color="var(--lapis)">Tuvalu and Kiribati, the smaller than pixel problem</Kicker>
-          <h3 className="serif" style={{
-            margin: 0, fontSize: 30, lineHeight: 1.1, fontWeight: 400, letterSpacing: "-0.012em",
-          }}>The instrument's noise floor exceeds the thing being measured.</h3>
-          <P style={{ marginTop: 16 }}>
-            Tuvalu has a maximum elevation of approximately 4.5 metres. The Shuttle Radar Topography Mission digital elevation model has a vertical root mean square error of approximately 6 to 10 metres. Copernicus DEM and TanDEM-X improve this, but not enough. Tuvalu makes its legal claim for statehood preservation, for climate compensation, and for the continuity of its UNCLOS-derived exclusive economic zone, on data whose vertical noise floor is larger than the country's maximum height. Article 121 of the United Nations Convention on the Law of the Sea turns satellite imagery into evidence in legal disputes over the very existence of states.
-          </P>
-          <P>
-            Islands are where every modelling assumption that lets remote sensing work fails at once. They are smaller than the pixel. They are surrounded by ocean dynamics that defeat coastal calibration. They are persistently cloud covered. They have no flux towers and no dense ground network. The pretraining archives of every foundation model sample continents more heavily than oceans with islands in them. The AI shift may widen the island and continent capability gap before it narrows it.
-          </P>
-          <FactList items={ISLANDS_FACTS} color="var(--lapis)" />
-        </div>
-        <div style={{ background: "var(--paper-2)", border: "1px solid var(--rule)", padding: 20 }}>
-          <AtollVsPixelDiagram height={360} />
-        </div>
-      </div>
-    </Card>
 
     {/* Taiwan typhoon */}
     <Card pad={36} style={{
@@ -195,10 +145,6 @@ const DiveIntegration = () => {
         </p>
         <HeuristicStackDiagram />
       </Card>
-
-      <Pull color="var(--terra)" by="Section claim, Dive II">
-        {SECTION_CLAIMS.integration}
-      </Pull>
 
       {/* Lausanne TROPOMI / Q-TRAK */}
       <Card pad={40} style={{ marginTop: 12, background: "var(--paper)" }}>
@@ -360,30 +306,6 @@ const DiveIntegration = () => {
             </div>
           </Card>
         </div>
-        <div style={{ marginTop: 24, display: "flex", flexWrap: "wrap", gap: 10 }}>
-          {FIT_FOR_PURPOSE.ordinary.map((o, i) => (
-            <Chip key={i} accent="var(--lapis)" on>{o}</Chip>
-          ))}
-        </div>
-      </Card>
-
-      {/* Rahm */}
-      <Card pad={36} style={{ marginTop: 24, background: "var(--ink)", color: "var(--paper)", border: "none" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "200px 1fr", gap: 36 }}>
-          <Kicker color="var(--ochre-2)">Taichung Central Park, meteorological urbanism</Kicker>
-          <div>
-            <p className="serif" style={{
-              margin: 0, fontSize: 28, lineHeight: 1.3, fontWeight: 300, color: "var(--paper)",
-            }}>
-              Remote sensing makes the city's atmosphere visible at one scale.
-              <span style={{ color: "var(--ochre-2)" }}> Meteorological urbanism builds at the scale the body inhabits.</span>
-              Care work staffs the layer between them.
-            </p>
-            <p style={{ margin: "18px 0 0", fontSize: 14, lineHeight: 1.6, color: "color-mix(in oklch, var(--paper) 80%, transparent)" }}>
-              Philippe Rahm, with the landscape architect Catherine Mosbach and the firm Ricky Liu and Associates, built a 67 hectare park in Taichung, Taiwan, that opened in 2020. The park is organised around three climatic paths: the coolest, the least humid, and the least polluted. The trees are selected and located by their climatic function, cooling, drying, depolluting. Rahm calls this meteorological urbanism. The Lausanne carbon dioxide map I just showed you is, in his vocabulary, a materials list. His <Fr>Histoire naturelle de l'architecture</Fr> argues for a long history of architecture as climatic design that the twentieth century forgot, and that the climate emergency now requires us to recover.
-            </p>
-          </div>
-        </div>
       </Card>
     </div>
   );
@@ -531,7 +453,7 @@ const DiveEthics = () => (
         margin: "0 0 4px", fontSize: 38, fontWeight: 300, letterSpacing: "-0.014em",
         color: "var(--paper)", maxWidth: 880,
       }}>
-        Not soft governance documents. The <em style={{ color: "var(--ochre-2)" }}>operative</em> protocols.
+        The <em style={{ color: "var(--ochre-2)" }}>Operative</em> Protocols.
       </h3>
       <p style={{
         margin: "12px 0 28px", fontSize: 15, lineHeight: 1.6,
@@ -613,6 +535,27 @@ const DiveEthics = () => (
             ))}
           </ul>
         </Card>
+      </div>
+
+      <div style={{ marginTop: 28, paddingTop: 24, borderTop: "1px solid var(--rule)" }}>
+        <Kicker color="var(--plum)">Artists of the vanishing, two works that hold the grief</Kicker>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginTop: 6 }}>
+          {[
+            { who: "Jakob Kudsk Steensen", work: "Boreal Dreams — disappearing ecosystems, rendered as immersive living worlds.", href: "https://borealdreams.live/" },
+            { who: "Ludwig Berger", work: "Melting Landscapes — the sound of crying glaciers and the acoustics of ice in retreat.", href: "https://ludwigberger.com/work/melting-landscapes/" },
+          ].map((a, i) => (
+            <a key={i} href={a.href} target="_blank" rel="noopener noreferrer" style={{
+              display: "flex", flexDirection: "column", gap: 8, textDecoration: "none",
+              padding: "22px 24px",
+              background: "var(--plum-tint)",
+              border: "1px solid color-mix(in oklch, var(--plum) 30%, transparent)",
+            }}>
+              <span className="serif" style={{ fontSize: 24, lineHeight: 1.1, color: "var(--ink)", fontWeight: 500, letterSpacing: "-0.01em" }}>{a.who}</span>
+              <span style={{ fontSize: 14, lineHeight: 1.55, color: "var(--ink-2)" }}>{a.work}</span>
+              <span className="mono" style={{ fontSize: 10.5, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--plum)", marginTop: 6 }}>Visit the work &#8599;</span>
+            </a>
+          ))}
+        </div>
       </div>
     </Card>
   </div>

@@ -145,13 +145,13 @@ const FivePerspectivesWheel = () => {
       gap: 36, alignItems: "stretch",
     }}>
       <div style={{
-        background: "var(--ink)", padding: 8,
+        background: "var(--paper-2)", padding: 8,
         position: "relative",
       }}>
-        <svg viewBox="0 0 400 400" width="100%" height="100%" style={{ display: "block" }}>
+        <svg viewBox="-72 -16 544 432" width="100%" height="100%" style={{ display: "block" }}>
           <polygon
             points={vertices.map(v => `${v.x},${v.y}`).join(" ")}
-            fill="none" stroke="color-mix(in oklch, var(--paper) 18%, transparent)"
+            fill="none" stroke="color-mix(in oklch, var(--ink) 16%, transparent)"
             strokeWidth="1" strokeDasharray="2 4"
           />
           {vertices.map((v) => (
@@ -210,7 +210,7 @@ const FivePerspectivesWheel = () => {
               <g key={v.id}>
                 <text x={lx} y={ly}
                   fontFamily="Newsreader, serif" fontSize="14"
-                  fill={active === v.id ? v.color : "var(--paper)"}
+                  fill={active === v.id ? v.color : "var(--ink)"}
                   textAnchor={anchor} dominantBaseline="middle"
                   fontWeight={active === v.id ? "600" : "400"}>
                   {v.name}
@@ -222,7 +222,7 @@ const FivePerspectivesWheel = () => {
 
         <div style={{
           position: "absolute", bottom: 16, left: 16, right: 16,
-          color: "color-mix(in oklch, var(--paper) 60%, transparent)",
+          color: "var(--ink-3)",
           fontFamily: "var(--mono)", fontSize: 10, letterSpacing: "0.16em",
           textTransform: "uppercase", textAlign: "center",
         }}>
