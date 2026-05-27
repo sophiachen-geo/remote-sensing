@@ -45,6 +45,7 @@ const TranslatorChain = ({ steps, color }) => (
 
 const SocodeviCNAAS = ({ accent = "ochre" }) => {
   const ACC = accentVar(accent);
+  const MAP_SRC = "case-studies/socodevi-senegal.html";
   const PROBLEMS = [
     { k: "Mixed CRS", v: "Decimal degrees and Universal Transverse Mercator (UTM) coordinates coexisted within a single column." },
     { k: "Transposition", v: "Latitude and longitude values were transposed in numerous rows." },
@@ -159,6 +160,36 @@ const SocodeviCNAAS = ({ accent = "ochre" }) => {
         <BigStat value="2,896" label="Validated OCHA reference villages" accent={ACC} size={50} />
         <BigStat value="80%" label="Levenshtein threshold for a fuzzy name match" accent={ACC} size={50} />
       </div>
+
+      <Prose max={760}>
+        <P>
+          Mapped over the median growing-season NDVI, the reconciled network makes the stakes
+          legible: each village is joined to the gauge that governs its payout, and the distance
+          between the two is the margin of error built into the index.
+        </P>
+      </Prose>
+      <figure style={{ margin: "24px 0 8px" }}>
+        <Card pad={0} style={{ overflow: "hidden", background: "var(--ink)" }}>
+          <iframe
+            src={MAP_SRC}
+            title="CNAAS gauge network and village-to-gauge assignments over growing-season NDVI"
+            loading="lazy"
+            style={{ display: "block", width: "100%", height: "72vh", minHeight: 540, border: "none" }}
+          />
+        </Card>
+        <figcaption style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginTop: 10 }}>
+          <span style={{ fontSize: 13, lineHeight: 1.5, color: "var(--ink-3)", maxWidth: 740 }}>
+            Every village joined to its assigned rain gauge across the nine CNAAS regions, drawn over the
+            median growing-season NDVI. Click a village to read its name and its distance to the gauge that
+            governs its payout — some sit within a kilometre, others more than a hundred. Imagery: Google
+            Earth Engine / Copernicus.
+          </span>
+          <a href={MAP_SRC} target="_blank" rel="noopener noreferrer" className="mono" style={{
+            fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase",
+            color: ACC, textDecoration: "none", whiteSpace: "nowrap",
+          }}>Open full screen &#8599;</a>
+        </figcaption>
+      </figure>
 
       <Sub kicker="Phase two · capacity" color={ACC}>Training cooperatives to read their own gauges</Sub>
       <Prose max={760}>
