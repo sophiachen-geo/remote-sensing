@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Working in the Boundary Layer — a companion · CRSS 2026</title>
+<title>Working in the Boundary Layer, a companion to a CRSS 2026 lecture</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,7 +11,7 @@
 
 <style>
   :root {
-    /* Paper / ink scale, warmer than off-white to evoke fresco */
+    /* Paper and ink scale, warmer than off-white to evoke fresco */
     --paper:        oklch(0.965 0.014 78);
     --paper-2:      oklch(0.940 0.018 78);
     --paper-3:      oklch(0.900 0.022 78);
@@ -25,7 +25,7 @@
     --rule:         oklch(0.78 0.020 78);
     --rule-soft:    oklch(0.86 0.016 78);
 
-    /* The dialectic — Aristotle (terra), Plato (lapis), gilded ground */
+    /* The dialectic, Aristotle as terra, Plato as lapis, ochre as gilded ground */
     --terra:        oklch(0.50 0.130 38);
     --terra-2:      oklch(0.62 0.140 42);
     --terra-tint:   oklch(0.93 0.035 42);
@@ -76,7 +76,7 @@
     padding: 0 56px;
   }
 
-  /* ----- Sticky chrome ----- */
+  /* Sticky chrome */
   .chrome {
     position: sticky; top: 0; z-index: 50;
     background: color-mix(in oklch, var(--paper) 92%, transparent);
@@ -117,7 +117,7 @@
     height: 2px; background: var(--terra);
   }
 
-  /* layout */
+  /* Layout */
   .pane { min-height: 100vh; }
   .pane.dark { background: var(--ink); color: var(--paper); }
 
@@ -130,11 +130,11 @@
     font-size: 11px; letter-spacing: 0.20em; text-transform: uppercase;
   }
 
-  /* universal text balance */
+  /* Universal text balance */
   h1, h2, h3 { text-wrap: balance; }
   p { text-wrap: pretty; }
 
-  /* details polish */
+  /* Detail polish */
   .kicker {
     font-family: var(--mono); font-size: 11px; letter-spacing: 0.20em;
     text-transform: uppercase; color: var(--terra);
@@ -143,7 +143,7 @@
 </head>
 <body style="font-family: Times; background-color: rgb(250, 246, 246)">
 
-<div id="app"><div class="boot">// loading companion · setting fonts</div></div>
+<div id="app"><div class="boot">loading companion, setting fonts</div></div>
 
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
@@ -154,6 +154,7 @@
 <script type="text/babel" src="talk-painting.jsx"></script>
 <script type="text/babel" src="talk-diagrams.jsx"></script>
 <script type="text/babel" src="talk-career.jsx"></script>
+<script type="text/babel" src="talk-multimodality.jsx"></script>
 <script type="text/babel" src="talk-tabs-a.jsx"></script>
 <script type="text/babel" src="talk-tabs-b.jsx"></script>
 <script type="text/babel" src="talk-app.jsx"></script>

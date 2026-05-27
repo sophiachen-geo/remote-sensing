@@ -1,9 +1,8 @@
 // =======================================================================
-// InteractivePainting — Plato & Aristotle, clickable hands, zoom toggle.
+// InteractivePainting, Plato and Aristotle, clickable hands, zoom toggle.
 // The marquee piece of the Ouverture.
 // =======================================================================
 
-// Hotspot positions (% of the visible viewport, hand-tuned per view)
 const PAINTING_HOTSPOTS = {
   detail: {
     plato:     { left: "41%", top: "26%" },
@@ -18,11 +17,11 @@ const PAINTING_HOTSPOTS = {
 const PAINTING_VIEWS = {
   detail: {
     bgSize: "280%", bgPos: "53% 38%",
-    label: "Central detail · the dialectic of the hands",
+    label: "Central detail, the dialectic of the hands",
   },
   full: {
     bgSize: "cover", bgPos: "50% 50%",
-    label: "Full fresco · Stanza della Segnatura · Vatican · 1509",
+    label: "Full fresco, Stanza della Segnatura, Vatican, 1509",
   },
 };
 
@@ -58,7 +57,7 @@ const GestureCard = ({ id, fig, onClose }) => (
     <h4 className="serif" style={{
       margin: 0, fontSize: 40, fontWeight: 300, letterSpacing: "-0.018em", lineHeight: 1.0,
     }}>
-      {fig.name}<em style={{ color: fig.color, fontWeight: 300 }}> · {fig.gesture}</em>
+      {fig.name}<em style={{ color: fig.color, fontWeight: 300 }}>, {fig.gesture}</em>
     </h4>
 
     <div style={{
@@ -76,7 +75,7 @@ const GestureCard = ({ id, fig, onClose }) => (
     </div>
 
     <p className="serif" style={{
-      margin: "16px 0 0", fontSize: 18, lineHeight: 1.45, color: "var(--ink)",
+      margin: "16px 0 0", fontSize: 18, lineHeight: 1.5, color: "var(--ink)",
       fontWeight: 400, fontStyle: "italic",
     }}>{fig.body}</p>
 
@@ -85,7 +84,7 @@ const GestureCard = ({ id, fig, onClose }) => (
       display: "grid", gridTemplateColumns: "auto 1fr", gap: 14, alignItems: "baseline",
     }}>
       <span className="caps" style={{ color: fig.color }}>In our discipline</span>
-      <span style={{ fontSize: 13.5, lineHeight: 1.55, color: "var(--ink-2)" }}>{fig.rs}</span>
+      <span style={{ fontSize: 13.5, lineHeight: 1.6, color: "var(--ink-2)" }}>{fig.rs}</span>
     </div>
   </div>
 );
@@ -103,24 +102,21 @@ const InteractivePainting = () => {
       position: "relative", background: "var(--ink)",
       borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)",
     }}>
-      {/* Header strip */}
       <div className="wrap" style={{ paddingTop: 22, paddingBottom: 14 }}>
         <div style={{
           display: "flex", justifyContent: "space-between", alignItems: "baseline",
           color: "color-mix(in oklch, var(--paper) 70%, transparent)",
           fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase",
         }}>
-          <span><Sigil color="var(--ochre-2)" />Figure 01 · two gestures · click each hand</span>
-          <span>Raphael · Stanza della Segnatura · 1509</span>
+          <span><Sigil color="var(--ochre-2)" />Figure 01, two gestures, click each hand</span>
+          <span>Raphael, Stanza della Segnatura, 1509</span>
         </div>
       </div>
 
-      {/* Painting viewport */}
       <div style={{
         position: "relative", height: "76vh", minHeight: 540, maxHeight: 880,
         overflow: "hidden",
       }}>
-        {/* painting layer */}
         <div style={{
           position: "absolute", inset: 0,
           backgroundImage: "url(img/school-of-athens.jpg)",
@@ -129,13 +125,11 @@ const InteractivePainting = () => {
           transition: "background-size 900ms cubic-bezier(.2,.7,.3,1), background-position 900ms cubic-bezier(.2,.7,.3,1)",
         }} />
 
-        {/* subtle vignette for legibility */}
         <div style={{
           position: "absolute", inset: 0, pointerEvents: "none",
           background: "radial-gradient(ellipse at 50% 45%, transparent 35%, rgba(15,12,10,0.45) 100%)",
         }} />
 
-        {/* hotspots */}
         {Object.entries(hs).map(([id, pos]) => {
           const fig = PAINTING_FIGURES[id];
           const isActive = active === id;
@@ -158,14 +152,12 @@ const InteractivePainting = () => {
               <span style={{
                 position: "relative", display: "block", width: 32, height: 32,
               }}>
-                {/* pulse rings (CSS @keyframes) */}
                 {!isActive && (
                   <>
                     <span style={ringStyle(fig.color, 0)} />
                     <span style={ringStyle(fig.color, 0.7)} />
                   </>
                 )}
-                {/* core dot */}
                 <span style={{
                   position: "absolute", inset: 11,
                   background: fig.color, borderRadius: "50%",
@@ -175,7 +167,6 @@ const InteractivePainting = () => {
                 }} />
               </span>
 
-              {/* floating label */}
               <span style={{
                 position: "absolute", top: 38, left: "50%", transform: "translateX(-50%)",
                 background: "rgba(15,12,10,0.82)",
@@ -188,18 +179,16 @@ const InteractivePainting = () => {
                 opacity: (isHover || isActive) ? 1 : 0.55,
                 transition: "opacity 220ms",
               }}>
-                {id === "plato" ? "↑ Plato · index up" : "→ Aristotle · palm flat"}
+                {id === "plato" ? "↑ Plato, index up" : "→ Aristotle, palm flat"}
               </span>
             </button>
           );
         })}
 
-        {/* card overlay */}
         {active && (
           <GestureCard id={active} fig={PAINTING_FIGURES[active]} onClose={() => setActive(null)} />
         )}
 
-        {/* view toggle (top right) */}
         <div style={{
           position: "absolute", top: 18, right: 18, zIndex: 5,
           display: "flex", gap: 0,
@@ -222,7 +211,6 @@ const InteractivePainting = () => {
           ))}
         </div>
 
-        {/* caption strip bottom */}
         <div style={{
           position: "absolute", bottom: 0, left: 0, right: 0, padding: "18px 32px 14px",
           background: "linear-gradient(180deg, transparent, rgba(15,12,10,0.78))",
@@ -234,25 +222,23 @@ const InteractivePainting = () => {
         }}>
           <span>{v.label}</span>
           <span style={{ color: "var(--ochre-2)" }}>
-            {active ? "card open — press close to reset" : "hover · click · explore"}
+            {active ? "card open, press close to reset" : "hover, click, explore"}
           </span>
         </div>
       </div>
 
-      {/* footnote */}
       <div className="wrap" style={{
         padding: "16px 56px 24px",
         color: "color-mix(in oklch, var(--paper) 55%, transparent)",
         fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase",
         display: "flex", justifyContent: "space-between", alignItems: "baseline",
       }}>
-        <span>fig. 01 · "the two figures are commonly read through this vertical–horizontal contrast"</span>
+        <span>fig. 01, the two figures are commonly read through this vertical and horizontal contrast</span>
         <span style={{ color: "color-mix(in oklch, var(--ochre-2) 90%, transparent)" }}>
-          Plato → abstraction · form · ideal &nbsp;&middot;&nbsp; Aristotle → particulars · ground · responsibility
+          Plato, abstraction, form, ideal &nbsp;·&nbsp; Aristotle, particulars, ground, responsibility
         </span>
       </div>
 
-      {/* CSS for ring pulse */}
       <style>{`
         @keyframes raphael-pulse {
           0%   { transform: scale(1);   opacity: 0.85; }
