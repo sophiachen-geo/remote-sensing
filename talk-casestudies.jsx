@@ -481,6 +481,44 @@ const DataTable = ({ headers, rows, color }) => (
   </div>
 );
 
+const LayerStack = ({ layers, color, ratio = "16 / 10" }) => {
+  const ACC = color || "var(--ink)";
+  const [ops, setOps] = React.useState(() => layers.map((_, i) => (i === 0 ? 100 : 0)));
+  const set = (i, v) => setOps((prev) => prev.map((o, j) => (j === i ? v : o)));
+  return (
+    <div style={{ margin: "22px 0 8px" }}>
+      <div style={{
+        position: "relative", aspectRatio: ratio, width: "100%",
+        border: "1px solid var(--rule)", background: "var(--paper-2)", overflow: "hidden",
+      }}>
+        {layers.map((l, i) => (
+          <img key={i} src={l.src} alt={l.name} loading="lazy" style={{
+            position: "absolute", inset: 0, width: "100%", height: "100%",
+            objectFit: "fill", opacity: ops[i] / 100, pointerEvents: "none",
+          }} />
+        ))}
+      </div>
+      <div className="mono" style={{
+        fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase",
+        color: "var(--ink-3)", margin: "14px 0 8px",
+      }}>Layer opacity — drag to blend the georeferenced layers</div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: "12px 24px" }}>
+        {layers.map((l, i) => (
+          <div key={i} style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+              <span className="mono" style={{ fontSize: 10.5, letterSpacing: "0.10em", textTransform: "uppercase", color: "var(--ink-2)" }}>{l.name}</span>
+              <span className="num" style={{ fontSize: 12, color: ACC }}>{ops[i]}%</span>
+            </div>
+            <input type="range" min="0" max="100" value={ops[i]}
+              onChange={(e) => set(i, Number(e.target.value))}
+              style={{ width: "100%", accentColor: ACC, cursor: "pointer" }} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const SeriousGames = ({ accent = "plum" }) => {
   const ACC = accentVar(accent);
 
@@ -532,8 +570,30 @@ const SeriousGames = ({ accent = "plum" }) => {
     { k: "Standardization", v: "The same pipeline characterises very different regions with the same indicators, so the case studies become readable to one another." },
   ];
 
+  const QUEBEC_LAYERS = [
+    { src: "img/quebec-map1.png", name: "Map 1" },
+    { src: "img/quebec-map2.png", name: "Map 2" },
+    { src: "img/quebec-map3.png", name: "Map 3" },
+    { src: "img/quebec-map4.png", name: "Map 4" },
+    { src: "img/quebec-map5.png", name: "Map 5" },
+    { src: "img/quebec-map6.png", name: "Map 6" },
+  ];
+
   return (
     <div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, margin: "0 0 12px" }}>
+        <Plate
+          src="img/quebec-3d-flood-model.png"
+          alt="3D numerical flood model of the Quebec pilot territory"
+          caption="3D numerical flood model of the pilot territory."
+          credit="By the author"
+        />
+        <Plate
+          src="img/quebec-3d-lidar-model.png"
+          alt="3D numerical model derived from lidar"
+          caption="3D numerical model by Jean-Marc Bellard, François Huchet and René Lefebvre."
+        />
+      </div>
       <div style={{ marginBottom: 24 }}>
         <div className="serif" style={{ fontSize: 34, lineHeight: 1.18, letterSpacing: "-0.014em", color: "var(--ink)", maxWidth: 820 }}>
           In southern Quebec, the people responsible for the water do not work in the same room.
@@ -714,6 +774,17 @@ const SeriousGames = ({ accent = "plum" }) => {
           </Card>
         ))}
       </div>
+
+      <Sub kicker="The layers" color={ACC}>Reading the region one layer at a time</Sub>
+      <Prose max={760}>
+        <P>
+          The same territory carries many georeferenced readings at once — satellite indicators,
+          planning instruments, hydrography, hazard zones. Piling them in register and fading each
+          over the others is how a table full of different mandates can look at one shared system.
+          Drag any slider to bring a layer up or take it down.
+        </P>
+      </Prose>
+      <LayerStack color={ACC} layers={QUEBEC_LAYERS} ratio="1696 / 1298" />
 
       <Sub kicker="The deck" color={ACC}>Five kinds of scenario the data can build</Sub>
       <Tiles items={SCENARIOS} color={ACC} />
