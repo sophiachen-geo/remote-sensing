@@ -762,218 +762,117 @@ const PhaseTwoMethodology = () => (
   </Card>
 );
 
-const TabAvenir = () => (
-  <div className="wrap" style={{ padding: "72px 56px 100px" }}>
-    <SectionHead
-      index="iv"
-      eyebrow="Avenir, what is coming and what is at stake"
-      title="Foundation models, new SAR, fragile funding, and Canada's particular moment."
-      lede="The biggest single shift in the discipline since 2023 is the arrival of foundation models for Earth observation. The biggest hardware moment is in radar, with NISAR, BIOMASS, Sentinel-1C, and the commercial SAR constellations together inverting the economics of synthetic aperture radar in under a decade. The biggest political risk is funding fragility. Canada's relative stability in this turbulent year is a global asset and a global responsibility."
-    />
+const TabAvenir = () => {
+  const PRACTICES = [
+    { t: "Co-design from the start, including question formulation.", b: "The most common failure mode is a southern team arriving with a question, a sensor list, and a sampling design, and asking for community validation. The more useful posture is to arrive with the sensor list and ask which of the community's existing questions the data could help answer. This often produces entirely different study designs from the imported one." },
+    { t: "Layered governance.", b: "Technical metadata combined with social and legal metadata, including provenance, consent status, cultural protocols, permitted reuses, withdrawal mechanisms, and benefit-sharing expectations where relevant." },
+    { t: "Data sovereignty as a default condition.", b: "Three frameworks set the floor: OCAP®, Ownership, Control, Access and Possession, of the First Nations Information Governance Centre (FNIGC); the CARE Principles, Collective benefit, Authority to control, Responsibility, Ethics, of the Global Indigenous Data Alliance (GIDA); and NISR of ITK, with the Traditional Knowledge Labels (TK Labels) of Local Contexts. They are the floor of acceptable practice rather than its ceiling. Data products derived in whole or in part from community input should remain under community authority by default, with publication, redistribution, and downstream use governed by explicit agreement rather than open licensing." },
+    { t: "Parallel evidentiary tracks.", b: "Not every meaningful observation should be converted into a numerical feature. A linked system, in which satellite, UAV, acoustic, field, and qualitative observations are kept analytically distinct but associable through time, place, and provenance, reduces epistemic loss and makes disagreement visible rather than disappearing it into a fused output." },
+    { t: "Reciprocal and hybrid validation.", b: "Validation against lived conditions, language, and locally and culturally meaningful interpretations of change." },
+  ];
+  const OBSERVATIONS = [
+    { t: "Communities need capacity-sharing, not capacity-building.", b: "The framing of capacity-building presumes a deficit on one side of the relationship and an abundance on the other. In the Arctic case the deficit is often on the practitioner's side: it is the southern researcher who lacks the daily ice reading, the multi-generational harvest record, the language for ten kinds of snow, the safe travel knowledge for a specific bay in a specific month. Capacity-sharing as a frame names what is actually being exchanged." },
+    { t: "Communities need honest uncertainty communication.", b: "The satellite product comes with confusion matrices, geolocation residuals, classification confidence intervals, and known scene contamination rates. These should be communicated, not hidden behind a cleaned final layer. The community user is more, not less, able to integrate honest uncertainty than a downstream analyst, because the user has independent observation against which to triangulate." },
+    { t: "Communities need long-term commitment, with successor planning.", b: "Research expeditions that arrive, sample, and leave are extractive in the technical sense: they take material out of a system without returning equivalent value, and they leave no infrastructure capable of continuing the observation. A useful project plan must include a successor plan describing who maintains the loggers, who continues the satellite acquisition, who trains the next cohort of analysts, and under whose institutional authority the data products live in five and ten years." },
+    { t: "Communities need accountability to refusal.", b: "If a community decides that a place, a phenomenon, or a category of information should not be mapped, that decision is a methodological constraint, not a barrier to be negotiated around. Some things should not be mapped, and some that must be, only by whom matters. The constraint applies particularly strongly to sacred sites, harvest locations whose disclosure would invite commercial exploitation, and sea ice corridors whose disclosure could be weaponised by extractive industries." },
+  ];
+  return (
+    <div className="wrap" style={{ padding: "72px 56px 100px" }}>
+      <SectionHead
+        index="iv"
+        eyebrow="Rhizosphere, what good practice looks like"
+        title="Best practices, observations, and a return to where we began."
+        color="var(--moss)"
+        lede="If remote sensing is to enter the messy middle with care, the how matters as much as the what. A set of practices the work keeps pointing back to, a set of observations from community-facing projects, and then the bookend."
+      />
 
-    {/* Foundation models */}
-    <Card pad={36} style={{ marginTop: 12 }}>
-      <Kicker color="var(--lapis)">Slide 23, foundation models, the espérance side at amplitude</Kicker>
-      <h3 className="serif" style={{
-        margin: 0, fontSize: 32, fontWeight: 400, letterSpacing: "-0.012em", maxWidth: 800,
-      }}>A foundation model is a heuristic engine whose failure modes are correlated and hard to characterise.</h3>
-
-      <p style={{ margin: "16px 0 24px", fontSize: 15, lineHeight: 1.65, color: "var(--ink-2)", maxWidth: 820 }}>
-        Prithvi-EO-2.0 from NASA and IBM, released in December 2024, and TerraMind from IBM, the European Space Agency, and Forschungszentrum Jülich, released in April 2025, mark the moment at which large pretrained Earth observation models became serious production instruments. Clay, with open weights, and SatlasPretrain from the Allen Institute, complete the open landscape. The promise is democratisation. A small humanitarian team can now fine tune a damage assessment model with hundreds of labels instead of training from scratch with tens of thousands. Multimodal fusion across optical, SAR, and digital elevation becomes default. Near real-time analysis becomes operationally feasible at humanitarian timescales.
-      </p>
-
-      <div style={{
-        marginTop: 14, display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 0,
-        border: "1px solid var(--rule)",
-      }}>
-        {FOUNDATION.map((f, i) => (
-          <div key={i} style={{
-            padding: "22px 20px",
-            borderRight: i < 3 ? "1px solid var(--rule)" : "none",
-          }}>
-            <div className="mono" style={{ fontSize: 10, letterSpacing: "0.14em", color: "var(--lapis)", textTransform: "uppercase" }}>model {String(i+1).padStart(2,"0")}</div>
-            <div className="serif" style={{ fontSize: 24, fontWeight: 500, marginTop: 8, lineHeight: 1.1 }}>{f.name}</div>
-            <div style={{ fontSize: 13, color: "var(--ink-2)", marginTop: 6 }}>{f.org}</div>
-            <div className="mono" style={{ fontSize: 11, color: "var(--ink-3)", marginTop: 6, letterSpacing: "0.06em" }}>{f.date}</div>
-            {f.note && (
-              <div style={{ fontSize: 12.5, color: "var(--lapis)", marginTop: 10, lineHeight: 1.45, fontStyle: "italic" }}>{f.note}</div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      <div style={{
-        display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, marginTop: 28,
-      }}>
-        <div>
-          <div className="caps" style={{ color: "var(--moss)", marginBottom: 8 }}>What the shift changes</div>
-          <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.65, color: "var(--ink-2)" }}>
-            The cost of analytic capability falls by orders of magnitude. Multimodal fusion stops being a custom engineering project and becomes a default. Humanitarian organisations can iterate on damage assessment within hours of an event. Multilingual interfaces and conversational query layers open Earth observation to people who have never touched a GIS.
-          </p>
-        </div>
-        <div>
-          <div className="caps" style={{ color: "var(--terra)", marginBottom: 8 }}>What the shift does not change</div>
-          <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.65, color: "var(--ink-2)" }}>
-            A bias in pretraining propagates through every downstream task. The auditability problem deepens. The pretraining archives sample continents more heavily than oceans with islands in them. The model's confidence is highest where the discipline has most decisively decided what counts. Register four of multimodality, the ontological register, is precisely the level at which foundation models are weakest, because the entire training procedure assumes a single ontology of what the Earth is.
-          </p>
-        </div>
-      </div>
-    </Card>
-
-    {/* SAR timeline */}
-    <Card pad={36} style={{ marginTop: 24 }}>
-      <Kicker color="var(--terra)">Slide 24, SAR missions, a remarkable moment</Kicker>
-      <h3 className="serif" style={{ margin: 0, fontSize: 28, fontWeight: 400, letterSpacing: "-0.01em", maxWidth: 800 }}>
-        The economics of synthetic aperture radar have inverted in under a decade.
-      </h3>
-      <p style={{ margin: "16px 0 28px", fontSize: 15, lineHeight: 1.65, color: "var(--ink-2)", maxWidth: 820 }}>
-        Three space agency missions in three quarters, complemented by a constellation of commercial small SAR providers, have changed what is operationally possible. NISAR offers the first operational L band and S band dual-frequency observations with millimetre-scale deformation sensitivity. BIOMASS introduces P band from space, capable of penetrating tropical canopy to estimate forest biomass. Sentinel-1C closed the data gap left when Sentinel-1B failed in 2021. The commercial constellations, ICEYE, Capella, and Umbra, now offer sub-metre resolution at sub-daily revisit. RCM remains the operational backbone of Canadian work and sits inside this transformation as one of its pillars.
-      </p>
-
-      <div style={{ marginTop: 28, position: "relative" }}>
-        <div style={{ position: "absolute", top: 26, left: 0, right: 0, height: 1, background: "var(--rule)" }} />
-        <div style={{
-          display: "grid", gridTemplateColumns: `repeat(${SAR_MISSIONS.length}, 1fr)`, gap: 0,
-        }}>
-          {SAR_MISSIONS.map((s, i) => (
-            <div key={i} style={{
-              padding: "0 10px", textAlign: "left",
-              display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 8,
+      <Card pad={36} style={{ marginTop: 8 }}>
+        <Kicker color="var(--moss)">Highly suggested best practices</Kicker>
+        <ol style={{ margin: "8px 0 0", padding: 0, listStyle: "none" }}>
+          {PRACTICES.map((p, i) => (
+            <li key={i} style={{
+              display: "grid", gridTemplateColumns: "44px 1fr", gap: 18,
+              padding: "16px 0", alignItems: "baseline",
+              borderBottom: i < PRACTICES.length - 1 ? "1px solid var(--rule-soft)" : "none",
             }}>
-              <div style={{
-                width: 12, height: 12, background: "var(--terra)", borderRadius: 999, marginTop: 20, zIndex: 2,
-              }} />
-              <div className="mono" style={{
-                fontSize: 10, color: "var(--terra)", letterSpacing: "0.10em",
-                textTransform: "uppercase",
-              }}>{s.when}</div>
-              <div className="serif" style={{ fontSize: 20, fontWeight: 500, lineHeight: 1.1 }}>{s.name}</div>
-              <div className="mono" style={{ fontSize: 10, color: "var(--ink-3)", letterSpacing: "0.08em" }}>{s.org}</div>
-              <div style={{ fontSize: 11.5, color: "var(--ink-2)", fontStyle: "italic", lineHeight: 1.35 }}>{s.band}</div>
-              <div style={{ fontSize: 12, color: "var(--ink-2)", lineHeight: 1.45 }}>{s.note}</div>
+              <span className="num" style={{ fontSize: 28, color: "var(--moss)", letterSpacing: "-0.02em", lineHeight: 1 }}>{String(i+1).padStart(2,"0")}</span>
+              <div>
+                <div className="serif" style={{ fontSize: 19, lineHeight: 1.25, color: "var(--ink)", fontWeight: 500 }}>{p.t}</div>
+                <p style={{ margin: "8px 0 0", fontSize: 14.5, lineHeight: 1.65, color: "var(--ink-2)", maxWidth: 820 }}>{p.b}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </Card>
+
+      <Card pad={36} style={{ marginTop: 24 }}>
+        <Kicker color="var(--lapis)">Some of my observations</Kicker>
+        <div style={{ marginTop: 8 }}>
+          {OBSERVATIONS.map((o, i) => (
+            <div key={i} style={{
+              padding: "16px 0",
+              borderBottom: i < OBSERVATIONS.length - 1 ? "1px solid var(--rule-soft)" : "none",
+            }}>
+              <div className="serif" style={{ fontSize: 20, lineHeight: 1.25, color: "var(--ink)", fontWeight: 500 }}>{o.t}</div>
+              <p style={{ margin: "8px 0 0", fontSize: 14.5, lineHeight: 1.65, color: "var(--ink-2)", maxWidth: 820 }}>{o.b}</p>
             </div>
           ))}
         </div>
-      </div>
-    </Card>
+      </Card>
 
-    {/* Fragility */}
-    <Card pad={36} style={{ marginTop: 24, background: "var(--ink)", color: "var(--paper)", border: "none" }}>
-      <Kicker color="var(--ochre-2)">Slide 25, funding fragility, the honest backdrop</Kicker>
-      <h3 className="serif" style={{ margin: 0, fontSize: 36, fontWeight: 300, letterSpacing: "-0.014em", color: "var(--paper)", maxWidth: 880 }}>
-        Canada's relative stability is a global asset and a global responsibility.
-      </h3>
-      <p style={{ margin: "16px 0 28px", fontSize: 15, lineHeight: 1.7, color: "color-mix(in oklch, var(--paper) 80%, transparent)", maxWidth: 880 }}>
-        The funding environment around remote sensing has shifted significantly in the past eighteen months. The dismantling of USAID in early 2025 ended a major source of humanitarian Earth observation funding. The Famine Early Warning Systems Network, on which much of the world's food security analysis depended, went dark in February 2025. The NICFI program that provided free high-resolution tropical forest mosaics via Planet ended in January 2025. MethaneSAT was lost in orbit in June 2025. The Decadal Survey priorities at NASA are under budget pressure. The Sentinel program continues at Copernicus, but the funding envelope around it is tighter than it was. Canadian remote sensing infrastructure, in this context, occupies an unusually stable position, and that stability carries both opportunity and obligation.
-      </p>
-
-      <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 40, marginTop: 8 }}>
-        <div>
-          <div className="caps" style={{ color: "var(--terra-2)", marginBottom: 12 }}>Under stress, past eighteen months</div>
-          <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
-            {FRAGILITY.map((f, i) => (
-              <li key={i} style={{
-                display: "grid", gridTemplateColumns: "160px 140px 1fr",
-                padding: "12px 0",
-                borderBottom: i < FRAGILITY.length - 1 ? "1px solid color-mix(in oklch, var(--paper) 22%, transparent)" : "none",
-                alignItems: "baseline", gap: 16,
-              }}>
-                <span className="serif" style={{ fontSize: 18, lineHeight: 1.1 }}>{f.name}</span>
-                <span className="mono" style={{ fontSize: 11, letterSpacing: "0.10em", color: "var(--terra-2)", textTransform: "uppercase" }}>{f.status}</span>
-                <span className="mono" style={{ fontSize: 11, color: "color-mix(in oklch, var(--paper) 65%, transparent)", letterSpacing: "0.04em" }}>{f.when} · {f.region}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <div className="caps" style={{ color: "var(--ochre-2)", marginBottom: 12 }}>Canada, in this moment</div>
-          <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
-            {CANADA_STABILITY.map((c, i) => (
-              <li key={i} style={{
-                padding: "14px 0",
-                borderBottom: i < CANADA_STABILITY.length - 1 ? "1px solid color-mix(in oklch, var(--paper) 22%, transparent)" : "none",
-              }}>
-                <span className="serif" style={{ fontSize: 18, lineHeight: 1.1 }}>{c.name}</span>
-                <div style={{ fontSize: 13, color: "color-mix(in oklch, var(--paper) 80%, transparent)", marginTop: 4 }}>{c.note}</div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      <p className="serif" style={{
-        margin: "36px 0 0", paddingTop: 28,
-        borderTop: "1px solid color-mix(in oklch, var(--paper) 22%, transparent)",
-        fontSize: 22, lineHeight: 1.5, fontWeight: 300, color: "var(--paper)", maxWidth: 940,
+      {/* Bookend, return to the School of Athens */}
+      <section style={{
+        marginTop: 64,
+        borderTop: "1px solid var(--rule)", paddingTop: 56,
       }}>
-        If you are in this room, whether as a researcher, a graduate student, a policy person, a humanitarian practitioner, an architect, or a journalist, you are part of one of the few national remote sensing communities that has both the technical capacity and the institutional posture
-        <em style={{ color: "var(--ochre-2)" }}> to staff the messy middle at scale, in the next decade, with care.</em>
-      </p>
-    </Card>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56, alignItems: "center" }}>
+          <div>
+            <Kicker color="var(--terra)">Bookend, return to the School of Athens</Kicker>
+            <h3 className="serif" style={{ margin: 0, fontSize: 44, fontWeight: 300, letterSpacing: "-0.018em", lineHeight: 1.05 }}>
+              Plato <em style={{ color: "var(--lapis-2)" }}>and</em> Aristotle.
+            </h3>
+            <P style={{ marginTop: 22, fontSize: 17 }}>
+              {TALK.closing_plato}
+            </P>
+            <P style={{ fontSize: 17 }}>
+              {TALK.closing_aristotle}
+            </P>
+            <p className="serif" style={{
+              margin: "24px 0 0", fontSize: 22, lineHeight: 1.45, color: "var(--ink)", fontStyle: "italic",
+            }}>
+              The discipline we need is not only a discipline of better seeing. It is a discipline of <em style={{ color: "var(--terra)" }}>returning</em>, returning the image to the people, the places, and the decisions that give it meaning.
+            </p>
+          </div>
+          <div style={{
+            position: "relative", aspectRatio: "4/3", overflow: "hidden", background: "var(--ink)",
+            backgroundImage: "url(img/school-of-athens.jpg)",
+            backgroundSize: "180%",
+            backgroundPosition: "53% 36%",
+            backgroundRepeat: "no-repeat",
+          }} />
+        </div>
 
-    {/* Phase 1 and Phase 2 methodology */}
-    <SectionHead
-      index="iv · annexe"
-      eyebrow="A deliverable that follows from the talk"
-      title="The Rahmian atmospheric inheritance methodology, Phase 1 and Phase 2."
-      color="var(--moss)"
-      lede="The argument of the talk implies a deliverable. If meteorological urbanism builds at the scale the body inhabits, and if remote sensing makes the city's atmosphere visible at one scale, then there should be a structured pipeline that translates between them. Phase 1 produces the regional atmospheric inheritance report for any candidate site. Phase 2 produces the building envelope and microclimatic analysis for the site itself. Both are reproducible, both are open source, and both are immediately applicable to community-led design work in Canada, in Newfoundland, in Inuit Nunangat, in Saskatchewan, and elsewhere."
-    />
-    <PhaseOneMethodology />
-    <PhaseTwoMethodology />
-
-    {/* Bookend, return to Raphael */}
-    <section style={{
-      marginTop: 64,
-      borderTop: "1px solid var(--rule)", paddingTop: 56,
-    }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56, alignItems: "center" }}>
-        <div>
-          <Kicker color="var(--terra)">Bookend, return to the École d'Athènes</Kicker>
-          <h3 className="serif" style={{ margin: 0, fontSize: 44, fontWeight: 300, letterSpacing: "-0.018em", lineHeight: 1.05 }}>
-            Plato <em style={{ color: "var(--lapis-2)" }}>and</em> Aristotle.
-          </h3>
-          <P style={{ marginTop: 22, fontSize: 17 }}>
-            {TALK.closing_plato}
-          </P>
-          <P style={{ fontSize: 17 }}>
-            {TALK.closing_aristotle}
-          </P>
+        {/* Final line */}
+        <div style={{
+          marginTop: 56, padding: "44px 48px",
+          background: "var(--ink)", color: "var(--paper)",
+        }}>
+          <div className="mono" style={{
+            fontSize: 11, letterSpacing: "0.20em", color: "var(--ochre-2)",
+            textTransform: "uppercase", marginBottom: 18,
+          }}>Final line, the closing sentence</div>
           <p className="serif" style={{
-            margin: "24px 0 0", fontSize: 22, lineHeight: 1.45, color: "var(--ink)", fontStyle: "italic",
+            margin: 0, fontSize: 28, lineHeight: 1.35, fontWeight: 300,
+            color: "var(--paper)", letterSpacing: "-0.012em", maxWidth: 1100,
           }}>
-            The discipline we need is not only a discipline of better seeing. It is a discipline of <em style={{ color: "var(--terra)" }}>returning</em>, returning the image to the people, the places, and the decisions that give it meaning.
+            "Remote sensing points upward in order to look down. For care, resilience, and community, the real work begins when the image enters the messy middle, where the sky-eye view must answer to ground-up knowledge, embodied experience, and
+            <em style={{ color: "var(--ochre-2)" }}> the obligations of shared life.</em>"
           </p>
         </div>
-        <div style={{
-          position: "relative", aspectRatio: "4/3", overflow: "hidden", background: "var(--ink)",
-          backgroundImage: "url(img/school-of-athens.jpg)",
-          backgroundSize: "180%",
-          backgroundPosition: "53% 36%",
-          backgroundRepeat: "no-repeat",
-        }} />
-      </div>
-
-      {/* Final line */}
-      <div style={{
-        marginTop: 56, padding: "44px 48px",
-        background: "var(--ink)", color: "var(--paper)",
-      }}>
-        <div className="mono" style={{
-          fontSize: 11, letterSpacing: "0.20em", color: "var(--ochre-2)",
-          textTransform: "uppercase", marginBottom: 18,
-        }}>Final line, the closing sentence</div>
-        <p className="serif" style={{
-          margin: 0, fontSize: 28, lineHeight: 1.35, fontWeight: 300,
-          color: "var(--paper)", letterSpacing: "-0.012em", maxWidth: 1100,
-        }}>
-          "Remote sensing points upward in order to look down. For care, resilience, and community, the real work begins when the image enters the messy middle, where the sky-eye view must answer to ground-up knowledge, embodied experience, and
-          <em style={{ color: "var(--ochre-2)" }}> the obligations of shared life.</em>"
-        </p>
-      </div>
-    </section>
-  </div>
-);
+      </section>
+    </div>
+  );
+};
 
 // -----------------------------------------------------------------------
 // ANNEXES, time budget, cuts and expands, Q&A, reading, bilingual, spine.
@@ -982,174 +881,31 @@ const TabAnnexes = () => (
   <div className="wrap" style={{ padding: "72px 56px 100px" }}>
     <SectionHead
       index="v"
-      eyebrow="Annexes, operations and references"
-      title="The boring, useful, indispensable bits."
-      lede="The time budget for a sixty minute envelope. Probable Q&A landing zones with pre-rehearsed pivots. Bilingual register notes that the French phrases in the talk are meant to land untranslated, the way an English speaker lands the word weltanschauung. Further reading. The cut and expand instructions for live timing."
+      eyebrow="Seafloor, references"
+      title="Further reading."
+      lede="The bibliography that sits behind the talk. It is intentionally layered across the critical remote sensing literature, the participatory and citizen science literature, the Indigenous data governance literature, the soundscape ecology literature, and the foundational sensor fusion papers."
     />
 
-    {/* Budget */}
-    <Card pad={36} style={{ marginTop: 8 }}>
-      <Kicker color="var(--terra)">Time budget for a sixty minute envelope</Kicker>
-      <p style={{ margin: "0 0 18px", color: "var(--ink-2)", fontSize: 14.5, maxWidth: 760 }}>
-        The talk runs approximately 52 to 55 minutes of spoken material, leaving five to seven minutes for Q&A. The word counts below assume a measured pace of approximately 130 words per minute, slowing where indicated. If the talk runs long, the cuts column below identifies what to drop in order. If it runs short, the expands column suggests where additional depth is available.
+    <Card pad={32} style={{ marginTop: 8 }}>
+      <Kicker color="var(--terra)">Further reading, the bibliography that sits behind the talk</Kicker>
+      <p style={{ margin: "0 0 16px", color: "var(--ink-2)", fontSize: 13.5, lineHeight: 1.6, maxWidth: 820 }}>
+        The bibliography is intentionally layered. It includes the critical remote sensing literature, the participatory and citizen science literature, the Indigenous data governance literature, the soundscape ecology literature, and the foundational sensor fusion papers. Together they trace the convergence history of multimodal remote sensing as it is described in the multimodality interlude.
       </p>
-      <div style={{ overflow: "auto", marginTop: 12 }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ borderBottom: "1px solid var(--rule)" }}>
-              {["Section","Target","Words","Delivery note"].map(h => (
-                <th key={h} style={{
-                  padding: "10px 0", textAlign: "left",
-                  fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.14em",
-                  color: "var(--ink-3)", textTransform: "uppercase", fontWeight: 500,
-                }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {BUDGET.map((b, i) => (
-              <tr key={i} style={{ borderBottom: "1px solid var(--rule-soft)" }}>
-                <td style={{ padding: "12px 0", fontFamily: "var(--serif)", fontSize: 16, color: "var(--ink)" }}>{b.sect}</td>
-                <td style={{ padding: "12px 0", fontFamily: "var(--mono)", fontSize: 13, color: "var(--terra)" }}>{b.target}</td>
-                <td style={{ padding: "12px 0", fontFamily: "var(--serif)", fontVariantNumeric: "tabular-nums", fontSize: 15, color: "var(--ink-2)" }}>{b.words.toLocaleString()}</td>
-                <td style={{ padding: "12px 0", fontSize: 13.5, color: "var(--ink-2)" }}>{b.notes}</td>
-              </tr>
-            ))}
-            <tr style={{ borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }}>
-              <td style={{ padding: "12px 0", fontFamily: "var(--serif)", fontSize: 17, fontWeight: 600 }}>Total</td>
-              <td style={{ padding: "12px 0", fontFamily: "var(--mono)", fontSize: 13, color: "var(--terra)", fontWeight: 600 }}>52 to 55 plus 5 to 7 Q&A</td>
-              <td style={{ padding: "12px 0", fontFamily: "var(--serif)", fontVariantNumeric: "tabular-nums", fontSize: 15, fontWeight: 600 }}>≈ 6,820</td>
-              <td />
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </Card>
-
-    {/* Cut / Expand */}
-    <div style={{ marginTop: 24, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
-      <Card pad={28} style={{ background: "var(--terra-tint)", border: "1px solid color-mix(in oklch, var(--terra) 30%, transparent)" }}>
-        <Kicker color="var(--terra)">If you run long, cut</Kicker>
-        <ol style={{ margin: 0, padding: "0 0 0 24px" }}>
-          {CUTS.map((c, i) => (
-            <li key={i} style={{ fontSize: 14.5, lineHeight: 1.6, color: "var(--ink)", marginBottom: 10 }}>
-              <strong>{c.when}.</strong> {c.how}
-            </li>
-          ))}
-        </ol>
-      </Card>
-      <Card pad={28} style={{ background: "var(--moss-tint)", border: "1px solid color-mix(in oklch, var(--moss) 30%, transparent)" }}>
-        <Kicker color="var(--moss)">If you run short, expand</Kicker>
-        <ol style={{ margin: 0, padding: "0 0 0 24px" }}>
-          {EXPANDS.map((c, i) => (
-            <li key={i} style={{ fontSize: 14.5, lineHeight: 1.6, color: "var(--ink)", marginBottom: 10 }}>
-              <strong>{c.when}.</strong> {c.how}
-            </li>
-          ))}
-        </ol>
-      </Card>
-    </div>
-
-    {/* Q&A */}
-    <Card pad={36} style={{ marginTop: 24 }}>
-      <Kicker color="var(--lapis)">Probable Q&A landing zones, pre-rehearsed pivots</Kicker>
-      <p style={{ margin: "0 0 16px", color: "var(--ink-2)", fontSize: 14.5, maxWidth: 720 }}>
-        Each row anticipates a likely question and identifies a structured pivot that returns the conversation to one of the talk's load-bearing frames: the messy middle, the chain of translators, the four registers of multimodality, governance protocols, and the Phase 1 methodology.
-      </p>
-      <div>
-        {QA_LANDING.map((q, i) => (
-          <div key={i} style={{
-            display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 28,
-            padding: "16px 0", borderBottom: i < QA_LANDING.length - 1 ? "1px solid var(--rule-soft)" : "none",
-            alignItems: "baseline",
+      <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
+        {READING.map((r, i) => (
+          <li key={i} style={{
+            display: "grid", gridTemplateColumns: "60px 1fr",
+            padding: "10px 0", borderBottom: i < READING.length - 1 ? "1px solid var(--rule-soft)" : "none",
+            gap: 16, alignItems: "baseline",
           }}>
-            <div className="serif" style={{ fontSize: 17, lineHeight: 1.4, color: "var(--ink)" }}>
-              <span className="mono" style={{ fontSize: 10, color: "var(--lapis)", letterSpacing: "0.10em", marginRight: 12 }}>Q{String(i+1).padStart(2,"0")}</span>
-              {q.q}
-            </div>
-            <div style={{ fontSize: 13.5, color: "var(--ink-2)", lineHeight: 1.55 }}>{q.a}</div>
-          </div>
+            <span className="num" style={{ fontSize: 15, color: "var(--terra)" }}>{r.year}</span>
+            <span style={{ fontSize: 14, lineHeight: 1.5, color: "var(--ink)" }}>
+              <strong style={{ color: "var(--ink)" }}>{r.who}</strong>, {r.what}
+            </span>
+          </li>
         ))}
-      </div>
+      </ul>
     </Card>
-
-    {/* Reading + Bilingual */}
-    <div style={{ marginTop: 24, display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 24 }}>
-      <Card pad={32}>
-        <Kicker color="var(--terra)">Further reading, the bibliography that sits behind the talk</Kicker>
-        <p style={{ margin: "0 0 16px", color: "var(--ink-2)", fontSize: 13.5, lineHeight: 1.6 }}>
-          The bibliography is intentionally layered. It includes the critical remote sensing literature, the participatory and citizen science literature, the Indigenous data governance literature, the soundscape ecology literature, and the foundational sensor fusion papers. Together they trace the convergence history of multimodal remote sensing as it is described in the multimodality interlude.
-        </p>
-        <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
-          {READING.map((r, i) => (
-            <li key={i} style={{
-              display: "grid", gridTemplateColumns: "60px 1fr",
-              padding: "10px 0", borderBottom: i < READING.length - 1 ? "1px solid var(--rule-soft)" : "none",
-              gap: 16, alignItems: "baseline",
-            }}>
-              <span className="num" style={{ fontSize: 15, color: "var(--terra)" }}>{r.year}</span>
-              <span style={{ fontSize: 14, lineHeight: 1.5, color: "var(--ink)" }}>
-                <strong style={{ color: "var(--ink)" }}>{r.who}</strong>, {r.what}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </Card>
-      <Card pad={32}>
-        <Kicker color="var(--ochre)">Bilingual register, let them land untranslated</Kicker>
-        <p style={{ margin: "0 0 14px", color: "var(--ink-2)", fontSize: 13.5, lineHeight: 1.6 }}>
-          The French phrases in the talk carry meanings that the closest English equivalents flatten. Marot's framing of <Fr>espérance</Fr> and <Fr>responsabilité</Fr>, in particular, belongs to a specific intellectual tradition: Bloch's principle of hope and Jonas's heuristic of fear. Letting them land in French preserves their force.
-        </p>
-        <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
-          {BILINGUAL.map((b, i) => (
-            <li key={i} style={{
-              padding: "12px 0", borderBottom: i < BILINGUAL.length - 1 ? "1px solid var(--rule-soft)" : "none",
-            }}>
-              <div className="serif" style={{
-                fontSize: 22, fontStyle: "italic", color: "var(--ink)", lineHeight: 1.15,
-              }}>{b.fr}</div>
-              <div style={{ fontSize: 13, color: "var(--ink-2)", marginTop: 4 }}>{b.en}</div>
-            </li>
-          ))}
-        </ul>
-      </Card>
-    </div>
-
-    {/* Spine */}
-    <Card pad={40} style={{
-      marginTop: 24, background: "var(--ink)", color: "var(--paper)", border: "none",
-    }}>
-      <div style={{ display: "grid", gridTemplateColumns: "200px 1fr", gap: 40 }}>
-        <Kicker color="var(--ochre-2)">Spine sentence, memorise</Kicker>
-        <div>
-          <p className="serif" style={{
-            margin: 0, fontSize: 32, lineHeight: 1.3, fontWeight: 300,
-            color: "var(--paper)", letterSpacing: "-0.01em",
-          }}>
-            "The messy middle is where care happens.<br/>
-            <em style={{ color: "var(--ochre-2)" }}>Everything else is preparation or aftermath.</em>"
-          </p>
-          <p className="mono" style={{
-            margin: "18px 0 0", fontSize: 11, letterSpacing: "0.12em",
-            color: "color-mix(in oklch, var(--paper) 60%, transparent)",
-            textTransform: "uppercase",
-          }}>If the talk drifts mid-delivery, this sentence brings it back. It is the talk's compass.</p>
-        </div>
-      </div>
-    </Card>
-
-    {/* Colophon */}
-    <footer style={{
-      marginTop: 64, paddingTop: 36, borderTop: "1px solid var(--rule)",
-      display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 18,
-    }}>
-      <div className="mono" style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--ink-3)" }}>
-        Set in Newsreader, IBM Plex Sans, and JetBrains Mono. Prepared for CRSS 2026.
-      </div>
-      <div className="mono" style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--ink-3)" }}>
-        Companion site v 2.0. Slide navigation, left and right arrow keys, inside the Slides tab.
-      </div>
-    </footer>
   </div>
 );
 
