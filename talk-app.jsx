@@ -6,8 +6,9 @@ const TABS = [
   { id: "ouverture",  roman: "i",   label: "Ouverture",   component: TabOuverture },
   { id: "slides",     roman: "ii",  label: "Slides",      component: TabSlides },
   { id: "plongees",   roman: "iii", label: "Plongées",    component: TabPlongees },
-  { id: "avenir",     roman: "iv",  label: "Avenir",      component: TabAvenir },
-  { id: "annexes",    roman: "v",   label: "Annexes",     component: TabAnnexes },
+  { id: "deepdive",   roman: "iv",  label: "Deep Dive",   component: TabDeepDive },
+  { id: "avenir",     roman: "v",   label: "Avenir",      component: TabAvenir },
+  { id: "annexes",    roman: "vi",  label: "Annexes",     component: TabAnnexes },
 ];
 
 const useHashTab = () => {

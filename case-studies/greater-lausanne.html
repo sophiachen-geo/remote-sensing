@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Greater Lausanne Field Survey</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+ :root{--bg:#0f172a;--card:#fff;--ink:#1e293b;--muted:#64748b;--line:#e2e8f0;--accent:#2563eb}
+ *{box-sizing:border-box}
+ body{margin:0;font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:#f1f5f9;text-align:left}
+ header{background:linear-gradient(120deg,#0f172a,#1e3a8a);color:#fff;padding:18px 24px}
+ header h1{margin:0;font-size:20px;font-weight:650;letter-spacing:.2px}
+ header p{margin:4px 0 0;color:#cbd5e1;font-size:13px}
+ #h-auth{color:#fff;font-weight:600;font-size:13px}
+ #h-course{color:#93c5fd;font-size:12px}
+ .hint{margin-top:8px;font-size:12px;color:#bfdbfe}
+ .about{background:var(--card);border-radius:12px;box-shadow:0 2px 12px rgba(15,23,42,.08);padding:14px 18px;margin-bottom:14px}
+ .about h3{margin:0 0 6px;font-size:15px;color:var(--ink)}
+ .about p{margin:0;color:#334155;font-size:13px;line-height:1.55;text-align:left}
+ .baselines h4{margin:16px 0 4px;font-size:13.5px;color:var(--ink)}
+ .baselines table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:4px}
+ .baselines th,.baselines td{text-align:left;padding:5px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+ .baselines th{color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.3px}
+ .baselines td:first-child{white-space:nowrap;font-weight:600;color:var(--ink)}
+ .baselines .src{color:#475569;font-size:12px;margin:7px 0 2px;line-height:1.5}
+ .wrap{max-width:1280px;margin:0 auto;padding:16px}
+ .mapcard{position:relative;border-radius:14px;overflow:hidden;box-shadow:0 6px 24px rgba(15,23,42,.12)}
+ #map{height:82vh;min-height:660px}
+ .panel{position:absolute;z-index:1000;background:rgba(255,255,255,.94);backdrop-filter:blur(4px);
+   border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.18);font-size:12px}
+ #opacity{bottom:22px;left:14px;padding:10px 12px;width:240px}
+ #opacity h4,#legend h4{margin:0 0 6px;font-size:12px;letter-spacing:.3px;text-transform:uppercase;color:var(--muted)}
+ #opacity .row{margin:7px 0}
+ #opacity .row label{display:block;font-size:11px;color:var(--ink);margin-bottom:3px}
+ #opacity .ctl{display:flex;align-items:center;gap:8px}
+ #opacity input[type=range]{flex:1;min-width:0;accent-color:var(--accent)}
+ #opacity .rng{flex:0 0 auto;font-size:10px;color:var(--muted);white-space:nowrap}
+ #legend{top:14px;left:14px;padding:9px 11px;max-width:210px}
+ #legend .sw{display:flex;align-items:center;gap:6px;margin:2px 0}
+ #legend .sw i{width:12px;height:12px;border:1px solid #334155;border-radius:2px;display:inline-block}
+ #legend .note{margin-top:6px;color:var(--muted);font-size:11px}
+ #details{margin:14px 0;background:var(--card);border-radius:12px;box-shadow:0 2px 12px rgba(15,23,42,.08);padding:14px 16px}
+ #details .dh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+ #details .dh b{font-size:16px}
+ #details .tag{font-size:11px;padding:2px 8px;border-radius:99px;background:#eef2ff;color:#3730a3}
+ #details .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:10px}
+ #details .m{background:#f8fafc;border:1px solid var(--line);border-radius:9px;padding:8px 10px}
+ #details .m .k{font-size:11px;color:var(--muted)}
+ #details .m .v{font-size:15px;font-weight:600}
+ .charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:14px}
+ .chart{background:var(--card);border-radius:12px;box-shadow:0 2px 12px rgba(15,23,42,.08);padding:8px}
+ .fullw{width:100%;margin-bottom:14px}
+ .pt{display:flex;align-items:center;justify-content:center;border-radius:50%;
+   border:2px solid #0f172a;font-weight:700;font-size:11px;
+   box-shadow:0 1px 5px rgba(0,0,0,.45)}
+ .cap{color:var(--muted);font-size:12px;line-height:1.45;padding:2px 10px 10px}
+ .leaflet-popup-content{font:13px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+ .leaflet-popup-content b{font-size:13px}
+ .leaflet-popup-content .r{display:flex;justify-content:space-between;gap:14px;margin:1px 0}
+ .leaflet-popup-content .r span:last-child{font-weight:600}
+ .foot{color:var(--muted);font-size:12px;text-align:left;padding:14px 2px}
+</style></head>
+<body>
+<header>
+  <h1 id="h-title"></h1>
+  <p id="h-sub"></p>
+  <p id="h-auth"></p>
+  <p id="h-course"></p>
+  <div class="hint">Every point is numbered. Click a numbered point on the map, or a bar in the chart below, to inspect it everywhere. Use the layer list (top right) to switch layers and the sliders to fade them over the imagery.</div>
+</header>
+<div class="wrap">
+  <div class="about"><h3>About This Study</h3><p id="about-text"></p></div>
+  <div class="mapcard">
+    <div id="map"></div>
+    <div id="legend" class="panel"><h4>Local Climate Zone</h4><div id="legend-items"></div>
+      <div class="note">Number matches the chart. Colour shows the zone, size shows CO₂.</div></div>
+    <div id="opacity" class="panel"><h4>Layer Opacity</h4><div id="opacity-rows"></div></div>
+  </div>
+  <div id="details"><div class="dh"><b>Select a point to inspect</b></div>
+    <div class="grid" id="details-grid"></div></div>
+  <div class="chart fullw"><div id="c1"></div>
+    <div class="cap">Each bar is one measurement point, numbered to match the circles on the map. Hover a bar to read the station name, setting and field note. The dotted lines mark CO₂ references: about 420 ppm outdoor background (NOAA), the 600 to 800 ppm indoor air quality target (REHVA) and the classic 1000 ppm ventilation guideline (Pettenkofer). The workplace limit is far higher at 5000 ppm over 8 hours (OSHA). Bars show each point's mean; individual peaks reach 1693 ppm on the M1 metro.</div></div>
+  <div class="charts">
+    <div class="chart"><div id="c5"></div>
+      <div class="cap">Indoor points (metro rides, the railway station, shops and campus interiors) average several hundred ppm above the outdoor points, which sit near background. The gap is large and statistically significant: CO₂ here is driven by enclosed, occupied, poorly ventilated spaces rather than by outdoor location.</div></div>
+    <div class="chart"><div id="c2"></div>
+      <div class="cap">Across outdoor points, NO₂ pollution is highest on the low valley floor and drops steeply with altitude. This is the strongest relationship in the survey. For health context the World Health Organization 2021 guideline is 10 µg/m³ (annual) and the European Union limit is 40 µg/m³, but those are surface concentrations and are not directly comparable to this satellite column, so no threshold line is drawn.</div></div>
+    <div class="chart"><div id="c3"></div>
+      <div class="cap">Outdoor points with more vegetation (higher NDVI) have cooler land surface temperatures: greenery cools the surface. For reference, a healthy indoor minimum is 18 °C (World Health Organization) and seated comfort is about 20 to 26 °C (ASHRAE), while outdoor heat stress begins above 26 °C (UTCI); these describe air temperature, whereas the axis shows land surface temperature, which reads warmer in sun.</div></div>
+  </div>
+  <div class="chart fullw"><div id="c4"></div>
+    <div class="cap">Pearson correlation for every pair of point level variables, computed on the outdoor points. Blue means the two move in opposite directions, red means they rise together. Cells with a black box and bold number are statistically significant (stars: * p&lt;.05, ** p&lt;.01, *** p&lt;.001); faint grey numbers are not significant. The diagonal is omitted because a variable always correlates perfectly with itself.</div></div>
+
+  <div class="foot">All satellite layers sampled over the field measurement period. Sources: Local Climate Zones (WUDAPT), GHSL building height and built area, Landsat 8 land surface temperature, Sentinel 5P NO₂, Sentinel 2 true colour.</div>
+</div>
+<script>
+const SITES=[{"id": 1, "label": "Indoor: Atrium Student Residence (Hallway)", "environment": "Indoor", "context": "Atrium Hallway Visit (Entry, Peak 852, Exit)", "lat": 46.523229, "lon": 6.566089, "n": 8, "co2_mean": 588.6, "co2_peak": 852.0, "temp_mean": 22.4, "rh_mean": 28.3, "lcz_code": 8, "lcz_label": "Large Low Rise", "color": "#bcbcbc", "build_height_m": 9.9, "built_m2": 4550.0, "lst_c": 28.4, "no2": 3.9542747488398186e-05, "elevation_m": 392.0, "ndvi": 0.29}, {"id": 2, "label": "Indoor: Croisettes Metro Station", "environment": "Indoor", "context": "Bus to Croisettes (Peak 1880 at 21:26:28) per Table 4.2", "lat": 46.543208, "lon": 6.661582, "n": 46, "co2_mean": 1000.4, "co2_peak": 1880.0, "temp_mean": 11.7, "rh_mean": 83.6, "lcz_code": 5, "lcz_label": "Open Midrise", "color": "#ff6600", "build_height_m": 13.1, "built_m2": 1869.0, "lst_c": 29.7, "no2": 3.782077734794541e-05, "elevation_m": 717.0, "ndvi": 0.3}, {"id": 3, "label": "Indoor: Denner Store (Renens/Chavannes Area)", "environment": "Indoor", "context": "Denner Store Visit (Peak 869)", "lat": 46.53417, "lon": 6.577823, "n": 30, "co2_mean": 641.8, "co2_peak": 869.0, "temp_mean": 17.4, "rh_mean": 34.6, "lcz_code": 5, "lcz_label": "Open Midrise", "color": "#ff6600", "build_height_m": 10.1, "built_m2": 4152.0, "lst_c": 30.5, "no2": 4.1189556504373265e-05, "elevation_m": 413.0, "ndvi": 0.27}, {"id": 4, "label": "Indoor: EPFL Metro Station (M1 Boarding)", "environment": "Indoor", "context": "At EPFL M1 Platform / Boarding (CO2 ~410 to 460)", "lat": 46.522208, "lon": 6.565993, "n": 36, "co2_mean": 487.9, "co2_peak": 709.0, "temp_mean": 15.2, "rh_mean": 65.6, "lcz_code": 8, "lcz_label": "Large Low Rise", "color": "#bcbcbc", "build_height_m": 11.4, "built_m2": 4799.0, "lst_c": 29.9, "no2": 3.9542747488398186e-05, "elevation_m": 392.0, "ndvi": 0.2}, {"id": 5, "label": "Indoor: Lausanne Botanical Garden (Main Site)", "environment": "Indoor", "context": "Bus to Botanical Garden Ride (Peak 948, Table 4.2 948/777)", "lat": 46.513411, "lon": 6.622686, "n": 62, "co2_mean": 487.9, "co2_peak": 948.0, "temp_mean": 24.3, "rh_mean": 24.0, "lcz_code": 5, "lcz_label": "Open Midrise", "color": "#ff6600", "build_height_m": 13.3, "built_m2": 2487.0, "lst_c": 16.1, "no2": 3.980221634731013e-05, "elevation_m": 415.0, "ndvi": 0.52}, {"id": 6, "label": "Indoor: Lausanne Botanical Garden Greenhouse", "environment": "Indoor", "context": "Inside Greenhouse (Peak 563, Table 4.2 563/491)", "lat": 46.5135, "lon": 6.6225, "n": 18, "co2_mean": 460.3, "co2_peak": 563.0, "temp_mean": 25.7, "rh_mean": 36.8, "lcz_code": 5, "lcz_label": "Open Midrise", "color": "#ff6600", "build_height_m": 13.3, "built_m2": 2487.0, "lst_c": 15.5, "no2": 3.980221634731013e-05, "elevation_m": 415.0, "ndvi": 0.48}, {"id": 7, "label": "Indoor: Lausanne Main Railway Station (CFF)", "environment": "Indoor", "context": "Boarding Train at Lausanne CFF for Nyon (Table 4.2 Train Lausanne Nyon 1136/775; Readings Continue Rising Past 800Ppm at End of Record)", "lat": 46.51708, "lon": 6.629193, "n": 38, "co2_mean": 740.2, "co2_peak": 1136.0, "temp_mean": 23.3, "rh_mean": 29.0, "lcz_code": 2, "lcz_label": "Compact Midrise", "color": "#d10000", "build_height_m": 18.0, "built_m2": 3696.0, "lst_c": 21.1, "no2": 3.980221634731013e-05, "elevation_m": 454.0, "ndvi": 0.35}, {"id": 8, "label": "Indoor: Lausanne Flon Metro Station", "environment": "Indoor", "context": "M1 Metro EPFL to Flon Ride (Peak 1693)", "lat": 46.520276, "lon": 6.630994, "n": 71, "co2_mean": 1394.1, "co2_peak": 1693.0, "temp_mean": 20.7, "rh_mean": 60.2, "lcz_code": 2, "lcz_label": "Compact Midrise", "color": "#d10000", "build_height_m": 21.2, "built_m2": 2980.0, "lst_c": 30.8, "no2": 3.733806827981202e-05, "elevation_m": 488.0, "ndvi": 0.18}, {"id": 9, "label": "Indoor: Ouchy Olympique Metro Station", "environment": "Indoor", "context": "M2 Metro Flon to Ouchy Ride (Peak ~1094, Table 4.2 Says 1111/834)", "lat": 46.507057, "lon": 6.626446, "n": 51, "co2_mean": 915.1, "co2_peak": 1111.0, "temp_mean": 19.0, "rh_mean": 59.4, "lcz_code": 5, "lcz_label": "Open Midrise", "color": "#ff6600", "build_height_m": 9.5, "built_m2": 3523.0, "lst_c": 17.3, "no2": 3.980221634731013e-05, "elevation_m": 381.0, "ndvi": 0.45}, {"id": 10, "label": "Outdoor (Campaign April 11, Unspecified)", "environment": "Outdoor", "context": "Earlier Outdoor Campaign, EPFL Campus Area (Report Context)", "lat": 46.521, "lon": 6.567, "n": 652, "co2_mean": 463.7, "co2_peak": 1054.0, "temp_mean": 16.9, "rh_mean": 41.8, "lcz_code": 8, "lcz_label": "Large Low Rise", "color": "#bcbcbc", "build_height_m": 13.6, "built_m2": 4225.0, "lst_c": 29.9, "no2": 4.017960453779853e-05, "elevation_m": 397.0, "ndvi": 0.35}, {"id": 11, "label": "Outdoor (Campaign May 3 to 5, Unspecified)", "environment": "Outdoor", "context": "Earlier May 3 Brief Reading (No Location Specified)", "lat": 46.521, "lon": 6.567, "n": 779, "co2_mean": 635.4, "co2_peak": 5048.0, "temp_mean": 17.0, "rh_mean": 29.5, "lcz_code": 8, "lcz_label": "Large Low Rise", "color": "#bcbcbc", "build_height_m": 13.6, "built_m2": 4225.0, "lst_c": 29.9, "no2": 4.017960453779853e-05, "elevation_m": 397.0, "ndvi": 0.35}, {"id": 12, "label": "Outdoor: Av. de la Gare Chavannes (Encre&Plomb)", "environment": "Outdoor", "context": "Fig 5 F Approaching Commercial Area", "lat": 46.53417, "lon": 6.577823, "n": 64, "co2_mean": 429.2, "co2_peak": 491.0, "temp_mean": 15.0, "rh_mean": 44.6, "lcz_code": 5, "lcz_label": "Open Midrise", "color": "#ff6600", "build_height_m": 10.1, "built_m2": 4152.0, "lst_c": 30.5, "no2": 4.1189556504373265e-05, "elevation_m": 413.0, "ndvi": 0.27}, {"id": 13, "label": "Outdoor: Cerisaie Area Chavannes Pres Renens", "environment": "Outdoor", "context": "Fig 5 B to C Transition", "lat": 46.52775, "lon": 6.566547, "n": 24, "co2_mean": 407.7, "co2_peak": 421.0, "temp_mean": 13.8, "rh_mean": 47.5, "lcz_code": 6, "lcz_label": "Open Low Rise", "color": "#ff9955", "build_height_m": 10.0, "built_m2": 2062.0, "lst_c": 29.9, "no2": 3.960211573871879e-05, "elevation_m": 396.0, "ndvi": 0.19}, {"id": 14, "label": "Outdoor: Chavannes Pres Renens Centre", "environment": "Outdoor", "context": "Fig 5 E Town Centre", "lat": 46.533, "lon": 6.572, "n": 36, "co2_mean": 420.7, "co2_peak": 455.0, "temp_mean": 14.4, "rh_mean": 46.9, "lcz_code": 5, "lcz_label": "Open Midrise", "color": "#ff6600", "build_height_m": 10.5, "built_m2": 3152.0, "lst_c": 29.5, "no2": 4.078173352256857e-05, "elevation_m": 403.0, "ndvi": 0.31}, {"id": 15, "label": "Outdoor: Ouchy Chateau / Place du Port", "environment": "Outdoor", "context": "Ouchy Waterfront Walk Fig 6", "lat": 46.506822, "lon": 6.627395, "n": 109, "co2_mean": 411.4, "co2_peak": 602.0, "temp_mean": 13.4, "rh_mean": 67.9, "lcz_code": 5, "lcz_label": "Open Midrise", "color": "#ff6600", "build_height_m": 9.5, "built_m2": 3523.0, "lst_c": 17.1, "no2": 3.980221634731013e-05, "elevation_m": 380.0, "ndvi": 0.8}, {"id": 16, "label": "Outdoor: Ouchy Waterfront", "environment": "Outdoor", "context": "Ouchy Port Arrival, Place de la Navigation, Fig 6", "lat": 46.506958, "lon": 6.625, "n": 74, "co2_mean": 428.5, "co2_peak": 851.0, "temp_mean": 15.7, "rh_mean": 58.9, "lcz_code": 5, "lcz_label": "Open Midrise", "color": "#ff6600", "build_height_m": 9.6, "built_m2": 2384.0, "lst_c": 15.7, "no2": 3.980221634731013e-05, "elevation_m": 373.0, "ndvi": 0.23}, {"id": 17, "label": "Outdoor: Place de la Riponne", "environment": "Outdoor", "context": "Fig 7 B to D, Saint Laurent / Riponne, Near Manor/Tribeca", "lat": 46.523375, "lon": 6.63241, "n": 41, "co2_mean": 493.0, "co2_peak": 669.0, "temp_mean": 15.2, "rh_mean": 63.1, "lcz_code": 2, "lcz_label": "Compact Midrise", "color": "#d10000", "build_height_m": 18.2, "built_m2": 3478.0, "lst_c": 31.7, "no2": 3.733806827981202e-05, "elevation_m": 510.0, "ndvi": 0.09}, {"id": 18, "label": "Outdoor: Renens VD Railway Station", "environment": "Outdoor", "context": "Fig 5 I Around Renens VD Station", "lat": 46.537025, "lon": 6.578907, "n": 50, "co2_mean": 417.8, "co2_peak": 470.0, "temp_mean": 13.9, "rh_mean": 46.6, "lcz_code": 5, "lcz_label": "Open Midrise", "color": "#ff6600", "build_height_m": 13.6, "built_m2": 5031.0, "lst_c": 28.1, "no2": 4.1189556504373265e-05, "elevation_m": 415.0, "ndvi": 0.21}, {"id": 19, "label": "Outdoor: Vieux Lausanne", "environment": "Outdoor", "context": "Fig 7 D to E to F, Vieux Lausanne Corridor", "lat": 46.522386, "lon": 6.634334, "n": 53, "co2_mean": 579.3, "co2_peak": 860.0, "temp_mean": 16.9, "rh_mean": 57.8, "lcz_code": 2, "lcz_label": "Compact Midrise", "color": "#d10000", "build_height_m": 22.6, "built_m2": 3724.0, "lst_c": 30.7, "no2": 3.733806827981202e-05, "elevation_m": 517.0, "ndvi": 0.24}, {"id": 20, "label": "Outdoor: Approach to Renens VD Station", "environment": "Outdoor", "context": "Fig 5 H Approaching Renens VD", "lat": 46.5355, "lon": 6.5785, "n": 68, "co2_mean": 427.2, "co2_peak": 528.0, "temp_mean": 15.1, "rh_mean": 43.2, "lcz_code": 5, "lcz_label": "Open Midrise", "color": "#ff6600", "build_height_m": 14.2, "built_m2": 3442.0, "lst_c": 28.9, "no2": 4.1189556504373265e-05, "elevation_m": 414.0, "ndvi": 0.34}, {"id": 21, "label": "Outdoor: Around Botanical Garden (Av. de Cour)", "environment": "Outdoor", "context": "Perimeter Walk Approaching Garden, Fig 15", "lat": 46.513411, "lon": 6.622686, "n": 53, "co2_mean": 395.1, "co2_peak": 604.0, "temp_mean": 22.4, "rh_mean": 35.1, "lcz_code": 5, "lcz_label": "Open Midrise", "color": "#ff6600", "build_height_m": 13.3, "built_m2": 2487.0, "lst_c": 16.1, "no2": 3.980221634731013e-05, "elevation_m": 415.0, "ndvi": 0.52}, {"id": 22, "label": "Outdoor: Bridge Over A1/E23 Highway", "environment": "Outdoor", "context": "Fig 5 D Bridge Over Highway", "lat": 46.531, "lon": 6.572, "n": 36, "co2_mean": 419.3, "co2_peak": 513.0, "temp_mean": 13.5, "rh_mean": 53.0, "lcz_code": 8, "lcz_label": "Large Low Rise", "color": "#bcbcbc", "build_height_m": 9.8, "built_m2": 1836.0, "lst_c": 28.9, "no2": 4.031498284656619e-05, "elevation_m": 405.0, "ndvi": 0.16}, {"id": 23, "label": "Outdoor: Downtown Lausanne (Flon Area)", "environment": "Outdoor", "context": "Flon Exit, Walking SW Corridor Fig 7", "lat": 46.520728, "lon": 6.630234, "n": 107, "co2_mean": 437.3, "co2_peak": 817.0, "temp_mean": 13.9, "rh_mean": 62.7, "lcz_code": 2, "lcz_label": "Compact Midrise", "color": "#d10000", "build_height_m": 21.2, "built_m2": 2980.0, "lst_c": 31.6, "no2": 3.733806827981202e-05, "elevation_m": 483.0, "ndvi": 0.28}, {"id": 24, "label": "Outdoor: Forest Near EHL (Chalet a Gobet)", "environment": "Outdoor", "context": "Forest Near EHL, Fig 8 Reliability Poor per Report (Rain)", "lat": 46.563, "lon": 6.6815, "n": 61, "co2_mean": 532.7, "co2_peak": 1377.0, "temp_mean": 10.2, "rh_mean": 70.8, "lcz_code": 12, "lcz_label": "Scattered Trees", "color": "#00aa00", "build_height_m": 2.5, "built_m2": 324.0, "lst_c": 25.7, "no2": 3.538632060627249e-05, "elevation_m": 865.0, "ndvi": 0.74}, {"id": 25, "label": "Outdoor: Inside Botanical Garden", "environment": "Outdoor", "context": "Walking Inside the Garden, Fig 15", "lat": 46.514125, "lon": 6.623985, "n": 96, "co2_mean": 409.0, "co2_peak": 560.0, "temp_mean": 25.7, "rh_mean": 26.8, "lcz_code": 5, "lcz_label": "Open Midrise", "color": "#ff6600", "build_height_m": 13.8, "built_m2": 480.0, "lst_c": 14.7, "no2": 3.980221634731013e-05, "elevation_m": 442.0, "ndvi": 0.6}, {"id": 26, "label": "Outdoor: Near Atrium (Bassenges Fields/Woods)", "environment": "Outdoor", "context": "Walking N From Atrium Fig 5 A to B", "lat": 46.5255, "lon": 6.5635, "n": 12, "co2_mean": 399.1, "co2_peak": 424.0, "temp_mean": 17.6, "rh_mean": 40.3, "lcz_code": 6, "lcz_label": "Open Low Rise", "color": "#ff9955", "build_height_m": 9.5, "built_m2": 3505.0, "lst_c": 29.7, "no2": 3.960211573871879e-05, "elevation_m": 408.0, "ndvi": 0.36}, {"id": 27, "label": "Indoor: Rolex Learning Center", "environment": "Indoor", "context": "Inside Rolex (Bookstore to Career Service, Table 4.2 476/467)", "lat": 46.518494, "lon": 6.568452, "n": 5, "co2_mean": 467.0, "co2_peak": 476.0, "temp_mean": 24.7, "rh_mean": 44.9, "lcz_code": 8, "lcz_label": "Large Low Rise", "color": "#bcbcbc", "build_height_m": 10.0, "built_m2": 8884.0, "lst_c": 33.6, "no2": 4.017960453779853e-05, "elevation_m": 396.0, "ndvi": 0.11}], LAYERS=[{"key": "s2", "name": "Sentinel 2 True Colour", "base": true, "url": "https://earthengine.googleapis.com/v1/projects/project-a8b5fafd-278d-418e-a12/maps/bd3aa47953d749200c2038fd14f22ef8-a7872200fbf514f43722a2f9417693ea/tiles/{z}/{x}/{y}"}, {"key": "lcz", "name": "Local Climate Zones", "base": false, "opacity": 0.55, "range": "LCZ classes", "show": false, "url": "https://earthengine.googleapis.com/v1/projects/project-a8b5fafd-278d-418e-a12/maps/13e624e94a117991993a87476c1f489f-aa1a6f7fa6d6ea108a82a657c6044498/tiles/{z}/{x}/{y}"}, {"key": "height", "name": "Building Height (m)", "base": false, "opacity": 0.65, "range": "0 to 25 m", "show": false, "url": "https://earthengine.googleapis.com/v1/projects/project-a8b5fafd-278d-418e-a12/maps/36a885b100c7cd45cd0b7eaf44f4a06b-c6c8182c31804bfd01b61a014dd705a9/tiles/{z}/{x}/{y}"}, {"key": "built", "name": "Built Area (m² per pixel)", "base": false, "opacity": 0.6, "range": "0 to 10000 m²", "show": false, "url": "https://earthengine.googleapis.com/v1/projects/project-a8b5fafd-278d-418e-a12/maps/3c1cd6b3c88a825c239dc1e1cc366bb4-345a9cfcf5f13f70c1846c0dd1255b54/tiles/{z}/{x}/{y}"}, {"key": "lst", "name": "Land Surface Temperature (°C)", "base": false, "opacity": 0.6, "range": "7.3 to 30.9 °C", "show": true, "url": "https://earthengine.googleapis.com/v1/projects/project-a8b5fafd-278d-418e-a12/maps/1fe0d623bebecae9f7de27c28c6ad802-32e1be83510aae5993f8dda10a17b09b/tiles/{z}/{x}/{y}"}, {"key": "no2", "name": "NO₂ Pollution Column (mol/m²)", "base": false, "opacity": 0.6, "range": "3.2e-05 to 4.1e-05", "show": false, "url": "https://earthengine.googleapis.com/v1/projects/project-a8b5fafd-278d-418e-a12/maps/2e87354d337cf3ef073c4db9c1c20736-56bd61217c07ac805a9cb43c84fa4503/tiles/{z}/{x}/{y}"}], LCZLEGEND=[{"label": "Compact Midrise", "color": "#d10000", "code": 2}, {"label": "Open Midrise", "color": "#ff6600", "code": 5}, {"label": "Open Low Rise", "color": "#ff9955", "code": 6}, {"label": "Large Low Rise", "color": "#bcbcbc", "code": 8}, {"label": "Scattered Trees", "color": "#00aa00", "code": 12}], STATS={"labels": ["CO₂", "Air<br>Temperature", "Humidity", "Surface<br>Temperature", "NO₂<br>Pollution", "Building<br>Height", "Built<br>Area", "Elevation", "Greenery"], "r": [[null, -0.14, 0.08, 0.34, -0.44, 0.24, 0.15, 0.41, -0.04], [-0.14, null, -0.73, -0.5, 0.24, 0.3, -0.15, -0.35, 0.15], [0.08, -0.73, null, 0.1, -0.62, -0.06, -0.12, 0.49, 0.06], [0.34, -0.5, 0.1, null, -0.1, 0.28, 0.46, 0.1, -0.6], [-0.44, 0.24, -0.62, -0.1, null, -0.13, 0.43, -0.82, -0.2], [0.24, 0.3, -0.06, 0.28, -0.13, null, 0.4, -0.24, -0.44], [0.15, -0.15, -0.12, 0.46, 0.43, 0.4, null, -0.5, -0.41], [0.41, -0.35, 0.49, 0.1, -0.82, -0.24, -0.5, null, 0.36], [-0.04, 0.15, 0.06, -0.6, -0.2, -0.44, -0.41, 0.36, null]], "p": [[null, 0.5798, 0.7614, 0.1763, 0.075, 0.3453, 0.5715, 0.1055, 0.8852], [0.5798, null, 0.0008, 0.0415, 0.3554, 0.2469, 0.5662, 0.1743, 0.5707], [0.7614, 0.0008, null, 0.6965, 0.0077, 0.8146, 0.6464, 0.0438, 0.8096], [0.1763, 0.0415, 0.6965, null, 0.695, 0.2704, 0.0656, 0.6938, 0.0104], [0.075, 0.3554, 0.0077, 0.695, null, 0.6222, 0.0847, 0.0001, 0.4493], [0.3453, 0.2469, 0.8146, 0.2704, 0.6222, null, 0.108, 0.3595, 0.0789], [0.5715, 0.5662, 0.6464, 0.0656, 0.0847, 0.108, null, 0.0433, 0.106], [0.1055, 0.1743, 0.0438, 0.6938, 0.0001, 0.3595, 0.0433, null, 0.1548], [0.8852, 0.5707, 0.8096, 0.0104, 0.4493, 0.0789, 0.106, 0.1548, null]], "no2elev": "r = -0.82***, n = 17", "ndvilst": "r = -0.60*, n = 17", "env": {"in_co2": [588.6, 1000.4, 641.8, 487.9, 487.9, 460.3, 740.2, 1394.1, 915.1, 467.0], "in_id": [1, 2, 3, 4, 5, 6, 7, 8, 9, 27], "in_label": ["Indoor: Atrium Student Residence (Hallway)", "Indoor: Croisettes Metro Station", "Indoor: Denner Store (Renens/Chavannes Area)", "Indoor: EPFL Metro Station (M1 Boarding)", "Indoor: Lausanne Botanical Garden (Main Site)", "Indoor: Lausanne Botanical Garden Greenhouse", "Indoor: Lausanne Main Railway Station (CFF)", "Indoor: Lausanne Flon Metro Station", "Indoor: Ouchy Olympique Metro Station", "Indoor: Rolex Learning Center"], "out_co2": [463.7, 635.4, 429.2, 407.7, 420.7, 411.4, 428.5, 493.0, 417.8, 579.3, 427.2, 395.1, 419.3, 437.3, 532.7, 409.0, 399.1], "out_id": [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26], "out_label": ["Outdoor (Campaign April 11, Unspecified)", "Outdoor (Campaign May 3 to 5, Unspecified)", "Outdoor: Av. de la Gare Chavannes (Encre&Plomb)", "Outdoor: Cerisaie Area Chavannes Pres Renens", "Outdoor: Chavannes Pres Renens Centre", "Outdoor: Ouchy Chateau / Place du Port", "Outdoor: Ouchy Waterfront", "Outdoor: Place de la Riponne", "Outdoor: Renens VD Railway Station", "Outdoor: Vieux Lausanne", "Outdoor: Approach to Renens VD Station", "Outdoor: Around Botanical Garden (Av. de Cour)", "Outdoor: Bridge Over A1/E23 Highway", "Outdoor: Downtown Lausanne (Flon Area)", "Outdoor: Forest Near EHL (Chalet a Gobet)", "Outdoor: Inside Botanical Garden", "Outdoor: Near Atrium (Bassenges Fields/Woods)"], "mean_in": 718, "mean_out": 453, "p": 0.02271454668206766}}, META={"title": "Analysis of Greenhouse Gas Hotspots on the EPFL Campus and Lausanne Area", "subtitle": "27 Measurement Points · 2,680 Readings · 11 April to 7 June 2019 · All Satellite Layers Sampled From the Measurement Period", "authors": "Fei Ya Sophia Chen · Ludovic Ronald Stanley Freischner · Kanaha Shoji", "course": "Group 12 · Master Level Course AR496 Behind / Beyond Future Cities · EPFL · Spring 2019", "about": "This dashboard revisits a Spring 2019 EPFL field study (course AR496, Behind / Beyond Future Cities) that set out to find greenhouse gas hotspots on the EPFL campus and around Lausanne and to understand how they relate to the surrounding environment. The team walked handheld CO₂, temperature and humidity sensors along routes through indoor spaces (metros, the railway station, shops and campus buildings) and outdoor settings (busy streets, the lake waterfront, parks and a suburban forest), expecting the highest CO₂ in poorly ventilated, densely used indoor rooms and in dense outdoor spots with little wind, greenery or sunlight. Here every measurement point is mapped and joined to satellite layers from the same period, so the field readings can be compared against built density, building height, greenery, elevation, land surface temperature and NO₂ pollution.", "center": [46.52405122222222, 6.603428851851853], "co2_min": 395.1, "co2_max": 1394.1};
+document.getElementById('h-title').textContent=META.title;
+document.getElementById('h-sub').textContent=META.subtitle;
+document.getElementById('h-auth').textContent=META.authors;
+document.getElementById('h-course').textContent=META.course;
+document.getElementById('about-text').textContent=META.about;
+
+// ---- map ----
+const map=L.map('map',{center:META.center,zoom:13,fullscreenControl:true});
+const eeAttr='Imagery © Google Earth Engine';
+const bases={
+ 'Esri WorldImagery':L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:20,attribution:'Tiles © Esri'}),
+ 'OpenStreetMap':L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'})
+};
+const overlays={}, rasterLayers=[];
+LAYERS.forEach(L_=>{
+ const tl=L.tileLayer(L_.url,{opacity:L_.opacity!==undefined?L_.opacity:1,attribution:eeAttr,maxZoom:20});
+ if(L_.base){bases[L_.name]=tl;}
+ else{overlays[L_.name]=tl; rasterLayers.push({name:L_.name,layer:tl,opacity:L_.opacity,range:L_.range,show:L_.show});
+   if(L_.show)tl.addTo(map);}
+});
+bases['Esri WorldImagery'].addTo(map);
+L.control.scale({imperial:false,position:'bottomright'}).addTo(map);
+
+// numbered markers: number matches the CO2 chart; size by CO2, colour by LCZ
+const cmin=META.co2_min,cmax=META.co2_max, markers={};
+const sitesLayer=L.layerGroup();
+function diam(c){if(c==null)return 22;return Math.round(20+18*Math.sqrt((c-cmin)/(cmax-cmin||1)));}
+function txt(hex){const c=hex.replace('#','');const r=parseInt(c.substr(0,2),16),
+ g=parseInt(c.substr(2,2),16),b=parseInt(c.substr(4,2),16);
+ return (0.299*r+0.587*g+0.114*b)/255>0.62?'#111':'#fff';}
+SITES.forEach(s=>{
+ const d=diam(s.co2_mean);
+ const icon=L.divIcon({className:'',iconSize:[d,d],iconAnchor:[d/2,d/2],
+  html:'<div class="pt" style="width:'+d+'px;height:'+d+'px;background:'+s.color+';color:'+txt(s.color)+'">'+s.id+'</div>'});
+ const m=L.marker([s.lat,s.lon],{icon:icon});
+ m.bindPopup(popupHTML(s),{maxWidth:300});
+ m.bindTooltip('<b>'+s.id+'. '+s.label+'</b>'+(s.co2_mean!=null?'<br>CO₂ '+s.co2_mean+' ppm':''));
+ m.on('click',()=>selectSite(s.id,false));
+ m.addTo(sitesLayer); markers[s.id]=m;
+});
+sitesLayer.addTo(map); overlays['Measurement Sites']=sitesLayer;
+const route=L.polyline(SITES.map(s=>[s.lat,s.lon]),{color:'#0f172a',weight:2,opacity:.45,dashArray:'4,6'});
+route.addTo(map); overlays['Measurement Route']=route;
+L.control.layers(bases,overlays,{collapsed:false,position:'topright'}).addTo(map);
+
+function fmt(v,u){return v==null?'n/a':v+(u||'');}
+function popupHTML(s){
+ return '<b>'+s.id+'. '+s.label+'</b><br><span style="color:#64748b">'+s.environment+' · '+s.lcz_label+'</span>'
+  +(s.context?'<br><span style="color:#475569;font-size:11px">'+s.context+'</span>':'')
+  +'<hr style="margin:5px 0;border:none;border-top:1px solid #e2e8f0">'
+  +row('Mean CO₂ (All Readings)',fmt(s.co2_mean,' ppm'))+row('Peak CO₂ (Highest Reading)',fmt(s.co2_peak,' ppm'))
+  +row('Air Temperature',fmt(s.temp_mean,' °C'))+row('Humidity',fmt(s.rh_mean,' %'))
+  +'<hr style="margin:5px 0;border:none;border-top:1px solid #e2e8f0">'
+  +row('Local Climate Zone',s.lcz_label+(s.lcz_code!=null?' ('+s.lcz_code+')':''))
+  +row('Building Height',fmt(s.build_height_m,' m'))+row('Built Area',fmt(s.built_m2,' m²'))
+  +row('Land Surface Temp',fmt(s.lst_c,' °C'))+row('Elevation',fmt(s.elevation_m,' m'))
+  +row('Greenery (NDVI)',fmt(s.ndvi,''))+row('NO₂ Pollution',s.no2!=null?s.no2.toExponential(2)+' mol/m²':'n/a')
+  +row('Number of Readings',s.n);
+}
+function row(k,v){return '<div class="r"><span>'+k+'</span><span>'+v+'</span></div>';}
+
+// ---- legend + opacity panel ----
+document.getElementById('legend-items').innerHTML=LCZLEGEND.map(l=>
+ '<div class="sw"><i style="background:'+l.color+'"></i>'+l.label+'</div>').join('');
+document.getElementById('opacity-rows').innerHTML=rasterLayers.map((r,i)=>
+ '<div class="row"><label>'+r.name.replace(/\s*\(.*$/,'')+'</label>'
+ +'<div class="ctl"><input type="range" min="0" max="1" step="0.05" value="'+r.opacity+'" data-i="'+i+'">'
+ +'<span class="rng">'+(r.range||'')+'</span></div></div>').join('');
+document.querySelectorAll('#opacity input').forEach(inp=>inp.addEventListener('input',e=>{
+ const r=rasterLayers[+e.target.dataset.i]; r.layer.setOpacity(+e.target.value);
+ if(+e.target.value>0 && !map.hasLayer(r.layer))r.layer.addTo(map);
+}));
+
+// ---- charts (Plotly), every element carries its site id in customdata ----
+const ids=SITES.map(s=>s.id), colors=SITES.map(s=>s.color);
+const hl={col:'#0f172a'};
+const layoutBase={margin:{l:48,r:14,t:38,b:44},font:{family:'inherit',size:11},
+ hovermode:'closest',showlegend:false,paper_bgcolor:'#fff',plot_bgcolor:'#fff'};
+function cfg(){return {displayModeBar:false,responsive:true};}
+
+// C1: average CO2 per point (point numbers on axis, full name on hover)
+const bySite=[...SITES].filter(s=>s.co2_mean!=null).sort((a,b)=>a.co2_mean-b.co2_mean);
+const co2ref=[[420,'420 ppm outdoor background'],[800,'800 ppm indoor air target'],[1000,'1000 ppm ventilation guideline']];
+const c1shapes=co2ref.map(b=>({type:'line',xref:'x',yref:'paper',x0:b[0],x1:b[0],y0:0,y1:1,
+ line:{color:'#475569',width:1.3,dash:'dot'}}));
+const c1ann=co2ref.map(b=>({xref:'x',yref:'paper',x:b[0],y:0.5,textangle:-90,text:b[1],
+ showarrow:false,font:{size:9,color:'#334155'},bgcolor:'rgba(255,255,255,0.72)',
+ xanchor:'center',yanchor:'middle'}));
+Plotly.newPlot('c1',[{type:'bar',orientation:'h',
+ x:bySite.map(s=>s.co2_mean),y:bySite.map(s=>String(s.id)),
+ customdata:bySite.map(s=>[s.label,s.environment,s.context||'']),
+ marker:{color:bySite.map(s=>s.color),line:{color:bySite.map(()=>'#0f172a'),width:bySite.map(()=>0.5)}},
+ hovertemplate:'<b>Point %{y}. %{customdata[0]}</b><br>%{customdata[1]}<br>'
+   +'Average CO₂: %{x} ppm<br><i>%{customdata[2]}</i><extra></extra>'}],
+ Object.assign({},layoutBase,{title:{text:'Average CO₂ per Measurement Point (ppm)',font:{size:15},x:0.02,xanchor:'left'},
+ yaxis:{title:{text:'Point Number'},type:'category',automargin:true,tickfont:{size:10},
+   categoryorder:'array',categoryarray:bySite.map(s=>String(s.id))},
+ xaxis:{title:{text:'Average CO₂ (ppm)'}},shapes:c1shapes,annotations:c1ann,
+ margin:{l:54,r:24,t:44,b:46},height:Math.max(460,bySite.length*20)}),cfg());
+
+// C5: indoor versus outdoor CO2
+(function(){
+ const E=STATS.env;
+ const sig=E.p<0.001?'p < 0.001':'p = '+E.p.toFixed(3);
+ const box=(name,co2,ids,labs,col)=>({type:'box',name:name,y:co2,x:co2.map(()=>name),
+  customdata:ids,text:labs,boxpoints:'all',jitter:0.5,pointpos:0,
+  marker:{color:col,size:7,line:{color:'#0f172a',width:0.5}},line:{color:col},fillcolor:col+'22',
+  hovertemplate:'%{text}<br>'+name+'<br>Mean CO₂: %{y} ppm<extra></extra>'});
+ Plotly.newPlot('c5',[
+  box('Indoor',E.in_co2,E.in_id,E.in_label,'#d1495b'),
+  box('Outdoor',E.out_co2,E.out_id,E.out_label,'#2a9d8f')],
+  Object.assign({},layoutBase,{title:{text:'Indoor versus Outdoor CO₂<br>('+sig+')',font:{size:13},x:0.02,xanchor:'left'},
+  margin:{l:60,r:18,t:64,b:54},
+  yaxis:{title:{text:'Point mean CO₂ (ppm)'}},
+  xaxis:{title:'',tickmode:'array',tickvals:['Indoor','Outdoor'],
+   ticktext:['Indoor<br>mean '+E.mean_in+' ppm','Outdoor<br>mean '+E.mean_out+' ppm']},
+  height:400,showlegend:false}),cfg());
+ document.getElementById('c5').on('plotly_click',ev=>{
+  if(ev.points&&ev.points[0]&&ev.points[0].customdata!=null)selectSite(ev.points[0].customdata,true);});
+})();
+
+// C2/C3: the strongest significant real correlations
+mkScatter('c2','NO₂ Pollution Falls as Elevation Rises','('+STATS.no2elev+')',
+ 'Elevation (m)','NO₂ Pollution Column (mol/m²)',s=>s.elevation_m,s=>s.no2);
+mkScatter('c3','Greener Places Are Cooler at the Surface','('+STATS.ndvilst+')',
+ 'Greenery (NDVI)','Land Surface Temperature (°C)',s=>s.ndvi,s=>s.lst_c);
+
+// C4: full correlation matrix (outdoor sites) — surfaces every real relationship
+(function(){
+ const z=STATS.r,labs=STATS.labels,ann=[],shapes=[];
+ for(let i=0;i<labs.length;i++)for(let j=0;j<labs.length;j++){
+  const v=z[i][j]; if(v===null)continue;
+  const p=STATS.p[i][j], sig=p<0.05, st=p<0.001?'***':p<0.01?'**':p<0.05?'*':'';
+  const num=(v>0?'+':'')+v.toFixed(2)+st;
+  ann.push({x:labs[j],y:labs[i],showarrow:false,text:sig?('<b>'+num+'</b>'):num,
+   font:{size:sig?13:9.5,color:sig?(Math.abs(v)>0.5?'#ffffff':'#0f172a'):'#9aa6b6'}});
+  if(sig)shapes.push({type:'rect',xref:'x',yref:'y',x0:j-0.5,x1:j+0.5,y0:i-0.5,y1:i+0.5,
+   line:{color:'#0f172a',width:2.5},fillcolor:'rgba(0,0,0,0)',layer:'above'});
+ }
+ Plotly.newPlot('c4',[{type:'heatmap',z:z,x:labs,y:labs,zmin:-1,zmax:1,xgap:3,ygap:3,
+  colorscale:[[0,'#2166ac'],[0.5,'#f7f7f7'],[1,'#b2182b']],
+  hovertemplate:'%{y} and %{x}<br>r = %{z}<extra></extra>',
+  colorbar:{title:'r',thickness:12,len:.8}}],
+  Object.assign({},layoutBase,{title:{text:'Correlation Matrix for Outdoor Points (Pearson r)',font:{size:14},x:0.02,xanchor:'left'},
+  annotations:ann,shapes:shapes,height:520,margin:{l:110,r:30,t:48,b:110},
+  xaxis:{side:'bottom',tickangle:0,automargin:true,tickfont:{size:10}},
+  yaxis:{automargin:true,autorange:'reversed',tickfont:{size:10}}}),cfg());
+})();
+
+function mkScatter(div,title,sub,xl,yl,fx,fy){
+ const pts=SITES.filter(s=>fx(s)!=null&&fy(s)!=null);
+ Plotly.newPlot(div,[
+  {type:'scatter',mode:'markers',x:pts.map(fx),y:pts.map(fy),customdata:pts.map(s=>s.id),
+   text:pts.map(s=>s.label),marker:{size:11,color:pts.map(s=>s.color),
+   line:{color:'#0f172a',width:1}},hovertemplate:'%{text}<br>'+xl+': %{x}<br>'+yl+': %{y}<extra></extra>'},
+  {type:'scatter',mode:'markers',x:[],y:[],hoverinfo:'skip',
+   marker:{size:20,color:'rgba(0,0,0,0)',line:{color:hl.col,width:3},symbol:'circle'}}
+ ],Object.assign({},layoutBase,{title:{text:title+'<br>'+sub,font:{size:13},x:0.02,xanchor:'left'},
+   margin:{l:56,r:18,t:62,b:48},
+   xaxis:{title:{text:xl,font:{size:11}}},yaxis:{title:{text:yl,font:{size:11}}},height:400}),cfg());
+ document.getElementById(div).on('plotly_click',ev=>{
+   if(ev.points&&ev.points[0])selectSite(ev.points[0].customdata,true);});
+}
+document.getElementById('c1').on('plotly_click',ev=>{
+  if(ev.points&&ev.points[0])selectSite(+ev.points[0].y,true);});
+
+function shorten(t){return t.length>30?t.slice(0,29)+'…':t;}
+
+// ---- selection sync ----
+function selectSite(id,fromChart){
+ const s=SITES.find(x=>x.id===id); if(!s)return;
+ // map
+ const m=markers[id]; if(m){map.panTo([s.lat,s.lon]); m.openPopup();}
+ // scatter highlights (trace index 1)
+ setHL('c2',s.elevation_m,s.no2); setHL('c3',s.ndvi,s.lst_c);
+ // bar highlight (thick outline on selected bar)
+ const widths=bySite.map(x=>x.id===id?3:0.5), cols=bySite.map(x=>x.id===id?'#0f172a':'#0f172a');
+ Plotly.restyle('c1',{'marker.line.width':[widths],'marker.line.color':[cols]},[0]);
+ fillDetails(s);
+}
+function setHL(div,x,y){
+ if(x==null||y==null){Plotly.restyle(div,{x:[[]],y:[[]]},[1]);}
+ else Plotly.restyle(div,{x:[[x]],y:[[y]]},[1]);
+}
+function fillDetails(s){
+ document.querySelector('#details .dh').innerHTML='<b>'+s.id+'. '+s.label+'</b>'
+  +'<span class="tag">'+s.environment+'</span><span class="tag">'+s.lcz_label
+  +(s.lcz_code!=null?' · LCZ '+s.lcz_code:'')+'</span>'
+  +(s.context?'<div style="flex-basis:100%;color:#475569;font-size:12px;margin-top:2px">'+s.context+'</div>':'');
+ const cells=[['Mean CO₂ (All Readings)',fmt(s.co2_mean,' ppm')],['Peak CO₂ (Highest Reading)',fmt(s.co2_peak,' ppm')],
+  ['Air Temperature',fmt(s.temp_mean,' °C')],['Humidity',fmt(s.rh_mean,' %')],
+  ['Building Height',fmt(s.build_height_m,' m')],['Built Area',fmt(s.built_m2,' m²')],
+  ['Land Surface Temperature',fmt(s.lst_c,' °C')],['Elevation',fmt(s.elevation_m,' m')],
+  ['Greenery (NDVI)',fmt(s.ndvi,'')],
+  ['NO₂ Pollution',s.no2!=null?s.no2.toExponential(2):'n/a'],['Number of Readings',s.n]];
+ document.getElementById('details-grid').innerHTML=cells.map(c=>
+  '<div class="m"><div class="k">'+c[0]+'</div><div class="v">'+c[1]+'</div></div>').join('');
+}
+</script>
+</body></html>
