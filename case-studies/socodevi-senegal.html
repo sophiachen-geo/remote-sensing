@@ -63,7 +63,8 @@
     <div id="legend" style="position:fixed;bottom:18px;left:18px;z-index:9999;background:rgba(255,255,255,.95);
          padding:10px 12px;border:1px solid #999;border-radius:6px;font:11px/1.4 sans-serif;
          box-shadow:0 1px 5px rgba(0,0,0,.35);max-width:255px;max-height:78vh;overflow:auto;">
-      <div style="font-weight:bold;font-size:12px;margin-bottom:5px;">Légende</div>
+      <div id="legend-toggle" style="font-weight:bold;font-size:12px;margin-bottom:5px;cursor:pointer;user-select:none;display:flex;justify-content:space-between;align-items:center;gap:12px;" title="Afficher/masquer la légende">Légende <span id="legend-caret">&#9662;</span></div>
+      <div id="legend-body">
       <div style="font-weight:bold;">Symboles</div>
       <div><span style="display:inline-block;width:11px;height:11px;background:#2ca02c;border-radius:50%;border:1px solid #000;"></span>
            Pluviomètre (station) — couleur selon la région</div>
@@ -89,8 +90,9 @@
       <div style="margin-top:6px;font-weight:bold;">Densité de population</div><div style="height:10px;background:linear-gradient(to right,#ffffff, #fee5d9, #fcae91, #fb6a4a, #de2d26, #a50f15);border:1px solid #999;"></div>
       <div style="display:flex;justify-content:space-between;"><span>faible</span><span>élevée</span></div>
       <div style="margin-top:6px;font-weight:bold;">Occupation du sol</div><div><span style="display:inline-block;margin:0 6px 2px 0;"><span style="display:inline-block;width:10px;height:10px;background:#006400;border:1px solid #999;"></span> Arbres/Forêt</span><span style="display:inline-block;margin:0 6px 2px 0;"><span style="display:inline-block;width:10px;height:10px;background:#ffbb22;border:1px solid #999;"></span> Arbustes</span><span style="display:inline-block;margin:0 6px 2px 0;"><span style="display:inline-block;width:10px;height:10px;background:#ffff4c;border:1px solid #999;"></span> Prairie</span><span style="display:inline-block;margin:0 6px 2px 0;"><span style="display:inline-block;width:10px;height:10px;background:#f096ff;border:1px solid #999;"></span> Cultures</span><span style="display:inline-block;margin:0 6px 2px 0;"><span style="display:inline-block;width:10px;height:10px;background:#fa0000;border:1px solid #999;"></span> Bâti</span><span style="display:inline-block;margin:0 6px 2px 0;"><span style="display:inline-block;width:10px;height:10px;background:#b4b4b4;border:1px solid #999;"></span> Sol nu</span><span style="display:inline-block;margin:0 6px 2px 0;"><span style="display:inline-block;width:10px;height:10px;background:#0064c8;border:1px solid #999;"></span> Eau</span><span style="display:inline-block;margin:0 6px 2px 0;"><span style="display:inline-block;width:10px;height:10px;background:#0096a0;border:1px solid #999;"></span> Zone humide</span><span style="display:inline-block;margin:0 6px 2px 0;"><span style="display:inline-block;width:10px;height:10px;background:#00cf75;border:1px solid #999;"></span> Mangrove</span></div>
+      </div>
     </div>
-    
+
     <div style="position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:9999;pointer-events:none;
          background:rgba(255,255,255,.95);padding:7px 16px;border:1px solid #999;border-radius:6px;
          text-align:center;box-shadow:0 1px 5px rgba(0,0,0,.35);font-family:sans-serif;max-width:90vw;">
@@ -80160,11 +80162,23 @@
                 layer_control_c171efdb34d383d8ebfdd099b7acf8fb_layers.overlays,
                 {
   "position": "topright",
-  "collapsed": false,
+  "collapsed": true,
   "autoZIndex": true,
 }
             ).addTo(map_ae4f35f569ee9edde9d217fcd675401f);
 
         
+</script>
+<script>
+(function(){
+  var t=document.getElementById('legend-toggle'),
+      b=document.getElementById('legend-body'),
+      c=document.getElementById('legend-caret');
+  if(t&&b){t.addEventListener('click',function(){
+    var hidden=(b.style.display==='none');
+    b.style.display=hidden?'':'none';
+    if(c)c.textContent=hidden?'▾':'▸';
+  });}
+})();
 </script>
 </html>
