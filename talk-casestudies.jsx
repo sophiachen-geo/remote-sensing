@@ -331,6 +331,17 @@ const CASE_STUDIES = [
     body: SocodeviCNAAS,
     accent: "ochre",
   },
+  {
+    id: "barbados",
+    kind: "embed",
+    eyebrow: "Dual-map viewer · Barbados",
+    title: "Barbados, satellite analysis beside the government planning maps",
+    blurb:
+      "Two linked maps of Barbados — pan or zoom either one and the other follows in lockstep. The left is a satellite-analysis basemap with a 16-layer Earth Engine picker and a 1984-to-2025 time scrubber; the right overlays 17 government planning maps with per-layer opacity, inline legends, and a full-size lightbox.",
+    tags: ["Linked dual maps", "Earth Engine · 16 layers", "1984–2025 time scrubber", "Planning maps · 17 layers"],
+    src: "https://sophiachen-geo.github.io/barbados/embed.html",
+    accent: "moss",
+  },
 ];
 
 const CaseStudyTab = ({ study, on, onClick }) => (
@@ -422,7 +433,7 @@ const TabDeepDive = () => {
           <div className="mono" style={{
             marginTop: 10, fontSize: 10.5, letterSpacing: "0.08em",
             color: "var(--ink-3)", textTransform: "uppercase",
-          }}>Scroll inside the frame to reach the charts, or open it full screen.</div>
+          }}>Scroll and interact inside the frame, or open it full screen.</div>
         </>
       ) : (
         <>
