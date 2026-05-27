@@ -14,63 +14,46 @@ const TabOuverture = () => (
       padding: "72px 0 56px",
     }}>
       <div className="wrap">
-        <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 56, alignItems: "end" }}>
-          <div>
-            <div className="mono" style={{
-              fontSize: 11, letterSpacing: "0.24em", textTransform: "uppercase",
-              color: "var(--terra)", marginBottom: 22,
-            }}>An interactive companion to a lecture</div>
+        <div>
+          <div className="mono" style={{
+            fontSize: 11, letterSpacing: "0.24em", textTransform: "uppercase",
+            color: "var(--terra)", marginBottom: 22,
+          }}>An interactive companion to a lecture</div>
 
-            <h1 className="serif" style={{
-              margin: 0, fontSize: 104, lineHeight: 0.9, fontWeight: 300,
-              letterSpacing: "-0.030em",
-            }}>
-              Working in the<br/>
-              <em style={{ fontStyle: "italic", color: "var(--terra-2)", fontWeight: 300 }}>boundary layer</em>
-            </h1>
-
-            <p className="serif" style={{
-              margin: "26px 0 0", maxWidth: 660,
-              fontSize: 22, lineHeight: 1.35, fontWeight: 300,
-              color: "var(--ink-2)",
-            }}>
-              Remote sensing between <em style={{ color: "var(--lapis)" }}>sky-eye abstraction</em>,
-              <em style={{ color: "var(--moss)" }}> ground-up knowledge</em>, and
-              <em style={{ color: "var(--terra)" }}> care</em>. A lecture prepared for the Canadian Remote
-              Sensing Society, and a written companion you can read alongside, before, or after the talk.
-            </p>
-          </div>
-          <aside style={{
-            border: "1px solid var(--rule)", padding: 24,
-            background: "var(--paper-2)",
-            display: "grid", gap: 14,
+          <h1 className="serif" style={{
+            margin: 0, fontSize: 104, lineHeight: 0.9, fontWeight: 300,
+            letterSpacing: "-0.030em",
           }}>
-            <div className="caps" style={{ color: "var(--terra)" }}>The two questions</div>
-            <p style={{
-              margin: 0, fontSize: 14, color: "var(--ink-3)", fontStyle: "italic", lineHeight: 1.55,
-            }}>The question the discipline usually asks.</p>
-            <p className="serif" style={{
-              margin: 0, fontSize: 19, color: "var(--ink-2)", lineHeight: 1.3, fontWeight: 400,
-            }}>“{TALK.thesis_old_question}”</p>
-            <Rule />
-            <p style={{
-              margin: 0, fontSize: 14, color: "var(--terra)", fontStyle: "italic", lineHeight: 1.55,
-            }}>The question this talk asks instead.</p>
-            <p className="serif" style={{
-              margin: 0, fontSize: 21, color: "var(--ink)", lineHeight: 1.3, fontWeight: 500,
-            }}>“{TALK.thesis_new_question}”</p>
-          </aside>
+            Sensing for the<br/>
+            <em style={{ fontStyle: "italic", color: "var(--terra-2)", fontWeight: 300 }}>commons</em>
+          </h1>
+
+          <p className="serif" style={{
+            margin: "26px 0 0", maxWidth: 720,
+            fontSize: 22, lineHeight: 1.35, fontWeight: 300,
+            color: "var(--ink-2)",
+          }}>
+            Remote sensing between <em style={{ color: "var(--lapis)" }}>sky-eye abstraction</em>,
+            <em style={{ color: "var(--moss)" }}> ground-up knowledge</em>, and
+            <em style={{ color: "var(--terra)" }}> care</em>. A lecture prepared for the Canadian Remote
+            Sensing Society, and a written companion you can read alongside, before, or after the talk.
+          </p>
         </div>
 
-        {/* One paragraph argument */}
+        {/* Website intro */}
         <div style={{
           marginTop: 48, paddingTop: 36, borderTop: "1px solid var(--rule-soft)",
-          display: "grid", gridTemplateColumns: "180px 1fr", gap: 36,
+          maxWidth: 900,
         }}>
-          <Kicker color="var(--ink-3)">The argument in one paragraph</Kicker>
+          <p style={{ margin: "0 0 20px", fontSize: 18, lineHeight: 1.65, color: "var(--ink-2)" }}>
+            Between the sky and the ground, remote sensing becomes most consequential when it enters the messy middle of practice, moving across cultures, disciplines, institutions and real-world contexts. This talk is, in many ways, a survey of my last few years of applied research and professional practice, shaped by a recurring effort to close the gap between observation and action, with particular attention to complex geographies: coastal and island environments, rural and remote communities, rapidly changing landscapes, border regions, and urban spaces where risk is often unevenly distributed and difficult to see.
+          </p>
+          <p style={{ margin: "0 0 28px", fontSize: 18, lineHeight: 1.65, color: "var(--ink-2)" }}>
+            What does remote sensing look like when it is turned toward care, resilience, and community? Drawing on professional practice across governmental and humanitarian institutions, this talk traces how risk is mapped before it becomes disaster, how messy sensor data becomes knowledge we can trust, and what we owe the people we observe from a distance. <em style={{ color: "var(--terra)", fontStyle: "italic" }}>Sensing for the commons — between the practical and the unresolved.</em>
+          </p>
           <p className="serif" style={{
-            margin: 0, fontSize: 21, lineHeight: 1.5, color: "var(--ink)", fontWeight: 300,
-            maxWidth: 880,
+            margin: 0, paddingTop: 24, borderTop: "1px solid var(--rule-soft)",
+            fontSize: 21, lineHeight: 1.5, color: "var(--ink)", fontWeight: 300, maxWidth: 880,
           }}>
             {TALK.argument_in_one_paragraph}
           </p>
@@ -150,95 +133,6 @@ const TabOuverture = () => (
       </Pull>
     </section>
 
-    {/* Central thesis with boundary layer schematic */}
-    <section className="wrap" style={{ padding: "40px 56px 0" }}>
-      <SectionHead
-        index="ii"
-        eyebrow="Central thesis, what the boundary layer is"
-        title="Where pixels meet bodies, where models meet decisions, where images meet obligations."
-        color="var(--lapis)"
-        lede={TALK.central_claim}
-      />
-
-      <div style={{ display: "grid", gridTemplateColumns: "1.05fr 1fr", gap: 36, alignItems: "start" }}>
-        <BoundaryLayerSchematic height={620} />
-        <div>
-          <Kicker color="var(--lapis)">The atmospheric boundary layer, the political boundary layer</Kicker>
-          <P>
-            The atmospheric boundary layer is the lower kilometre or so of the troposphere. It is the thin shell where weather forms, where pollution mixes, where heat radiates and cools, and where bodies live and breathe. It is also, in this talk, the conceptual layer between satellite abstraction and lived consequence.
-          </P>
-          <P>
-            It is where hazard becomes risk. Where land cover becomes land use. Where classification becomes decision. Where visibility becomes either protection or surveillance. Where change detection becomes memory, loss, and responsibility. The talk does not move between these registers. It stays in the layer where they meet.
-          </P>
-          <Pull color="var(--lapis)">
-            Remote sensing reaches upward in order to look down. The boundary layer is where it has to land.
-          </Pull>
-          <div style={{
-            padding: "18px 22px",
-            background: "var(--lapis-tint)",
-            border: "1px solid color-mix(in oklch, var(--lapis) 30%, transparent)",
-          }}>
-            <div className="caps" style={{ color: "var(--lapis)", marginBottom: 6 }}>In one sentence</div>
-            <p className="serif" style={{
-              margin: 0, fontSize: 19, lineHeight: 1.5, color: "var(--ink)", fontWeight: 400,
-            }}>
-              Remote sensing does not simply see the world. It decides what counts as a hazard, an exposure, a building, a pond, a road, a camp, a vulnerable place, a useful signal, or a valid form of evidence.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {/* Speaker paragraph and reading guide */}
-    <section className="wrap" style={{ padding: "96px 56px 0" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 56, alignItems: "start" }}>
-        <div>
-          <Kicker color="var(--terra)">The speaker, in one paragraph</Kicker>
-          <p className="serif" style={{
-            margin: 0, fontSize: 21, lineHeight: 1.5, fontWeight: 300,
-            color: "var(--ink)",
-          }}>
-            Sophia leads the Canadian Red Cross community mapping portfolio and our Missing Maps work, and sits on the governance body of MapSwipe. She is writing climate adaptation reports for southwestern Newfoundland. She trained as a software engineer at EPFL, where she also studied environmental history with Sébastien Marot and urban climate with Silvia Coccolo and Dasaraden Mauree. She has worked at the Taiwan Typhoon Research Centre, at SOCODEVI in West Africa, and at the Canada Energy Regulator. She reads Traditional Chinese, studies Japanese, and works in English and French.
-          </p>
-        </div>
-        <Card pad={28}>
-          <Kicker color="var(--ochre)">How to read this site</Kicker>
-          <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.65, color: "var(--ink-2)" }}>
-            Five sections, organised in the order of the talk itself. <strong>Slides</strong> mirrors the talk's twenty-six cues with running time and notes. <strong>Plongées</strong> holds the three deep dives, the four-register multimodality argument, and the load-bearing diagrams. <strong>Avenir</strong> sits with what is coming, the funding fragility backdrop, and the Phase 1 Earth Engine methodology that operationalises the argument. <strong>Annexes</strong> holds the time budget, probable Q&A landing zones, bilingual register notes, and further reading. The painting above is the compass. Click either hand to enter.
-          </p>
-          <div style={{
-            marginTop: 18, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8,
-            fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.10em",
-            color: "var(--ink-3)", textTransform: "uppercase",
-          }}>
-            <span>i, Ouverture</span>
-            <span>ii, Slides</span>
-            <span>iii, Plongées</span>
-            <span>iv, Avenir</span>
-            <span>v, Annexes</span>
-            <span>&nbsp;</span>
-          </div>
-        </Card>
-      </div>
-
-      <CareerArc />
-
-      {/* Manifesto */}
-      <div style={{
-        marginTop: 80, padding: "40px 0", borderTop: "1px solid var(--rule)",
-        borderBottom: "1px solid var(--rule)",
-      }}>
-        <div style={{ display: "grid", gridTemplateColumns: "200px 1fr", gap: 40 }}>
-          <Kicker color="var(--terra)">A meta-frame</Kicker>
-          <p className="serif" style={{
-            margin: 0, fontSize: 26, lineHeight: 1.35, fontWeight: 400,
-            color: "var(--ink)", letterSpacing: "-0.01em",
-          }}>
-            Remote sensing is inference under structural uncertainty, in service of decisions about people. The discipline matures when it stops pretending otherwise.
-          </p>
-        </div>
-      </div>
-    </section>
   </div>
 );
 

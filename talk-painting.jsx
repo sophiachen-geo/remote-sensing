@@ -169,14 +169,14 @@ const InteractivePainting = () => {
 
               <span style={{
                 position: "absolute", top: 38, left: "50%", transform: "translateX(-50%)",
-                background: "rgba(15,12,10,0.82)",
-                backdropFilter: "blur(6px)",
+                background: "var(--paper)",
                 color: fig.color,
                 padding: "5px 12px",
                 fontFamily: "var(--mono)", fontSize: 10, letterSpacing: "0.18em",
                 textTransform: "uppercase", whiteSpace: "nowrap",
-                border: `1px solid color-mix(in oklch, ${fig.color} 40%, transparent)`,
-                opacity: (isHover || isActive) ? 1 : 0.55,
+                border: `1px solid color-mix(in oklch, ${fig.color} 45%, transparent)`,
+                boxShadow: "0 2px 10px rgba(15,12,10,0.35)",
+                opacity: (isHover || isActive) ? 1 : 0.92,
                 transition: "opacity 220ms",
               }}>
                 {id === "plato" ? "↑ Plato, index up" : "→ Aristotle, palm flat"}

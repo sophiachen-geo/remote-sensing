@@ -1218,12 +1218,400 @@ const LausanneEPFL = ({ accent = "lapis" }) => {
   );
 };
 
+const BarbadosPlatinumCoast = ({ accent = "moss" }) => {
+  const ACC = accentVar(accent);
+  const DASH_SRC = "https://sophiachen-geo.github.io/barbados/embed.html";
+
+  const HEDONIC = [
+    ["Inside a gated property", "+81.3%", "Enclosure is the largest single multiplier"],
+    ["Each additional bed or bathroom", "+25.5%", "Room count rather than just bedrooms"],
+    ["On a hill rather than on the coast", "−40.4%", "Hill is the discount, coast is the product"],
+    ["South Coast versus baseline", "−51.0%", "South is the cheaper, younger, American market"],
+    ["Condo type", "+49%", "Density premium"],
+    ["Penthouse type", "+143%", "Vertical premium"],
+  ];
+
+  const TYPOLOGIES = [
+    ["1", "Chattel", "Plantation labour, post-emancipation", "Movable, modular, demountable, kinetic", "Public-facing, low fence, gallery as social threshold"],
+    ["2", "Suburban Bajan villa", "Mid-century McHarg-Georgian hybrid", "Climate-adapted, owner-occupied, often multi-generational", "Front yard productive, side street walkable, semi-permeable"],
+    ["3", "Restored colonial estate", "Royal Westmoreland model", "British, golf-anchored, separate quarters for service", "Reproduces plantation spatial hierarchy at leisure scale"],
+    ["4", "Mature branded luxury", "Sugar Hill register", "Compressed export version of #3, no golf", "Membership-as-belonging, gates as the architecture"],
+    ["5", "Californian verticalized plot", "Westmoreland New register", "Steep slope, plot maximization, imported ceramic, ornamental species replacing rocks", "\"Sustainable\" by energy axis, post-community by social axis"],
+    ["6", "Investment dark unit", "AirBnB-era extraction", "Architecturally indistinguishable from #4 or #5", "Empty most of the year, neighborhood without neighbours"],
+  ];
+
+  const OVERT = [
+    ["Folkestone Marine Reserve", "Four-zone reserve since 1981. Protects fringing and bank reef, the Stavronikita wreck. Public education at the Folkestone Museum", "West Coast, St. James"],
+    ["Coastal Zone Management Unit (CZMU)", "National coordination of coastal-zone activities, monitoring of reefs and beaches, restoration projects", "National"],
+    ["Bellairs Research Institute (McGill)", "Long-term marine ecology research station since 1954 in Holetown. Source of the foundational reef-decline literature", "West Coast, Holetown"],
+    ["Barbados Sea Turtle Project (BSTP)", "Founded late 1980s by Prof. Julia Horrocks at UWI Cave Hill. 24-hour hotline, nightly patrols, satellite tracking, hatchling rescue. One of the longest-running hawksbill programmes in the world", "National, with West Coast as the main nesting belt"],
+    ["Heritage open houses", "Barbados National Trust Open House programme, January through March each year", "National, including Speightstown"],
+  ];
+
+  const COVERT = [
+    ["Coral Reef Restoration Alliance (CORALL)", "Fragment nurseries of brain and elkhorn coral along the West Coast, trained volunteer monitoring, the \"Ridge to Reef\" framework linking land use to reef health", "West Coast, community membership, dive operator donated boat time"],
+    ["WIRRED at Walkers Beach", "Dune ecosystem restoration at the largest leatherback nesting site on the East Coast, started 2016", "East Coast, St. Andrew"],
+    ["Eco Rebel Barbados", "Hand-painted community bins with regenerated vegetation, veg-ware as an alternative to single-plastic waste, beach cleanups", "National, strong East Coast presence near Bathsheba"],
+    ["First Sunday Lenten congregations", "Churches as one of the few spaces equally open to locals and tourists, multi-ethnic, intergenerational. Holetown's St. James was at 90 percent capacity in March 2020. A young Black female pastor connected fasting to environmental care in her sermon", "West Coast, Holetown"],
+    ["Front-yard food economies", "The Porters Road egg seller across from Colony Beach Club, Steph's grilled-fish front-yard dining in Speightstown, the kitchen seamstress, the salon owner who walks visitors from the local to the foreign side of town", "West and North Coasts"],
+    ["Union Collaborative", "Reactivation of underutilised properties for arts and culture programming, an incubator for grassroots artists during the pandemic", "Bridgetown"],
+  ];
+
+  const FOUR_COASTS = [
+    ["Beachfront", "+81% if gated", "Disappearing setbacks, BSTP hotline, warning tape on eroded terraces", "Hawksbill nesting site disturbed by villa lighting"],
+    ["Hillside", "−40% per unit", "Westmoreland New on steep slope, no concern, no front yard", "Sediment runoff to fringing reef after rain"],
+    ["Beach access", "Marketed amenity", "Hotel ropes, \"invisible barriers\" at One Eleven East, Windows to the Sea", "Public lose access to reef ecology and its monitoring"],
+    ["Water", "Pool premium", "Black neighborhoods dry while dogs are bathed", "Chlorinated pool discharge bleaches corals"],
+    ["Vegetation", "\"Tropical garden\" branding", "Front-yard farming displaced, \"chickens can't run free\"", "Imported species, no functional habitat for native fauna"],
+    ["Sewage", "Invisible to listings", "Bathsheba beach raw sewage, no West Coast plant in operation", "Eutrophication, 24% coral species loss 1982 to 1992"],
+    ["Reef", "Not priced in", "CORALL volunteers replant brain and elkhorn fragments", "50+ hard coral species, Diadema lost 1983, parrotfish overfished"],
+    ["Turtle", "Marketed as \"swim with turtles\"", "BSTP 24-hour hotline, nightly patrols, satellite tracking", "500 to 600 hawksbills nesting per year, declining"],
+  ];
+
+  const INVERSION = [
+    ["Energy", "kWh/m², solar panels, low-flow fixtures, green certification", "Advertises, certifies, sells the premium"],
+    ["Material", "Imported ceramic, ornamental species, irrigated lawn, exotic flora", "Imports floor tile from China, removes rocks and trees, plants ornamentals"],
+    ["Social", "Public access to coast, walkability, water equity, vendor commons, intergenerational tenure", "Enforces gates, ropes off beach, raises water tariffs, displaces front yards"],
+    ["Ecological", "Endemic morphology retention, reef nutrient load, turtle nesting integrity, native fauna", "Erodes hillside, runs sediment to reef, lights beach, replaces endemic flora"],
+  ];
+
+  const subhead = (t) => (
+    <div className="mono" style={{ margin: "22px 0 0", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: ACC }}>{t}</div>
+  );
+
+  return (
+    <div>
+      <div style={{ marginBottom: 24 }}>
+        <div className="serif" style={{ fontSize: 34, lineHeight: 1.18, letterSpacing: "-0.014em", color: "var(--ink)", maxWidth: 820 }}>
+          The Platinum Coast, three ways
+        </div>
+        <div style={{ marginTop: 12, fontSize: 17, lineHeight: 1.55, color: "var(--ink-2)", maxWidth: 720 }}>
+          A two-year study of real estate, architecture, care, and the reef beneath it all.
+        </div>
+        <div className="mono" style={{ marginTop: 10, fontSize: 10.5, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--ink-3)" }}>
+          Sophia Chen · 2020
+        </div>
+      </div>
+
+      <Prose max={760}>
+        <P>
+          Barbados is a small island doing a large amount of work. Sugar built it. Tourism rebuilt
+          it. The Platinum Coast, a fifteen-kilometre ribbon along its western edge, has become one
+          of the most expensive stretches of Caribbean shoreline in the world, and one of the most
+          studied registers of what happens when a former plantation society becomes a leisure
+          destination for the wealthy of somewhere else.
+        </P>
+        <P>
+          This project did not begin with an argument about care. It began with a question about an
+          island. Across two years of work, three pieces accumulated separately. A market study of
+          the luxury real estate sector. A tropical ecology study of the West Coast reef and the
+          species that depend on it. A week of fieldwork along the West and East Coasts in March
+          2020, looking at houses, beaches, churches, front yards, and the people who hold them. Each
+          piece had its own object. The market study asked what makes a Barbadian villa expensive.
+          The reef study asked what makes a fringing reef survive. The fieldwork asked what
+          Barbadians do when the formal commons disappears in front of them. Three different
+          questions, asked in three different disciplinary registers, on the same fifteen-kilometre
+          coast.
+        </P>
+        <P>
+          What was not obvious at the start, and became obvious only in the writing, was that the
+          three pieces were converging on the same object. The coast does not run on price alone. It
+          runs on a substrate of overt and covert care that the leisure economy is busy depleting and
+          that a small constellation of Barbadians, individually and through institutions, are busy
+          rebuilding. The project began as an attempt to understand the island's challenges. It ended
+          as a study of commons.
+        </P>
+        <Pull color={ACC}>
+          Three readings. One coastline. One emergent thesis.
+        </Pull>
+      </Prose>
+
+      <figure style={{ margin: "28px 0 8px" }}>
+        <Card pad={0} style={{ overflow: "hidden", background: "var(--ink)" }}>
+          <iframe
+            key="barbados"
+            src={DASH_SRC}
+            title="Barbados dual map viewer, satellite analysis beside the government planning maps"
+            loading="lazy"
+            style={{ display: "block", width: "100%", height: "86vh", minHeight: 760, border: "none" }}
+          />
+        </Card>
+        <figcaption style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginTop: 10 }}>
+          <span style={{ fontSize: 13, lineHeight: 1.5, color: "var(--ink-3)", maxWidth: 740 }}>
+            The linked dual-map viewer: a satellite-analysis basemap with a 16-layer Earth Engine
+            picker and a 1984–2025 time scrubber on the left, the 17 government planning maps on the
+            right. Pan or zoom either map and the other follows in lockstep.
+          </span>
+          <a href={DASH_SRC} target="_blank" rel="noopener noreferrer" className="mono" style={{
+            fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase",
+            color: ACC, textDecoration: "none", whiteSpace: "nowrap",
+          }}>Open full screen &#8599;</a>
+        </figcaption>
+      </figure>
+
+      <Sub kicker="I · Market" color={ACC}>The market reads the coast as a price function</Sub>
+      <Prose max={760}>
+        <P>
+          A web scraper written in Python and run on 7thHeaven Properties in May 2018 returned 135
+          luxury listings across the island, with house type, parish, room count, beach access, pool
+          access, and gated status. A multiple linear regression, after log-transforming the
+          dependent variable and running a stepwise selection, produced a clean grammar of what makes
+          a Barbadian villa expensive.
+        </P>
+      </Prose>
+      <DataTable color={ACC} headers={["Variable", "Effect on sale price", "Interpretation"]} rows={HEDONIC} />
+      <Prose max={760}>
+        <P>
+          The model is intelligible, but its sample is biased. One hundred and thirty five listings
+          is a thin slice of an island whose vacancy rate climbed 117.9 percent between 1990 and 2010
+          while population grew only 5.8 percent. The supply is not absent. The supply is mismatched,
+          and the listings the market chooses to advertise are the most polished face of a much wider
+          built landscape. The regression is honest about a fraction of the housing stock. The rest
+          of the project is an attempt to learn what the regression cannot, by walking the coast and
+          looking under the water.
+        </P>
+      </Prose>
+
+      <Sub kicker="II · Typology" color={ACC}>Six houses, one continuum</Sub>
+      <Prose max={760}>
+        <P>
+          The 2020 paper treated <em>type</em> as a dummy variable. Fieldwork made clear that the
+          categories were not market segments. They were six different theories of how a building
+          should sit in a landscape, and each one performs different work on the commons around it.
+        </P>
+      </Prose>
+      <DataTable color={ACC} headers={["#", "Typology", "Origin", "Spatial logic", "What it does to the commons"]} rows={TYPOLOGIES} />
+      <Prose max={760}>
+        <P>
+          The chattel house, which the Museum of Barbados names as the architectural vocabulary of
+          the plantation working class, expressed the owner's ingenuity, flexibility, and
+          individuality through its modular kit of parts. It is no longer being built. The Bajan
+          suburban villa absorbed its modular logic into a Georgian symmetry and produced a uniquely
+          island style, climate-adapted, owner-occupied, often housing three generations. It is being
+          replaced. Royal Westmoreland reproduces the colonial estate as a leisure product, with
+          multigenerational main houses, separate quarters for service, and golf as the spine of
+          belonging. Sugar Hill compresses the same program into a lighter amenity stack without the
+          golf. Westmoreland New, the project visited in March, removes the rocks because clients find
+          them ugly, imports ceramic from China for the floors, replaces native flora with ornamental
+          imports, builds on a steep slope without erosion concern from either the agent or the
+          manager, and brands itself as a sustainable green project on the strength of its energy
+          systems alone. The investment dark unit is architecturally indistinguishable from
+          typologies four and five. Its difference is temporal. It is empty most of the year, a
+          vehicle for capital with a roof.
+        </P>
+        <P>
+          Reading these six as a continuum makes the hedonic regression do more work than it can on
+          its own. The gated coefficient of +81.3 percent is not a market quirk. It is the price the
+          leisure economy assigns to the disappearance of the threshold between house and street, and
+          the disappearance accelerates as one moves from typology one toward typology six. Each move
+          along the continuum withdraws one layer of relational fabric and replaces it with one layer
+          of branded amenity.
+        </P>
+      </Prose>
+
+      <Sub kicker="III · Reef" color={ACC}>The reef beneath the price</Sub>
+      <Prose max={760}>
+        <P>
+          The coastline is not only a property line. It is the edge of a marine ecosystem whose health
+          is the silent collateral of every real estate transaction that takes place above the
+          high-water mark. Two years of reading and one week of marine observation yielded a portrait
+          of the West Coast reef as a system in measurable retreat, financed by the same beauty it
+          cannot afford to lose.
+        </P>
+        <P>
+          The fringing reefs of the West Coast extend approximately 300 metres from the shoreline
+          along most of the Platinum Coast. The Folkestone Marine Reserve, legislated in 1981 and
+          covering 2.1 square kilometres along 2.2 kilometres of coast in St. James, protects four
+          well-developed fringing reefs, several patch reefs, and an offshore bank reef. The Reserve
+          is divided into four zones: a scientific research zone, two water sports zones, and a
+          recreational zone. The Stavronikita, a Greek freighter scuttled in 1976, sits at 36 metres
+          on the bank reef and has been colonised over four decades into one of the most studied
+          artificial reefs in the Caribbean.
+        </P>
+        <P>
+          The biological inventory inside the Reserve includes more than fifty species of hard coral,
+          among them brain coral, star coral, finger coral, and the increasingly rare elkhorn and
+          staghorn. The reef fish populations comprise parrotfish, trumpetfish, blue tang, sergeant
+          majors, barracuda, and schools of Creole wrasse moving among the spurs. Hawksbill and green
+          sea turtles forage on the reef and the adjacent seagrass beds. Barbados hosts the
+          second-largest nesting population of hawksbills in the Wider Caribbean, with as many as 500
+          to 600 females returning each year to lay along the West and South coasts.
+        </P>
+        <P>
+          The decline is not in dispute. Hunte and Wittenberg, working from McGill's Bellairs Research
+          Institute in Holetown in 1992, documented eutrophication along the entire West Coast, with
+          increased algal abundance, reduced coral recruitment, and elevated sedimentation rates.
+          Oxenford and colleagues in 1993, and Tomascik and Sander in 1985, reached the same
+          conclusions through independent surveys. A trend analysis between 1982 and 1992 found a 24
+          percent mean loss of coral species and a 34 percent decline in coral abundance across reefs
+          along the West Coast. Three pressures concentrate the loss. Sewage from the high-density
+          hotel and villa strip, with no centralised West Coast treatment plant in operation by 2020.
+          Chlorinated discharge from hotel and villa swimming pools, to which corals are highly
+          vulnerable. Sediment runoff from coastal construction including the new luxury projects,
+          channelled to the reef through the same drainage infrastructure the Port St. Charles
+          gardener described as turning the lagoon into chocolate milk after a storm.
+        </P>
+        <P>
+          A 1983 mass mortality event compounded the gradual decline. Across ten reefs surveyed in
+          Barbados that autumn, the keystone herbivorous urchin <em>Diadema antillarum</em> experienced
+          a 93.2 percent die-off, with reefs exposed to incoming oceanic water suffering the heaviest
+          mortality. The functional extinction of <em>Diadema</em> persists nearly four decades later.
+          Parrotfish became the only major grazers left between coral and macroalgae, and where
+          parrotfish are fished out the reef shifts irreversibly toward an algal-dominated state. The
+          reef beneath the Platinum Coast continues to depend on a fish species that the local trap,
+          net, and spear fishery has every economic reason to remove.
+        </P>
+        <P>
+          What walking the coast and reading the ecology together makes visible is that the typology
+          continuum maps directly onto the reef pressure gradient. Typologies one and two return
+          rainwater to the soil, run small pools or none at all, and rarely sit close enough to the
+          high-water mark to load sediment onto the reef during construction. Typologies three through
+          six concentrate the three pressures: sewage volume, chlorinated discharge, and construction
+          sediment. The architectural choices made above the waterline write themselves, with a lag of
+          several years, onto the brain coral and the elkhorn below.
+        </P>
+      </Prose>
+
+      <Sub kicker="IV · Care" color={ACC}>Overt and covert care, woven together</Sub>
+      <Prose max={760}>
+        <P>
+          Where the formal architecture of public coastal space thins under leisure economy pressure,
+          a parallel architecture of care has been carrying the relational and ecological work. Reading
+          the project across its three pieces made one thing clear. The institutions doing this work on
+          land and the institutions doing it underwater are not separate networks. They are the same
+          constellation, woven through churches, dive boats, front yards, beach hotlines, painted bins,
+          and university research stations. Some of this care is overt, named by the state and visible
+          to the brochure. Most is covert, distributed across small initiatives and individual acts
+          that operate quietly under the radar of the leisure economy that is depleting the conditions
+          of their existence.
+        </P>
+      </Prose>
+      {subhead("Overt care, the visible scaffold")}
+      <DataTable color={ACC} headers={["Initiative", "What it does", "Where it sits"]} rows={OVERT} />
+      {subhead("Covert care, the substrate the brochure does not name")}
+      <DataTable color={ACC} headers={["Initiative", "What it does", "Where it sits"]} rows={COVERT} />
+      <Prose max={760}>
+        <P>
+          The boundary between overt and covert is porous, and the two registers depend on each other
+          in ways that the leisure economy systematically misreads. The Sea Turtle Project is named and
+          funded and publishes academic papers, yet its operational reality depends on hotel staff,
+          villa guests, and beach users calling a hotline at three in the morning when a hatchling is
+          disoriented by villa beachfront lighting. CORALL is a registered alliance with a website and
+          a membership programme, yet its reef nurseries depend on individual dive operators donating
+          boat time and on volunteers willing to descend repeatedly to the same site over months. The
+          Folkestone Reserve is gazetted, but the historical over-fishing inside it, the poor habitat
+          quality on its fringing reefs, and the severe limits on its enforcement capacity mean that
+          the reef's actual day-to-day defence lies with the same dive shops, hotel marine educators,
+          and CORALL volunteers who give the Reserve its working meaning. Conversely, the church
+          congregation that fills St. James on the first Sunday of Lent is covert in the sense that no
+          state document lists it as a coastal-management asset, yet it is one of the most reliable
+          spaces on the entire West Coast where Barbadians and overseas visitors share the same room
+          and the same liturgy and the same call to care for a shared physical environment.
+        </P>
+        <P>
+          Three patterns emerge when the two registers are read together. First, the overt institutions
+          provide legitimacy and continuity. They protect the long-running data series, the funded
+          posts, the legal designations. Second, the covert initiatives provide presence and
+          adaptability. They show up when the funded post is unfilled, the regulation is unenforced,
+          the brochure is misleading. Third, the two together describe a working theory of resilience
+          that the leisure economy does not have a vocabulary for. The Platinum Coast is held together
+          not by the gated developments that finance it but by the BSTP hotline volunteer, the CORALL
+          diver, the Lenten congregant, the front-yard egg seller, the Eco Rebel painter, the Bellairs
+          researcher, and the CZMU officer, operating across registers and across the high-water mark.
+        </P>
+        <P>
+          The egg seller's chickens cannot run free because, in her words, land is scarce here. The
+          hawksbill cannot nest in peace because the villa lights are on. The elkhorn cannot recruit
+          because the macroalgae has the substrate. Each of these constraints has been produced by the
+          same political-economic logic, and each is being held against by the same network of people
+          working in different registers of care.
+        </P>
+      </Prose>
+
+      <Sub kicker="V · Synthesis" color={ACC}>The four coasts read as one</Sub>
+      <Prose max={760}>
+        <P>Laying the three readings over one another makes the coast legible as a single integrated system.</P>
+      </Prose>
+      <DataTable color={ACC} headers={["Object", "Market reading", "Care reading, overt and covert", "Tropical ecology reading"]} rows={FOUR_COASTS} />
+      <Prose max={760}>
+        <P>
+          Every row is the same line of shoreline doing four different things at once. Producing rent.
+          Hollowing or rebuilding a commons. Damaging or feeding the reef. Hosting or disorienting a
+          turtle. The leisure economy treats the first as the only register that matters and the others
+          as externalities. The fieldwork suggests the opposite. The most sustainable projects on the
+          West Coast by every meaningful measure are the chattel house, the Bajan suburban villa, the
+          BSTP volunteer, the front-yard egg seller, the Lenten congregant, and the CORALL diver
+          replanting elkhorn off Holetown. None of them appears in the brochure.
+        </P>
+      </Prose>
+
+      <Sub kicker="VI · Inversion" color={ACC}>The inversion that organises everything</Sub>
+      <Prose max={760}>
+        <P>
+          The strongest single finding of the two years is the inversion. The greener the marketing of
+          a new luxury development, the more aggressively it tends to perform on the energy axis of
+          sustainability and the more aggressively it tends to displace the social and ecological axes
+          of sustainability at the parcel scale.
+        </P>
+      </Prose>
+      <DataTable color={ACC} headers={["Axis", "What it tracks", "What the new luxury does"]} rows={INVERSION} />
+      <Prose max={760}>
+        <P>
+          The Westmoreland New manager and agent were proud of typology five's energy performance and
+          showed no concern for its erosion risk on a steep slope, no concern for the imported ceramic
+          and ornamental flora, no concern for the absence of communal space, and no awareness of the
+          downstream effect on the fringing reef of the runoff their construction was producing. The
+          "sustainable green project" branding is not a lie. It is a category narrowing. It captures
+          one axis and displaces the others outside the frame. Naming what "sustainability" excludes
+          in this market is the project's strongest single sentence.
+        </P>
+      </Prose>
+
+      <Sub kicker="Coda" color={ACC}>From understanding the island to studying its commons</Sub>
+      <Prose max={760}>
+        <P>
+          The project did not set out to argue for commons. It set out to understand a coastline. Two
+          years and three pieces in, the argument arrived on its own. The market study, the reef
+          ecology, and the care fieldwork each pointed independently at the same conclusion. The coast
+          is not a backdrop to a real estate market. It is a working ecosystem of houses, fish,
+          turtles, vendors, congregations, and reefs that has been integrated for centuries and is
+          being disintegrated under the pressure of a leisure economy that sees only one of those
+          layers. Reading the three together is what produced the commoning care frame. The frame did
+          not pre-exist the work. The work produced it.
+        </P>
+        <P>
+          Care, where it persists, is not where the brochure says it is. It is in a 24-hour turtle
+          hotline answered by a UWI graduate student at three in the morning. It is in a brain coral
+          fragment growing on a CORALL nursery line off the Folkestone reef. It is in the cardboard egg
+          carton handed across the gate of a Porters Road backyard. It is in the painted Eco Rebel bin
+          on the side of the road in Bathsheba. It is in the Lenten sermon at St. James that connects
+          fasting to environmental care, delivered to a congregation of locals and overseas visitors
+          who came in roughly equal numbers. None of these is captured by the listings platform. All of
+          them are doing the work the listings platform depends on.
+        </P>
+        <P>
+          The argument the project makes, two years in, is that an island this small cannot afford to
+          read its coast as one thing. The reef and the room rate are the same conversation. The
+          chattel house and the hawksbill are the same conversation. The Lenten congregant and the
+          elkhorn fragment are the same conversation. To name them as one is the work. To do that
+          naming requires moving across the overt and the covert at once, since the institutions and
+          the individuals doing this labour move across those registers daily, and the leisure economy
+          disintegrating their work does not recognise the distinction either.
+        </P>
+        <P style={{ paddingTop: 18, borderTop: "1px solid var(--rule-soft)", fontSize: 14.5, color: "var(--ink-3)" }}>
+          Published as <a href="https://www.arch.columbia.edu/books/reader/597-urban-magazine-fall-2020" target="_blank" rel="noopener noreferrer" style={{ color: ACC, textDecoration: "none" }}>Commoning Care in Barbados: Home Away &amp; Beyond</a>, chapter 11, URBAN Magazine, Columbia GSAPP, Fall 2020.
+        </P>
+      </Prose>
+    </div>
+  );
+};
+
 const CASE_STUDIES = [
   {
     id: "greater-lausanne",
     kind: "essay",
     eyebrow: "Field survey · EPFL · spring 2019",
-    title: "Lausanne & EPFL GHG hotspots, the boundary layer at city scale",
+    title: "Lausanne & EPFL GHG hotspots, the lower atmosphere at city scale",
     blurb:
       "A six-day, 2,680-point handheld walk of CO₂ at body altitude through the metros, streets, parks, and the Rolex Learning Center, set against the single TROPOMI pixel that covers all of it. A five-tier pipeline reads each scale for what only it can see, and the building itself becomes the testbed where every tier meets. The linked map, charts, and detail panel are embedded below.",
     tags: ["CO₂ field readings", "Sentinel-5P TROPOMI", "Q-TRAK walk", "Rolex Learning Center", "Climatic architecture"],
@@ -1243,13 +1631,13 @@ const CASE_STUDIES = [
   },
   {
     id: "barbados",
-    kind: "embed",
-    eyebrow: "Dual-map viewer · Barbados",
-    title: "Barbados, satellite analysis beside the government planning maps",
+    kind: "essay",
+    eyebrow: "Field study · Barbados · 2020",
+    title: "The Platinum Coast, three ways",
     blurb:
-      "Two linked maps of Barbados — pan or zoom either one and the other follows in lockstep. The left is a satellite-analysis basemap with a 16-layer Earth Engine picker and a 1984-to-2025 time scrubber; the right overlays 17 government planning maps with per-layer opacity, inline legends, and a full-size lightbox.",
-    tags: ["Linked dual maps", "Earth Engine · 16 layers", "1984–2025 time scrubber", "Planning maps · 17 layers"],
-    src: "https://sophiachen-geo.github.io/barbados/embed.html",
+      "Two years on Barbados's western shore, read three ways at once — a hedonic regression of the luxury villa market, a tropical-ecology study of the West Coast reef, and a week of fieldwork on houses, churches, and front yards. The three converge on a single object: a commons of overt and covert care that the leisure economy depletes and a small constellation of Barbadians rebuilds. The linked satellite-and-planning dual-map viewer is embedded within.",
+    tags: ["Hedonic regression", "Reef ecology", "Commoning care", "Linked dual maps", "Barbados · 2020"],
+    body: BarbadosPlatinumCoast,
     accent: "moss",
   },
   {
@@ -1298,9 +1686,9 @@ const TabDeepDive = () => {
   return (
     <div className="wrap" style={{ padding: "64px 56px 96px" }}>
       <SectionHead
-        index="iv"
+        index="iii"
         eyebrow="Case studies"
-        title="Deep Dive"
+        title="Canopy"
         lede="Extended companions to the argument. Some are live, interactive dashboards; others are field case studies — from the gauge networks behind crop insurance to a serious game for water governance. Each follows a single thread, from a satellite pixel to a decision made on the ground."
         color="var(--lapis)"
       />

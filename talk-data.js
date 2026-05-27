@@ -3,21 +3,21 @@
 // =======================================================================
 
 const TALK = {
-  title: "Working in the Boundary Layer",
+  title: "Sensing for the Commons",
   subtitle: "Remote sensing between sky-eye abstraction, ground-up knowledge, and care",
   venue: "Canadian Remote Sensing Society",
   duration: "60 min including approximately 5 to 10 min Q&A",
   speaker: "Sophia",
   spineSentence:
-    "The boundary layer is where care happens. Everything else is preparation or aftermath.",
+    "The messy middle is where care happens. Everything else is preparation or aftermath.",
   thesis_old_question:
     "What can remote sensing see?",
   thesis_new_question:
     "What kind of relationship does remote sensing build with the ground, and what obligations follow from seeing?",
   central_claim:
-    "Remote sensing becomes most consequential when it enters the boundary layer, the space where sky-eye measurement, ground-up knowledge, embodied experience, institutional decision making, and community meaning must negotiate what the image is actually about.",
+    "Remote sensing becomes most consequential when it enters the messy middle, the space where sky-eye measurement, ground-up knowledge, embodied experience, institutional decision making, and community meaning must negotiate what the image is actually about.",
   closing_final:
-    "Remote sensing points upward in order to look down. For care, resilience, and community, the real work begins when the image enters the boundary layer, where the sky-eye view must answer to ground-up knowledge, embodied experience, and the obligations of shared life.",
+    "Remote sensing points upward in order to look down. For care, resilience, and community, the real work begins when the image enters the messy middle, where the sky-eye view must answer to ground-up knowledge, embodied experience, and the obligations of shared life.",
   closing_plato:
     "Remote sensing without Plato loses the capacity to abstract, compare, anticipate, and model futures.",
   closing_aristotle:
@@ -1041,13 +1041,13 @@ const QA_LANDING = [
   { q: "Is there really a Tuktoyaktuk RCM gap?",
     a: "Yes. The published literature does not contain a peer-reviewed RCM-specific Tuktoyaktuk shoreline change paper as of this spring. I am open to collaboration." },
   { q: "How does this scale to the rest of the discipline?",
-    a: "Through the boundary layer frame, the chain of translators, and the integration methodology from Topic 2. The four registers of multimodality offer a structured way to audit any pipeline." },
+    a: "Through the messy-middle frame, the chain of translators, and the integration methodology from Topic 2. The four registers of multimodality offer a structured way to audit any pipeline." },
   { q: "What about foundation model failures?",
     a: "Auditability, pretraining bias, the island and continent gap, and the heuristic-engine problem. A bias in pretraining propagates through every downstream task. The AI shift may widen the ontological gap before narrowing it." },
   { q: "Where do I read more?",
     a: "Bennett et al. 2022, Politics of Pixels. Braun 2021, More Accurate Less Meaningful. Lappe, Calovi, Winther 2026, View from Somewhere. Rahm 2023, Climatic Architecture. Carroll et al. 2020, CARE Principles. Berkes 2000 on traditional ecological knowledge. Peluso 1995 on counter-mapping." },
   { q: "How does the Phase 1 GEE methodology relate to the talk?",
-    a: "It is the deliverable companion. Where the talk argues that remote sensing needs to enter the boundary layer with care, Phase 1 is the worked example: a reproducible Earth Engine pipeline that produces a Rahmian atmospheric inheritance report for any candidate site." },
+    a: "It is the deliverable companion. Where the talk argues that remote sensing needs to enter the messy middle with care, Phase 1 is the worked example: a reproducible Earth Engine pipeline that produces a Rahmian atmospheric inheritance report for any candidate site." },
 ];
 
 const READING = [
@@ -1077,7 +1077,7 @@ const BILINGUAL = [
   { fr: "responsabilité",                           en: "responsibility, the heuristic of fear, Jonas" },
   { fr: "École d'Athènes",                          en: "Raphael's fresco, 1509, Vatican" },
   { fr: "Histoire naturelle de l'architecture",     en: "Rahm's book and method, climatic urbanism" },
-  { fr: "la couche limite",                         en: "the boundary layer, both atmospheric and conceptual" },
+  { fr: "le juste milieu",                           en: "the messy middle, where observation must answer to the ground" },
 ];
 
 const CUTS = [
@@ -1472,7 +1472,7 @@ const COUNTER_MAPPING_QUESTIONS = [
 
 const SECTION_CLAIMS = {
   applications:
-    "Risk modelling needs remote sensing, but resilience modelling needs relationship. Hazard may be visible from the sky; vulnerability and capacity live in the boundary layer.",
+    "Risk modelling needs remote sensing, but resilience modelling needs relationship. Hazard may be visible from the sky; vulnerability and capacity live in the messy middle.",
   integration:
     "The physical layer asks what the sensor measures. The interpretive layer asks what the signal is allowed to mean. The ethical layer asks what happens to people once that meaning becomes a decision.",
   multimodality:

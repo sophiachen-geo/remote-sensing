@@ -46,7 +46,7 @@ const DiveNav = ({ active, set }) => (
 const DiveApplications = () => (
   <div>
     <Lead>
-      Risk is not a single object. It is a relationship among hazard, exposure, vulnerability, and capacity, in the language formalised by the United Nations Office for Disaster Risk Reduction. Remote sensing reads hazard and exposure with relative confidence. Vulnerability, capacity, and resilience live in the boundary layer, and require ground-up knowledge, embodied experience, community attention, and institutional decision-making to become legible at all.
+      Risk is not a single object. It is a relationship among hazard, exposure, vulnerability, and capacity, in the language formalised by the United Nations Office for Disaster Risk Reduction. Remote sensing reads hazard and exposure with relative confidence. Vulnerability, capacity, and resilience live in the messy middle of practice, and require ground-up knowledge, embodied experience, community attention, and institutional decision-making to become legible at all.
     </Lead>
 
     <Card pad={28} style={{ marginTop: 16 }}>
@@ -67,7 +67,7 @@ const DiveApplications = () => (
           }}>
             <div className="mono" style={{
               fontSize: 10, letterSpacing: "0.14em", color: r.color, textTransform: "uppercase",
-            }}>{r.sky ? "Sky-eye reads" : "Boundary layer reads"}</div>
+            }}>{r.sky ? "Sky-eye reads" : "Ground-up reads"}</div>
             <h4 className="serif" style={{
               margin: "8px 0 0", fontSize: 28, fontWeight: 400, letterSpacing: "-0.012em",
             }}>{r.name}</h4>
@@ -526,7 +526,7 @@ const DiveEthics = () => (
 
     {/* Governance triptych */}
     <Card pad={40} style={{ marginTop: 24, background: "var(--ink)", color: "var(--paper)", border: "none" }}>
-      <Kicker color="var(--ochre-2)">Indigenous data sovereignty, governance protocols for the boundary layer</Kicker>
+      <Kicker color="var(--ochre-2)">Indigenous data sovereignty, governance protocols for the messy middle</Kicker>
       <h3 className="serif" style={{
         margin: "0 0 4px", fontSize: 38, fontWeight: 300, letterSpacing: "-0.014em",
         color: "var(--paper)", maxWidth: 880,
@@ -627,9 +627,9 @@ const TabPlongees = () => {
   return (
     <div className="wrap" style={{ padding: "72px 56px 100px" }}>
       <SectionHead
-        index="iii"
+        index="ii"
         eyebrow="Three deep dives, plus the interlude on multimodality, the body of the talk"
-        title="Each dive sits in the boundary layer."
+        title="Each dive sits in the messy middle."
         lede={
           <>
             Three deep dives carry the argument from the operational to the ethical. The first asks why risk and resilience modelling require more than the satellite view. The second asks what happens in the chain between signal, class, model, and decision. The third asks what we owe the people and places we observe from a distance. Between Dive II and Dive III sits an interlude on the four registers of multimodality, which is the structural bridge that turns the technical observation about Kalman filters into the ontological claim about counter-mapping. Each dive carries a load-bearing diagram.
@@ -907,7 +907,7 @@ const TabAvenir = () => (
         fontSize: 22, lineHeight: 1.5, fontWeight: 300, color: "var(--paper)", maxWidth: 940,
       }}>
         If you are in this room, whether as a researcher, a graduate student, a policy person, a humanitarian practitioner, an architect, or a journalist, you are part of one of the few national remote sensing communities that has both the technical capacity and the institutional posture
-        <em style={{ color: "var(--ochre-2)" }}> to staff the boundary layer at scale, in the next decade, with care.</em>
+        <em style={{ color: "var(--ochre-2)" }}> to staff the messy middle at scale, in the next decade, with care.</em>
       </p>
     </Card>
 
@@ -967,7 +967,7 @@ const TabAvenir = () => (
           margin: 0, fontSize: 28, lineHeight: 1.35, fontWeight: 300,
           color: "var(--paper)", letterSpacing: "-0.012em", maxWidth: 1100,
         }}>
-          "Remote sensing points upward in order to look down. For care, resilience, and community, the real work begins when the image enters the boundary layer, where the sky-eye view must answer to ground-up knowledge, embodied experience, and
+          "Remote sensing points upward in order to look down. For care, resilience, and community, the real work begins when the image enters the messy middle, where the sky-eye view must answer to ground-up knowledge, embodied experience, and
           <em style={{ color: "var(--ochre-2)" }}> the obligations of shared life.</em>"
         </p>
       </div>
@@ -1054,7 +1054,7 @@ const TabAnnexes = () => (
     <Card pad={36} style={{ marginTop: 24 }}>
       <Kicker color="var(--lapis)">Probable Q&A landing zones, pre-rehearsed pivots</Kicker>
       <p style={{ margin: "0 0 16px", color: "var(--ink-2)", fontSize: 14.5, maxWidth: 720 }}>
-        Each row anticipates a likely question and identifies a structured pivot that returns the conversation to one of the talk's load-bearing frames: the boundary layer, the chain of translators, the four registers of multimodality, governance protocols, and the Phase 1 methodology.
+        Each row anticipates a likely question and identifies a structured pivot that returns the conversation to one of the talk's load-bearing frames: the messy middle, the chain of translators, the four registers of multimodality, governance protocols, and the Phase 1 methodology.
       </p>
       <div>
         {QA_LANDING.map((q, i) => (
@@ -1126,7 +1126,7 @@ const TabAnnexes = () => (
             margin: 0, fontSize: 32, lineHeight: 1.3, fontWeight: 300,
             color: "var(--paper)", letterSpacing: "-0.01em",
           }}>
-            "The boundary layer is where care happens.<br/>
+            "The messy middle is where care happens.<br/>
             <em style={{ color: "var(--ochre-2)" }}>Everything else is preparation or aftermath.</em>"
           </p>
           <p className="mono" style={{

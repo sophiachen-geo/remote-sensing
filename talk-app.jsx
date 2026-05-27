@@ -3,12 +3,11 @@
 // =======================================================================
 
 const TABS = [
-  { id: "ouverture",  roman: "i",   label: "Ouverture",   component: TabOuverture },
-  { id: "slides",     roman: "ii",  label: "Slides",      component: TabSlides },
-  { id: "plongees",   roman: "iii", label: "Plongées",    component: TabPlongees },
-  { id: "deepdive",   roman: "iv",  label: "Deep Dive",   component: TabDeepDive },
-  { id: "avenir",     roman: "v",   label: "Avenir",      component: TabAvenir },
-  { id: "annexes",    roman: "vi",  label: "Annexes",     component: TabAnnexes },
+  { id: "ouverture",  roman: "i",   label: "Active Layer", component: TabOuverture },
+  { id: "plongees",   roman: "ii",  label: "Permafrost",   component: TabPlongees },
+  { id: "deepdive",   roman: "iii", label: "Canopy",       component: TabDeepDive },
+  { id: "avenir",     roman: "iv",  label: "Rhizosphere",  component: TabAvenir },
+  { id: "annexes",    roman: "v",   label: "Seafloor",     component: TabAnnexes },
 ];
 
 const useHashTab = () => {
@@ -35,10 +34,10 @@ const Chrome = ({ active, go }) => (
     <div className="chrome-strip">
       <span>
         <Sigil color="var(--terra)" />
-        Working in the Boundary Layer · <em className="fr">Société canadienne de télédétection</em>
+        Sensing for the Commons · <em className="fr">Société canadienne de télédétection</em>
       </span>
       <span>
-        a companion · 26 slides · 60 minutes
+        a companion · 60 minutes
       </span>
     </div>
     <nav className="chrome-tabs">
