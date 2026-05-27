@@ -438,6 +438,49 @@ const TableScene = ({ accent, at, around, caption }) => {
   );
 };
 
+const Plate = ({ src, alt, caption, credit }) => (
+  <figure style={{ margin: "28px 0 8px" }}>
+    <div style={{ border: "1px solid var(--rule)", background: "var(--paper-2)", overflow: "hidden" }}>
+      <img src={src} alt={alt} loading="lazy" style={{ display: "block", width: "100%", height: "auto" }} />
+    </div>
+    <figcaption style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginTop: 10 }}>
+      <span style={{ fontSize: 13, lineHeight: 1.5, color: "var(--ink-3)", maxWidth: 740 }}>{caption}</span>
+      {credit && <span className="mono" style={{ fontSize: 10.5, letterSpacing: "0.10em", textTransform: "uppercase", color: "var(--ink-3)", whiteSpace: "nowrap" }}>{credit}</span>}
+    </figcaption>
+  </figure>
+);
+
+const DataTable = ({ headers, rows, color }) => (
+  <div style={{ overflowX: "auto", margin: "20px 0 8px", border: "1px solid var(--rule)" }}>
+    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13.5 }}>
+      <thead>
+        <tr>
+          {headers.map((h, i) => (
+            <th key={i} className="mono" style={{
+              textAlign: "left", padding: "11px 14px", background: "var(--paper-2)",
+              borderBottom: `2px solid ${color}`, fontSize: 10, letterSpacing: "0.10em",
+              textTransform: "uppercase", color: "var(--ink-2)", verticalAlign: "bottom",
+            }}>{h}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r, ri) => (
+          <tr key={ri}>
+            {r.map((c, ci) => (
+              <td key={ci} style={{
+                padding: "11px 14px", borderBottom: ri < rows.length - 1 ? "1px solid var(--rule-soft)" : "none",
+                color: ci === 0 ? "var(--ink)" : "var(--ink-2)", lineHeight: 1.45, verticalAlign: "top",
+                fontWeight: ci === 0 ? 500 : 400,
+              }}>{c}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
+
 const SeriousGames = ({ accent = "plum" }) => {
   const ACC = accentVar(accent);
 
@@ -778,16 +821,342 @@ const SeriousGames = ({ accent = "plum" }) => {
   );
 };
 
+const LausanneEPFL = ({ accent = "lapis" }) => {
+  const ACC = accentVar(accent);
+  const DASH_SRC = "case-studies/greater-lausanne.html";
+
+  const DISTRIBUTION = [
+    ["Lake Geneva, Ouchy waterfront", "Outdoor", "near 420", "Atmospheric background; the lake itself acts as a dispersion sink"],
+    ["Botanical Garden vegetation", "Outdoor", "as low as 368", "Below atmospheric background; photosynthesis outpacing respiration"],
+    ["EPFL or St-Sulpice, 5 May campaign", "Outdoor, unspecified waypoint", "extreme peak of 5048", "Anomalous spike in the raw record, touching the OSHA eight-hour exposure limit; field notes for this value unrecovered"],
+    ["Botanical Garden greenhouse", "Indoor", "491 / 563", "Closed humid envelope, low occupancy"],
+    ["Rolex Learning Center, 7 June", "Indoor", "467 / 476", "Bookstore to Career Service, light occupancy"],
+    ["Lausanne CFF station", "Indoor", "rising past 800 at end of record", "Concourse and platform"],
+    ["M2 metro", "Transit", "peak 1111", "Sealed carriage, tunnel running"],
+    ["Train Lausanne to Nyon", "Transit", "775 / 1136", "Sealed carriage; readings still climbing at end of record"],
+    ["M1 metro", "Transit", "peak 1693", "Defining anchor of the dataset"],
+  ];
+
+  const PARAMETERS = [
+    ["Floor area", "37,000 m² total, 22,000 m² footprint", "Large interior volume per occupant on average"],
+    ["Plan", "166.5 m by 121.5 m, one continuous room", "No internal walls; no zoning available to mechanical ventilation"],
+    ["Patios", "14 ovoid courtyards punching through the slab", "Wind and buoyancy driven exhaust paths"],
+    ["Geometry", "Roof and floor undulating in parallel", "Local pockets and valleys in which denser air can settle"],
+    ["Peak occupancy", "860 workspaces, 600 seat hall, 261 dining seats, 100 staff; near 1,800 people", "Concentrated point loads in localised clusters"],
+    ["Ventilation", "Natural through openable façade and patios; bubble skylight stack exhaust", "Weather dependent; effectively suspended in winter when windows close"],
+    ["Mechanical", "Cold ceilings in the restaurant and multimedia library only, fed by the campus lake water loop", "Most of the floor plate has no mechanical fresh air supply"],
+    ["Envelope", "20 cm roof insulation, 35 cm ground insulation, double glazed, exterior blinds", "Tight envelope; closure is the default winter comfort response"],
+    ["Energy performance", "38.5 kWh/m², Minergie certified", "An energy metric, not an indoor air quality metric"],
+  ];
+
+  return (
+    <div>
+      <Prose max={760}>
+        <P>
+          When we began the greenhouse gas fieldwork in the spring of 2019, we already knew the
+          satellites would not give us the answer. The Sentinel-5P TROPOMI footprint over Lausanne is
+          a single pixel of roughly five by three and a half kilometres, and inside that pixel sit
+          Ouchy and Lake Geneva acting as a natural dispersion sink, the Botanical Garden whose
+          vegetation can pull CO₂ below the atmospheric background through photosynthesis, the sealed
+          M1 metro carriage at rush hour, and our own institution. The satellite returns one number
+          for all of that. The number is real, but it is not what we breathe.
+        </P>
+        <P>
+          To make the gap legible, we built a multimodal pipeline that moves down through scales, from
+          the atmospheric column to the indoor pocket at the height of the body, and that asks each
+          tier of sensing to do only what it can. Figure 1 lays out the five linked tiers. Their
+          working form is anchored in our 2019 measurements, with the EPFL Rolex Learning Center as
+          the building in which every tier can be read against the others.
+        </P>
+      </Prose>
+
+      <Plate
+        src="img/lausanne-rolex-aerial.jpg"
+        alt="Aerial view of the EPFL Rolex Learning Center under construction, showing the undulating slab and ovoid patios"
+        caption="The Rolex Learning Center from the air: one continuous slab punched by fourteen ovoid patios, on the EPFL campus that sits inside a single TROPOMI pixel."
+        credit="Wikimedia Commons"
+      />
+
+      <Prose max={760}>
+        <P>
+          Over six days the campaign collected 2,680 measurements at body altitude with a TSI Q-TRAK.
+          The indoor and transit readings sit several hundred parts per million above the outdoor
+          points, and the gap is statistically significant against atmospheric background. Four
+          reference thresholds anchor the reading on the page: roughly 420 ppm for outdoor background,
+          600 to 800 ppm for the indoor air quality target set by the Federation of European Heating,
+          Ventilation and Air Conditioning Associations (REHVA), 1000 ppm for the classical
+          Pettenkofer guideline, and 5000 ppm for the workplace exposure floor set by the Occupational
+          Safety and Health Administration (OSHA). The pattern in our data is mechanistic rather than
+          geographic. What determines CO₂ concentration is not where one stands in Lausanne, but
+          whether the air around one is enclosed, occupied, and poorly ventilated.
+        </P>
+        <P>The full distribution reads most clearly by environment.</P>
+      </Prose>
+
+      <DataTable
+        color={ACC}
+        headers={["Location", "Setting", "Mean / peak (ppm)", "Note"]}
+        rows={DISTRIBUTION}
+      />
+
+      <Prose max={760}>
+        <P>
+          Two values from this distribution warrant separate treatment. The first is the 1693 ppm
+          peak we recorded on the M1 metro at 5:30 in the afternoon, between EPFL and Lausanne-Flon,
+          in a sealed carriage at maximum density. The reading is more than twice the REHVA indoor air
+          quality target. It sits comfortably inside the OSHA legal envelope for occupational
+          exposure, and well above the cognitive performance thresholds reported by Allen and
+          colleagues in 2016. The second is the 5048 ppm peak that appears in our raw record on 5 May
+          2019, at an unspecified waypoint near the EPFL or St-Sulpice area. The value sits precisely
+          at the OSHA eight-hour permissible exposure limit, and our field notes for it have not been
+          recovered. Whether it reflects a real local source, such as a delivery vehicle exhaust, an
+          unventilated laboratory adjacency, or a stationary engine, or whether it is a sensor
+          artefact, remains undetermined. We carry it forward as recorded, flag the absence of field
+          notes, and treat it as an open question.
+        </P>
+      </Prose>
+
+      <figure style={{ margin: "28px 0 8px" }}>
+        <Card pad={0} style={{ overflow: "hidden", background: "var(--ink)" }}>
+          <iframe
+            key="greater-lausanne"
+            src={DASH_SRC}
+            title="Greater Lausanne CO₂ field readings, joined to satellite layers"
+            loading="lazy"
+            style={{ display: "block", width: "100%", height: "82vh", minHeight: 720, border: "none" }}
+          />
+        </Card>
+        <figcaption style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginTop: 10 }}>
+          <span style={{ fontSize: 13, lineHeight: 1.5, color: "var(--ink-3)", maxWidth: 740 }}>
+            The interactive companion: the handheld walk joined to satellite layers from the same
+            period. The map, the charts, and the detail panel are linked — click any numbered point or
+            any bar to inspect it everywhere.
+          </span>
+          <a href={DASH_SRC} target="_blank" rel="noopener noreferrer" className="mono" style={{
+            fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase",
+            color: ACC, textDecoration: "none", whiteSpace: "nowrap",
+          }}>Open full screen &#8599;</a>
+        </figcaption>
+      </figure>
+
+      <Plate
+        src="img/lausanne-fig1-pipeline.png"
+        alt="Figure 1: the five-tier sensing pipeline, from satellite to indoor sensor grid"
+        caption="Figure 1. The five linked tiers, from the atmospheric column to a body-altitude indoor grid — satellite, climate model, mobile sensor, building section, indoor sensor grid — each annotated with what it sees and what is invisible to it."
+        credit="Generated by Claude AI"
+      />
+
+      <Sub kicker="Method" color={ACC}>The Pipeline</Sub>
+      <Prose max={760}>
+        <P>
+          Each instrument and each model in the pipeline carries its own spatial and temporal
+          footprint, its own retrieval physics, its own institutional history. The pipeline becomes
+          useful when each tier is asked to do only what it can do, and when the gaps between tiers
+          are made explicit. Figure 1 sets this out as a horizontal sequence; we summarise the tiers
+          here.
+        </P>
+        <P>
+          The satellite tier is Sentinel-5P TROPOMI, which produces daily column retrievals of NO₂ and
+          other trace gases at roughly five by three and a half kilometres per pixel. For our case it
+          returns the regional inheritance of the air over Lausanne and demonstrates, through its own
+          structure, that the air mass moves on synoptic scales the building below the pixel does not
+          control.
+        </P>
+        <P>
+          The urban climate tier comes from our professors, Dasaraden Mauree and Silvia Coccolo, who
+          developed the Canopy Interface Model (CIM) and coupled it to the urban building energy model
+          CitySim, using the EPFL campus as the validation site (Mauree, Coccolo, Kaempf, and
+          Scartezzini, PLOS One, 2017). The CIM produces high resolution vertical profiles of wind,
+          temperature, and humidity at neighbourhood scale, and CitySim consumes those profiles to
+          compute building energy balances. The stack runs already on the campus that produced our
+          data.
+        </P>
+        <P>
+          The body altitude walk tier is our own contribution. A TSI Q-TRAK at 1.4 m above the ground,
+          carried on six days through metros, streets, parks, train carriages, station concourses, and
+          the Rolex Learning Center itself, returns the dose at the height at which the body breathes.
+          The instrument is small, mobile, and indifferent to the indoor or outdoor distinction that
+          the satellite cannot cross. It sees what the satellite cannot see and what the urban climate
+          model does not model. Its limit is that it goes wherever a person can carry it, and only
+          there.
+        </P>
+        <P>
+          The building tier is architectural reading. A building is an atmospheric configuration
+          before it is a visual composition. Reading the Rolex Learning Center through its dimensions,
+          its ventilation strategy, its envelope properties, and its occupancy patterns produces a set
+          of mechanisms that account for both the variability and the limits of our walk readings
+          inside it. Figure 2 draws the building section and locates the four mechanisms it imposes on
+          the CO₂ signal.
+        </P>
+        <P>
+          The indoor network tier is the final step we now recommend, in order to close the loop. A
+          grid of low cost networked non-dispersive infrared (NDIR) CO₂ sensors at 1.4 m, distributed
+          across the slab valleys, the café cluster, and the multipurpose hall, would render visible
+          the local plume problem that is invisible to Minergie certification, to CitySim simulation,
+          and to TROPOMI retrieval. The indoor analogue of the Breathe London community hosted network
+          is what the EPFL campus does not yet have.
+        </P>
+      </Prose>
+
+      <Sub kicker="Testbed" color={ACC}>The Rolex Learning Center as Testbed</Sub>
+      <Prose max={760}>
+        <P>
+          The Rolex Learning Center is the EPFL building at which every tier of the pipeline can be
+          read against the others. The TROPOMI pixel that covers our campus also covers this building.
+          The CIM and CitySim stack runs on geometries that include it. Our Q-TRAK passed through it on
+          7 June 2019, between the bookstore and the Career Service, and recorded a mean of 467 ppm
+          with a peak of 476 ppm at light occupancy.
+        </P>
+      </Prose>
+
+      <Plate
+        src="img/lausanne-rolex-interior.jpg"
+        alt="Interior of the Rolex Learning Center, students working at tables across the open continuous slab"
+        caption="Inside the single continuous room: no internal walls, point loads of occupants clustered across an undulating floor. Our 7 June reading was taken here at light occupancy."
+        credit="Wikimedia Commons"
+      />
+
+      <DataTable
+        color={ACC}
+        headers={["Parameter", "Value", "Indoor air quality relevance"]}
+        rows={PARAMETERS}
+      />
+
+      <Prose max={760}>
+        <P>
+          Four mechanisms account for the building's CO₂ behaviour, and Figure 2 locates them on the
+          transverse section.
+        </P>
+        <P>
+          The first is average dilution. The continuous interior volume sits in the range of 130,000
+          to 170,000 cubic metres across roughly 1,800 peak occupants, which gives 75 to 95 cubic
+          metres per person at peak. That figure is an order of magnitude above what a conventional
+          library reading room offers. Average dilution across the floor plate is, by design,
+          excellent, and our 467 ppm reading on 7 June, taken at light load on an open window
+          afternoon, falls comfortably within this regime.
+        </P>
+        <P>
+          The second is local accumulation. SANAA's choice to eliminate internal walls, the very
+          gesture that defines the building as a single continuous room, also dissolves the
+          architectural means by which mechanical ventilation might respond to local density. The café
+          cluster at lunchtime, the 600 seat multipurpose hall during a large event, and the south
+          reading rooms during exam week each become a plume of metabolic CO₂ in an otherwise still
+          ocean. The building average stays healthy while the local breath does not. This is the
+          structural reason why a hypothesis about indoor CO₂ at the Rolex cannot be confirmed or
+          refuted by a single light load measurement.
+        </P>
+        <P>
+          The third is slab geometry. Carbon dioxide is roughly 1.5 times denser than air at standard
+          room temperature. In a building whose floor and roof undulate in parallel, slow moving local
+          air will settle in the slab valleys. The architectural gesture that defines the building
+          visually also produces atmospheric pockets that the architecture does not name and the
+          operation does not address. These pockets are testable only with a hand held instrument such
+          as ours, deployed at the height at which the body actually breathes.
+        </P>
+        <P>
+          The fourth is winter closure. The building's published ventilation strategy relies on
+          openable façade panels and on buoyancy driven exhaust through the fourteen patios and the
+          bubble skylights. Both pathways collapse in winter, when occupants close windows to maintain
+          operative temperature and when the wind over Lake Geneva offers insufficient pressure
+          differential to drive cross flow. The same envelope tightness that delivers the building's
+          38.5 kWh/m² Minergie performance is what makes ventilation in winter a deliberate operational
+          act rather than a passive default. Our highest indoor and transit readings, namely the 1111
+          ppm peak on the M2 metro, the 1136 ppm mean on the Lausanne to Nyon train, and the 1693 ppm
+          peak on the M1, all sit in sealed envelopes. During the closed window season, the Rolex
+          Learning Center belongs structurally to that same family.
+        </P>
+      </Prose>
+
+      <Plate
+        src="img/lausanne-fig2-section.png"
+        alt="Figure 2: schematic transverse section of the Rolex Learning Center with the four CO₂ accumulation mechanisms"
+        caption="Figure 2. Schematic transverse section, building geometry after SANAA project documentation, with the four accumulation mechanisms — average dilution, local accumulation, slab geometry, winter closure — located against the Q-TRAK plane at 1.4 m."
+        credit="Generated by Claude AI"
+      />
+
+      <Prose max={760}>
+        <P>
+          The substantive point of this section is the asymmetry between what the Laboratoire
+          d'Énergie Solaire et de Physique du Bâtiment (LESO-PB) stack already models and what we
+          measured. EPFL hosts in house a building resolved urban climate model, developed by the same
+          scientists who taught our course. What the stack models is energy consumption and outdoor
+          human comfort. What it does not model is indoor CO₂ at the body. A Minergie certified
+          building can therefore be optimised on the CIM and CitySim energy axis and still run high
+          indoor CO₂ at peak occupancy, without any institutional instrument noticing. The energy
+          meter, the satellite retrieval, the urban climate simulation, and the certification audit are
+          each, in their respective ways, blind to the variable that the Q-TRAK reads. The
+          infrastructure for diagnosing the gap exists on the campus that produced our data. It has
+          simply not yet been calibrated against the body that breathes in the room.
+        </P>
+      </Prose>
+
+      <Sub kicker="Atmosphere" color={ACC}>The Building as Atmosphere</Sub>
+      <Prose max={760}>
+        <P>
+          Philippe Rahm's Climatic Architecture argues that architecture should not be understood
+          first as image, form, or visual composition, but as the design of atmosphere. In this view,
+          temperature, humidity, light, air movement, and air quality are not secondary technical
+          matters. They are architectural materials. A building or landscape is therefore designed in
+          relation to the body: how it feels heat, breathes air, moves through light, and inhabits
+          comfort or discomfort.
+        </P>
+        <P>
+          Taichung Central Park makes this argument concrete. Designed by Philippe Rahm architectes
+          with Mosbach Paysagistes and Ricky Liu &amp; Associates, the 67-hectare park was conceived
+          around climatic conditions rather than only visual scenery. Its design responds directly to
+          Taichung's hot, humid, and polluted environment by producing areas that are cooler, drier,
+          and less polluted. Sensors and climatic devices help map and modify these conditions across
+          the park. In other words, the visitor does not simply choose a path through space; they
+          choose a path through atmosphere.
+        </P>
+        <P>
+          This framework makes the Rolex Learning Center legible in a different way. The building can
+          be read as one vast, continuous 22,000 m² interior landscape, but one whose atmosphere has
+          not been structured with the same precision as its form. Its visual and spatial logic is
+          extraordinary: the undulating slab creates slopes, pockets, openings, and continuous
+          movement. Yet its atmospheric logic remains comparatively underdeveloped. The building relies
+          largely on daylight and natural ventilation, while more controlled cooling is limited to
+          specific zones such as the restaurant and multimedia library, which use cold ceilings
+          connected to lake-water cooling systems.
+        </P>
+        <P>
+          The result is an architectural landscape rich in spatial variation but poor in explicitly
+          named climatic variation. The curves and depressions of the slab inevitably produce
+          different thermal and acoustic pockets, different intensities of light, different degrees of
+          stillness, exposure, and enclosure. But these atmospheric differences are treated as
+          by-products of form rather than as design elements in their own right.
+        </P>
+        <P>
+          A Rahmian retrofit would therefore not need to redraw the Rolex Learning Center. It would
+          need to make its latent atmospheres intelligible, measurable, and inhabitable. Instead of
+          changing the building's formal language, the intervention would add the missing climatic
+          layer: identifying where the building is warm, cool, bright, still, noisy, dry, humid,
+          exposed, or sheltered, and then turning those conditions into an intentional spatial system.
+          The retrofit would shift the building from a continuous visual landscape into a legible
+          atmospheric landscape.
+        </P>
+      </Prose>
+
+      <Plate
+        src="img/lausanne-rolex-axonometric.png"
+        alt="Axonometric drawing of the Rolex Learning Center"
+        caption="An axonometric reading of the building as form — the spatial logic that a Rahmian retrofit would leave intact while making its latent atmospheres legible."
+        credit="Drawing: Adrien François Nicolas Von Der Weid"
+      />
+    </div>
+  );
+};
+
 const CASE_STUDIES = [
   {
     id: "greater-lausanne",
-    kind: "embed",
+    kind: "essay",
     eyebrow: "Field survey · EPFL · spring 2019",
-    title: "Greater Lausanne, the boundary layer at city scale",
+    title: "Lausanne & EPFL GHG hotspots, the boundary layer at city scale",
     blurb:
-      "A handheld walk of CO₂, temperature, and humidity across 27 indoor and outdoor points in and around Lausanne, joined to satellite layers from the same period. The map, the charts, and the detail panel are linked, click any numbered point or any bar to inspect it everywhere. This is the Q-TRAK walk of Topic 2 done at city scale, with governance.",
-    tags: ["CO₂ field readings", "Sentinel-2 and 5P", "Landsat 8 LST", "Local Climate Zones", "GHSL"],
-    src: "case-studies/greater-lausanne.html",
+      "A six-day, 2,680-point handheld walk of CO₂ at body altitude through the metros, streets, parks, and the Rolex Learning Center, set against the single TROPOMI pixel that covers all of it. A five-tier pipeline reads each scale for what only it can see, and the building itself becomes the testbed where every tier meets. The linked map, charts, and detail panel are embedded below.",
+    tags: ["CO₂ field readings", "Sentinel-5P TROPOMI", "Q-TRAK walk", "Rolex Learning Center", "Climatic architecture"],
+    body: LausanneEPFL,
     accent: "lapis",
   },
   {
