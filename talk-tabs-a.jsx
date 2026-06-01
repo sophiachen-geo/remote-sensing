@@ -14,31 +14,12 @@ const TabOuverture = () => (
       padding: "72px 0 56px",
     }}>
       <div className="wrap">
-        <div>
-          <div className="mono" style={{
-            fontSize: 11, letterSpacing: "0.24em", textTransform: "uppercase",
-            color: "var(--terra)", marginBottom: 22,
-          }}>An interactive companion to a lecture</div>
-
-          <h1 className="serif" style={{
-            margin: 0, fontSize: 104, lineHeight: 0.9, fontWeight: 300,
-            letterSpacing: "-0.030em",
-          }}>
-            Sensing for the<br/>
-            <em style={{ fontStyle: "italic", color: "var(--terra-2)", fontWeight: 300 }}>commons</em>
-          </h1>
-
-          <p className="serif" style={{
-            margin: "26px 0 0", maxWidth: 720,
-            fontSize: 22, lineHeight: 1.35, fontWeight: 300,
-            color: "var(--ink-2)",
-          }}>
-            Remote sensing between <em style={{ color: "var(--lapis)" }}>sky-eye abstraction</em>,
-            <em style={{ color: "var(--moss)" }}> ground-up knowledge</em>, and
-            <em style={{ color: "var(--terra)" }}> care</em>. A lecture prepared for the Canadian Remote
-            Sensing Society, and a written companion you can read alongside, before, or after the talk.
-          </p>
-        </div>
+        <h1 className="serif" style={{
+          margin: 0, fontSize: 88, lineHeight: 1.0, fontWeight: 300,
+          letterSpacing: "-0.030em", whiteSpace: "nowrap",
+        }}>
+          Sensing for the <em style={{ fontStyle: "italic", color: "var(--terra-2)", fontWeight: 300 }}>Commons</em>
+        </h1>
 
         {/* Website intro */}
         <div style={{
@@ -46,16 +27,22 @@ const TabOuverture = () => (
           maxWidth: 900,
         }}>
           <p style={{ margin: "0 0 20px", fontSize: 18, lineHeight: 1.65, color: "var(--ink-2)" }}>
-            Between the sky and the ground, remote sensing becomes most consequential when it enters the messy middle of practice, moving across cultures, disciplines, institutions and real-world contexts. This talk is, in many ways, a survey of my last few years of applied research and professional practice, shaped by a recurring effort to close the gap between observation and action, with particular attention to complex geographies: coastal and island environments, rural and remote communities, rapidly changing landscapes, border regions, and urban spaces where risk is often unevenly distributed and difficult to see.
+            This guide accompanies the lecture <em style={{ color: "var(--terra)" }}>Sensing for the Commons</em>. It may be read before, during, or after the presentation as an introduction to a central question: how can remote sensing contribute to care, resilience, and community in practice, especially when observation from above becomes part of decisions made on the ground?
           </p>
-          <p style={{ margin: "0 0 28px", fontSize: 18, lineHeight: 1.65, color: "var(--ink-2)" }}>
-            What does remote sensing look like when it is turned toward care, resilience, and community? Drawing on professional practice across governmental and humanitarian institutions, this talk traces how risk is mapped before it becomes disaster, how messy sensor data becomes knowledge we can trust, and what we owe the people we observe from a distance. <em style={{ color: "var(--terra)", fontStyle: "italic" }}>Sensing for the commons — between the practical and the unresolved.</em>
+          <p style={{ margin: "0 0 20px", fontSize: 18, lineHeight: 1.65, color: "var(--ink-2)" }}>
+            Remote sensing is often associated with distance: satellites, aircraft, sensors, models, platforms, and observation at regional to planetary scales. It allows us to study the Earth by collecting information from above and transforming it into maps, measurements, classifications, indicators, forecasts, and models. These forms of abstraction are powerful because they make visible patterns that are difficult to perceive from the ground alone: changes that unfold across large areas, slow transformations that accumulate over time, hazards emerging in places that are difficult to access, or inequalities that remain spatially dispersed and unevenly recorded.
           </p>
-          <p className="serif" style={{
-            margin: 0, paddingTop: 24, borderTop: "1px solid var(--rule-soft)",
-            fontSize: 21, lineHeight: 1.5, color: "var(--ink)", fontWeight: 300, maxWidth: 880,
-          }}>
-            {TALK.argument_in_one_paragraph}
+          <p style={{ margin: "0 0 20px", fontSize: 18, lineHeight: 1.65, color: "var(--ink-2)" }}>
+            Yet remote sensing is not valuable simply because it produces data. Its value lies in what those data make possible. A flood extent, a burn scar, a heat anomaly, a vegetation index, an exposure layer, or a land-cover classification may become part of decisions about emergency response, infrastructure planning, climate adaptation, conservation, public health, insurance, funding, or community preparedness. In each case, observation becomes more than observation. It enters institutions, workflows, budgets, policies, and communities. It becomes part of decisions that affect people and places.
+          </p>
+          <p style={{ margin: "0 0 20px", fontSize: 18, lineHeight: 1.65, color: "var(--ink-2)" }}>
+            As societies confront accelerating environmental change, expanding disaster risk, growing demands for timely information, and unprecedented volumes of Earth observation data, the challenge is no longer only how to observe the world with greater precision. The challenge is how to translate observation into knowledge that is useful, trustworthy, situated, and accountable.
+          </p>
+          <p style={{ margin: "0 0 20px", fontSize: 18, lineHeight: 1.65, color: "var(--ink-2)" }}>
+            The lecture explores this challenge through the practical terrain where remote sensing becomes consequential: the passage from image to interpretation, from model to decision, and from distant observation to local effect. Drawing on several years of applied research and professional practice across governmental, humanitarian, and community-facing contexts, it follows remote sensing as it moves through real-world situations: identifying risk before it becomes disaster, working with incomplete or noisy sensor data, combining Earth observation with social vulnerability, infrastructure, and local knowledge, and supporting decision-making in rural, remote, coastal, island, border, and urban communities. Rather than treating remote sensing as a finished product, the lecture examines it as a chain of translation: data must be interpreted, validated, contextualized, communicated, and sometimes challenged before they can become useful public knowledge. This is where remote sensing has its greatest civic value, but also where its limits become most visible: uncertainty, misclassification, uneven data coverage, institutional bias, extractive observation, and the danger of representing communities without their consent, involvement, or authority.
+          </p>
+          <p style={{ margin: 0, fontSize: 18, lineHeight: 1.65, color: "var(--ink-2)" }}>
+            The aim is to ask what forms of practice, interpretation, design, and accountability are needed for remote sensing to contribute meaningfully to collective life. To speak of remote sensing for the commons is therefore to ask how distant observation becomes responsible practice: how data from above can be interpreted with care, grounded in context, combined with other forms of knowledge, and used to support communities before, during, and after moments of change or crisis.
           </p>
         </div>
       </div>
@@ -64,14 +51,23 @@ const TabOuverture = () => (
     {/* Interactive painting */}
     <InteractivePainting />
 
-    {/* Plato and Aristotle dialectic */}
+    {/* Plato and Aristotle, the School of Athens */}
     <section className="wrap" style={{ padding: "96px 56px 0" }}>
       <SectionHead
         index="i"
-        eyebrow="The two gestures, opening figure"
-        title="A satellite is the instrument that points upward in order to look down."
-        lede="Remote sensing lives inside this tension. It is a technology that reaches upward to look down, abstracting the Earth into pixels, bands, indices, classes, footprints, probabilities, and models. Its value for risk, resilience, and community depends on whether that abstraction can return to the ground with responsibility."
+        eyebrow="Opening figure, the two gestures"
+        title="Plato and Aristotle, abstraction and the return to the ground."
+        lede="The lecture opens with a detail from Raphael's School of Athens, painted in the Stanza della Segnatura in the Vatican Palace. Originally associated with Pope Julius II's library and private study, the room gathers several domains of knowledge: philosophy, theology, poetry, and justice. The School of Athens occupies the wall of philosophy. It stages the thinkers of antiquity within an ideal Renaissance architecture, as though knowledge itself had been given a built form: ordered, luminous, perspectival, and open toward the sky."
       />
+
+      <Prose max={760}>
+        <P>
+          At the centre of the fresco, Plato and Aristotle walk side by side. Plato holds the Timaeus and raises one finger upward. Aristotle holds the Nicomachean Ethics and extends his hand outward, almost parallel to the ground. The books matter. The Timaeus is a dialogue about cosmology, mathematical order, and the structure of the universe; it belongs to a mode of thought that seeks pattern, form, and intelligibility at the highest scale. The Nicomachean Ethics, by contrast, concerns practical judgment, action, virtue, and the conditions of a good life; it belongs to a mode of thought grounded in conduct, consequence, and the question of how to act well.
+        </P>
+        <P>
+          For remote sensing, this pair offers more than an art-historical metaphor. It gives the lecture its opening problem: <strong style={{ color: "var(--ink)", fontWeight: 500 }}>how to hold abstraction and responsibility together.</strong>
+        </P>
+      </Prose>
 
       <div style={{
         display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0,
@@ -95,14 +91,8 @@ const TabOuverture = () => (
             margin: "16px 0 0", fontSize: 16, lineHeight: 1.55,
             color: "var(--ink-2)", maxWidth: 460,
           }}>
-            Plato raises his index finger toward the heavens. The gesture orients itself toward the world of forms, toward what is not yet here, toward the ideal. The architectural theorist Sébastien Marot, with whom I studied at EPFL, reads this gesture through Ernst Bloch as the principle of <Fr>espérance</Fr>, the principle of hope. Anticipatory consciousness. The impulse toward a better world that does not yet exist.
+            Plato's upward gesture evokes the power of remote sensing as abstraction: the satellite, the orbital platform, the planetary archive, the foundation model, the synoptic view, and the ambition to understand Earth as an interconnected system. This is the promise of seeing at scale: to detect patterns beyond ordinary perception, to anticipate change, to model risk, and to make visible what cannot be seen from any single place on the ground.
           </p>
-          <div style={{ marginTop: 26 }}>
-            <div className="caps" style={{ color: "var(--lapis)", marginBottom: 8 }}>In our discipline</div>
-            <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: "var(--ink-2)" }}>
-              The satellite. The foundation model. The planetary archive. The promise that more sensing means better decisions. The dream of total knowledge, of pattern, of abstraction at the scale of the planet itself.
-            </p>
-          </div>
         </div>
         {/* Aristotle */}
         <div style={{ padding: "36px 36px 40px", position: "relative" }}>
@@ -117,19 +107,19 @@ const TabOuverture = () => (
             margin: "16px 0 0", fontSize: 16, lineHeight: 1.55,
             color: "var(--ink-2)", maxWidth: 460,
           }}>
-            Aristotle extends his palm horizontally, parallel to the ground. The gesture orients itself toward what is, toward the ground we share, toward responsibility for the present. Marot reads this gesture through Hans Jonas as the principle of <Fr>responsabilité</Fr>, the heuristic of fear. The duty to those who are here and to those who come after.
+            Aristotle's horizontal gesture recalls the demands of situated judgment: the field site, the community observer, the local planner, the validator, the emergency manager, the elder reading sea ice conditions, and the resident whose home appears as a small footprint inside a risk layer. This is the world in which knowledge is tested by consequence. A map may be elegant, a model may be powerful, and an index may be statistically robust, but its public meaning depends on how it meets the lives, landscapes, and decisions it claims to inform.
           </p>
-          <div style={{ marginTop: 26 }}>
-            <div className="caps" style={{ color: "var(--terra)", marginBottom: 8 }}>In our discipline</div>
-            <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: "var(--ink-2)" }}>
-              The community-led monitor. OCAP. The validator in the village. The Inuit elder reading sea ice. The insistence that the pixel becomes a decision about a life, and that the life has a name.
-            </p>
-          </div>
         </div>
       </div>
 
+      <Prose max={760} style={{ marginTop: 32 }}>
+        <P>
+          Remote sensing, for me, exists between these two gestures. It needs the upward movement of abstraction and the horizontal return to the ground. Without abstraction, we lose the capacity to see across distance, scale, time, and system. Without return, we risk producing knowledge that is technically impressive but socially unmoored. The question is therefore not whether remote sensing should look from above or begin from below, but how these two movements can be held in relation: how distant observation can be interpreted through context, corrected by experience, combined with other forms of knowledge, and made accountable to the worlds it represents.
+        </P>
+      </Prose>
+
       <Pull color="var(--ochre)">
-        {TALK.spineSentence}
+        What follows examines how remote sensing can hold these two commitments together: the capacity to see across vast scales and the responsibility to remain attentive to the places, people, and decisions that give those observations meaning.
       </Pull>
     </section>
 

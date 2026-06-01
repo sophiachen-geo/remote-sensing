@@ -34,10 +34,7 @@ const Chrome = ({ active, go }) => (
     <div className="chrome-strip">
       <span>
         <Sigil color="var(--terra)" />
-        Sensing for the Commons · <em className="fr">Société canadienne de télédétection</em>
-      </span>
-      <span>
-        a companion · 60 minutes
+        Canadian Remote Sensing Society · Presentation Guide
       </span>
     </div>
     <nav className="chrome-tabs">
