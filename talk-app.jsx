@@ -61,14 +61,9 @@ const Chrome = ({ active, go, introOpen }) => (
 
 const App = () => {
   const [tab, go] = useHashTab();
-  const [introOpen, setIntroOpen] = React.useState(true);
-  const prevTabRef = React.useRef(tab);
-  React.useEffect(() => {
-    if (prevTabRef.current !== tab) {
-      setIntroOpen(true);
-      prevTabRef.current = tab;
-    }
-  }, [tab]);
+  // Default: section intro is closed for every tab on load. It opens only
+  // when the user clicks a tab.
+  const [introOpen, setIntroOpen] = React.useState(false);
   const onTabClick = (id) => {
     if (id === tab) setIntroOpen(o => !o);
     else { go(id); setIntroOpen(true); }

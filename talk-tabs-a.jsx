@@ -11,7 +11,7 @@ const TabOuverture = () => (
     <section style={{
       borderBottom: "1px solid var(--rule)",
       background: "var(--paper)",
-      padding: "72px 0 56px",
+      padding: "56px 0 48px",
     }}>
       <div className="wrap">
         <h1 className="serif" style={{
@@ -20,30 +20,59 @@ const TabOuverture = () => (
         }}>
           Sensing for the <em style={{ fontStyle: "italic", color: "var(--terra-2)", fontWeight: 300 }}>Commons</em>
         </h1>
-
-        {/* Website intro */}
-        <div style={{
-          marginTop: 48, paddingTop: 36, borderTop: "1px solid var(--rule-soft)",
-          maxWidth: 900,
+        <p className="serif" style={{
+          margin: "20px 0 0", fontSize: 22, lineHeight: 1.35, fontStyle: "italic",
+          fontWeight: 300, color: "var(--ink-2)", maxWidth: 520,
         }}>
-          <p style={{ margin: "0 0 20px", fontSize: 18, lineHeight: 1.65, color: "var(--ink-2)" }}>
-            This guide accompanies the lecture <em style={{ color: "var(--terra)" }}>Sensing for the Commons</em>. It may be read before, during, or after the presentation as an introduction to a central question: how can remote sensing contribute to care, resilience, and community in practice, especially when observation from above becomes part of decisions made on the ground?
-          </p>
-          <p style={{ margin: "0 0 20px", fontSize: 18, lineHeight: 1.65, color: "var(--ink-2)" }}>
-            Remote sensing is often associated with distance: satellites, aircraft, sensors, models, platforms, and observation at regional to planetary scales. It allows us to study the Earth by collecting information from above and transforming it into maps, measurements, classifications, indicators, forecasts, and models. These forms of abstraction are powerful because they make visible patterns that are difficult to perceive from the ground alone: changes that unfold across large areas, slow transformations that accumulate over time, hazards emerging in places that are difficult to access, or inequalities that remain spatially dispersed and unevenly recorded.
-          </p>
-          <p style={{ margin: "0 0 20px", fontSize: 18, lineHeight: 1.65, color: "var(--ink-2)" }}>
-            Yet remote sensing is not valuable simply because it produces data. Its value lies in what those data make possible. A flood extent, a burn scar, a heat anomaly, a vegetation index, an exposure layer, or a land-cover classification may become part of decisions about emergency response, infrastructure planning, climate adaptation, conservation, public health, insurance, funding, or community preparedness. In each case, observation becomes more than observation. It enters institutions, workflows, budgets, policies, and communities. It becomes part of decisions that affect people and places.
-          </p>
-          <p style={{ margin: "0 0 20px", fontSize: 18, lineHeight: 1.65, color: "var(--ink-2)" }}>
-            As societies confront accelerating environmental change, expanding disaster risk, growing demands for timely information, and unprecedented volumes of Earth observation data, the challenge is no longer only how to observe the world with greater precision. The challenge is how to translate observation into knowledge that is useful, trustworthy, situated, and accountable.
-          </p>
-          <p style={{ margin: "0 0 20px", fontSize: 18, lineHeight: 1.65, color: "var(--ink-2)" }}>
-            The lecture explores this challenge through the practical terrain where remote sensing becomes consequential: the passage from image to interpretation, from model to decision, and from distant observation to local effect. Drawing on several years of applied research and professional practice across governmental, humanitarian, and community-facing contexts, it follows remote sensing as it moves through real-world situations: identifying risk before it becomes disaster, working with incomplete or noisy sensor data, combining Earth observation with social vulnerability, infrastructure, and local knowledge, and supporting decision-making in rural, remote, coastal, island, border, and urban communities. Rather than treating remote sensing as a finished product, the lecture examines it as a chain of translation: data must be interpreted, validated, contextualized, communicated, and sometimes challenged before they can become useful public knowledge. This is where remote sensing has its greatest civic value, but also where its limits become most visible: uncertainty, misclassification, uneven data coverage, institutional bias, extractive observation, and the danger of representing communities without their consent, involvement, or authority.
-          </p>
-          <p style={{ margin: 0, fontSize: 18, lineHeight: 1.65, color: "var(--ink-2)" }}>
-            The aim is to ask what forms of practice, interpretation, design, and accountability are needed for remote sensing to contribute meaningfully to collective life. To speak of remote sensing for the commons is therefore to ask how distant observation becomes responsible practice: how data from above can be interpreted with care, grounded in context, combined with other forms of knowledge, and used to support communities before, during, and after moments of change or crisis.
-          </p>
+          Remote sensing between sky-eye abstraction, ground-up knowledge, and care.
+        </p>
+
+        {/* Two-column intro: prose left, "How to read this guide" rectangle right */}
+        <div className="intro-grid" style={{
+          marginTop: 48, paddingTop: 36, borderTop: "1px solid var(--rule-soft)",
+        }}>
+          <div>
+            <p className="serif" style={{
+              margin: "0 0 20px", fontSize: 17, lineHeight: 1.65, color: "var(--ink-2)",
+              fontStyle: "italic",
+            }}>
+              This guide accompanies the lecture. Read it before, during, or after the talk. It asks one question: how can remote sensing contribute to care, resilience, and community, especially once observation from above becomes part of decisions made on the ground?
+            </p>
+            <p style={{ margin: "0 0 18px", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
+              Remote sensing studies the Earth from a distance, through satellites, sensors, and models, turning the world into maps, indices, classifications, and forecasts. That abstraction is powerful: it makes visible what no single place on the ground can see, from slow change across large areas to hazards in places hard to reach.
+            </p>
+            <p style={{ margin: "0 0 18px", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
+              But data is not valuable in itself. Its value lies in what it makes possible: a flood extent, a burn scar, or a heat anomaly entering decisions about response, planning, adaptation, insurance, or funding. At that moment, observation stops being observation and becomes part of institutions, budgets, and lives.
+            </p>
+            <p style={{ margin: 0, fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
+              So this guide treats remote sensing not as a finished product but as a <em style={{ color: "var(--terra)", fontStyle: "normal", fontWeight: 600 }}>chain of translation</em>: data must be interpreted, validated, grounded in context, communicated, and sometimes challenged before it becomes trustworthy public knowledge. That is where its civic value is greatest, and where its limits show: uncertainty, misclassification, uneven coverage, and the risk of representing communities without their consent or authority.
+            </p>
+          </div>
+
+          <aside className="how-to-read">
+            <div className="how-to-read__title">How to read this guide</div>
+            <ol className="how-to-read__list">
+              {[
+                ["01", "Introduction", "Start here for the central question, the purpose of the guide, and how the sections fit together."],
+                ["02", "Core Ideas",   "The main argument: risk as a relation, the heuristic stack, and the problem of integration."],
+                ["03", "Case Studies", "Worked examples showing how remote sensing is used in practice, with maps, data, field evidence, and visual material."],
+                ["04", "Field Guide",  "Practical methods, governance protocols, and a checklist for applying the argument responsibly."],
+                ["05", "Annexes",      "Sources, references, and the closing argument."],
+              ].map(([n, name, body]) => (
+                <li key={n}>
+                  <div className="how-to-read__head">
+                    <span className="how-to-read__num">{n}</span>
+                    <span className="how-to-read__dot">·</span>
+                    <span className="how-to-read__name">{name}</span>
+                  </div>
+                  <p className="how-to-read__body">{body}</p>
+                </li>
+              ))}
+            </ol>
+            <p className="how-to-read__footer">
+              Read the guide in order, or use the tabs above to move directly to any section.
+            </p>
+          </aside>
         </div>
       </div>
     </section>

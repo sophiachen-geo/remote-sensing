@@ -43,25 +43,40 @@ const TranslatorChain = ({ steps, color }) => (
   </div>
 );
 
-// A short standing-summary block placed at the top of each case study.
-const ProjectSummary = ({ color, children }) => (
-  <section style={{
-    margin: "0 0 36px", padding: "26px 30px 28px",
-    background: "var(--paper-2)",
-    border: "1px solid var(--rule)",
-    borderLeft: `3px solid ${color}`,
-    maxWidth: 860,
-  }}>
-    <div className="mono" style={{
-      fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase",
-      color, marginBottom: 12, fontWeight: 500,
-    }}>In one paragraph</div>
-    <p className="serif" style={{
-      margin: 0, fontSize: 17, lineHeight: 1.62, color: "var(--ink)",
-      textWrap: "pretty",
-    }}>{children}</p>
-  </section>
-);
+// Abstract callout placed at the top of each case study. Counts its own
+// words, estimates read time, drop-caps the lead sentence, then flows the
+// rest as a two-column body. Fades in on mount so the tab transition
+// feels deliberate.
+const ProjectSummary = ({ color, children }) => {
+  const text = typeof children === "string" ? children : "";
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const minutes = Math.max(1, Math.round(words / 200));
+  const m = text.match(/^([\s\S]*?[.!?])\s+([\s\S]*)$/);
+  const lead = m ? m[1] : text;
+  const body = m ? m[2] : "";
+  return (
+    <section className="case-abstract" style={{ "--abstract-color": color }}>
+      <header className="case-abstract__head">
+        <span className="case-abstract__kicker">
+          <span className="case-abstract__dot" aria-hidden="true">◆</span>
+          <span>Abstract</span>
+        </span>
+        <span className="case-abstract__meta">
+          {words.toLocaleString()} words · {minutes} min read
+        </span>
+      </header>
+      <p className="case-abstract__lead">
+        <span className="case-abstract__dropcap">{lead.charAt(0)}</span>
+        <span>{lead.slice(1)}</span>
+      </p>
+      {body && (
+        <div className="case-abstract__body">
+          <p>{body}</p>
+        </div>
+      )}
+    </section>
+  );
+};
 
 const SocodeviCNAAS = ({ accent = "ochre" }) => {
   const ACC = accentVar(accent);

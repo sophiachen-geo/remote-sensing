@@ -215,6 +215,123 @@
     .section-intro__row { grid-template-columns: 1fr; gap: 10px; }
   }
 
+  /* Introduction tab two-column intro */
+  .intro-grid {
+    display: grid; grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 40px; align-items: start;
+  }
+  @media (max-width: 880px) {
+    .intro-grid { grid-template-columns: 1fr; gap: 28px; }
+  }
+
+  /* "How to read this guide" rectangle in the Introduction tab */
+  .how-to-read {
+    background: color-mix(in oklch, var(--st-active-accent-2) 8%, var(--paper));
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 22px 24px 20px;
+    position: sticky; top: 96px;
+  }
+  .how-to-read__title {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--terra);
+    font-weight: 600; margin-bottom: 16px;
+  }
+  .how-to-read__list {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .how-to-read__list li {
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .how-to-read__list li:last-child { border-bottom: none; padding-bottom: 0; }
+  .how-to-read__head {
+    display: inline-flex; align-items: baseline; gap: 7px;
+    font-family: var(--sans); font-size: 15px;
+    color: var(--ink); margin-bottom: 5px;
+  }
+  .how-to-read__num {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em;
+    color: var(--ink-3); font-weight: 500;
+  }
+  .how-to-read__dot { color: var(--ink-4); }
+  .how-to-read__name { font-weight: 700; color: var(--ink); }
+  .how-to-read__body {
+    margin: 0; font-size: 13.5px; line-height: 1.5;
+    color: var(--ink-2);
+  }
+  .how-to-read__footer {
+    margin: 14px 0 0; padding-top: 14px;
+    border-top: 1px solid var(--rule-soft);
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em;
+    line-height: 1.5; color: var(--ink-3);
+  }
+  @media (max-width: 880px) {
+    .how-to-read { position: static; }
+  }
+
+  /* Case study Abstract callout */
+  .case-abstract {
+    margin: 0 0 40px;
+    padding: 22px 30px 28px;
+    background: color-mix(in oklch, var(--abstract-color, var(--lapis)) 5%, var(--paper));
+    border: 1px solid var(--rule);
+    border-top: 2px solid var(--abstract-color, var(--lapis));
+    border-radius: 4px;
+    animation: caseAbstractIn 620ms cubic-bezier(.22,.65,.3,1) both;
+    animation-delay: 220ms;
+  }
+  @keyframes caseAbstractIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .case-abstract__head {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 16px; padding-bottom: 18px; flex-wrap: wrap;
+  }
+  .case-abstract__kicker {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--abstract-color, var(--lapis));
+    font-weight: 600;
+  }
+  .case-abstract__dot {
+    color: var(--abstract-color, var(--lapis));
+    font-size: 9px; transform: translateY(-1px);
+  }
+  .case-abstract__meta {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-3); font-weight: 500;
+  }
+  .case-abstract__lead {
+    margin: 0 0 16px;
+    font-family: var(--serif); font-size: 21px; line-height: 1.42;
+    font-weight: 500; letter-spacing: -0.008em; color: var(--ink);
+    display: block;
+    animation: caseAbstractIn 620ms cubic-bezier(.22,.65,.3,1) both;
+    animation-delay: 360ms;
+  }
+  .case-abstract__dropcap {
+    font-family: var(--serif); font-size: 56px; line-height: 0.85;
+    font-weight: 500; color: var(--abstract-color, var(--lapis));
+    float: left; padding: 4px 12px 0 0;
+  }
+  .case-abstract__body {
+    columns: 2; column-gap: 36px;
+    font-family: var(--serif); font-size: 15.5px; line-height: 1.6;
+    color: var(--ink-2);
+    animation: caseAbstractIn 620ms cubic-bezier(.22,.65,.3,1) both;
+    animation-delay: 480ms;
+  }
+  .case-abstract__body p { margin: 0; }
+  @media (max-width: 760px) {
+    .case-abstract { padding: 18px 18px 22px; }
+    .case-abstract__lead { font-size: 18px; }
+    .case-abstract__dropcap { font-size: 44px; padding-right: 10px; }
+    .case-abstract__body { columns: 1; font-size: 14.5px; }
+  }
+
   /* ============================================================
      STRATA DESIGN TOKENS
      Five sections, each a layer of one earth-system cross-section.
