@@ -1304,6 +1304,16 @@ const TabPlongees = () => {
               </Para>
             </div>
           </PFBlock>
+
+          {/* § III — THE PUBLIC TRUST CURVE (moved here from Movement IV) */}
+          <PFBlock n="III" kicker="THE PUBLIC TRUST CURVE" kc="var(--clay)"
+            title="The last mile is not only a delivery problem. It is an interpretation problem."
+            lede="A warning is not complete when a probability map is published. A warning becomes action only when it is trusted, understood, situated, and made practical. Households do not respond to probability alone. They respond through prior experience, false alarms, language access, household composition, mobility, social networks, place attachment, available shelters, work obligations, caregiving responsibilities, and trust in institutions.">
+            <FigTaiwan />
+            <p className="serif" style={{ margin: "20px 0 0", fontSize: 15.5, lineHeight: 1.6, color: "var(--ink-2)", fontStyle: "italic", maxWidth: 820 }}>
+              A household interprets probability through prior false alarms, trust in the source, place attachment, language access, evacuation cost, and care obligations. A warning becomes actionable only when it enters what <strong style={{ color: "var(--ink)", fontStyle: "normal", fontWeight: 700 }}>Sheila Jasanoff</strong> calls a civic epistemology: a community's settled expectations about whose knowledge is trustworthy and which institutions deserve confidence. Field framing draws on previous work at the Taiwan Typhoon Research Centre (2017).
+            </p>
+          </PFBlock>
         </React.Fragment>
       )}
 
@@ -1395,15 +1405,6 @@ const TabPlongees = () => {
             lede="OCAP®, CARE, and NISR with the Traditional Knowledge Labels do not ask remote sensing to become less rigorous. They ask rigour to include authority, consent, benefit, governance, and the right to define what should and should not be known through a map. Some things should not be mapped. Sacred sites, burial grounds, sensitive cultural locations. Non-mapping is a methodology, and a sovereign choice."
             caption="FAIR is one data virtue. Sovereignty is another. For sacred places, harvesting areas, and community vulnerability, openness alone is not a defensible default.">
             <OperativeProtocols />
-          </PFBlock>
-
-          <PFBlock n="III" kicker="THE TAIWAN CURVE" kc="var(--clay)"
-            title="The last mile is not only a delivery problem. It is an interpretation problem."
-            lede="A warning is not complete when a probability map is published. A warning becomes action only when it is trusted, understood, situated, and made practical. Households do not respond to probability alone. They respond through prior experience, false alarms, language access, household composition, mobility, social networks, place attachment, available shelters, work obligations, caregiving responsibilities, and trust in institutions.">
-            <FigTaiwan />
-            <p className="serif" style={{ margin: "20px 0 0", fontSize: 15.5, lineHeight: 1.6, color: "var(--ink-2)", fontStyle: "italic", maxWidth: 820 }}>
-              A household interprets probability through prior false alarms, trust in the source, place attachment, language access, evacuation cost, and care obligations. A warning becomes actionable only when it enters what <strong style={{ color: "var(--ink)", fontStyle: "normal", fontWeight: 700 }}>Sheila Jasanoff</strong> calls a civic epistemology: a community's settled expectations about whose knowledge is trustworthy and which institutions deserve confidence. Field framing draws on previous work at the Taiwan Typhoon Research Centre (2017).
-            </p>
           </PFBlock>
         </React.Fragment>
       )}
