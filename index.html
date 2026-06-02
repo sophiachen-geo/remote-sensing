@@ -293,12 +293,14 @@
     color: var(--ink);
   }
   .default-card__back {
-    background: linear-gradient(165deg, var(--terra) 0%, #8a2f08 100%);
-    color: var(--paper);
+    background: linear-gradient(165deg, #c2410c 0%, #7a2906 100%);
+    color: #ffffff;
     transform: rotateY(180deg);
     padding: 18px 18px 18px;
     overflow: auto;
   }
+  .default-card__back .mono { color: rgba(255, 255, 255, 0.78) !important; }
+  .default-card__back .serif { color: #ffffff !important; }
   .default-card__head {
     display: flex; justify-content: space-between; align-items: center;
     flex: 0 0 auto;
@@ -322,18 +324,20 @@
   }
   .default-card__answer {
     font-size: 19px; line-height: 1.2; font-weight: 500;
-    letter-spacing: -0.01em; color: var(--paper);
+    letter-spacing: -0.01em; color: #ffffff;
     margin-top: 2px;
   }
   .default-card__body {
     margin: 6px 0 0; font-size: 12.5px; line-height: 1.5;
-    color: color-mix(in oklch, var(--paper) 92%, transparent);
+    color: rgba(255, 255, 255, 0.92);
     flex: 1 1 auto; overflow: auto;
   }
   .default-card__qa {
     margin-top: 12px; padding-top: 10px;
-    border-top: 1px solid color-mix(in oklch, var(--paper) 30%, transparent);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
   }
+  .default-card__qa p { color: #ffffff !important; }
+  .default-card__qa .mono { color: rgba(255, 255, 255, 0.78); }
 
   /* Case study Abstract callout */
   .case-abstract {

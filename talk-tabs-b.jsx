@@ -700,13 +700,11 @@ const KeptFitForPurpose = () => (
   </Card>
 );
 
-const KeptCounterMapTable = () => (
-  <Card pad={30} style={{ marginTop: 20 }}>
-    <Kicker color="var(--plum)">Also kept · counter-mapping, the satellite reads edges as lines</Kicker>
-    <h3 className="serif" style={{ margin: "8px 0 14px", fontSize: 24, lineHeight: 1.15, fontWeight: 500, letterSpacing: "-0.01em" }}>Lived experience reads them as membranes.</h3>
-    <p style={{ fontSize: 14, lineHeight: 1.55, color: "var(--ink-2)", margin: "0 0 18px", maxWidth: 720 }}>
-      The tradition is documented by Nancy Peluso's 1995 paper on the forests of Kalimantan, by Bernard Nietschmann's work with the Miskito of Nicaragua, and by Mac Chapin's 2005 critique of conservation NGO mapping in <em>World Watch Magazine</em>.
-    </p>
+// CounterMapTable — the LULC-reads-vs-community-reads table plus the
+// "Counter-mapping asks" question list. Rendered inline inside § II of
+// Movement III. No outer Card, no "Also kept" header.
+const CounterMapTable = () => (
+  <div>
     <div style={{ border: "1px solid var(--rule)" }}>
       <div style={{
         display: "grid", gridTemplateColumns: "1.2fr 1.4fr 1fr",
@@ -746,39 +744,37 @@ const KeptCounterMapTable = () => (
         ))}
       </div>
     </div>
-  </Card>
+  </div>
 );
 
-const KeptOperativeProtocols = () => (
-  <Card pad={36} style={{ marginTop: 20, background: "var(--ink)", color: "var(--paper)", border: "none" }}>
-    <Kicker color="var(--ochre-2)">Also kept · Indigenous data sovereignty, the operative protocols</Kicker>
-    <h3 className="serif" style={{
-      margin: "8px 0 4px", fontSize: 32, fontWeight: 300, letterSpacing: "-0.014em",
-      color: "var(--paper)", maxWidth: 880,
-    }}>The <em style={{ color: "var(--ochre-2)" }}>Operative</em> Protocols.</h3>
-    <p style={{ margin: "10px 0 24px", fontSize: 14.5, lineHeight: 1.55, color: "color-mix(in oklch, var(--paper) 80%, transparent)", maxWidth: 800 }}>
-      Some things should not be mapped. Sacred sites, burial grounds, sensitive cultural locations. Non-mapping is a methodology, and a sovereign choice. Some things must be mapped, but by whom matters. SmartICE in Inuit Nunangat and the Indigenous Guardians programs are the institutional and embodied forms of what the frameworks below name in writing.
-    </p>
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 0,
-      borderTop: "1px solid color-mix(in oklch, var(--paper) 22%, transparent)",
-      borderLeft: "1px solid color-mix(in oklch, var(--paper) 22%, transparent)" }}>
-      {GOV.map((g, i) => (
-        <div key={g.name} style={{
-          padding: "26px 22px",
-          borderRight: "1px solid color-mix(in oklch, var(--paper) 22%, transparent)",
-          borderBottom: "1px solid color-mix(in oklch, var(--paper) 22%, transparent)",
-          minHeight: 240, display: "flex", flexDirection: "column", justifyContent: "space-between",
-        }}>
-          <div>
-            <div className="mono" style={{ fontSize: 10, letterSpacing: "0.18em", color: "color-mix(in oklch, var(--paper) 55%, transparent)", textTransform: "uppercase", marginBottom: 12 }}>framework {String(i + 1).padStart(2, "0")}</div>
-            <h4 className="serif" style={{ margin: 0, fontSize: 44, fontWeight: 400, letterSpacing: "-0.02em" }}>{g.name}</h4>
-            <p className="mono" style={{ margin: "8px 0 0", fontSize: 11, color: "var(--ochre-2)", letterSpacing: "0.10em", textTransform: "uppercase" }}>{g.full}</p>
+// OperativeProtocols — clean OCAP / CARE / NISR grid. Used inside § II of
+// Movement IV. No outer Card wrapper, no "Also kept" header, no period
+// after "Protocols" — just the three frameworks rendered against the
+// shared paper background so it reads consistently with neighbouring
+// figures.
+const OperativeProtocols = () => (
+  <div style={{
+    display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 0,
+    border: "1px solid var(--rule)", background: "var(--paper)",
+  }}>
+    {GOV.map((g, i) => (
+      <div key={g.name} style={{
+        padding: "24px 22px",
+        borderRight: i < GOV.length - 1 ? "1px solid var(--rule)" : "none",
+        background: "var(--paper)",
+        minHeight: 220, display: "flex", flexDirection: "column", justifyContent: "space-between",
+      }}>
+        <div>
+          <div className="mono" style={{ fontSize: 10, letterSpacing: "0.18em", color: "var(--ink-3)", textTransform: "uppercase", marginBottom: 10 }}>
+            Framework {String(i + 1).padStart(2, "0")}
           </div>
-          <p style={{ margin: "14px 0 0", fontSize: 13, lineHeight: 1.55, color: "color-mix(in oklch, var(--paper) 80%, transparent)" }}>{g.body}</p>
+          <h4 className="serif" style={{ margin: 0, fontSize: 28, fontWeight: 500, letterSpacing: "-0.014em", color: "var(--ink)" }}>{g.name}</h4>
+          <p className="mono" style={{ margin: "6px 0 0", fontSize: 10.5, color: "var(--plum)", letterSpacing: "0.10em", textTransform: "uppercase", fontWeight: 600 }}>{g.full}</p>
         </div>
-      ))}
-    </div>
-  </Card>
+        <p style={{ margin: "14px 0 0", fontSize: 13.5, lineHeight: 1.55, color: "var(--ink-2)" }}>{g.body}</p>
+      </div>
+    ))}
+  </div>
 );
 
 const KeptVisibilityBalance = () => (
@@ -989,31 +985,12 @@ const TabPlongees = () => {
 
   return (
     <div className="wrap" style={{ padding: "40px 56px 100px", "--accent": "var(--st-perma-accent-2)" }}>
-      {/* Tab masthead, focused question + the four-movement framing */}
-      <header style={{ padding: "8px 0 28px", maxWidth: 820 }}>
-        <h1 style={{ margin: "0", fontSize: 40, lineHeight: 1.08, fontWeight: 800, letterSpacing: "-0.026em", color: "var(--ink)" }}>
+      {/* Tab masthead — just the lead question. Each movement's framing
+          paragraph lives directly under its sub-tab, where the reader is. */}
+      <header style={{ padding: "8px 0 16px", maxWidth: 900 }}>
+        <h1 style={{ margin: "0", fontSize: 36, lineHeight: 1.12, fontWeight: 800, letterSpacing: "-0.024em", color: "var(--ink)" }}>
           How does distant observation become usable knowledge, and what has to happen before that knowledge can support responsible decisions?
         </h1>
-        <div className="serif" style={{ marginTop: 22, maxWidth: 760 }}>
-          <p style={{ margin: "0 0 14px", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
-            This question cannot be answered in one step, because remote sensing does not move directly from image to action. A satellite observation becomes useful only after a sequence of work: the problem must first be defined, the observation must be translated into something meaningful, different forms of knowledge must be brought into relation, and the resulting evidence must be governed according to its possible consequences. The four movements of this section follow that sequence.
-          </p>
-          <p style={{ margin: "0 0 14px", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
-            <strong style={{ color: "var(--ink)", fontWeight: 700 }}>Movement I</strong> begins with risk because no remote-sensing workflow is meaningful until the object of analysis is clear. Risk is not simply the flood, the fire, the landslide, the heat island, or the damaged building. Risk emerges from the relation between hazard, exposure, vulnerability, and capacity. Remote sensing often contributes strongly to the first two: where water spread, where fire burned, where vegetation declined, where buildings stand, where a coastline retreated, where a settlement expanded. It can also provide useful proxies for vulnerability and capacity, such as building density, road access, heat exposure, land-cover change, or distance to services. But vulnerability and capacity are not reducible to what is visible from above. They depend on income, health, mobility, tenure, trust, language, governance, preparedness, social networks, and whether institutions are able to act. The methodological challenge is therefore not to reject remote sensing, but to place it correctly within a wider risk-reading system.
-          </p>
-          <p style={{ margin: "0 0 14px", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
-            <strong style={{ color: "var(--ink)", fontWeight: 700 }}>Movement II</strong> follows from that first limit. Once the problem is defined, the observation still has to be translated. A signal does not become knowledge automatically. It becomes an image, an index, a class, a model input, a risk score, a map, and sometimes a decision. Each step makes the world more legible, but each step also simplifies it. Clouds are masked, shadows are removed, pixels are classified, edges are smoothed, mixed surfaces are forced into categories, and uncertainty is often hidden behind a clean visual output. This movement therefore asks what happens between sensing and knowing. It treats preprocessing, classification, modelling, interpolation, and visualization as acts of interpretation, not as neutral technical housekeeping.
-          </p>
-          <p style={{ margin: "0 0 14px", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
-            <strong style={{ color: "var(--ink)", fontWeight: 700 }}>Movement III</strong> asks what happens when remote-sensing knowledge meets other forms of knowledge. Integration is often described as sensor fusion, data assimilation, or the combination of multiple datasets. Those methods are useful, but they are not enough for community-facing risk work. A satellite product, a field measurement, a municipal plan, an elder's observation, a farmer's account, and a household's evacuation decision do not always describe the same object in the same way. Sometimes integration means combining measurements; sometimes it means recognizing that different actors define the problem differently. This movement therefore shifts the question from "how can data streams be fused?" to "who has the authority to define what the map is about?"
-          </p>
-          <p style={{ margin: "0 0 14px", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
-            <strong style={{ color: "var(--ink)", fontWeight: 700 }}>Movement IV</strong> follows because knowledge that can support decisions can also produce harm. Once remote sensing enters planning, insurance, humanitarian response, policing, conservation, adaptation, or public communication, ethics is no longer external to the method. Resolution, access, uncertainty, classification, visibility, and release are governance choices. Some information should be public; some should be restricted; some should remain under community control; some should not be mapped at all. The aim is not maximum visibility, but accountable visibility.
-          </p>
-          <p style={{ margin: 0, fontSize: 16, lineHeight: 1.65, color: "var(--ink)", fontStyle: "italic" }}>
-            From principle to practice, the sequence is therefore clear: define the risk relation, translate the observation, negotiate integration, and govern the consequences. Only then can distant observation become usable knowledge. Only then can usable knowledge support responsible decisions.
-          </p>
-        </div>
       </header>
 
       <PermaSubNav tabs={PERMA_TABS} active={active} set={setActive} accentMap={MOVEMENT_ACCENT} />
@@ -1021,10 +998,7 @@ const TabPlongees = () => {
       {active === "m1" && (
         <React.Fragment>
           <PFMovement id="m1" num="I" name="Risk is a relation"
-            lede="Most confusion about remote sensing begins when risk is treated as a thing that can be mapped directly. Risk is not a single object. It is a relation among hazard, exposure, vulnerability, and capacity." />
-          <p className="serif" style={{ margin: "12px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
-            Remote sensing often contributes strongly to the first two: where water spread, where fire burned, where vegetation declined, where buildings stand, where a coastline retreated, where a settlement expanded. It can also provide useful proxies for vulnerability and capacity, such as building density, road access, heat exposure, land-cover change, or distance to services. But vulnerability and capacity are not reducible to what is visible from above. They depend on income, health, mobility, tenure, trust, language, governance, preparedness, social networks, and whether institutions are able to act. The methodological challenge is therefore not to reject remote sensing, but to place it correctly within a wider risk-reading system.
-          </p>
+            lede="Movement I begins with risk because no remote-sensing workflow is meaningful until the object of analysis is clear. Risk is not simply the flood, the fire, the landslide, the heat island, or the damaged building. Risk emerges from the relation between hazard, exposure, vulnerability, and capacity. Remote sensing often contributes strongly to the first two: where water spread, where fire burned, where vegetation declined, where buildings stand, where a coastline retreated, where a settlement expanded. It can also provide useful proxies for vulnerability and capacity, such as building density, road access, heat exposure, land-cover change, or distance to services. But vulnerability and capacity are not reducible to what is visible from above. They depend on income, health, mobility, tenure, trust, language, governance, preparedness, social networks, and whether institutions are able to act. The methodological challenge is therefore not to reject remote sensing, but to place it correctly within a wider risk-reading system." />
           <PFBlock n="I" kicker="THE FOUR COMPONENTS"
             title="Remote sensing is strongest when it is clear about the part of risk it is measuring and honest about the part it cannot measure alone."
             caption="Each component, its guiding question, the strong remote-sensing contribution, and the grounded complement. The meter reads how far the satellite can carry that dimension alone.">
@@ -1042,10 +1016,7 @@ const TabPlongees = () => {
       {active === "m2" && (
         <React.Fragment>
           <PFMovement id="m2" num="II" name="Knowledge is produced through translation"
-            lede="Remote sensing never moves directly from observation to decision. A signal becomes an image. An image becomes an indicator. An indicator becomes a class or model input. A model input becomes a risk score. A risk score may then become a decision, a budget priority, an evacuation zone, an insurance trigger, a planning restriction, or a public-facing map." />
-          <p className="serif" style={{ margin: "12px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
-            Each transformation makes something more legible, but each also changes the object being represented. Compression, classification, smoothing, thresholding, interpolation, and modelling are not neutral steps. They are necessary simplifications, and necessary simplifications become dangerous when their assumptions disappear behind the authority of a finished map.
-          </p>
+            lede="Movement II follows from that first limit. Once the problem is defined, the observation still has to be translated. A signal does not become knowledge automatically. It becomes an image, an index, a class, a model input, a risk score, a map, and sometimes a decision. Each step makes the world more legible, but each step also simplifies it. Clouds are masked, shadows are removed, pixels are classified, edges are smoothed, mixed surfaces are forced into categories, and uncertainty is often hidden behind a clean visual output. This movement therefore asks what happens between sensing and knowing. It treats preprocessing, classification, modelling, interpolation, and visualization as acts of interpretation, not as neutral technical housekeeping." />
           <PFBlock n="I" kicker="THE TRANSLATION CHAIN"
             title="A signal becomes evidence only through a chain of translation."
             caption="Step through each transformation. Many political and ethical decisions enter through ordinary technical steps, none of which announces itself as a value judgment.">
@@ -1077,10 +1048,7 @@ const TabPlongees = () => {
       {active === "m3" && (
         <React.Fragment>
           <PFMovement id="m3" num="III" name="Integration begins before fusion"
-            lede="In technical language, integration often means sensor fusion, data assimilation, or statistical updating. These methods are valuable when different data streams are measuring the same underlying variable at different scales or with different uncertainties. But in community-facing risk work, integration often begins earlier. The key question is not only how to combine data streams. The key question is who defines what the data are about." />
-          <p className="serif" style={{ margin: "12px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
-            Community knowledge is not simply another noisy sensor. It may identify a different object, a different boundary, a different time scale, or a different reason the map matters. A satellite product may classify a surface as water, bare ground, shrubland, ice, wetland, or built area. Local knowledge may identify a fire-suppression pond, a trapline cabin, an ice road, a seasonal gathering place, a burial site that should not be mapped, a grazing commons, or an evacuation refuge. The disagreement is not always an error to be resolved. Sometimes the disagreement reveals that the official category is too poor for the decision being made.
-          </p>
+            lede={`Movement III asks what happens when remote-sensing knowledge meets other forms of knowledge. Integration is often described as sensor fusion, data assimilation, or the combination of multiple datasets. Those methods are useful, but they are not enough for community-facing risk work. A satellite product, a field measurement, a municipal plan, an elder's observation, a farmer's account, and a household's evacuation decision do not always describe the same object in the same way. Sometimes integration means combining measurements; sometimes it means recognizing that different actors define the problem differently. This movement therefore shifts the question from "how can data streams be fused?" to "who has the authority to define what the map is about?"`} />
           <PFBlock n="I" kicker="THE FOUR REGISTERS"
             title="Technical fusion asks how different measurements describe the same state. Interpretive integration asks whether the state has been defined correctly."
             lede="Institutional integration asks who has authority to use the result. Ethical integration asks whether the result should circulate at all.">
@@ -1088,66 +1056,74 @@ const TabPlongees = () => {
           </PFBlock>
           <PFBlock n="II" kicker="COUNTER-MAPPING"
             title="Counter-mapping is not merely adding local labels to a remote-sensing product. It reverses the direction of the question."
-            lede="Instead of asking how a community can help validate a map, counter-mapping asks what the map failed to recognize, whose categories organized the analysis, what forms of use or meaning were made invisible, and whether visibility itself creates risk. The satellite may identify where a surface changed. Counter-mapping asks what changed, for whom, by whose categories, and with what consequences.">
+            lede="Instead of asking how a community can help validate a map, counter-mapping asks what the map failed to recognize, whose categories organized the analysis, what forms of use or meaning were made invisible, and whether visibility itself creates risk."
+            caption="The satellite reads edges as lines. Lived experience reads them as membranes. The tradition is documented by Nancy Peluso's 1995 paper on the forests of Kalimantan, by Bernard Nietschmann's work with the Miskito of Nicaragua, and by Mac Chapin's 2005 critique of conservation NGO mapping in World Watch Magazine.">
             <FigCounterMap />
+            <div style={{ marginTop: 24, paddingTop: 22, borderTop: "1px solid var(--rule)" }}>
+              <CounterMapTable />
+            </div>
           </PFBlock>
-          <KeptCounterMapTable />
-          <InterludeDisclosure />
         </React.Fragment>
       )}
 
       {active === "m4" && (
         <React.Fragment>
           <PFMovement id="m4" num="IV" name="Ethics is internal to method"
-            lede="Ethics is not an extra paragraph added after the analysis. Ethics is built into the choice of sensor, resolution, classification scheme, training data, uncertainty threshold, release format, access control, and map audience. A technically accurate map can still expose people to harm, misrepresent a community, support coercive action, or circulate without the authority of those represented. The goal is therefore not maximum visibility. The goal is accountable visibility." />
+            lede="Movement IV follows because knowledge that can support decisions can also produce harm. Once remote sensing enters planning, insurance, humanitarian response, policing, conservation, adaptation, or public communication, ethics is no longer external to the method. Resolution, access, uncertainty, classification, visibility, and release are governance choices. Some information should be public; some should be restricted; some should remain under community control; some should not be mapped at all. The aim is not maximum visibility, but accountable visibility." />
+
           <PFBlock n="I" kicker="THE GOVERNING MATRIX"
             title="Some information should be public. Some information should remain under community control. Some information should not be mapped at all."
-            lede="Sacred sites, burial grounds, culturally sensitive places, informal shelters, routes used for safety, and locations that could expose vulnerable people require governance before representation. Non-mapping can be a valid method. Refusal can be a valid data-governance decision.">
+            lede="Sacred sites, burial grounds, culturally sensitive places, informal shelters, routes used for safety, and locations that could expose vulnerable people require governance before representation. Non-mapping can be a valid method. Refusal can be a valid data-governance decision."
+            caption="The same Sentinel-2 archive serves UNHCR and a military. The same Maxar tile runs from Bucha in 2022 to Gaza, where an October 2025 UNOSAT assessment counted some 198,000 damaged structures, roughly 81 per cent of the total. Planet Labs has at times imposed a thirty-day delay on Gaza imagery. Visibility is power; the task is to govern it.">
             <FigVisibilityMatrix />
+            <div style={{ marginTop: 28, paddingTop: 24, borderTop: "1px solid var(--rule)" }}>
+              <p className="serif" style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
+                Visibility can be protective. It can be dangerous. What determines the technology's valence is governance, institutional embedding, and whether anyone can challenge an interpretation. The same Sentinel-2 scene can be read for refugee camp population estimation by UNHCR and for forced displacement targeting by a military. The same Maxar tile documented Russian atrocities in Bucha in 2022 and informs Gaza operations today.
+              </p>
+              <p className="serif" style={{ margin: "14px 0 0", fontSize: 16, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
+                The Decentralized Damage Mapping Group, with Van Den Hoek at Oregon State, Scher at the City University of New York, and Yin at Kent State, uses Sentinel-1 SAR coherence change detection to count damaged buildings in Gaza, conservatively, and only when a building is more than ninety-nine per cent covered by damaged pixels. The October 2025 UNOSAT Comprehensive Damage Assessment, using Pléiades NEO and Maxar very high resolution optical imagery, reports approximately 198,000 damaged or destroyed structures, around 81 per cent of all structures in the territory. Planet Labs has publicly acknowledged delaying its highest resolution Gaza imagery by thirty days, in their words, to reduce the potential for misuse and abuse.
+              </p>
+              <p className="serif" style={{ margin: "20px 0 0", fontSize: 22, lineHeight: 1.35, fontStyle: "italic", color: "var(--ink)", maxWidth: 820, borderLeft: "3px solid var(--plum)", paddingLeft: 22 }}>
+                The resolution of an edge is itself a political variable.
+              </p>
+              <div style={{ marginTop: 24 }}>
+                <VisibilityBalance />
+                <p className="mono" style={{
+                  marginTop: 12, fontSize: 10.5, letterSpacing: "0.14em",
+                  color: "var(--ink-3)", textTransform: "uppercase", textAlign: "center",
+                }}>who benefits from this visibility, who is exposed by it, who has the authority to refuse it</p>
+              </div>
+            </div>
           </PFBlock>
-          <p className="serif" style={{ margin: "10px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
-            Indigenous data sovereignty frameworks make this operational. OCAP&reg; centres First Nations ownership, control, access, and possession. CARE centres collective benefit, authority to control, responsibility, and ethics. The National Inuit Strategy on Research establishes expectations for research in Inuit Nunangat. These frameworks do not ask remote sensing to become less rigorous. They ask rigour to include authority, consent, benefit, governance, and the right to define what should and should not be known through a map.
-          </p>
-          <KeptOperativeProtocols />
-          <p className="serif" style={{ margin: "10px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
-            Visibility can protect, and visibility can endanger. The same type of image can document harm, guide humanitarian response, support legal evidence, expose environmental damage, or assist surveillance and targeting. The political meaning of resolution depends on who has access, who interprets the image, who can challenge the interpretation, and who bears the consequences. A responsible workflow therefore needs a visibility-risk review before release: who benefits from this visibility, who is exposed by it, who can refuse it, and what safeguards are required?
-          </p>
-          <KeptVisibilityBalance />
-          <PFBlock n="II" kicker="SOLASTALGIA"
-            title="Remote sensing also has an affective dimension. Change detection does not only show altered surfaces. It can show the transformation of home while people are still living there."
-            lede="Solastalgia names the distress caused by environmental change to a place of belonging. Before-and-after images, time series, shoreline retreat maps, burn-scar archives, glacier photographs, disappearing wetlands, and eroding islands can become technical records of grief. Community mapping, when done well, can therefore become more than data collection. It can become a way to decide what must be remembered, what must be protected, what must be mourned, what must be repaired, and what must be transformed.">
-            <FigSolastalgia />
-          </PFBlock>
-          <KeptSolastalgia />
 
-          {/* Taiwan anchor sits inside Movement IV because it closes the ethics argument */}
-          <section id="taiwan" style={{ padding: "56px 0 0", borderTop: "1px solid var(--rule)" }}>
-            <PFMono c="var(--clay)" s={11}>the anchor · early warning in Taiwan</PFMono>
-            <h2 style={{ margin: "12px 0 0", fontSize: 34, lineHeight: 1.1, fontWeight: 800, letterSpacing: "-0.022em", maxWidth: 900, color: "var(--ink)" }}>
-              The last mile is not only a delivery problem. It is an interpretation problem.
-            </h2>
-            <p className="serif" style={{ margin: "16px 0 0", fontSize: 17, lineHeight: 1.55, color: "var(--ink-2)", maxWidth: 760 }}>
-              A warning is not complete when a probability map is published. A warning becomes action only when it is trusted, understood, situated, and made practical. Households do not respond to probability alone. They respond through prior experience, false alarms, language access, household composition, mobility, social networks, place attachment, available shelters, work obligations, caregiving responsibilities, and trust in institutions. A technically strong hazard forecast can therefore fail if it does not become meaningful and actionable inside the lives of the people receiving it.
-            </p>
-            <p className="serif" style={{ margin: "16px 0 0", fontSize: 19, lineHeight: 1.4, color: "var(--ink)", fontStyle: "italic", maxWidth: 760 }}>
-              The question is not only whether the warning reached the household. The question is whether the household could act on it.
-            </p>
-          </section>
+          <PFBlock n="II" kicker="THE OPERATIVE PROTOCOLS"
+            title="Indigenous data sovereignty has operative frameworks, not sentiment."
+            lede="OCAP®, CARE, and NISR with the Traditional Knowledge Labels do not ask remote sensing to become less rigorous. They ask rigour to include authority, consent, benefit, governance, and the right to define what should and should not be known through a map. Some things should not be mapped. Sacred sites, burial grounds, sensitive cultural locations. Non-mapping is a methodology, and a sovereign choice."
+            caption="FAIR is one data virtue. Sovereignty is another. For sacred places, harvesting areas, and community vulnerability, openness alone is not a defensible default.">
+            <OperativeProtocols />
+          </PFBlock>
+
           <PFBlock n="III" kicker="THE TAIWAN CURVE" kc="var(--clay)"
+            title="The last mile is not only a delivery problem. It is an interpretation problem."
+            lede="A warning is not complete when a probability map is published. A warning becomes action only when it is trusted, understood, situated, and made practical. Households do not respond to probability alone. They respond through prior experience, false alarms, language access, household composition, mobility, social networks, place attachment, available shelters, work obligations, caregiving responsibilities, and trust in institutions."
             caption="Drag the probability of damage; willingness to evacuate does not track it linearly. Toggle the conditions through which a household interprets the warning.">
             <FigTaiwan />
+            <div style={{ marginTop: 24, paddingTop: 20, borderTop: "1px solid var(--rule)" }}>
+              <p className="serif" style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
+                At the Taiwan Typhoon Research Centre, the question that mattered was not the satellite's confidence that a typhoon would strike. The question was what households would do once the warning arrived. Trust in the source, prior false alarms, household composition, place attachment, language access, the social capital of the neighbourhood, and the practicalities of where to go and with whom all intervene between the map and the action.
+              </p>
+              <p className="serif" style={{ margin: "14px 0 0", fontSize: 16, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
+                The framing of last mile concedes too much. The last mile is not a delivery problem in which a clear message simply needs to travel further. It is an epistemological problem in which the receiver constitutes the meaning of the message according to her own civic epistemology, in Sheila Jasanoff's term. The work of remote sensing for care, resilience, and community is not finished when the map is published. It begins there.
+              </p>
+            </div>
           </PFBlock>
-          <KeptTaiwanProse />
         </React.Fragment>
       )}
 
       {active === "practice" && (
         <React.Fragment>
-          <PFMovement id="practice" num="→" name="From principle to practice"
-            lede="A community-first workflow begins with the decision that needs support, not with the satellite product that happens to be available. The first step is to identify the public-good question: evacuation, adaptation, land-use planning, damage assessment, food security, infrastructure protection, insurance, conservation, or community memory." />
-          <p className="serif" style={{ margin: "12px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
-            The second step is to identify who has authority and who is affected. The third step is to decide what remote sensing can contribute and what it cannot responsibly answer alone. Only then should the workflow move to data selection, preprocessing, classification, modelling, validation, interpretation, uncertainty communication, visibility review, public release, action, monitoring, and revision.
-          </p>
+          <PFMovement id="practice" num="V" name="From principle to practice"
+            lede="From principle to practice, the sequence is therefore clear: define the risk relation, translate the observation, negotiate integration, and govern the consequences. Only then can distant observation become usable knowledge. Only then can usable knowledge support responsible decisions. A community-first workflow begins with the decision that needs support, not with the satellite product that happens to be available. The first step is to identify the public-good question; the second is to identify who has authority and who is affected; the third is to decide what remote sensing can contribute and what it cannot responsibly answer alone. Only then should the workflow move to data selection, preprocessing, classification, modelling, validation, interpretation, uncertainty communication, visibility review, public release, action, monitoring, and revision." />
           <PFBlock n="I" kicker="THE COMMUNITY-FIRST WORKFLOW" kc="var(--clay)"
             title="Eleven stages, beginning with the question and ending in action, monitoring, and revision.">
             <FigWorkflow />
@@ -1157,14 +1133,19 @@ const TabPlongees = () => {
             lede="Community interpretation, translation, legal review, data-sovereignty review, accessibility, maintenance, and post-release accountability are not optional extras. They are part of the method.">
             <FigVisibilityReview />
           </PFBlock>
+          <PFBlock n="III" kicker="INTERLUDE · MULTIMODALITY" kc="var(--clay)"
+            title="More than one way of knowing, sharing the page."
+            lede="A short detour between method and ethics: why integrating community knowledge into a remote-sensing pipeline is not a data problem but a methodological one.">
+            <MultimodalitySection />
+          </PFBlock>
 
-          {/* Closing block, only shown at the very end */}
+          {/* Closing block */}
           <section style={{ background: "var(--ink)", color: "#fff", padding: "60px 32px 72px", marginTop: 48 }}>
             <PFMono c="#8fb4d6" s={11}>closing · from seeing to judgment</PFMono>
-            <h2 style={{ margin: "16px 0 0", fontSize: 32, lineHeight: 1.18, fontWeight: 700, letterSpacing: "-0.018em", maxWidth: 980, color: "#fff" }}>
+            <h2 className="serif" style={{ margin: "16px 0 0", fontSize: 30, lineHeight: 1.22, fontWeight: 500, letterSpacing: "-0.014em", maxWidth: 980, color: "#fff" }}>
               The satellite can show where water spread, where fire burned, where vegetation declined, where ice thinned, where the shoreline moved, or where buildings appeared. Judgment asks different questions: who could leave, who stayed, who was believed, who had authority, who was protected, who was exposed, what decision followed, and what kind of recovery became possible afterward.
             </h2>
-            <p className="serif" style={{ margin: "20px 0 0", maxWidth: 760, fontSize: 18, lineHeight: 1.55, color: "rgba(255,255,255,0.84)" }}>
+            <p className="serif" style={{ margin: "20px 0 0", maxWidth: 760, fontSize: 17, lineHeight: 1.55, color: "rgba(255,255,255,0.84)" }}>
               Remote sensing begins with seeing at a distance. Responsible practice begins when that distant seeing is brought back into relation with the people, institutions, and places that must live with its consequences.
             </p>
           </section>
@@ -1458,6 +1439,28 @@ const TabAnnexes = () => (
         ))}
       </ul>
     </Card>
+
+    {/* Solastalgia — moved here from Movement IV. Change detection as the
+        affective register of remote sensing. */}
+    <section style={{ marginTop: 48, paddingTop: 32, borderTop: "1px solid var(--rule)" }}>
+      <div style={{ display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap", marginBottom: 12 }}>
+        <span className="mono" style={{ fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--plum)", fontWeight: 600 }}>§ II</span>
+        <span aria-hidden="true" style={{ width: 1, height: 12, background: "var(--rule)" }} />
+        <span className="mono" style={{ fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--ink-3)", fontWeight: 500 }}>SOLASTALGIA</span>
+      </div>
+      <h3 className="serif" style={{ margin: 0, fontSize: 26, lineHeight: 1.18, fontWeight: 500, letterSpacing: "-0.012em", color: "var(--ink)", maxWidth: 820 }}>
+        Change detection as the visual grammar of grief.
+      </h3>
+      <p className="serif" style={{ margin: "14px 0 0", maxWidth: 760, color: "var(--ink-2)", fontSize: 16, lineHeight: 1.6 }}>
+        Remote sensing has an affective dimension that the technical vocabulary tends to miss. Change detection does not only show altered surfaces. It can show the transformation of home while people are still living there. Solastalgia names the distress caused by environmental change to a place of belonging. The before-and-after pair and the time series are, structurally, the technical apparatus of solastalgia.
+      </p>
+      <div style={{ marginTop: 22 }}>
+        <FigSolastalgia />
+      </div>
+      <div style={{ marginTop: 22 }}>
+        <KeptSolastalgia />
+      </div>
+    </section>
 
     {/* Bookend, the closing argument — moved here from the Field Guides tab */}
     <Bookend />
