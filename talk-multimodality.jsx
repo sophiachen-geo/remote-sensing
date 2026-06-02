@@ -229,19 +229,7 @@ const MultimodalitySection = () => {
   const active = MULTIMODALITY_REGISTERS.find(r => r.n === activeRegister) || MULTIMODALITY_REGISTERS[0];
 
   return (
-    <section style={{ marginTop: 56, paddingTop: 56, borderTop: "1px solid var(--rule)" }}>
-      <SectionHead
-        index="ii · interlude"
-        eyebrow="The bridge from technical multimodality to ontological multimodality"
-        title="Four registers of multimodality. Three are mature. One is where ethics begins."
-        color="var(--terra)"
-        lede={
-          <>
-            What we call multimodality in remote sensing is doing four different kinds of work at once. Most discussions collapse them. This interlude separates them. Three registers are technical and well established. The fourth is where the discipline meets the limits of its own ontology, and where the work of care, resilience, and community begins in earnest.
-          </>
-        }
-      />
-
+    <section style={{ marginTop: 0 }}>
       {/* Overview row */}
       <RegistersOverview />
 

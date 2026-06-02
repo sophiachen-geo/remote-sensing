@@ -555,6 +555,13 @@
     text-transform: uppercase; color: var(--terra);
   }
 
+  /* Practice tab interlude — force a single clay/terra family inside the
+     deep MultimodalitySection so the nested kickers, pulls, and accents
+     don't fight the outer interlude block's tinted background. */
+  .practice-interlude.is-open .kicker { color: var(--clay) !important; }
+  .practice-interlude.is-open blockquote { border-left-color: var(--clay) !important; }
+  .practice-interlude.is-open blockquote p { color: var(--ink) !important; }
+
   /* ============================================================
      MOBILE RESPONSIVE
      Catch-all rules that adapt every tab body, sub-nav, and Fig

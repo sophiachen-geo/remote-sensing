@@ -889,6 +889,140 @@ const KeptTaiwanProse = () => (
   </Card>
 );
 
+// Movement V multimodality interlude.
+//   · NO § number (interludes break the numbered sequence)
+//   · Header is always visible; body collapses/expands on click
+//   · Single clay color family throughout — terra / ochre / lapis / moss
+//     accents inside MultimodalitySection are overridden to clay via the
+//     scoped .practice-interlude class (see index.html CSS) so the
+//     interlude reads as one coherent block
+const MultimodalityInterlude = () => {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <section className={`practice-interlude ${open ? "is-open" : ""}`}
+      style={{
+        marginTop: 36, marginBottom: 18,
+        background: "color-mix(in oklch, var(--clay) 4%, var(--paper))",
+        border: "1px solid color-mix(in oklch, var(--clay) 24%, var(--rule))",
+        borderLeft: "5px solid var(--clay)",
+        borderRadius: 4,
+        overflow: "hidden",
+      }}>
+      <button
+        type="button"
+        onClick={() => setOpen(o => !o)}
+        aria-expanded={open ? "true" : "false"}
+        style={{
+          appearance: "none", border: "none", background: "transparent",
+          width: "100%", textAlign: "left", padding: "26px 30px 26px",
+          cursor: "pointer", color: "var(--ink)",
+          display: "grid", gridTemplateColumns: "1fr auto", gap: 24,
+          alignItems: "center", fontFamily: "var(--sans)",
+        }}>
+        <div>
+          <div className="mono" style={{
+            fontSize: 11.5, letterSpacing: "0.24em", textTransform: "uppercase",
+            color: "var(--clay)", fontWeight: 700, marginBottom: 8,
+          }}>Interlude · Multimodality as method</div>
+          <div className="serif" style={{
+            margin: 0, fontSize: 22, lineHeight: 1.22, fontWeight: 500,
+            letterSpacing: "-0.012em", color: "var(--ink)", maxWidth: 760,
+          }}>
+            Multimodality is not only physical. It is also contributory and ontological.
+          </div>
+          {!open && (
+            <p className="serif" style={{
+              margin: "10px 0 0", fontSize: 14.5, lineHeight: 1.55,
+              color: "var(--ink-2)", maxWidth: 720,
+            }}>
+              A short detour between method and ethics. Tap to expand.
+            </p>
+          )}
+        </div>
+        <span className="mono" style={{
+          fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase",
+          color: "var(--clay)", fontWeight: 700,
+          padding: "9px 14px",
+          background: "color-mix(in oklch, var(--clay) 12%, var(--paper))",
+          border: "1px solid color-mix(in oklch, var(--clay) 35%, transparent)",
+          whiteSpace: "nowrap",
+        }}>{open ? "Hide ▴" : "Read ▾"}</span>
+      </button>
+
+      {open && (
+        <div style={{
+          padding: "8px 30px 36px",
+          borderTop: "1px solid color-mix(in oklch, var(--clay) 22%, var(--rule))",
+        }}>
+          <p className="serif" style={{ margin: "18px 0 0", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)", maxWidth: 820 }}>
+            Multimodality is often treated as a technical matter: combining optical imagery, SAR, LiDAR, thermal data, passive microwave, hyperspectral data, atmospheric measurements, acoustic data, or gravity-based observations. This kind of physical multimodality is essential. Different sensors interact with the world differently, and no single sensor sees everything.
+          </p>
+          <p className="serif" style={{ margin: "14px 0 0", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)", maxWidth: 820 }}>
+            But practice requires a broader understanding of multimodality.
+          </p>
+
+          {/* Four modalities, in a 2×2 grid for clearer hierarchy */}
+          <div style={{
+            display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14,
+            margin: "20px 0 0",
+          }}>
+            {[
+              { name: "Physical",     tier: "technical",        body: "Different wavelengths and sensing principles observing different properties of the same landscape." },
+              { name: "Geometric",    tier: "technical",        body: "Satellites, aircraft, drones, fixed stations, handheld instruments, indoor sensors, and body-altitude measurements observing from different distances and reference frames." },
+              { name: "Contributory", tier: "political",        body: "Institutions, researchers, volunteers, residents, citizen scientists, community observers, and local organizations helping produce or interpret data." },
+              { name: "Ontological",  tier: "political",        body: "Different knowledge systems defining the object of concern differently." },
+            ].map((m, i) => {
+              const isPolitical = m.tier === "political";
+              return (
+                <div key={i} style={{
+                  padding: "16px 18px",
+                  background: "var(--paper)",
+                  border: "1px solid color-mix(in oklch, var(--clay) 20%, var(--rule))",
+                  borderTop: isPolitical
+                    ? "3px solid var(--clay)"
+                    : "3px solid color-mix(in oklch, var(--clay) 50%, var(--ink-3))",
+                }}>
+                  <div className="mono" style={{
+                    fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase",
+                    color: isPolitical ? "var(--clay)" : "var(--ink-3)",
+                    fontWeight: 600, marginBottom: 4,
+                  }}>{m.tier}</div>
+                  <div className="serif" style={{
+                    fontSize: 18, lineHeight: 1.18, fontWeight: 500,
+                    letterSpacing: "-0.008em", color: "var(--ink)",
+                  }}>{m.name} multimodality</div>
+                  <p className="serif" style={{
+                    margin: "8px 0 0", fontSize: 14, lineHeight: 1.55,
+                    color: "var(--ink-2)",
+                  }}>{m.body}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          <p className="serif" style={{ margin: "22px 0 0", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)", maxWidth: 820 }}>
+            The first two are established technical practices. The last two are where remote sensing becomes socially and politically consequential. A community observation is not simply another variable to insert into a model. It may identify a different object, a different boundary, a different timescale, a different harm, or a different reason the map matters. This is why integration cannot be reduced to data fusion. Sometimes the task is not to combine measurements of the same thing. Sometimes the task is to recognize that the "thing" itself has been defined too narrowly.
+          </p>
+
+          <p className="serif" style={{
+            margin: "26px 0 0", padding: "18px 24px",
+            fontSize: 19, lineHeight: 1.4, fontStyle: "italic",
+            color: "var(--ink)", borderLeft: "3px solid var(--clay)",
+            background: "rgba(255,255,255,0.7)", maxWidth: 820,
+          }}>
+            The bridge from technical multimodality to ontological multimodality is the bridge from better sensing to better judgment.
+          </p>
+
+          {/* Deep figure */}
+          <div style={{ marginTop: 28 }}>
+            <MultimodalitySection />
+          </div>
+        </div>
+      )}
+    </section>
+  );
+};
+
 // Click-to-expand interlude for the multimodality section.
 const InterludeDisclosure = () => {
   const [open, setOpen] = React.useState(false);
@@ -1471,57 +1605,8 @@ const TabPlongees = () => {
             It is also: who needs this knowledge, who defines the problem, who interprets the result, who governs the data, who can act on the evidence, and who remains accountable after the map is released?
           </Para>
 
-          {/* INTERLUDE · Multimodality as method
-              Distinct tinted callout. No § number — interludes break the
-              numbered sequence rather than continue it. */}
-          <section style={{
-            marginTop: 36, marginBottom: 18,
-            padding: "30px 32px 32px",
-            background: "color-mix(in oklch, var(--clay) 6%, var(--paper))",
-            border: "1px solid color-mix(in oklch, var(--clay) 22%, var(--rule))",
-            borderLeft: "4px solid var(--clay)",
-            borderRadius: 4,
-          }}>
-            <div className="mono" style={{
-              fontSize: 11.5, letterSpacing: "0.24em", textTransform: "uppercase",
-              color: "var(--clay)", fontWeight: 700, marginBottom: 12,
-            }}>Interlude · Multimodality as method</div>
-            <h3 className="serif" style={{
-              margin: 0, fontSize: 26, lineHeight: 1.18, fontWeight: 500,
-              letterSpacing: "-0.012em", color: "var(--ink)", maxWidth: 820,
-            }}>
-              Multimodality is not only physical. It is also contributory and ontological.
-            </h3>
-            <p className="serif" style={{ margin: "14px 0 0", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)", maxWidth: 820 }}>
-              Multimodality is often treated as a technical matter: combining optical imagery, SAR, LiDAR, thermal data, passive microwave, hyperspectral data, atmospheric measurements, acoustic data, or gravity-based observations. This kind of physical multimodality is essential. Different sensors interact with the world differently, and no single sensor sees everything.
-            </p>
-            <p className="serif" style={{ margin: "16px 0 0", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)", maxWidth: 820 }}>
-              But practice requires a broader understanding of multimodality.
-            </p>
-            <ul style={{ margin: "12px 0 0", padding: "0 0 0 18px", maxWidth: 820 }}>
-              <li className="serif" style={{ margin: "8px 0", fontSize: 15.5, lineHeight: 1.6, color: "var(--ink-2)" }}>
-                There is <strong style={{ color: "var(--ink)", fontWeight: 700 }}>physical multimodality</strong>: different wavelengths and sensing principles observing different properties of the same landscape.
-              </li>
-              <li className="serif" style={{ margin: "8px 0", fontSize: 15.5, lineHeight: 1.6, color: "var(--ink-2)" }}>
-                There is <strong style={{ color: "var(--ink)", fontWeight: 700 }}>geometric multimodality</strong>: satellites, aircraft, drones, fixed stations, handheld instruments, indoor sensors, and body-altitude measurements observing from different distances and reference frames.
-              </li>
-              <li className="serif" style={{ margin: "8px 0", fontSize: 15.5, lineHeight: 1.6, color: "var(--ink-2)" }}>
-                There is <strong style={{ color: "var(--clay)", fontWeight: 700 }}>contributory multimodality</strong>: institutions, researchers, volunteers, residents, citizen scientists, community observers, and local organizations helping produce or interpret data.
-              </li>
-              <li className="serif" style={{ margin: "8px 0", fontSize: 15.5, lineHeight: 1.6, color: "var(--ink-2)" }}>
-                There is <strong style={{ color: "var(--clay)", fontWeight: 700 }}>ontological multimodality</strong>: different knowledge systems defining the object of concern differently.
-              </li>
-            </ul>
-            <p className="serif" style={{ margin: "18px 0 0", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)", maxWidth: 820 }}>
-              The first two are established technical practices. The last two are where remote sensing becomes socially and politically consequential. A community observation is not simply another variable to insert into a model. It may identify a different object, a different boundary, a different timescale, a different harm, or a different reason the map matters. This is why integration cannot be reduced to data fusion. Sometimes the task is not to combine measurements of the same thing. Sometimes the task is to recognize that the "thing" itself has been defined too narrowly.
-            </p>
-            <p className="serif" style={{ margin: "22px 0 0", padding: "16px 22px", fontSize: 18, lineHeight: 1.45, fontStyle: "italic", color: "var(--ink)", borderLeft: "3px solid var(--clay)", background: "rgba(255,255,255,0.6)", maxWidth: 820 }}>
-              The bridge from technical multimodality to ontological multimodality is the bridge from better sensing to better judgment.
-            </p>
-            <div style={{ marginTop: 22 }}>
-              <MultimodalitySection />
-            </div>
-          </section>
+          {/* Interlude · Multimodality as method (toggleable; no § number) */}
+          <MultimodalityInterlude />
 
           {/* § I — THE PRINCIPLE: KEEP EVIDENCE CONNECTED, BUT NOT COLLAPSED */}
           <PFBlock n="I" kicker="THE PRINCIPLE" kc="var(--clay)"
@@ -1573,38 +1658,6 @@ const TabPlongees = () => {
             <Para>
               This review is not separate from technical quality. It is part of technical quality. A map that is accurate but unsafe is not a successful output. A map that is open but violates data sovereignty is not a responsible output. A map that is useful to outsiders but unusable or harmful to the people represented has failed the public-good test.
             </Para>
-          </PFBlock>
-
-          {/* § IV — OPERATIONAL STANDARDS */}
-          <PFBlock n="IV" kicker="OPERATIONAL STANDARDS" kc="var(--clay)"
-            title="A rigorous project funds and evaluates the work it claims to value."
-            lede="Community interpretation, translation, legal review, data-sovereignty review, accessibility, maintenance, and post-release accountability are not optional extras. They are part of the method. Five standards follow from this.">
-            <ol style={{ margin: "12px 0 0", padding: 0, listStyle: "none" }}>
-              {[
-                ["First",  "Co-design begins at question formulation.",          "The project should not arrive with a completed research design and ask for local validation. It should ask which community, institutional, or public-good questions remote sensing can help answer."],
-                ["Second", "Governance must be layered.",                        "Technical metadata is not enough. A responsible dataset also needs social, legal, and ethical metadata: provenance, consent, cultural protocols, permitted uses, withdrawal mechanisms, benefit-sharing expectations, and access conditions."],
-                ["Third",  "Data sovereignty is a default condition.",           "Where Indigenous or community-defined knowledge is involved. OCAP®, CARE, NISR, and Traditional Knowledge Labels are not decorative references. They define minimum expectations for authority, consent, responsibility, and control."],
-                ["Fourth", "Validation must be reciprocal.",                     "Community observations should not be the only evidence expected to prove itself. Sensor products must also be tested against lived conditions, local categories, language, field knowledge, and culturally meaningful interpretations of change."],
-                ["Fifth",  "The project must have a future.",                    "Research that arrives, extracts, publishes, and leaves is not a durable public-good practice. A useful project identifies who maintains the data, who updates the workflow, who trains the next users, who hosts the outputs, and who remains accountable in five or ten years."],
-              ].map(([ord, head, body], i) => (
-                <li key={i} style={{
-                  display: "grid", gridTemplateColumns: "auto 1fr", gap: 22,
-                  padding: "18px 0",
-                  borderBottom: i < 4 ? "1px solid var(--rule)" : "none",
-                  alignItems: "baseline",
-                }}>
-                  <div style={{
-                    fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.18em",
-                    textTransform: "uppercase", color: "var(--clay)", fontWeight: 600,
-                    minWidth: 78,
-                  }}>{ord}</div>
-                  <div>
-                    <div className="serif" style={{ fontSize: 19, lineHeight: 1.22, fontWeight: 500, letterSpacing: "-0.008em", color: "var(--ink)" }}>{head}</div>
-                    <p className="serif" style={{ margin: "6px 0 0", fontSize: 15.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 760 }}>{body}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
           </PFBlock>
 
           {/* Closing block */}
