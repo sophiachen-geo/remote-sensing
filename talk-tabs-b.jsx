@@ -1887,30 +1887,38 @@ const Bookend = () => (
 // -----------------------------------------------------------------------
 const TabAnnexes = () => (
   <div className="wrap" style={{ padding: "40px 56px 100px", "--accent": "var(--st-floor-accent)" }}>
-    <Card pad={32} style={{ marginTop: 8 }}>
-      <Kicker color="var(--terra)">Further reading, the bibliography that sits behind the talk</Kicker>
-      <p style={{ margin: "0 0 16px", color: "var(--ink-2)", fontSize: 13.5, lineHeight: 1.6, maxWidth: 820 }}>
-        The bibliography is intentionally layered. It includes the critical remote sensing literature, the participatory and citizen science literature, the Indigenous data governance literature, the soundscape ecology literature, and the foundational sensor fusion papers. Together they trace the convergence history of multimodal remote sensing as it is described in the multimodality interlude.
+
+    {/* § I — FURTHER READING */}
+    <section style={{ paddingTop: 8 }}>
+      <div style={{ display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap", marginBottom: 12 }}>
+        <span className="mono" style={{ fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--terra)", fontWeight: 600 }}>§ I</span>
+        <span aria-hidden="true" style={{ width: 1, height: 12, background: "var(--rule)" }} />
+        <span className="mono" style={{ fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--ink-3)", fontWeight: 500 }}>Further reading</span>
+      </div>
+      <h3 className="serif" style={{ margin: 0, fontSize: 26, lineHeight: 1.18, fontWeight: 500, letterSpacing: "-0.012em", color: "var(--ink)", maxWidth: 820 }}>
+        The bibliography that sits behind the talk.
+      </h3>
+      <p style={{ margin: "14px 0 22px", color: "var(--ink-2)", fontSize: 16, lineHeight: 1.6, maxWidth: 820 }}>
+        The bibliography is intentionally layered. It includes the critical remote-sensing literature, the participatory and citizen-science literature, the Indigenous data-governance literature, the soundscape-ecology literature, and the foundational sensor-fusion papers. Together they trace the convergence history of multimodal remote sensing as it is described in the multimodality interlude.
       </p>
-      <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
+      <ul style={{ margin: 0, padding: 0, listStyle: "none", border: "1px solid var(--rule)", background: "var(--paper)" }}>
         {READING.map((r, i) => (
           <li key={i} style={{
-            display: "grid", gridTemplateColumns: "60px 1fr",
-            padding: "10px 0", borderBottom: i < READING.length - 1 ? "1px solid var(--rule-soft)" : "none",
+            display: "grid", gridTemplateColumns: "72px 1fr",
+            padding: "12px 18px", borderBottom: i < READING.length - 1 ? "1px solid var(--rule-soft)" : "none",
             gap: 16, alignItems: "baseline",
           }}>
-            <span className="num" style={{ fontSize: 15, color: "var(--terra)" }}>{r.year}</span>
+            <span className="num" style={{ fontSize: 15, color: "var(--terra)", fontWeight: 500 }}>{r.year}</span>
             <span style={{ fontSize: 14, lineHeight: 1.5, color: "var(--ink)" }}>
               <strong style={{ color: "var(--ink)" }}>{r.who}</strong>, {r.what}
             </span>
           </li>
         ))}
       </ul>
-    </Card>
+    </section>
 
-    {/* Solastalgia — moved here from Movement IV. Change detection as the
-        affective register of remote sensing. */}
-    <section style={{ marginTop: 48, paddingTop: 32, borderTop: "1px solid var(--rule)" }}>
+    {/* § II — SOLASTALGIA (merged; no separate Also-kept block) */}
+    <section style={{ marginTop: 56, paddingTop: 32, borderTop: "1px solid var(--rule)" }}>
       <div style={{ display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap", marginBottom: 12 }}>
         <span className="mono" style={{ fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--plum)", fontWeight: 600 }}>§ II</span>
         <span aria-hidden="true" style={{ width: 1, height: 12, background: "var(--rule)" }} />
@@ -1919,14 +1927,83 @@ const TabAnnexes = () => (
       <h3 className="serif" style={{ margin: 0, fontSize: 26, lineHeight: 1.18, fontWeight: 500, letterSpacing: "-0.012em", color: "var(--ink)", maxWidth: 820 }}>
         Change detection as the visual grammar of grief.
       </h3>
-      <p className="serif" style={{ margin: "14px 0 0", maxWidth: 760, color: "var(--ink-2)", fontSize: 16, lineHeight: 1.6 }}>
-        Remote sensing has an affective dimension that the technical vocabulary tends to miss. Change detection does not only show altered surfaces. It can show the transformation of home while people are still living there. Solastalgia names the distress caused by environmental change to a place of belonging. The before-and-after pair and the time series are, structurally, the technical apparatus of solastalgia.
+
+      <p className="serif" style={{ margin: "14px 0 0", maxWidth: 760, color: "var(--ink-2)", fontSize: 16, lineHeight: 1.65 }}>
+        Remote sensing has an affective dimension that the technical vocabulary tends to miss. Change detection does not only show altered surfaces. It can show the transformation of home while people are still living there. <strong style={{ color: "var(--ink)" }}>Glenn Albrecht</strong> coined the term <em style={{ color: "var(--plum)", fontStyle: "italic" }}>solastalgia</em> in 2003 to name the distress caused by environmental change to one's home while one is still in it. The before-and-after pair and the time series are, structurally, the technical apparatus of solastalgia.
       </p>
-      <div style={{ marginTop: 22 }}>
+
+      {/* Read the same change two ways */}
+      <div style={{ marginTop: 28 }}>
         <FigSolastalgia />
       </div>
-      <div style={{ marginTop: 22 }}>
-        <KeptSolastalgia />
+
+      <div style={{ marginTop: 16, padding: "18px 22px", background: "var(--plum-tint)", border: "1px solid color-mix(in oklch, var(--plum) 28%, var(--rule))", borderLeft: "3px solid var(--plum)", maxWidth: 820 }}>
+        <div className="mono" style={{ fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--plum)", fontWeight: 600, marginBottom: 10 }}>Read the same change two ways</div>
+        <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
+          {[
+            ["a shoreline lost to erosion",     "the disappearance of childhood memory"],
+            ["a river that no longer freezes",  "a rupture in intergenerational practice"],
+            ["disappearing snow",                "a home becoming unfamiliar while you remain in place"],
+          ].map(([rs, sol], i) => (
+            <li key={i} style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: 18, alignItems: "baseline", padding: "10px 0", borderTop: i ? "1px solid color-mix(in oklch, var(--plum) 25%, transparent)" : "none" }}>
+              <span className="serif" style={{ fontSize: 15.5, color: "var(--ink)" }}>{rs}</span>
+              <span className="mono" style={{ fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--plum)", fontWeight: 600, whiteSpace: "nowrap" }}>solastalgia names</span>
+              <span className="serif" style={{ fontSize: 15.5, color: "var(--plum)", fontStyle: "italic", fontWeight: 500 }}>{sol}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <p className="serif" style={{ margin: "22px 0 0", padding: "16px 22px", fontSize: 18, lineHeight: 1.45, fontStyle: "italic", color: "var(--ink)", borderLeft: "3px solid var(--plum)", background: "var(--paper-2)", maxWidth: 820 }}>
+        Remote sensing shows the changed surface. Solastalgia names what the changed surface does to belonging.
+      </p>
+
+      <p className="serif" style={{ margin: "22px 0 0", maxWidth: 760, color: "var(--ink-2)", fontSize: 16, lineHeight: 1.65 }}>
+        Glacier National Park's repeat photography, the receding coastlines of southwestern Newfoundland, the vanishing wetlands of the Mississippi delta, the burn scars accumulating across the boreal year after year, and the disappeared villages of climate displacement are all forms of this apparatus at work. Community mapping, when it works, is not only a technical practice. It becomes collective grief work. The community decides what must be remembered, what must be protected, what must be mourned, what must be repaired, and what must be transformed.
+      </p>
+
+      {/* A short memorial archive */}
+      <div style={{ marginTop: 32, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, alignItems: "start" }}>
+        <div style={{ background: "var(--plum-tint)", border: "1px solid color-mix(in oklch, var(--plum) 28%, var(--rule))", padding: "20px 24px" }}>
+          <div className="mono" style={{ fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--plum)", fontWeight: 600, marginBottom: 12 }}>A short memorial archive</div>
+          <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
+            {[
+              "Glacier National Park, repeat photography",
+              "Southwestern Newfoundland, receding coastline",
+              "Mississippi delta, vanishing wetlands",
+              "Boreal Canada, accumulating burn scars",
+              "Climate displacement, disappeared villages",
+              "Tuktoyaktuk Island, two metres per year of shoreline",
+            ].map((it, i, arr) => (
+              <li key={i} className="serif" style={{
+                padding: "9px 0",
+                borderBottom: i < arr.length - 1 ? "1px solid color-mix(in oklch, var(--plum) 25%, transparent)" : "none",
+                fontSize: 14.5, color: "var(--ink)",
+              }}>{it}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <div className="mono" style={{ fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--plum)", fontWeight: 600, marginBottom: 12 }}>Artists of the vanishing, two works that hold the grief</div>
+          <div style={{ display: "grid", gap: 14 }}>
+            {[
+              { who: "Jakob Kudsk Steensen", work: "Boreal Dreams — disappearing ecosystems, rendered as immersive living worlds.", href: "https://borealdreams.live/" },
+              { who: "Ludwig Berger",        work: "Melting Landscapes — the sound of crying glaciers and the acoustics of ice in retreat.", href: "https://ludwigberger.com/work/melting-landscapes/" },
+            ].map((a, i) => (
+              <a key={i} href={a.href} target="_blank" rel="noopener noreferrer" style={{
+                display: "flex", flexDirection: "column", gap: 4, textDecoration: "none",
+                padding: "18px 20px",
+                background: "var(--plum-tint)",
+                border: "1px solid color-mix(in oklch, var(--plum) 25%, var(--rule))",
+              }}>
+                <span className="serif" style={{ fontSize: 20, lineHeight: 1.15, color: "var(--ink)", fontWeight: 500, letterSpacing: "-0.008em" }}>{a.who}</span>
+                <span style={{ fontSize: 13.5, lineHeight: 1.55, color: "var(--ink-2)" }}>{a.work}</span>
+                <span className="mono" style={{ fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--plum)", marginTop: 4, fontWeight: 600 }}>Visit the work &#8599;</span>
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
 
