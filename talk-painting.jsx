@@ -1,48 +1,33 @@
 // =======================================================================
-// InteractivePainting, Plato and Aristotle, clickable hands, zoom toggle.
+// InteractivePainting, Plato and Aristotle, clickable hands.
 // The marquee piece of the Ouverture.
 // =======================================================================
 
 const PAINTING_HOTSPOTS = {
-  detail: {
-    plato:     { left: "37%", top: "53%" },
-    aristotle: { left: "62%", top: "72%" },
-  },
-  full: {
-    plato:     { left: "47%", top: "42%" },
-    aristotle: { left: "52%", top: "50%" },
-  },
+  plato:     { left: "47%", top: "42%" },
+  aristotle: { left: "52%", top: "47%" },
 };
 
-const PAINTING_VIEWS = {
-  detail: {
-    bgSize: "280%", bgPos: "53% 38%",
-    label: "Central detail, the dialectic of the hands",
-  },
-  full: {
-    bgSize: "cover", bgPos: "50% 50%",
-    label: "Full fresco, Stanza della Segnatura, Vatican, 1509",
-  },
-};
-
-const GestureCard = ({ id, fig, onClose }) => (
+const GestureCard = ({ fig, onClose }) => (
   <div style={{
-    position: "absolute", left: "50%", bottom: 56,
-    transform: "translateX(-50%)",
-    width: "min(620px, 92%)",
+    position: "absolute", bottom: 28,
+    [fig.side]: 28,
+    width: "min(440px, 44%)",
+    maxHeight: "calc(76vh - 80px)",
+    overflowY: "auto",
     background: "var(--paper)",
     border: `1px solid ${fig.color}`,
     borderTop: `5px solid ${fig.color}`,
-    padding: "26px 30px 28px",
+    padding: "24px 28px 26px",
     zIndex: 6,
     boxShadow: "0 24px 60px rgba(15,12,10,0.45)",
   }}>
     <div style={{
       display: "flex", justifyContent: "space-between", alignItems: "baseline",
-      marginBottom: 14,
+      marginBottom: 12,
     }}>
       <span className="mono" style={{
-        fontSize: 11, letterSpacing: "0.20em",
+        fontSize: 10.5, letterSpacing: "0.20em",
         color: fig.color, textTransform: "uppercase",
       }}>
         {fig.side === "left" ? "← left figure" : "right figure →"}
@@ -54,48 +39,47 @@ const GestureCard = ({ id, fig, onClose }) => (
       }}>close ✕</button>
     </div>
 
-    <h4 className="serif" style={{
-      margin: 0, fontSize: 40, fontWeight: 300, letterSpacing: "-0.018em", lineHeight: 1.0,
-    }}>
-      {fig.name}<em style={{ color: fig.color, fontWeight: 300 }}>, {fig.gesture}</em>
-    </h4>
-
-    <div style={{
-      marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--rule-soft)",
-      display: "grid", gridTemplateColumns: "70px 1fr", rowGap: 8, columnGap: 18, alignItems: "baseline",
-    }}>
-      <span className="caps" style={{ color: "var(--ink-3)" }}>Holds</span>
-      <span style={{ fontSize: 14, color: "var(--ink-2)" }}>{fig.work}</span>
-      <span className="caps" style={{ color: "var(--ink-3)" }}>FR</span>
-      <span className="fr" style={{ fontSize: 22, color: "var(--ink)" }}>{fig.fr}</span>
-      <span className="caps" style={{ color: "var(--ink-3)" }}>EN</span>
-      <span style={{ fontSize: 14, color: "var(--ink-2)" }}>{fig.en}</span>
-      <span className="caps" style={{ color: "var(--ink-3)" }}>Read</span>
-      <span style={{ fontSize: 13, color: "var(--ink-2)" }}>{fig.thinker}</span>
-    </div>
-
-    <p className="serif" style={{
-      margin: "16px 0 0", fontSize: 18, lineHeight: 1.5, color: "var(--ink)",
-      fontWeight: 400, fontStyle: "italic",
-    }}>{fig.body}</p>
+    <div className="serif" style={{
+      fontSize: 22, fontWeight: 400, lineHeight: 1.2,
+      color: "var(--ink)", letterSpacing: "-0.01em",
+    }}>{fig.subtitle}</div>
 
     <div style={{
       marginTop: 14, paddingTop: 14, borderTop: "1px solid var(--rule-soft)",
-      display: "grid", gridTemplateColumns: "auto 1fr", gap: 14, alignItems: "baseline",
+      display: "grid", gridTemplateColumns: "94px 1fr", rowGap: 10, columnGap: 14, alignItems: "baseline",
     }}>
-      <span className="caps" style={{ color: fig.color }}>In our discipline</span>
-      <span style={{ fontSize: 13.5, lineHeight: 1.6, color: "var(--ink-2)" }}>{fig.rs}</span>
+      <span className="caps" style={{ color: "var(--ink-3)" }}>Holds</span>
+      <span className="serif" style={{ fontSize: 16, color: "var(--ink)", fontStyle: "italic" }}>{fig.holds}</span>
+
+      <span className="caps" style={{ color: "var(--ink-3)" }}>Key idea</span>
+      <span style={{ fontSize: 13.5, color: "var(--ink-2)", lineHeight: 1.5 }}>{fig.keyIdea}</span>
+
+      <span className="caps" style={{ color: "var(--ink-3)" }}>Reading</span>
+      <span style={{ fontSize: 13.5, color: "var(--ink-2)", lineHeight: 1.5 }}>
+        {fig.reading.thinker}, <em className="fr" style={{ color: "var(--ink)" }}>{fig.reading.fr}</em> — {fig.reading.desc}
+      </span>
+    </div>
+
+    <p style={{
+      margin: "16px 0 0", fontSize: 14, lineHeight: 1.6, color: "var(--ink-2)",
+    }}>{fig.prose}</p>
+
+    <div style={{
+      marginTop: 14, paddingTop: 14, borderTop: "1px solid var(--rule-soft)",
+    }}>
+      <div className="caps" style={{ color: fig.color, marginBottom: 8 }}>In remote sensing</div>
+      <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, color: "var(--ink-2)" }}>
+        {fig.remoteSensing}
+      </p>
     </div>
   </div>
 );
 
 const InteractivePainting = () => {
-  const [view, setView]   = React.useState("detail");
-  const [active, setActive] = React.useState(null);
+  const [active, setActive] = React.useState({ plato: false, aristotle: false });
   const [hovered, setHovered] = React.useState(null);
-
-  const v = PAINTING_VIEWS[view];
-  const hs = PAINTING_HOTSPOTS[view];
+  const toggle = (id) => setActive((a) => ({ ...a, [id]: !a[id] }));
+  const close  = (id) => setActive((a) => ({ ...a, [id]: false }));
 
   return (
     <section style={{
@@ -104,12 +88,12 @@ const InteractivePainting = () => {
     }}>
       <div className="wrap" style={{ paddingTop: 22, paddingBottom: 14 }}>
         <div style={{
-          display: "flex", justifyContent: "space-between", alignItems: "baseline",
-          color: "color-mix(in oklch, var(--paper) 70%, transparent)",
-          fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase",
+          color: "color-mix(in oklch, var(--paper) 72%, transparent)",
+          fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase",
+          display: "flex", alignItems: "baseline", gap: 12,
         }}>
-          <span><Sigil color="var(--ochre-2)" />Figure 01, two gestures, click each hand</span>
-          <span>Raphael, Stanza della Segnatura, 1509</span>
+          <Sigil color="var(--ochre-2)" />
+          <span>Raphael, The School of Athens, 1509&ndash;1511. Fresco in the Stanza della Segnatura, one of the Raphael Rooms in the Apostolic Palace, Vatican City.</span>
         </div>
       </div>
 
@@ -120,9 +104,8 @@ const InteractivePainting = () => {
         <div style={{
           position: "absolute", inset: 0,
           backgroundImage: "url(img/school-of-athens.jpg)",
-          backgroundSize: v.bgSize, backgroundPosition: v.bgPos,
+          backgroundSize: "cover", backgroundPosition: "50% 50%",
           backgroundRepeat: "no-repeat",
-          transition: "background-size 900ms cubic-bezier(.2,.7,.3,1), background-position 900ms cubic-bezier(.2,.7,.3,1)",
         }} />
 
         <div style={{
@@ -130,23 +113,22 @@ const InteractivePainting = () => {
           background: "radial-gradient(ellipse at 50% 45%, transparent 35%, rgba(15,12,10,0.45) 100%)",
         }} />
 
-        {Object.entries(hs).map(([id, pos]) => {
+        {Object.entries(PAINTING_HOTSPOTS).map(([id, pos]) => {
           const fig = PAINTING_FIGURES[id];
-          const isActive = active === id;
+          const isActive = active[id];
           const isHover  = hovered === id;
           return (
             <button
               key={id}
               onMouseEnter={() => setHovered(id)}
               onMouseLeave={() => setHovered(null)}
-              onClick={() => setActive(isActive ? null : id)}
+              onClick={() => toggle(id)}
               aria-label={`Reveal ${fig.name}'s gesture`}
               style={{
                 position: "absolute", left: pos.left, top: pos.top,
                 transform: "translate(-50%, -50%)",
                 appearance: "none", border: "none", background: "none",
                 cursor: "pointer", padding: 0, zIndex: 4,
-                transition: "left 900ms cubic-bezier(.2,.7,.3,1), top 900ms cubic-bezier(.2,.7,.3,1)",
               }}
             >
               <span style={{
@@ -185,32 +167,23 @@ const InteractivePainting = () => {
           );
         })}
 
-        {active && (
-          <GestureCard id={active} fig={PAINTING_FIGURES[active]} onClose={() => setActive(null)} />
+        {active.plato && (
+          <GestureCard fig={PAINTING_FIGURES.plato} onClose={() => close("plato")} />
         )}
+        {active.aristotle && (
+          <GestureCard fig={PAINTING_FIGURES.aristotle} onClose={() => close("aristotle")} />
+        )}
+      </div>
 
-        <div style={{
-          position: "absolute", top: 18, right: 18, zIndex: 5,
-          display: "flex", gap: 0,
-          background: "rgba(15,12,10,0.55)",
-          backdropFilter: "blur(8px)",
-          padding: 4,
-          border: "1px solid color-mix(in oklch, var(--paper) 25%, transparent)",
+      <div className="wrap" style={{
+        padding: "26px 56px 32px",
+      }}>
+        <p style={{
+          margin: 0, fontSize: 15, lineHeight: 1.65, maxWidth: 980,
+          color: "color-mix(in oklch, var(--paper) 82%, transparent)",
         }}>
-          {Object.keys(PAINTING_VIEWS).map((id) => (
-            <button key={id} onClick={() => setView(id)} style={{
-              appearance: "none", border: "none",
-              background: view === id ? "var(--paper)" : "transparent",
-              color: view === id ? "var(--ink)" : "color-mix(in oklch, var(--paper) 90%, transparent)",
-              padding: "8px 18px", cursor: "pointer",
-              fontFamily: "var(--mono)", fontSize: 10.5, letterSpacing: "0.16em",
-              textTransform: "uppercase", fontWeight: 500,
-            }}>
-              {id === "detail" ? "Detail" : "Full fresco"}
-            </button>
-          ))}
-        </div>
-
+          Remote sensing for the commons needs both gestures. <em style={{ color: "var(--lapis-2)", fontStyle: "italic" }}>Plato gives it reach</em>: scale, pattern, anticipation, and the possibility of seeing beyond the immediate. <em style={{ color: "var(--terra-2)", fontStyle: "italic" }}>Aristotle gives it obligation</em>: judgment, validation, consequence, and responsibility to the worlds it represents.
+        </p>
       </div>
 
       <style>{`
