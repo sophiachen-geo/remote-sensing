@@ -1032,69 +1032,102 @@ const PF_MEDIATORS = [
   { k: "strong place attachment",                  d: -0.14 },
 ];
 
+// Taiwan curve plot, ported from the permafrost_section.html reference.
+// Non-linear willingness-to-evacuate curve sits below the linear reference;
+// six mediator chips bend the curve, with "strong place attachment" deliberately
+// non-monotonic (holds in place across the middle, drives a protective early
+// departure at high probability).
+const PF_TW_CHIPS = [
+  { label: "prior false alarms",       d: 14, nonmono: false },
+  { label: "distrust of the source",   d: 18, nonmono: false },
+  { label: "high evacuation cost",     d: 16, nonmono: false },
+  { label: "poor shelter quality",     d: 12, nonmono: false },
+  { label: "care for elders, animals", d: 13, nonmono: false },
+  { label: "strong place attachment",  d:  0, nonmono: true  },
+];
+
 const FigTaiwan = ({ accent = PF.navy } = {}) => {
-  const [p, setP] = React.useState(70);
-  const [on, setOn] = React.useState({ 0: true, 1: true, 4: true });
-  const drag = PF_MEDIATORS.reduce((s, m, i) => s + (on[i] ? m.d : 0), 0);
-  const base = p / 100;
-  const willing = Math.max(4, Math.round((base * (1 + drag)) * 100 * 0.9 + (drag < -0.4 ? -6 : 0)));
-  const W = 620, H = 240, x0 = 46, x1 = 600, y0 = 20, y1 = 200;
-  const xAt = v => x0 + (x1 - x0) * (v / 100);
-  const yAt = v => y1 - (y1 - y0) * (v / 100);
+  const [p, setP] = React.useState(50);
+  const [on, setOn] = React.useState({});
+  const X0 = 60, X1 = 610, Y0 = 310, Y1 = 20;
+  const px = (q) => X0 + (X1 - X0) * (q / 100);
+  const py = (w) => Y0 + (Y1 - Y0) * (w / 100);
+  const baseWill = (q) => 100 / (1 + Math.exp(-(q - 62) / 12));
+  const deltas = () => {
+    let sum = 0, nonmono = false;
+    PF_TW_CHIPS.forEach((c, i) => {
+      if (on[i]) { if (c.nonmono) nonmono = true; else sum += c.d; }
+    });
+    return { sum, nonmono };
+  };
+  const willAt = (q) => {
+    const d = deltas();
+    let w = baseWill(q) - d.sum;
+    if (d.nonmono) {
+      const bump = 10 * Math.sin((q / 100) * Math.PI) * (q > 75 ? -0.4 : 1);
+      if (q > 75) w += 8; else w -= bump * 0.6;
+    }
+    return Math.max(0, Math.min(100, w));
+  };
   const pts = [];
-  for (let q = 0; q <= 100; q += 4) {
-    const w = Math.max(4, (q / 100) * (1 + drag) * 90);
-    pts.push([xAt(q), yAt(w)]);
-  }
-  const wpath = pts.map((pt, i) => `${i ? "L" : "M"}${pt[0].toFixed(1)} ${pt[1].toFixed(1)}`).join(" ");
+  for (let q = 0; q <= 100; q += 2) pts.push(`${px(q)},${py(willAt(q))}`);
+  const curveD = "M" + pts.join(" L");
+  const w = willAt(p);
+
   return (
-    <div style={{ border: `1px solid ${PF.rule2}`, background: PF.bg, padding: "22px 26px 24px" }}>
-      <PFMono c={PF.ink3} s={10}>a typhoon warning · probability of damage is not willingness to evacuate</PFMono>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 24, marginTop: 14, alignItems: "start" }}>
-        <div>
-          <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: "block" }}>
-            <line x1={x0} y1={y0} x2={x0} y2={y1} stroke={PF.rule2} />
-            <line x1={x0} y1={y1} x2={x1} y2={y1} stroke={PF.rule2} />
-            <line x1={xAt(0)} y1={yAt(0)} x2={xAt(100)} y2={yAt(90)} stroke={PF.ink4} strokeWidth="1" strokeDasharray="4 4" />
-            <text x={xAt(100)} y={yAt(90) - 6} fontFamily="var(--mono)" fontSize="9" fill={PF.ink4} textAnchor="end">if response tracked probability</text>
-            <path d={wpath} fill="none" stroke={PF.clay} strokeWidth="2.6" />
-            <line x1={xAt(p)} y1={y0} x2={xAt(p)} y2={y1} stroke={PF.ink} strokeWidth="1" strokeDasharray="2 2" />
-            <circle cx={xAt(p)} cy={yAt(willing)} r="5.5" fill={PF.clay} stroke="#fff" strokeWidth="1.6" />
-            <circle cx={xAt(p)} cy={yAt(p * 0.9)} r="4" fill={PF.ink4} />
-            <text x={x0 - 6} y={y0 + 4} fontFamily="var(--mono)" fontSize="9" fill={PF.ink3} textAnchor="end">act</text>
-            <text x={x0 - 6} y={y1} fontFamily="var(--mono)" fontSize="9" fill={PF.ink3} textAnchor="end">stay</text>
-            <text x={x1} y={y1 + 16} fontFamily="var(--mono)" fontSize="9" fill={PF.ink3} textAnchor="end">probability of damage →</text>
-          </svg>
-          <div style={{ display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 14, alignItems: "center", marginTop: 6 }}>
-            <PFMono c={PF.ink3} s={9}>probability</PFMono>
-            <input type="range" min="0" max="100" value={p} onChange={e => setP(+e.target.value)} style={{ width: "100%", accentColor: PF.clay, cursor: "pointer" }} />
-            <span className="mono" style={{ fontSize: 11, color: PF.ink2 }}><b style={{ fontSize: 15 }}>{p}%</b></span>
-          </div>
-          <div style={{ marginTop: 12, display: "flex", gap: 18, justifyContent: "center" }}>
-            <span className="mono" style={{ fontSize: 11, color: PF.ink4 }}>damage prob&nbsp;<b style={{ fontSize: 14, color: PF.ink2 }}>{p}%</b></span>
-            <span className="mono" style={{ fontSize: 11, color: PF.clay }}>willingness to evacuate&nbsp;<b style={{ fontSize: 14 }}>{willing}%</b></span>
-          </div>
+    <div style={{ padding: "26px", background: PF.bg, border: `1px solid ${PF.rule2}` }}>
+      <div style={{ background: "#1a2238", borderRadius: 8, padding: 20, position: "relative" }}>
+        <svg viewBox="0 0 640 360" role="img" aria-label="Willingness to evacuate against probability of damage; non-linear curve well below the linear reference" style={{ width: "100%", height: "auto", display: "block" }}>
+          <line x1="60" y1="20" x2="60" y2="310" stroke="#4a5a82" strokeWidth="1" />
+          <line x1="60" y1="310" x2="610" y2="310" stroke="#4a5a82" strokeWidth="1" />
+          <text x="35" y="30" fill="#8b96b4" fontFamily="var(--mono)" fontSize="9" textAnchor="middle">100</text>
+          <text x="35" y="312" fill="#8b96b4" fontFamily="var(--mono)" fontSize="9" textAnchor="middle">0</text>
+          <text x="335" y="340" fill="#8b96b4" fontFamily="var(--mono)" fontSize="10" textAnchor="middle" letterSpacing="1">PROBABILITY OF DAMAGE &nbsp;→</text>
+          <text x="20" y="170" fill="#8b96b4" fontFamily="var(--mono)" fontSize="10" textAnchor="middle" transform="rotate(-90 20 170)" letterSpacing="1">WILLINGNESS &nbsp;→</text>
+          <line x1="60" y1="310" x2="610" y2="20" stroke="#9fb4d0" strokeWidth="1.4" strokeDasharray="5 5" opacity="0.6" />
+          <text x="500" y="60" fill="#9fb4d0" fontFamily="var(--serif)" fontStyle="italic" fontSize="12">if it were linear</text>
+          <path d={curveD} fill="none" stroke="#c2562a" strokeWidth="3" />
+          <circle cx={px(p)} cy={py(w)} r="7" fill="#e3edf6" stroke="#c2562a" strokeWidth="2.5" />
+          <line x1={px(p)} y1={Y0} x2={px(p)} y2={py(w)} stroke="#c2562a" strokeWidth="0.8" strokeDasharray="3 3" opacity="0.5" />
+        </svg>
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", margin: "18px 4px 8px", gap: 16, flexWrap: "wrap" }}>
+        <div className="mono" style={{ fontSize: 13, color: PF.ink2 }}>
+          probability of damage&nbsp;&nbsp;<b style={{ color: "#2f6fd0", fontSize: 20 }}>{p}</b>%
         </div>
-        <div>
-          <PFMono c={PF.ink3} s={9.5}>toggle what mediates the warning</PFMono>
-          <div style={{ marginTop: 10, display: "grid", gap: 7 }}>
-            {PF_MEDIATORS.map((m, i) => (
-              <button key={i} onClick={() => setOn(s => ({ ...s, [i]: !s[i] }))} style={{
-                textAlign: "left", cursor: "pointer",
-                border: `1px solid ${on[i] ? PF.clay : PF.rule2}`,
-                background: on[i] ? PF.clayT : PF.bg,
-                padding: "8px 11px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8,
-                transition: "all .15s",
-              }}>
-                <span className="serif" style={{ fontSize: 13.5, color: on[i] ? PF.ink : PF.ink3, fontStyle: "italic" }}>{m.k}</span>
-                <span className="mono" style={{ fontSize: 11, color: on[i] ? PF.clay : PF.ink4 }}>{on[i] ? "●" : "○"}</span>
-              </button>
-            ))}
-          </div>
+        <div className="mono" style={{ fontSize: 13, color: PF.ink2 }}>
+          willingness to evacuate&nbsp;&nbsp;<b style={{ color: "#c2562a", fontSize: 20 }}>{Math.round(w)}</b>%
         </div>
       </div>
-      <p className="serif" style={{ margin: "16px 0 0", fontSize: 15, lineHeight: 1.5, color: PF.ink2, fontStyle: "italic" }}>
-        The last mile is not a delivery problem. It is a meaning problem: whether a warning belongs to a world people recognize, and whether the institution issuing it has earned their confidence.
+      <div style={{ padding: "6px 4px 18px" }}>
+        <label htmlFor="pm-tw-slider" className="mono" style={{ fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: PF.ink3, fontWeight: 500, display: "block" }}>drag the forecast</label>
+        <input id="pm-tw-slider" type="range" min="0" max="100" value={p} onChange={(e) => setP(parseInt(e.target.value, 10))}
+          style={{
+            WebkitAppearance: "none", appearance: "none", width: "100%", height: 4, borderRadius: 2,
+            background: "linear-gradient(90deg, #2f6fd0, #7d90b4)",
+            marginTop: 12, cursor: "pointer", display: "block",
+          }} />
+      </div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 9, padding: "4px 4px 8px" }}>
+        {PF_TW_CHIPS.map((c, i) => {
+          const pressed = !!on[i];
+          const pressedBg = c.nonmono ? "#5d709a" : "#c2562a";
+          return (
+            <button key={i} type="button"
+              onClick={() => setOn(s => ({ ...s, [i]: !s[i] }))}
+              style={{
+                fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.02em",
+                padding: "9px 14px", borderRadius: 20,
+                border: `1px solid ${pressed ? pressedBg : PF.rule2}`,
+                background: pressed ? pressedBg : PF.bg,
+                color: pressed ? "#fff" : PF.ink2,
+                cursor: "pointer", transition: "all .18s", userSelect: "none",
+              }}>{c.label}</button>
+          );
+        })}
+      </div>
+      <p className="serif" style={{ margin: "6px 4px 0", fontSize: 13.5, fontStyle: "italic", color: PF.ink3, lineHeight: 1.45 }}>
+        Each mediator bends the curve. Place attachment is marked differently because it cuts both ways: it can hold a household in place against a warning, or drive an early, protective departure.
       </p>
     </div>
   );

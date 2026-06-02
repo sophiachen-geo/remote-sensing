@@ -1399,17 +1399,11 @@ const TabPlongees = () => {
 
           <PFBlock n="III" kicker="THE TAIWAN CURVE" kc="var(--clay)"
             title="The last mile is not only a delivery problem. It is an interpretation problem."
-            lede="A warning is not complete when a probability map is published. A warning becomes action only when it is trusted, understood, situated, and made practical. Households do not respond to probability alone. They respond through prior experience, false alarms, language access, household composition, mobility, social networks, place attachment, available shelters, work obligations, caregiving responsibilities, and trust in institutions."
-            caption="Drag the probability of damage; willingness to evacuate does not track it linearly. Toggle the conditions through which a household interprets the warning.">
+            lede="A warning is not complete when a probability map is published. A warning becomes action only when it is trusted, understood, situated, and made practical. Households do not respond to probability alone. They respond through prior experience, false alarms, language access, household composition, mobility, social networks, place attachment, available shelters, work obligations, caregiving responsibilities, and trust in institutions.">
             <FigTaiwan />
-            <div style={{ marginTop: 24, paddingTop: 20, borderTop: "1px solid var(--rule)" }}>
-              <p className="serif" style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
-                At the Taiwan Typhoon Research Centre, the question that mattered was not the satellite's confidence that a typhoon would strike. The question was what households would do once the warning arrived. Trust in the source, prior false alarms, household composition, place attachment, language access, the social capital of the neighbourhood, and the practicalities of where to go and with whom all intervene between the map and the action.
-              </p>
-              <p className="serif" style={{ margin: "14px 0 0", fontSize: 16, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
-                The framing of last mile concedes too much. The last mile is not a delivery problem in which a clear message simply needs to travel further. It is an epistemological problem in which the receiver constitutes the meaning of the message according to her own civic epistemology, in Sheila Jasanoff's term. The work of remote sensing for care, resilience, and community is not finished when the map is published. It begins there.
-              </p>
-            </div>
+            <p className="serif" style={{ margin: "20px 0 0", fontSize: 15.5, lineHeight: 1.6, color: "var(--ink-2)", fontStyle: "italic", maxWidth: 820 }}>
+              A household interprets probability through prior false alarms, trust in the source, place attachment, language access, evacuation cost, and care obligations. A warning becomes actionable only when it enters what <strong style={{ color: "var(--ink)", fontStyle: "normal", fontWeight: 700 }}>Sheila Jasanoff</strong> calls a civic epistemology: a community's settled expectations about whose knowledge is trustworthy and which institutions deserve confidence. Field framing draws on previous work at the Taiwan Typhoon Research Centre (2017).
+            </p>
           </PFBlock>
         </React.Fragment>
       )}
