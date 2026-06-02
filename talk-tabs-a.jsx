@@ -51,75 +51,35 @@ const TabOuverture = () => (
     {/* Interactive painting */}
     <InteractivePainting />
 
-    {/* Plato and Aristotle, the School of Athens */}
+    {/* Two Gestures */}
     <section className="wrap" style={{ padding: "96px 56px 0" }}>
       <SectionHead
         index="i"
-        eyebrow="Opening figure, the two gestures"
-        title="Plato and Aristotle, abstraction and the return to the ground."
+        eyebrow="Opening figure"
+        title="Two Gestures"
         lede="The lecture opens with a detail from Raphael's School of Athens, painted in the Stanza della Segnatura in the Vatican Palace. Originally associated with Pope Julius II's library and private study, the room gathers several domains of knowledge: philosophy, theology, poetry, and justice. The School of Athens occupies the wall of philosophy. It stages the thinkers of antiquity within an ideal Renaissance architecture, as though knowledge itself had been given a built form: ordered, luminous, perspectival, and open toward the sky."
       />
 
       <Prose max={760}>
         <P>
-          At the centre of the fresco, Plato and Aristotle walk side by side. Plato holds the Timaeus and raises one finger upward. Aristotle holds the Nicomachean Ethics and extends his hand outward, almost parallel to the ground. The books matter. The Timaeus is a dialogue about cosmology, mathematical order, and the structure of the universe; it belongs to a mode of thought that seeks pattern, form, and intelligibility at the highest scale. The Nicomachean Ethics, by contrast, concerns practical judgment, action, virtue, and the conditions of a good life; it belongs to a mode of thought grounded in conduct, consequence, and the question of how to act well.
+          At the centre of the fresco, Plato and Aristotle walk side by side. Plato holds the Timaeus and raises one finger upward. Aristotle holds the Nicomachean Ethics and extends his hand outward, almost parallel to the ground. The Timaeus is a dialogue about cosmology, mathematical order, and the structure of the universe; it belongs to a mode of thought that seeks pattern, form, and intelligibility at the highest scale. The Nicomachean Ethics, by contrast, concerns practical judgment, action, virtue, and the conditions of a good life; it belongs to a mode of thought grounded in conduct, consequence, and the question of how to act well.
         </P>
         <P>
-          For remote sensing, this pair offers more than an art-historical metaphor. It gives the lecture its opening problem: <strong style={{ color: "var(--ink)", fontWeight: 500 }}>how to hold abstraction and responsibility together.</strong>
+          For remote sensing, this pair is more than an art-historical metaphor. It gives form to the discipline's central tension: the need to produce knowledge through distance, abstraction, and scale, while keeping that knowledge answerable to judgment, responsibility, and the lived worlds in which its consequences unfold.
         </P>
-      </Prose>
-
-      <div style={{
-        display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0,
-        borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)",
-        marginTop: 32,
-      }}>
-        {/* Plato */}
-        <div style={{
-          padding: "36px 36px 40px",
-          borderRight: "1px solid var(--rule)",
-          position: "relative",
-        }}>
-          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 24 }}>
-            <Pill tone="lapis">left figure</Pill>
-            <span className="mono" style={{ fontSize: 10, color: "var(--ink-3)", letterSpacing: "0.12em" }}>↑ INDEX UP</span>
-          </div>
-          <h3 className="serif" style={{
-            margin: 0, fontSize: 56, fontWeight: 300, letterSpacing: "-0.02em",
-          }}>Plato <em style={{ color: "var(--lapis-2)" }}>, Timaeus</em></h3>
-          <p style={{
-            margin: "16px 0 0", fontSize: 16, lineHeight: 1.55,
-            color: "var(--ink-2)", maxWidth: 460,
-          }}>
-            Plato's upward gesture evokes the power of remote sensing as abstraction: the satellite, the orbital platform, the planetary archive, the foundation model, the synoptic view, and the ambition to understand Earth as an interconnected system. This is the promise of seeing at scale: to detect patterns beyond ordinary perception, to anticipate change, to model risk, and to make visible what cannot be seen from any single place on the ground.
-          </p>
-        </div>
-        {/* Aristotle */}
-        <div style={{ padding: "36px 36px 40px", position: "relative" }}>
-          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 24 }}>
-            <Pill tone="terra">right figure</Pill>
-            <span className="mono" style={{ fontSize: 10, color: "var(--ink-3)", letterSpacing: "0.12em" }}>→ PALM FLAT</span>
-          </div>
-          <h3 className="serif" style={{
-            margin: 0, fontSize: 56, fontWeight: 300, letterSpacing: "-0.02em",
-          }}>Aristotle <em style={{ color: "var(--terra-2)" }}>, Ethics</em></h3>
-          <p style={{
-            margin: "16px 0 0", fontSize: 16, lineHeight: 1.55,
-            color: "var(--ink-2)", maxWidth: 460,
-          }}>
-            Aristotle's horizontal gesture recalls the demands of situated judgment: the field site, the community observer, the local planner, the validator, the emergency manager, the elder reading sea ice conditions, and the resident whose home appears as a small footprint inside a risk layer. This is the world in which knowledge is tested by consequence. A map may be elegant, a model may be powerful, and an index may be statistically robust, but its public meaning depends on how it meets the lives, landscapes, and decisions it claims to inform.
-          </p>
-        </div>
-      </div>
-
-      <Prose max={760} style={{ marginTop: 32 }}>
+        <P>
+          Plato's upward gesture evokes the power of remote sensing as abstraction: the satellite, the orbital platform, the planetary archive, the foundation model, the synoptic view, and the ambition to understand Earth as an interconnected system. This is the promise of seeing at scale: to detect patterns beyond ordinary perception, to anticipate change, to model risk, and to make visible what cannot be seen from any single place on the ground.
+        </P>
+        <P>
+          Aristotle's horizontal gesture recalls the demands of situated judgment: the field site, the community observer, the local planner, the validator, the emergency manager, the elder reading sea ice conditions, and the resident whose home appears as a small footprint inside a risk layer. This is the world in which knowledge is tested by consequence. A map may be elegant, a model may be powerful, and an index may be statistically robust, but its public meaning depends on how it meets the lives, landscapes, and decisions it claims to inform.
+        </P>
         <P>
           Remote sensing, for me, exists between these two gestures. It needs the upward movement of abstraction and the horizontal return to the ground. Without abstraction, we lose the capacity to see across distance, scale, time, and system. Without return, we risk producing knowledge that is technically impressive but socially unmoored. The question is therefore not whether remote sensing should look from above or begin from below, but how these two movements can be held in relation: how distant observation can be interpreted through context, corrected by experience, combined with other forms of knowledge, and made accountable to the worlds it represents.
         </P>
       </Prose>
 
       <Pull color="var(--ochre)">
-        What follows examines how remote sensing can hold these two commitments together: the capacity to see across vast scales and the responsibility to remain attentive to the places, people, and decisions that give those observations meaning.
+        The guide that follows approaches remote sensing not merely as a technical discipline, but as a civic and epistemic practice: a way of seeing at scale whose value depends on how it is interpreted, grounded, and used in the worlds it seeks to understand.
       </Pull>
     </section>
 
