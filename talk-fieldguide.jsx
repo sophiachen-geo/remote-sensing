@@ -84,38 +84,111 @@ const BackToTop = () => (
 
 // ─── utility figures ─────────────────────────────────────────────────────
 
-const FrameworkFigure = () => {
-  const moments = [
-    { n: "01", color: FG.sky,   phase: "before analysis",   title: "Define the object of inquiry",     desc: "Begin with the decision, risk or community concern that motivates the work; let the dataset follow the question." },
-    { n: "02", color: FG.amber, phase: "during analysis",   title: "Track the work of translation",    desc: "Every workflow narrows the world. Make the translations explicit and treat each output as produced evidence." },
-    { n: "03", color: FG.teal,  phase: "after analysis",    title: "Return interpretation to the ground", desc: "The map becomes meaningful when those affected by it can interpret, contest, refine or restrict its use." },
-    { n: "04", color: FG.clay,  phase: "before publication",title: "Assess the politics of visibility", desc: "Visibility shifts power. Ask who gains and who is exposed before the dataset leaves the project team." },
+const FrameworkPanel = () => {
+  const [open, setOpen] = React.useState(null);
+  const colors = [FG.sky, FG.amber, FG.teal, FG.clay];
+  const summaries = [
+    "Begin with the decision, risk or community concern. Let the dataset follow the question.",
+    "Every workflow narrows the world. Make translations explicit; treat each output as produced evidence.",
+    "The map becomes meaningful when those affected can interpret, contest, refine or restrict its use.",
+    "Visibility shifts power. Ask who gains and who is exposed before the dataset leaves the team.",
   ];
   return (
     <FigureCard>
-      <div className="mono" style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: FG.ink3, marginBottom: 24 }}>
-        Four moments where the guide is most useful
-      </div>
+      <div className="mono" style={{
+        fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase",
+        color: FG.ink3, marginBottom: 18,
+      }}>Four moments where the guide is most useful · click a card to read</div>
       <div style={{ position: "relative" }}>
         <div style={{ position: "absolute", top: 20, left: 12, right: 12, height: 2, background: FG.rule }} />
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 18, position: "relative" }}>
-          {moments.map((m, i) => (
-            <div key={i} style={{ position: "relative" }}>
-              <div style={{
-                width: 22, height: 22, borderRadius: "50%", background: m.color, color: FG.bg,
-                fontFamily: "var(--mono)", fontSize: 10, display: "flex", alignItems: "center", justifyContent: "center",
-                marginBottom: 16, position: "relative", zIndex: 2,
-              }}>{i + 1}</div>
-              <div className="mono" style={{ fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: m.color, marginBottom: 8 }}>{m.phase}</div>
-              <div className="serif" style={{ fontSize: 16, fontWeight: 600, color: FG.ink, marginBottom: 8, letterSpacing: "-0.01em" }}>{m.title}</div>
-              <p className="serif" style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: FG.ink2 }}>{m.desc}</p>
-              {i < 3 && (
-                <div style={{ position: "absolute", right: -22, top: 10, color: FG.ink4, fontSize: 18, fontFamily: "var(--mono)" }}>›</div>
-              )}
-            </div>
-          ))}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, position: "relative" }}>
+          {FG_MOMENTS.map((m, i) => {
+            const isOpen = open === i;
+            return (
+              <button key={i} onClick={() => setOpen(isOpen ? null : i)}
+                aria-expanded={isOpen} aria-controls="fg-moment-panel"
+                style={{
+                  appearance: "none", cursor: "pointer", textAlign: "left",
+                  background: isOpen ? `color-mix(in oklch, ${colors[i]} 10%, var(--paper))` : FG.bg,
+                  border: `1px solid ${isOpen ? colors[i] : FG.rule2}`,
+                  borderTop: `3px solid ${colors[i]}`,
+                  padding: "16px 16px 18px",
+                  position: "relative", color: FG.ink, fontFamily: "var(--sans)",
+                  transition: "background 200ms, border-color 200ms",
+                }}>
+                <div style={{
+                  width: 22, height: 22, borderRadius: "50%", background: colors[i], color: FG.bg,
+                  fontFamily: "var(--mono)", fontSize: 10,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  marginBottom: 14, position: "relative", zIndex: 2,
+                }}>{i + 1}</div>
+                <div className="mono" style={{
+                  fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: colors[i], marginBottom: 8,
+                }}>{m.label}</div>
+                <div className="serif" style={{
+                  fontSize: 16, fontWeight: 600, color: FG.ink, marginBottom: 10,
+                  letterSpacing: "-0.01em", lineHeight: 1.2,
+                }}>{m.title}</div>
+                <p className="serif" style={{
+                  margin: 0, fontSize: 13, lineHeight: 1.5, color: FG.ink2,
+                }}>{summaries[i]}</p>
+                <div className="mono" style={{
+                  marginTop: 12, fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase",
+                  color: colors[i],
+                }}>{isOpen ? "↑ Hide" : "↓ Read in full"}</div>
+              </button>
+            );
+          })}
         </div>
       </div>
+      {open !== null && (
+        <div id="fg-moment-panel" style={{
+          marginTop: 24, padding: "32px 32px 30px",
+          background: `color-mix(in oklch, ${colors[open]} 6%, var(--paper))`,
+          border: `1px solid ${colors[open]}`,
+        }}>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 14, marginBottom: 14 }}>
+            <span className="num" style={{
+              fontSize: 34, color: colors[open], letterSpacing: "-0.02em", fontWeight: 300, lineHeight: 1,
+            }}>{String(open + 1).padStart(2, "0")}</span>
+            <span className="mono" style={{
+              fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: colors[open],
+            }}>{FG_MOMENTS[open].label}</span>
+          </div>
+          <h4 className="serif" style={{
+            margin: "0 0 22px", fontSize: 28, fontWeight: 500, color: FG.ink,
+            letterSpacing: "-0.014em", lineHeight: 1.15, maxWidth: 780,
+          }}>{FG_MOMENTS[open].title}</h4>
+          <div style={{ maxWidth: 720 }}>
+            {FG_MOMENTS[open].paragraphs.map((para, i) => (
+              <p key={i} className="serif" style={{
+                margin: "0 0 16px", fontSize: 16.5, lineHeight: 1.65, color: FG.ink2,
+              }}>{para}</p>
+            ))}
+          </div>
+          {FG_MOMENTS[open].questions && (
+            <ul style={{ margin: "8px 0 18px", padding: 0, listStyle: "none", maxWidth: 720 }}>
+              {FG_MOMENTS[open].questions.map((q, i) => (
+                <li key={i} className="serif" style={{
+                  padding: "10px 0",
+                  borderBottom: i < FG_MOMENTS[open].questions.length - 1
+                    ? `1px solid color-mix(in oklch, ${colors[open]} 28%, transparent)`
+                    : "none",
+                  fontSize: 16.5, lineHeight: 1.5, color: FG.ink, fontStyle: "italic",
+                }}>{q}</li>
+              ))}
+            </ul>
+          )}
+          {FG_MOMENTS[open].closing && (
+            <p className="serif" style={{
+              margin: "22px 0 0", padding: "18px 22px",
+              background: FG.bg, borderLeft: `4px solid ${colors[open]}`,
+              fontSize: 17, lineHeight: 1.5, color: FG.ink, fontWeight: 500, fontStyle: "italic",
+              maxWidth: 780,
+            }}>{FG_MOMENTS[open].closing}</p>
+          )}
+        </div>
+      )}
     </FigureCard>
   );
 };
@@ -996,26 +1069,50 @@ const MomentBlock = ({ m, idx }) => (
   </section>
 );
 
-const FieldGuideMatrix = () => (
-  <section id="fg-matrix" style={{ padding: "44px 0", borderTop: `1px solid ${FG.rule}`, scrollMarginTop: 80 }}>
-    <div className="mono" style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: FG.ink3, marginBottom: 18 }}>
-      The twelve principles at a glance
-    </div>
-    <div style={{
-      display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 1,
-      background: FG.rule, border: `1px solid ${FG.rule}`,
-    }}>
-      {FG_PRINCIPLES.map(p => (
-        <a key={p.n} href={`#p${p.n}`} style={{
-          display: "block", padding: "16px 18px", textDecoration: "none", background: FG.bg,
-        }}>
-          <div className="mono" style={{ fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: FG.ink3, marginBottom: 8 }}>{p.n} · {p.mismatch}</div>
-          <FromTo from={p.from} to={p.to} size="sm" />
-        </a>
-      ))}
-    </div>
-  </section>
-);
+const FieldGuideMatrix = () => {
+  const readHash = () => {
+    if (typeof window === "undefined") return null;
+    const m = (window.location.hash || "").match(/^#p(\d+)/);
+    return m ? m[1] : null;
+  };
+  const [active, setActive] = React.useState(readHash);
+  React.useEffect(() => {
+    const update = () => setActive(readHash());
+    window.addEventListener("hashchange", update);
+    return () => window.removeEventListener("hashchange", update);
+  }, []);
+  return (
+    <section id="fg-matrix" style={{ padding: "44px 0", borderTop: `1px solid ${FG.rule}`, scrollMarginTop: 80 }}>
+      <div className="mono" style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: FG.ink3, marginBottom: 18 }}>
+        The twelve principles at a glance · click any to jump
+      </div>
+      <div style={{
+        display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 1,
+        background: FG.rule, border: `1px solid ${FG.rule}`,
+      }}>
+        {FG_PRINCIPLES.map(p => {
+          const on = active === p.n;
+          return (
+            <a key={p.n} href={`#p${p.n}`}
+              onClick={() => setActive(p.n)}
+              style={{
+                display: "block", padding: "16px 18px", textDecoration: "none",
+                background: on ? FG.skyT : FG.bg,
+                boxShadow: on ? `inset 0 3px 0 0 ${FG.navy}` : "none",
+                transition: "background 220ms, box-shadow 220ms",
+              }}>
+              <div className="mono" style={{
+                fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase",
+                color: on ? FG.navy : FG.ink3, marginBottom: 8, fontWeight: on ? 600 : 400,
+              }}>{p.n} · {p.mismatch}</div>
+              <FromTo from={p.from} to={p.to} size="sm" />
+            </a>
+          );
+        })}
+      </div>
+    </section>
+  );
+};
 
 const CriticalFieldGuide = () => (
   <div style={{ "--accent": FG.clay }}>
@@ -1036,10 +1133,6 @@ const CriticalFieldGuide = () => (
       </p>
     </header>
 
-    <FrameworkFigure />
-    <TranslationChain />
-    <FieldGuideMatrix />
-
     <section style={{ padding: "44px 0", borderTop: `1px solid ${FG.rule}` }}>
       <div className="mono" style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: FG.ink3, marginBottom: 14 }}>How to use this field guide</div>
       <h3 className="serif" style={{ margin: "0 0 20px", fontSize: 30, fontWeight: 500, letterSpacing: "-0.014em", lineHeight: 1.15, color: FG.ink, maxWidth: 820 }}>An accountable workflow, at four moments.</h3>
@@ -1050,7 +1143,9 @@ const CriticalFieldGuide = () => (
       </div>
     </section>
 
-    {FG_MOMENTS.map((m, i) => <MomentBlock key={i} m={m} idx={i} />)}
+    <FrameworkPanel />
+    <TranslationChain />
+    <FieldGuideMatrix />
 
     <div style={{ padding: "56px 0 24px" }}>
       <div className="mono" style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: FG.ink3, marginBottom: 14 }}>The twelve principles</div>
