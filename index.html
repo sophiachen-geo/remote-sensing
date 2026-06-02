@@ -189,30 +189,40 @@
   }
   .section-intro__inner {
     max-width: 1000px; margin: 0 auto;
-    padding: 22px 56px 22px;
+    padding: 22px 56px;
     display: grid; grid-template-columns: 108px 1fr;
-    gap: 32px; align-items: center;
+    grid-template-rows: 108px;
+    gap: 32px; align-items: stretch;
   }
   .section-intro__glyph {
     flex: 0 0 auto;
+    width: 108px; height: 108px;
+    display: flex; align-items: center; justify-content: center;
     filter: drop-shadow(0 8px 18px rgba(31, 42, 64, 0.10));
   }
-  .section-intro__text { min-width: 0; }
+  .section-intro__glyph svg { width: 108px !important; height: 108px !important; display: block; }
+  .section-intro__text {
+    min-width: 0; height: 108px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    overflow: hidden;
+  }
   .section-intro__epigraph {
     font-family: var(--serif); font-style: italic; font-weight: 400;
-    font-size: 15.5px; line-height: 1.3;
-    color: var(--ink); margin: 0 0 6px;
+    font-size: 14.5px; line-height: 1.3;
+    color: var(--ink); margin: 0;
     letter-spacing: -0.005em;
   }
   .section-intro__body {
-    font-family: var(--sans); font-size: 13px; line-height: 1.5;
-    color: var(--ink-2); margin: 0 0 8px;
-    max-width: 720px;
+    font-family: var(--sans); font-size: 12.5px; line-height: 1.45;
+    color: var(--ink-2); margin: 0;
+    max-width: 760px;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .section-intro__row {
     display: grid; grid-template-columns: auto 1fr;
-    gap: 14px; align-items: baseline;
-    padding-top: 8px;
+    gap: 12px; align-items: baseline;
+    padding-top: 6px;
     border-top: 1px solid color-mix(in oklch, var(--accent, var(--rule)) 28%, var(--rule-soft));
   }
   .section-intro__tag {
@@ -230,13 +240,18 @@
   }
   @media (max-width: 760px) {
     .section-intro__inner {
-      grid-template-columns: 64px 1fr; gap: 18px;
-      padding: 18px 20px;
+      grid-template-columns: 72px 1fr; gap: 16px;
+      grid-template-rows: 72px;
+      padding: 16px 20px;
     }
-    .section-intro__glyph svg { width: 64px !important; height: 64px !important; }
-    .section-intro__epigraph { font-size: 14px; }
-    .section-intro__body { font-size: 12.5px; }
-    .section-intro__row { grid-template-columns: 1fr; gap: 6px; }
+    .section-intro__glyph { width: 72px; height: 72px; }
+    .section-intro__glyph svg { width: 72px !important; height: 72px !important; }
+    .section-intro__text { height: 72px; }
+    .section-intro__epigraph { font-size: 13px; }
+    .section-intro__body { font-size: 11.5px; -webkit-line-clamp: 2; }
+    .section-intro__row { gap: 10px; }
+    .section-intro__list { font-size: 11.5px; }
+    .section-intro__tag { font-size: 9px; padding: 2px 6px; }
   }
   @media (max-width: 760px) {
     .section-intro__epigraph { font-size: 18px; }
@@ -388,9 +403,9 @@
      ============================================================ */
   :root {
     /* ACTIVE LAYER · intro — thaw surface */
-    --st-active-bg-deep:#6e8a2c; --st-active-bg:#9bb04a; --st-active-bg-soft:#c4d27a;
+    --st-active-bg-deep:#b27214; --st-active-bg:#df9128; --st-active-bg-soft:#f1c378;
     --st-active-soil:#6b513a; --st-active-edge:#4a3826;
-    --st-active-accent:#ffffff; --st-active-accent-2:#9bb04a; --st-active-ink:#293a0e;
+    --st-active-accent:#ffffff; --st-active-accent-2:#df9128; --st-active-ink:#3a2210;
 
     /* PERMAFROST · core ideas — frozen load-bearing substrate */
     --st-perma-bg-deep:#3f4f73; --st-perma-bg:#5d709a; --st-perma-bg-soft:#7d90b4;

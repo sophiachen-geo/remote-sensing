@@ -54,11 +54,11 @@ const TabOuverture = () => (
     {/* Interactive painting */}
     <InteractivePainting />
 
-    {/* Two Gestures */}
-    <section className="wrap" style={{ padding: "96px 56px 0" }}>
+    {/* § I — Opening figure · Two Gestures */}
+    <section className="wrap" style={{ padding: "72px 56px 0" }}>
       <SectionHead
-        index="i"
-        eyebrow="Opening figure"
+        n="I"
+        eyebrow="OPENING FIGURE"
         title="Two Gestures"
         lede="The lecture opens with a detail from Raphael's School of Athens, painted in the Stanza della Segnatura in the Vatican Palace. Originally associated with Pope Julius II's library and private study, the room gathers several domains of knowledge: philosophy, theology, poetry, and justice. The School of Athens occupies the wall of philosophy. It stages the thinkers of antiquity within an ideal Renaissance architecture, as though knowledge itself had been given a built form: ordered, luminous, perspectival, and open toward the sky."
       />
@@ -68,22 +68,31 @@ const TabOuverture = () => (
           At the centre of the fresco, Plato and Aristotle walk side by side. Plato holds the Timaeus and raises one finger upward. Aristotle holds the Nicomachean Ethics and extends his hand outward, almost parallel to the ground. The Timaeus is a dialogue about cosmology, mathematical order, and the structure of the universe; it belongs to a mode of thought that seeks pattern, form, and intelligibility at the highest scale. The Nicomachean Ethics, by contrast, concerns practical judgment, action, virtue, and the conditions of a good life; it belongs to a mode of thought grounded in conduct, consequence, and the question of how to act well.
         </P>
         <P>
-          For remote sensing, this pair is more than an art-historical metaphor. It gives form to the discipline's central tension: the need to produce knowledge through distance, abstraction, and scale, while keeping that knowledge answerable to judgment, responsibility, and the lived worlds in which its consequences unfold.
-        </P>
-        <P>
           Plato's upward gesture evokes the power of remote sensing as abstraction: the satellite, the orbital platform, the planetary archive, the foundation model, the synoptic view, and the ambition to understand Earth as an interconnected system. This is the promise of seeing at scale: to detect patterns beyond ordinary perception, to anticipate change, to model risk, and to make visible what cannot be seen from any single place on the ground.
         </P>
         <P>
           Aristotle's horizontal gesture recalls the demands of situated judgment: the field site, the community observer, the local planner, the validator, the emergency manager, the elder reading sea ice conditions, and the resident whose home appears as a small footprint inside a risk layer. This is the world in which knowledge is tested by consequence. A map may be elegant, a model may be powerful, and an index may be statistically robust, but its public meaning depends on how it meets the lives, landscapes, and decisions it claims to inform.
         </P>
+      </Prose>
+    </section>
+
+    {/* § II — Between abstraction and return */}
+    <section className="wrap" style={{ padding: "56px 56px 0" }}>
+      <SectionHead
+        n="II"
+        eyebrow="THE CENTRAL TENSION"
+        title="Between abstraction and return"
+        lede="The pair is more than an art-historical metaphor. It gives form to the discipline's central tension: the need to produce knowledge through distance, abstraction, and scale, while keeping that knowledge answerable to judgment, responsibility, and the lived worlds in which its consequences unfold."
+      />
+
+      <Prose max={760}>
         <P>
-          Remote sensing, for me, exists between these two gestures. It needs the upward movement of abstraction and the horizontal return to the ground. Without abstraction, we lose the capacity to see across distance, scale, time, and system. Without return, we risk producing knowledge that is technically impressive but socially unmoored. The question is therefore not whether remote sensing should look from above or begin from below, but how these two movements can be held in relation: how distant observation can be interpreted through context, corrected by experience, combined with other forms of knowledge, and made accountable to the worlds it represents.
+          Remote sensing, for me, exists between these two gestures. It needs the upward movement of abstraction and the horizontal return to the ground. Without abstraction, we lose the capacity to see across distance, scale, time, and system. Without return, we risk producing knowledge that is technically impressive but socially unmoored.
+        </P>
+        <P>
+          The question is therefore not whether remote sensing should look from above or begin from below, but how these two movements can be held in relation: how distant observation can be interpreted through context, corrected by experience, combined with other forms of knowledge, and made accountable to the worlds it represents. The guide that follows approaches remote sensing not merely as a technical discipline, but as a civic and epistemic practice: a way of seeing at scale whose value depends on how it is interpreted, grounded, and used in the worlds it seeks to understand.
         </P>
       </Prose>
-
-      <Pull color="var(--ochre)">
-        The guide that follows approaches remote sensing not merely as a technical discipline, but as a civic and epistemic practice: a way of seeing at scale whose value depends on how it is interpreted, grounded, and used in the worlds it seeks to understand.
-      </Pull>
     </section>
 
   </div>

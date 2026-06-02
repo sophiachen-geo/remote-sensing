@@ -42,30 +42,51 @@ const Rule = ({ tone = "var(--rule)", style }) => (
   <hr style={{ border: 0, borderTop: `1px solid ${tone}`, margin: 0, ...style }} />
 );
 
-const SectionHead = ({ index, eyebrow, title, lede, color = "var(--terra)" }) => (
-  <div style={{
-    display: "grid", gridTemplateColumns: "60px 1fr", columnGap: 32,
-    rowGap: 8, alignItems: "baseline", marginBottom: 40,
-  }}>
-    <div className="mono" style={{
-      color: "var(--ink-3)", fontSize: 11, letterSpacing: "0.16em",
-      textTransform: "uppercase", paddingTop: 8,
-    }}>§ {index}</div>
-    <div>
-      <Kicker color={color}>{eyebrow}</Kicker>
+// SectionHead — standardized Level 3 heading used in tab bodies.
+// Matches the PFBlock / Sub() pattern so every § section across the site
+// reads at the same visual weight:
+//   § {n}  |  EYEBROW   (mono caps; eyebrow is Level 4)
+//   {title}             (serif h3, 26px, weight 500, max width 820)
+//   {lede}              (optional body lede paragraph)
+const SectionHead = ({ n, index, eyebrow, title, lede, color = "var(--terra)" }) => {
+  const num = n || (index ? String(index).toUpperCase() : null);
+  return (
+    <div style={{ marginBottom: 28 }}>
+      {(num || eyebrow) && (
+        <div style={{
+          display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap",
+          marginBottom: 12,
+        }}>
+          {num && (
+            <span className="mono" style={{
+              fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase",
+              color, fontWeight: 600,
+            }}>§ {num}</span>
+          )}
+          {num && eyebrow && (
+            <span aria-hidden="true" style={{ width: 1, height: 12, background: "var(--rule)" }} />
+          )}
+          {eyebrow && (
+            <span className="mono" style={{
+              fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase",
+              color: "var(--ink-3)", fontWeight: 500,
+            }}>{eyebrow}</span>
+          )}
+        </div>
+      )}
       <h2 className="serif" style={{
-        margin: 0, fontSize: 48, lineHeight: 1.02, fontWeight: 400,
-        letterSpacing: "-0.014em", maxWidth: 920,
+        margin: 0, fontSize: 26, lineHeight: 1.18, fontWeight: 500,
+        letterSpacing: "-0.012em", color: "var(--ink)", maxWidth: 820,
       }}>{title}</h2>
       {lede && (
         <p style={{
-          margin: "20px 0 0", maxWidth: 760, color: "var(--ink-2)",
-          fontSize: 17, lineHeight: 1.6,
+          margin: "14px 0 0", maxWidth: 760, color: "var(--ink-2)",
+          fontSize: 16, lineHeight: 1.6,
         }}>{lede}</p>
       )}
     </div>
-  </div>
-);
+  );
+};
 
 const Prose = ({ children, max = 720, style }) => (
   <div style={{ maxWidth: max, ...style }}>{children}</div>

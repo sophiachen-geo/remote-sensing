@@ -34,8 +34,8 @@ const Sub = ({ n, kicker, color, children }) => (
       </div>
     )}
     <h3 className="serif" style={{
-      margin: 0, fontSize: 28, lineHeight: 1.1, fontWeight: 400,
-      letterSpacing: "-0.012em", maxWidth: 760,
+      margin: 0, fontSize: 26, lineHeight: 1.18, fontWeight: 500,
+      letterSpacing: "-0.012em", maxWidth: 820,
     }}>{children}</h3>
   </div>
 );

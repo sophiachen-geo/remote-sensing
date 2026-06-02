@@ -136,14 +136,14 @@ const PFBlock = ({ n, kicker, kc, title, lede, caption, children }) => {
         </div>
       )}
       {title && (
-        <h3 style={{
-          margin: "10px 0 0", fontSize: 24, lineHeight: 1.18, fontWeight: 700,
-          letterSpacing: "-0.015em", color: PF.ink, maxWidth: 820,
+        <h3 className="serif" style={{
+          margin: "10px 0 0", fontSize: 26, lineHeight: 1.18, fontWeight: 500,
+          letterSpacing: "-0.012em", color: PF.ink, maxWidth: 820,
         }}>{title}</h3>
       )}
       {lede && (
-        <p className="serif" style={{
-          margin: "12px 0 0", fontSize: 16.5, lineHeight: 1.55, color: PF.ink2, maxWidth: 760,
+        <p style={{
+          margin: "14px 0 0", fontSize: 16, lineHeight: 1.6, color: PF.ink2, maxWidth: 760,
         }}>{lede}</p>
       )}
       <div style={{ marginTop: 22 }}>{children}</div>
