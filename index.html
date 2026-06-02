@@ -71,7 +71,11 @@
   [id] { scroll-margin-top: 80px; }
 
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
+  html, body {
+    margin: 0; padding: 0; background: var(--paper); color: var(--ink);
+    overflow-x: hidden;
+  }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   body {
     font-family: var(--sans);
     font-size: 15.5px;
@@ -79,7 +83,10 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     font-feature-settings: "ss01", "cv11";
+    overflow-wrap: break-word;
+    word-wrap: break-word;
   }
+  img, svg, video { max-width: 100%; }
 
   a { color: inherit; }
   ::selection { background: var(--ochre-tint); color: var(--ink); }
@@ -517,6 +524,168 @@
   .kicker {
     font-family: var(--mono); font-size: 11px; letter-spacing: 0.20em;
     text-transform: uppercase; color: var(--terra);
+  }
+
+  /* ============================================================
+     MOBILE RESPONSIVE
+     Catch-all rules that adapt every tab body, sub-nav, and Fig
+     grid to a phone-sized viewport. Inline styles in JSX components
+     are overridden by !important here so we don't have to refactor
+     every padding/grid-template-columns on every component.
+     ============================================================ */
+  @media (max-width: 760px) {
+    /* Layout containers — collapse the 56px horizontal padding that
+       many tab bodies set inline. */
+    .wrap, body .wrap {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+
+    /* Top-level chrome tab cards — tighter labels so 5 cards fit a
+       phone viewport without overflow. */
+    .chrome-tabs .tab-card { padding: 8px 6px 10px !important; gap: 4px !important; }
+    .chrome-tabs .tab-card .tab-strip { height: 18px !important; }
+    .chrome-tabs .tab-card .tab-label { font-size: 11.5px !important; letter-spacing: -0.005em; }
+    .chrome-tabs .tab-card .tab-sub { font-size: 8px !important; letter-spacing: 0.12em !important; }
+    .chrome-tabs .tab-card .tab-caret { font-size: 9px; }
+
+    /* Permafrost masthead h1 — reduce the giant question type */
+    .wrap > header h1 {
+      font-size: 24px !important;
+      line-height: 1.2 !important;
+      letter-spacing: -0.018em !important;
+    }
+    /* Permafrost sub-nav (PermaSubNav) — let the 5 tabs wrap or scroll */
+    .wrap > div[style*="grid-template-columns: repeat(5, 1fr)"] {
+      grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    }
+    .wrap > div[style*="repeat(5, 1fr)"] .serif {
+      font-size: 11px !important;
+      line-height: 1.18 !important;
+    }
+    .wrap > div[style*="repeat(5, 1fr)"] .mono {
+      font-size: 8.5px !important;
+      letter-spacing: 0.12em !important;
+    }
+    .wrap > div[style*="repeat(5, 1fr)"] button {
+      padding: 10px 6px 12px !important;
+      min-height: 56px !important;
+    }
+
+    /* Fig* widget grids — stack 2-column layouts vertically */
+    div[style*="grid-template-columns: \"230px 1fr\""],
+    div[style*="grid-template-columns:\"230px 1fr\""],
+    div[style*="grid-template-columns: \"1fr 300px\""],
+    div[style*="grid-template-columns:\"1fr 300px\""],
+    div[style*="minmax(320px, 1fr) minmax(360px, 1.1fr)"],
+    div[style*="grid-template-columns: \"1fr 1fr\""],
+    div[style*="grid-template-columns:\"1fr 1fr\""],
+    div[style*="grid-template-columns: \"1.2fr 1.4fr 1fr\""],
+    div[style*="grid-template-columns: \"130px 1fr 1fr\""],
+    div[style*="grid-template-columns: \"60px 1fr\""],
+    div[style*="grid-template-columns: \"44px 1fr\""],
+    div[style*="grid-template-columns: \"48px 1fr\""],
+    div[style*="grid-template-columns: \"80px 1fr\""],
+    div[style*="grid-template-columns: \"110px 1fr\""],
+    div[style*="grid-template-columns: \"180px 1fr\""],
+    div[style*="grid-template-columns: \"1fr 1.4fr\""],
+    div[style*="grid-template-columns: \"1fr 1.1fr\""],
+    div[style*="grid-template-columns: \"auto 1fr\""],
+    div[style*="grid-template-columns: \"repeat(3, 1fr)\""],
+    div[style*="grid-template-columns: \"repeat(4, 1fr)\""],
+    article[style*="grid-template-columns: \"auto 1fr\""],
+    section[style*="grid-template-columns: \"auto 1fr\""] {
+      grid-template-columns: 1fr !important;
+      gap: 14px !important;
+    }
+
+    /* Field guide / case-study tab strips that use repeat(4,...) */
+    .wrap div[style*="repeat(4, 1fr)"] {
+      grid-template-columns: 1fr 1fr !important;
+      gap: 8px !important;
+    }
+
+    /* PFMovement big roman numeral — shrink so it doesn't push the name */
+    .wrap section[style*="scrollMarginTop: 80px"] .num,
+    .wrap section[style*="scroll-margin-top: 80px"] .num,
+    .wrap section .num[style*="fontSize: 90px"],
+    .wrap section .num[style*="font-size: 90px"] {
+      font-size: 48px !important;
+    }
+    /* PFMovement h2 — keep readable */
+    .wrap section h2[style*="font-size: 40px"],
+    .wrap section h2[style*="fontSize: 40px"] {
+      font-size: 26px !important;
+      line-height: 1.12 !important;
+    }
+
+    /* Block titles (PFBlock h3) — already 26px from the standardization */
+    .wrap section h3 { font-size: 21px !important; line-height: 1.22 !important; }
+
+    /* All in-body paragraphs scale to a comfortable phone size */
+    .wrap section p, .wrap section li { font-size: 14.5px !important; line-height: 1.6 !important; }
+
+    /* Hero "Sensing for the Commons" h1 on the Introduction tab */
+    .wrap h1[style*="font-size: 88px"],
+    .wrap h1[style*="fontSize: 88px"],
+    .wrap h1[style*="white-space: nowrap"] {
+      font-size: 38px !important;
+      line-height: 1.0 !important;
+      white-space: normal !important;
+    }
+
+    /* Defaults table — cards already collapse via their own media query
+       (down to 2 cols). On phone the hover-scale pop-up needs to fit. */
+    .default-card:hover .default-card__inner,
+    .default-card[aria-pressed="true"] .default-card__inner {
+      width: 92vw !important;
+      max-width: 480px;
+      height: auto !important;
+      aspect-ratio: 8 / 5;
+      margin-left: -46vw !important;
+      margin-top: -28vw !important;
+    }
+    .default-card__back { padding: 14px 16px !important; }
+    .default-card__answer { font-size: 18px !important; }
+    .default-card__body { font-size: 13px !important; }
+    .default-card__qa { grid-template-columns: 1fr !important; gap: 10px !important; }
+    .default-card__qa p { font-size: 13px !important; }
+
+    /* Tables that have min-width set — scroll horizontally inside their container */
+    .wrap div[style*="overflow: auto"] table,
+    .wrap div[style*="overflow:auto"] table { font-size: 12.5px !important; }
+
+    /* Chrome byline gets cramped — hide on the smallest screens */
+    .chrome-strip .chrome-byline { display: none; }
+
+    /* Case-study TabDeepDive tab grid */
+    .wrap > div > div[style*="gridTemplateColumns"][style*="repeat"] { gap: 8px !important; }
+
+    /* The two-column intro on the Introduction tab if it ever appears */
+    .intro-grid { grid-template-columns: 1fr !important; gap: 22px !important; }
+
+    /* Bookend image grid (Plato/Aristotle) stack */
+    section[style*="grid-template-columns: \"1fr 1fr\""] { grid-template-columns: 1fr !important; }
+
+    /* Wheel + detail panel grid — let the wheel SVG come first, then the detail */
+    .wrap div[style*="minmax(320px, 1fr) minmax(360px, 1.1fr)"] > div {
+      border-right: none !important;
+      border-bottom: 1px solid var(--rule) !important;
+    }
+    .wrap div[style*="minmax(320px, 1fr) minmax(360px, 1.1fr)"] > div:last-child {
+      border-bottom: none !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    /* Even tighter for the smallest phones */
+    .chrome-tabs .tab-card .tab-label { font-size: 10.5px !important; }
+    .chrome-tabs .tab-card .tab-sub { font-size: 7.5px !important; }
+    .wrap > header h1 { font-size: 21px !important; }
+    .wrap section h3 { font-size: 19px !important; }
+    .wrap section p, .wrap section li { font-size: 14px !important; }
+    .case-abstract__lead { font-size: 16px !important; }
+    .case-abstract__body { columns: 1 !important; font-size: 13.5px !important; }
   }
 </style>
 </head>
