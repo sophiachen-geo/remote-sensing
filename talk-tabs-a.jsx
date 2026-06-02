@@ -27,55 +27,26 @@ const TabOuverture = () => (
           Remote sensing between sky-eye abstraction, ground-up knowledge, and care.
         </p>
 
-        {/* Two-column intro: prose left, "How to read this guide" rectangle right */}
-        <div className="intro-grid" style={{
+        {/* Intro prose */}
+        <div style={{
           marginTop: 48, paddingTop: 36, borderTop: "1px solid var(--rule-soft)",
+          maxWidth: 760,
         }}>
-          <div>
-            <p className="serif" style={{
-              margin: "0 0 20px", fontSize: 17, lineHeight: 1.65, color: "var(--ink-2)",
-              fontStyle: "italic",
-            }}>
-              This guide accompanies the lecture. Read it before, during, or after the talk. It asks one question: how can remote sensing contribute to care, resilience, and community, especially once observation from above becomes part of decisions made on the ground?
-            </p>
-            <p style={{ margin: "0 0 18px", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
-              Remote sensing studies the Earth from a distance, through satellites, sensors, and models, turning the world into maps, indices, classifications, and forecasts. That abstraction is powerful: it makes visible what no single place on the ground can see, from slow change across large areas to hazards in places hard to reach.
-            </p>
-            <p style={{ margin: "0 0 18px", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
-              But data is not valuable in itself. Its value lies in what it makes possible: a flood extent, a burn scar, or a heat anomaly entering decisions about response, planning, adaptation, insurance, or funding. At that moment, observation stops being observation and becomes part of institutions, budgets, and lives.
-            </p>
-            <p style={{ margin: 0, fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
-              So this guide treats remote sensing not as a finished product but as a <em style={{ color: "var(--terra)", fontStyle: "normal", fontWeight: 600 }}>chain of translation</em>: data must be interpreted, validated, grounded in context, communicated, and sometimes challenged before it becomes trustworthy public knowledge. That is where its civic value is greatest, and where its limits show: uncertainty, misclassification, uneven coverage, and the risk of representing communities without their consent or authority.
-            </p>
-          </div>
-
-          <aside className="how-to-read">
-            <div className="how-to-read__title">How to read this guide</div>
-            <ol className="how-to-read__list">
-              {[
-                ["01", "active", "Introduction", "Start here for the central question, the purpose of the guide, and how the sections fit together."],
-                ["02", "perma",  "Core Ideas",   "The main argument: risk as a relation, the heuristic stack, and the problem of integration."],
-                ["03", "canopy", "Case Studies", "Worked examples showing how remote sensing is used in practice, with maps, data, field evidence, and visual material."],
-                ["04", "rhizo",  "Field Guides", "Practical methods, governance protocols, and a checklist for applying the argument responsibly."],
-                ["05", "floor",  "Annexes",      "Sources, references, the bookend, and the closing argument."],
-              ].map(([n, strata, name, body]) => (
-                <li key={n}>
-                  <div className="how-to-read__head">
-                    <span className="how-to-read__glyph" aria-hidden="true">
-                      <SectionGlyph section={strata} size={26} showSurface={false} />
-                    </span>
-                    <span className="how-to-read__num">{n}</span>
-                    <span className="how-to-read__dot">·</span>
-                    <span className="how-to-read__name">{name}</span>
-                  </div>
-                  <p className="how-to-read__body">{body}</p>
-                </li>
-              ))}
-            </ol>
-            <p className="how-to-read__footer">
-              Read the guide in order, or use the tabs above to move directly to any section.
-            </p>
-          </aside>
+          <p className="serif" style={{
+            margin: "0 0 20px", fontSize: 18, lineHeight: 1.65, color: "var(--ink-2)",
+            fontStyle: "italic",
+          }}>
+            This guide accompanies the lecture. Read it before, during, or after the talk. It asks one question: how can remote sensing contribute to care, resilience, and community, especially once observation from above becomes part of decisions made on the ground?
+          </p>
+          <p style={{ margin: "0 0 18px", fontSize: 17, lineHeight: 1.65, color: "var(--ink-2)" }}>
+            Remote sensing studies the Earth from a distance, through satellites, sensors, and models, turning the world into maps, indices, classifications, and forecasts. That abstraction is powerful: it makes visible what no single place on the ground can see, from slow change across large areas to hazards in places hard to reach.
+          </p>
+          <p style={{ margin: "0 0 18px", fontSize: 17, lineHeight: 1.65, color: "var(--ink-2)" }}>
+            But data is not valuable in itself. Its value lies in what it makes possible: a flood extent, a burn scar, or a heat anomaly entering decisions about response, planning, adaptation, insurance, or funding. At that moment, observation stops being observation and becomes part of institutions, budgets, and lives.
+          </p>
+          <p style={{ margin: 0, fontSize: 17, lineHeight: 1.65, color: "var(--ink-2)" }}>
+            So this guide treats remote sensing not as a finished product but as a <em style={{ color: "var(--terra)", fontStyle: "normal", fontWeight: 600 }}>chain of translation</em>: data must be interpreted, validated, grounded in context, communicated, and sometimes challenged before it becomes trustworthy public knowledge. That is where its civic value is greatest, and where its limits show: uncertainty, misclassification, uneven coverage, and the risk of representing communities without their consent or authority.
+          </p>
         </div>
       </div>
     </section>

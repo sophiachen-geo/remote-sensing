@@ -396,23 +396,28 @@ const StrataStrip = ({ section = "active" }) => {
   );
 };
 
-// Per-tab intro panel that sits directly under the chrome nav: epigraph,
-// description (standfirst), and an "In this section" callout. Pulls all
-// copy from STRATA_CONTENT so the chrome stays decoupled from tab internals.
+// Per-tab intro panel that sits directly under the chrome nav: a strata
+// pictogram on the left, then epigraph, description (standfirst), and an
+// "In this section" callout on the right. All copy comes from STRATA_CONTENT.
 const SectionIntro = ({ section, accent }) => {
   const s = STRATA_CONTENT[section];
   if (!s) return null;
   return (
     <section className="section-intro" style={{ "--accent": accent || s.accent }}>
       <div className="section-intro__inner">
-        <p className="section-intro__epigraph">{s.epigraph}</p>
-        <p className="section-intro__body">{s.standfirst}</p>
-        {s.inSection && (
-          <div className="section-intro__row">
-            <span className="section-intro__tag">In this section</span>
-            <span className="section-intro__list">{s.inSection}</span>
-          </div>
-        )}
+        <div className="section-intro__glyph" aria-hidden="true">
+          <SectionGlyph section={section} size={108} showSurface={false} />
+        </div>
+        <div className="section-intro__text">
+          <p className="section-intro__epigraph">{s.epigraph}</p>
+          <p className="section-intro__body">{s.standfirst}</p>
+          {s.inSection && (
+            <div className="section-intro__row">
+              <span className="section-intro__tag">In this section</span>
+              <span className="section-intro__list">{s.inSection}</span>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );

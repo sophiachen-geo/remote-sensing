@@ -184,8 +184,19 @@
     border-bottom: 1px solid var(--rule);
   }
   .section-intro__inner {
-    max-width: 880px; margin: 0 auto;
+    max-width: 1000px; margin: 0 auto;
     padding: 36px 56px 32px;
+    display: grid; grid-template-columns: 108px 1fr;
+    gap: 40px; align-items: start;
+  }
+  .section-intro__glyph {
+    flex: 0 0 auto; padding-top: 4px;
+    filter: drop-shadow(0 8px 18px rgba(31, 42, 64, 0.10));
+  }
+  .section-intro__text { min-width: 0; }
+  @media (max-width: 760px) {
+    .section-intro__inner { grid-template-columns: 64px 1fr; gap: 22px; padding: 26px 20px 24px; }
+    .section-intro__glyph svg { width: 64px !important; height: 64px !important; }
   }
   .section-intro__epigraph {
     font-family: var(--serif); font-style: italic; font-weight: 400;
@@ -218,71 +229,9 @@
     color: var(--ink-2); max-width: 680px;
   }
   @media (max-width: 760px) {
-    .section-intro__inner { padding: 26px 20px 24px; }
     .section-intro__epigraph { font-size: 18px; }
     .section-intro__body { font-size: 14.5px; }
     .section-intro__row { grid-template-columns: 1fr; gap: 10px; }
-  }
-
-  /* Introduction tab two-column intro */
-  .intro-grid {
-    display: grid; grid-template-columns: minmax(0, 1fr) 320px;
-    gap: 40px; align-items: start;
-  }
-  @media (max-width: 880px) {
-    .intro-grid { grid-template-columns: 1fr; gap: 28px; }
-  }
-
-  /* "How to read this guide" rectangle in the Introduction tab */
-  .how-to-read {
-    background: color-mix(in oklch, var(--st-active-accent-2) 8%, var(--paper));
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    padding: 22px 24px 20px;
-    position: sticky; top: 96px;
-  }
-  .how-to-read__title {
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em;
-    text-transform: uppercase; color: var(--terra);
-    font-weight: 600; margin-bottom: 16px;
-  }
-  .how-to-read__list {
-    list-style: none; padding: 0; margin: 0;
-    display: flex; flex-direction: column; gap: 14px;
-  }
-  .how-to-read__list li {
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--rule-soft);
-  }
-  .how-to-read__list li:last-child { border-bottom: none; padding-bottom: 0; }
-  .how-to-read__head {
-    display: flex; align-items: center; gap: 8px;
-    font-family: var(--sans); font-size: 15px;
-    color: var(--ink); margin-bottom: 6px;
-  }
-  .how-to-read__glyph {
-    flex: 0 0 auto; display: inline-flex; align-items: center;
-    border-radius: 4px; overflow: hidden;
-    box-shadow: 0 0 0 1px rgba(17, 32, 58, 0.08);
-  }
-  .how-to-read__num {
-    font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em;
-    color: var(--ink-3); font-weight: 500;
-  }
-  .how-to-read__dot { color: var(--ink-4); }
-  .how-to-read__name { font-weight: 700; color: var(--ink); }
-  .how-to-read__body {
-    margin: 0 0 0 34px; font-size: 13.5px; line-height: 1.5;
-    color: var(--ink-2);
-  }
-  .how-to-read__footer {
-    margin: 14px 0 0; padding-top: 14px;
-    border-top: 1px solid var(--rule-soft);
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em;
-    line-height: 1.5; color: var(--ink-3);
-  }
-  @media (max-width: 880px) {
-    .how-to-read { position: static; }
   }
 
   /* Case study Abstract callout */

@@ -943,11 +943,11 @@ const PermaSubNav = ({ tabs, active, set, accentMap }) => {
 };
 
 const PERMA_TABS = [
-  { id: "m1",       kicker: "Movement I",   title: "Risk is a relation" },
-  { id: "m2",       kicker: "Movement II",  title: "Knowledge through translation" },
-  { id: "m3",       kicker: "Movement III", title: "Integration is a contest" },
-  { id: "m4",       kicker: "Movement IV",  title: "Ethics is internal to method" },
-  { id: "practice", kicker: "→",            title: "From principle to practice" },
+  { id: "m1",       kicker: "§ I",   title: "Risk is a relation" },
+  { id: "m2",       kicker: "§ II",  title: "Knowledge through translation" },
+  { id: "m3",       kicker: "§ III", title: "Integration begins before fusion" },
+  { id: "m4",       kicker: "§ IV",  title: "Ethics is internal to method" },
+  { id: "practice", kicker: "§ V",   title: "From principle to practice" },
 ];
 
 const TabPlongees = () => {
@@ -1246,8 +1246,8 @@ const RhizoSubTabs = ({ view, set }) => (
     borderBottom: "1px solid var(--rule)",
   }}>
     {[
-      { id: "guide",     n: "1", label: "Field Guide to Remote Sensing & Community Mapping" },
-      { id: "practices", n: "2", label: "Observations & Best Practices" },
+      { id: "guide",     n: "§ I",  label: "Field Guide to Remote Sensing & Community Mapping" },
+      { id: "practices", n: "§ II", label: "Observations & Best Practices" },
     ].map((t) => {
       const on = view === t.id;
       return (
