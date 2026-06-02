@@ -1610,8 +1610,9 @@ const CASE_STUDIES = [
   {
     id: "greater-lausanne",
     kind: "essay",
-    eyebrow: "Field survey · EPFL · spring 2019",
-    title: "Lausanne & EPFL GHG hotspots, the lower atmosphere at city scale",
+    eyebrow: "Field Survey · Switzerland / Lausanne–EPFL · 2019",
+    tabTitle: "GHG hotspots and lower-atmosphere dynamics at the city scale",
+    title: "Mapping GHG hotspots and lower-atmosphere dynamics at the city scale",
     blurb:
       "A six-day, 2,680-point handheld walk of CO₂ at body altitude through the metros, streets, parks, and the Rolex Learning Center, set against the single TROPOMI pixel that covers all of it. A five-tier pipeline reads each scale for what only it can see, and the building itself becomes the testbed where every tier meets. The linked map, charts, and detail panel are embedded below.",
     tags: ["CO₂ field readings", "Sentinel-5P TROPOMI", "Q-TRAK walk", "Rolex Learning Center", "Climatic architecture"],
@@ -1621,8 +1622,9 @@ const CASE_STUDIES = [
   {
     id: "socodevi-cnaas",
     kind: "essay",
-    eyebrow: "Field consultancy · Senegal · 2023",
-    title: "SOCODEVI & CNAAS, the gauge network behind crop insurance",
+    eyebrow: "Consultancy · Senegal · 2023",
+    tabTitle: "The rain-gauge network behind index-based crop insurance",
+    title: "Assessing the rain-gauge network behind index-based crop insurance for SOCODEVI and CNAAS",
     blurb:
       "Parametric crop insurance only pays the right farmers if the rain gauge is where the database says it is. A reconciliation of Senegal's CNAAS gauge network against the OCHA reference, followed by QGIS capacity-building in the Casamance cooperatives, so the satellite pixel can become the rain that fell on one parcel on one afternoon.",
     tags: ["Parametric insurance", "Coordinate reconciliation", "Python · pandas · pyproj", "QGIS capacity-building", "CHIRPS / IMERG / TAMSAT"],
@@ -1632,8 +1634,9 @@ const CASE_STUDIES = [
   {
     id: "barbados",
     kind: "essay",
-    eyebrow: "Field study · Barbados · 2020",
-    title: "The Platinum Coast, three ways",
+    eyebrow: "Interdisciplinary Field Research · Barbados · 2020",
+    tabTitle: "Land-use change, tourism real estate, coastal ecology, and care along the Platinum Coast",
+    title: "Tracing land-use change along the Platinum Coast through tourism real estate, coastal ecology, and community care",
     blurb:
       "Two years on Barbados's western shore, read three ways at once — a hedonic regression of the luxury villa market, a tropical-ecology study of the West Coast reef, and a week of fieldwork on houses, churches, and front yards. The three converge on a single object: a commons of overt and covert care that the leisure economy depletes and a small constellation of Barbadians rebuilds. The linked satellite-and-planning dual-map viewer is embedded within.",
     tags: ["Hedonic regression", "Reef ecology", "Commoning care", "Linked dual maps", "Barbados · 2020"],
@@ -1643,8 +1646,9 @@ const CASE_STUDIES = [
   {
     id: "serious-games",
     kind: "essay",
-    eyebrow: "Research · Quebec · INRS & Université Laval",
-    title: "Serious Games, building water-governance scenarios from satellites",
+    eyebrow: "Applied Research · Canada / Montérégie · 2024",
+    tabTitle: "Water-governance scenarios and serious-game planning in Montérégie",
+    title: "Building water-governance scenarios through a serious game with Université Laval, INRS, and municipalities",
     blurb:
       "Around a printed table, a watershed director, a planner, a municipal officer, and a farmer build their shared water system from cards, take on each other's roles, and play out futures grounded in the satellite record. A five-step chain turns a raster into a scenario; interviews translate each measured shift into what it means at every seat at the table.",
     tags: ["Serious Game", "Water governance", "Sentinel · Landsat · MODIS", "SMAP soil moisture", "Two-Eyed Seeing"],
@@ -1671,8 +1675,8 @@ const CaseStudyTab = ({ study, on, onClick }) => (
       fontSize: 10.5, letterSpacing: "0.16em", textTransform: "uppercase",
       color: accentVar(study.accent),
     }}>{study.eyebrow}</span>
-    <span className="serif" style={{ fontSize: 21, lineHeight: 1.12, letterSpacing: "-0.01em" }}>
-      {study.title}
+    <span className="serif" style={{ fontSize: 19, lineHeight: 1.15, letterSpacing: "-0.01em" }}>
+      {study.tabTitle || study.title}
     </span>
   </button>
 );

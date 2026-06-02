@@ -1114,6 +1114,92 @@ const FieldGuideMatrix = () => {
   );
 };
 
+const TwelvePrinciples = () => {
+  const [activeN, setActiveN] = React.useState("01");
+  const p = FG_PRINCIPLES.find(x => x.n === activeN) || FG_PRINCIPLES[0];
+  const Fig = p.Figure;
+  return (
+    <section id="fg-twelve" style={{ padding: "44px 0", borderTop: `1px solid ${FG.rule}`, scrollMarginTop: 80 }}>
+      <div className="mono" style={{
+        fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase",
+        color: FG.ink3, marginBottom: 18,
+      }}>The twelve principles · click any to read</div>
+      <div style={{
+        display: "grid", gridTemplateColumns: "minmax(280px, 340px) 1fr",
+        gap: 0, border: `1px solid ${FG.rule2}`, background: FG.bg,
+      }}>
+        <nav style={{ borderRight: `1px solid ${FG.rule2}`, background: FG.bg2 }}>
+          {FG_PRINCIPLES.map(item => {
+            const on = item.n === activeN;
+            return (
+              <button key={item.n} onClick={() => setActiveN(item.n)}
+                aria-pressed={on}
+                style={{
+                  appearance: "none", border: "none", cursor: "pointer",
+                  width: "100%", padding: "16px 18px", textAlign: "left",
+                  background: on ? FG.bg : "transparent",
+                  borderLeft: on ? `3px solid ${FG.sky}` : "3px solid transparent",
+                  borderBottom: `1px solid ${FG.rule}`,
+                  fontFamily: "var(--sans)", color: FG.ink,
+                  transition: "background 180ms",
+                }}>
+                <div style={{ display: "flex", gap: 14, alignItems: "baseline" }}>
+                  <span className="num" style={{
+                    fontSize: 22, fontWeight: 300, color: on ? FG.navy : FG.ink3,
+                    letterSpacing: "-0.02em", lineHeight: 1, minWidth: 30,
+                  }}>{item.n}</span>
+                  <div style={{ flex: 1 }}>
+                    <div className="mono" style={{
+                      fontSize: 9.5, letterSpacing: "0.14em", textTransform: "uppercase",
+                      color: on ? FG.ink : FG.ink3, marginBottom: 6,
+                      fontWeight: on ? 600 : 400,
+                    }}>mismatch · {item.mismatch}</div>
+                    <FromTo from={item.from} to={item.to} size="sm" />
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </nav>
+        <article style={{ padding: "34px 36px 36px", minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 18, marginBottom: 12 }}>
+            <span className="num" style={{
+              fontSize: 48, fontWeight: 300, color: FG.navy, letterSpacing: "-0.02em", lineHeight: 1,
+            }}>{p.n}</span>
+            <span className="mono" style={{
+              fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: FG.ink3,
+            }}>mismatch · {p.mismatch}</span>
+          </div>
+          <FromTo from={p.from} to={p.to} size="lg" />
+          <h3 className="serif" style={{
+            margin: "20px 0 24px", fontSize: 26, fontWeight: 500, color: FG.ink,
+            letterSpacing: "-0.01em", lineHeight: 1.2, maxWidth: 760,
+          }}>{p.title}</h3>
+          <div style={{ maxWidth: 720 }}>
+            {p.paragraphs.map((para, i) => (
+              <p key={i} className="serif" style={{
+                margin: "0 0 16px", fontSize: 17, lineHeight: 1.65, color: FG.ink2,
+              }}>{para}</p>
+            ))}
+          </div>
+          {Fig && <Fig />}
+          {p.coupletA && <Couplet a={p.coupletA} b={p.coupletB} />}
+          {p.closing.length > 0 && (
+            <div style={{ maxWidth: 720 }}>
+              {p.closing.map((para, i) => (
+                <p key={i} className="serif" style={{
+                  margin: "0 0 16px", fontSize: 17, lineHeight: 1.65, color: FG.ink2,
+                }}>{para}</p>
+              ))}
+            </div>
+          )}
+          <PracticalTest text={p.test} />
+        </article>
+      </div>
+    </section>
+  );
+};
+
 const CriticalFieldGuide = () => (
   <div style={{ "--accent": FG.clay }}>
     <header style={{ padding: "48px 0 8px" }}>
@@ -1145,14 +1231,13 @@ const CriticalFieldGuide = () => (
 
     <FrameworkPanel />
     <TranslationChain />
-    <FieldGuideMatrix />
 
-    <div style={{ padding: "56px 0 24px" }}>
+    <div style={{ padding: "44px 0 16px" }}>
       <div className="mono" style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: FG.ink3, marginBottom: 14 }}>The twelve principles</div>
       <h3 className="serif" style={{ margin: 0, fontSize: 30, fontWeight: 500, letterSpacing: "-0.014em", lineHeight: 1.15, color: FG.ink, maxWidth: 820 }}>From the sensor measurement to the lived consequence.</h3>
     </div>
 
-    {FG_PRINCIPLES.map(p => <PrincipleBlock key={p.n} p={p} />)}
+    <TwelvePrinciples />
 
     <section style={{
       marginTop: 56, padding: "56px 0",
