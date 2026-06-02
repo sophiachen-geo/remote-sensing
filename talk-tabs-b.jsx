@@ -696,7 +696,33 @@ const PhaseTwoMethodology = () => (
   </Card>
 );
 
+const RhizoSubTabs = ({ view, set }) => (
+  <div style={{
+    display: "flex", gap: 0, marginBottom: 32,
+    borderBottom: "1px solid var(--rule)",
+  }}>
+    {[
+      { id: "practices", label: "Best practices, observations and bookend" },
+      { id: "guide",     label: "A critical field guide to remote sensing" },
+    ].map((t) => {
+      const on = view === t.id;
+      return (
+        <button key={t.id} onClick={() => set(t.id)} style={{
+          appearance: "none", border: "none", background: "none",
+          padding: "14px 28px 16px",
+          cursor: "pointer", color: on ? "var(--ink)" : "var(--ink-3)",
+          fontFamily: "var(--sans)", fontSize: 14, letterSpacing: "0.01em",
+          fontWeight: on ? 600 : 400,
+          borderBottom: on ? "2px solid var(--accent, var(--ochre))" : "2px solid transparent",
+          marginBottom: -1,
+        }}>{t.label}</button>
+      );
+    })}
+  </div>
+);
+
 const TabAvenir = () => {
+  const [view, setView] = React.useState("practices");
   const PRACTICES = [
     { t: "Co-design from the start, including question formulation.", b: "The most common failure mode is a southern team arriving with a question, a sensor list, and a sampling design, and asking for community validation. The more useful posture is to arrive with the sensor list and ask which of the community's existing questions the data could help answer. This often produces entirely different study designs from the imported one." },
     { t: "Layered governance.", b: "Technical metadata combined with social and legal metadata, including provenance, consent status, cultural protocols, permitted reuses, withdrawal mechanisms, and benefit-sharing expectations where relevant." },
@@ -713,7 +739,11 @@ const TabAvenir = () => {
   return (
     <div className="wrap" style={{ padding: "72px 56px 100px", "--accent": "var(--st-rhizo-accent-2)" }}>
       <StrataHead section="rhizo" />
+      <RhizoSubTabs view={view} set={setView} />
 
+      {view === "guide" && <CriticalFieldGuide />}
+
+      {view === "practices" && (<>
       <Card pad={36} style={{ marginTop: 8 }}>
         <Kicker color="var(--moss)">Highly suggested best practices</Kicker>
         <ol style={{ margin: "8px 0 0", padding: 0, listStyle: "none" }}>
@@ -798,6 +828,7 @@ const TabAvenir = () => {
           </p>
         </div>
       </section>
+      </>)}
     </div>
   );
 };
