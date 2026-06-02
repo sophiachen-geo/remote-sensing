@@ -967,26 +967,18 @@ const MultimodalityInterlude = () => {
             margin: "20px 0 0",
           }}>
             {[
-              { name: "Physical",     tier: "technical",        body: "Different wavelengths and sensing principles observing different properties of the same landscape." },
-              { name: "Geometric",    tier: "technical",        body: "Satellites, aircraft, drones, fixed stations, handheld instruments, indoor sensors, and body-altitude measurements observing from different distances and reference frames." },
-              { name: "Contributory", tier: "political",        body: "Institutions, researchers, volunteers, residents, citizen scientists, community observers, and local organizations helping produce or interpret data." },
-              { name: "Ontological",  tier: "political",        body: "Different knowledge systems defining the object of concern differently." },
+              { name: "Physical",     body: "Different wavelengths and sensing principles observing different properties of the same landscape." },
+              { name: "Geometric",    body: "Satellites, aircraft, drones, fixed stations, handheld instruments, indoor sensors, and body-altitude measurements observing from different distances and reference frames." },
+              { name: "Contributory", body: "Institutions, researchers, volunteers, residents, citizen scientists, community observers, and local organizations helping produce or interpret data." },
+              { name: "Ontological",  body: "Different knowledge systems defining the object of concern differently." },
             ].map((m, i) => {
-              const isPolitical = m.tier === "political";
               return (
                 <div key={i} style={{
                   padding: "16px 18px",
                   background: "var(--paper)",
                   border: "1px solid color-mix(in oklch, var(--clay) 20%, var(--rule))",
-                  borderTop: isPolitical
-                    ? "3px solid var(--clay)"
-                    : "3px solid color-mix(in oklch, var(--clay) 50%, var(--ink-3))",
+                  borderTop: "3px solid var(--clay)",
                 }}>
-                  <div className="mono" style={{
-                    fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase",
-                    color: isPolitical ? "var(--clay)" : "var(--ink-3)",
-                    fontWeight: 600, marginBottom: 4,
-                  }}>{m.tier}</div>
                   <div className="serif" style={{
                     fontSize: 18, lineHeight: 1.18, fontWeight: 500,
                     letterSpacing: "-0.008em", color: "var(--ink)",
