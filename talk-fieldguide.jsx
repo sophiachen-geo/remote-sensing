@@ -64,7 +64,7 @@ const PracticalTest = ({ text }) => (
     display: "grid", gridTemplateColumns: "180px 1fr", gap: 24, alignItems: "baseline",
   }}>
     <span className="mono" style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: FG.ink3 }}>Practical test</span>
-    <span className="serif" style={{ fontSize: 18.5, lineHeight: 1.45, color: FG.ink, fontStyle: "italic" }}>{text}</span>
+    <span className="serif" style={{ fontSize: 18, lineHeight: 1.5, color: FG.ink, fontWeight: 500 }}>{text}</span>
   </div>
 );
 
@@ -174,7 +174,7 @@ const FrameworkPanel = () => {
                   borderBottom: i < FG_MOMENTS[open].questions.length - 1
                     ? `1px solid color-mix(in oklch, ${colors[open]} 28%, transparent)`
                     : "none",
-                  fontSize: 16.5, lineHeight: 1.5, color: FG.ink, fontStyle: "italic",
+                  fontSize: 16.5, lineHeight: 1.55, color: FG.ink,
                 }}>{q}</li>
               ))}
             </ul>
@@ -183,7 +183,7 @@ const FrameworkPanel = () => {
             <p className="serif" style={{
               margin: "22px 0 0", padding: "18px 22px",
               background: FG.bg, borderLeft: `4px solid ${colors[open]}`,
-              fontSize: 17, lineHeight: 1.5, color: FG.ink, fontWeight: 500, fontStyle: "italic",
+              fontSize: 17, lineHeight: 1.55, color: FG.ink, fontWeight: 500,
               maxWidth: 780,
             }}>{FG_MOMENTS[open].closing}</p>
           )}
@@ -1053,7 +1053,7 @@ const MomentBlock = ({ m, idx }) => (
           <li key={i} className="serif" style={{
             padding: "10px 0",
             borderBottom: i < m.questions.length - 1 ? `1px solid ${FG.rule}` : "none",
-            fontSize: 17, lineHeight: 1.5, color: FG.ink, fontStyle: "italic",
+            fontSize: 17, lineHeight: 1.55, color: FG.ink,
           }}>{q}</li>
         ))}
       </ul>
@@ -1062,7 +1062,7 @@ const MomentBlock = ({ m, idx }) => (
       <p className="serif" style={{
         margin: "20px 0 0", padding: "18px 22px",
         background: FG.clayT, borderLeft: `4px solid ${FG.clay}`,
-        fontSize: 18, lineHeight: 1.5, color: FG.ink, fontWeight: 500, fontStyle: "italic",
+        fontSize: 18, lineHeight: 1.55, color: FG.ink, fontWeight: 500,
         maxWidth: 760,
       }}>{m.closing}</p>
     )}
