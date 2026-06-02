@@ -5,12 +5,12 @@
 
 const PAINTING_HOTSPOTS = {
   detail: {
-    plato:     { left: "41%", top: "26%" },
-    aristotle: { left: "58%", top: "52%" },
+    plato:     { left: "37%", top: "53%" },
+    aristotle: { left: "62%", top: "72%" },
   },
   full: {
-    plato:     { left: "48%", top: "32%" },
-    aristotle: { left: "53%", top: "43%" },
+    plato:     { left: "47%", top: "42%" },
+    aristotle: { left: "52%", top: "50%" },
   },
 };
 
@@ -211,32 +211,6 @@ const InteractivePainting = () => {
           ))}
         </div>
 
-        <div style={{
-          position: "absolute", bottom: 0, left: 0, right: 0, padding: "18px 32px 14px",
-          background: "linear-gradient(180deg, transparent, rgba(15,12,10,0.78))",
-          color: "color-mix(in oklch, var(--paper) 88%, transparent)",
-          fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.16em",
-          textTransform: "uppercase",
-          display: "flex", justifyContent: "space-between", alignItems: "baseline",
-          pointerEvents: "none",
-        }}>
-          <span>{v.label}</span>
-          <span style={{ color: "var(--ochre-2)" }}>
-            {active ? "card open, press close to reset" : "hover, click, explore"}
-          </span>
-        </div>
-      </div>
-
-      <div className="wrap" style={{
-        padding: "16px 56px 24px",
-        color: "color-mix(in oklch, var(--paper) 55%, transparent)",
-        fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase",
-        display: "flex", justifyContent: "space-between", alignItems: "baseline",
-      }}>
-        <span>fig. 01, the two figures are commonly read through this vertical and horizontal contrast</span>
-        <span style={{ color: "color-mix(in oklch, var(--ochre-2) 90%, transparent)" }}>
-          Plato, abstraction, form, ideal &nbsp;·&nbsp; Aristotle, particulars, ground, responsibility
-        </span>
       </div>
 
       <style>{`
