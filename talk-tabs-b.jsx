@@ -943,11 +943,11 @@ const PermaSubNav = ({ tabs, active, set, accentMap }) => {
 };
 
 const PERMA_TABS = [
-  { id: "m1",       kicker: "§ I",   title: "Risk is a relation" },
-  { id: "m2",       kicker: "§ II",  title: "Knowledge through translation" },
-  { id: "m3",       kicker: "§ III", title: "Integration begins before fusion" },
-  { id: "m4",       kicker: "§ IV",  title: "Ethics is internal to method" },
-  { id: "practice", kicker: "§ V",   title: "From principle to practice" },
+  { id: "m1",       kicker: "Risk",        title: "Risk is a relation" },
+  { id: "m2",       kicker: "Translation", title: "Knowledge through translation" },
+  { id: "m3",       kicker: "Integration", title: "Integration begins before fusion" },
+  { id: "m4",       kicker: "Ethics",      title: "Ethics is internal to method" },
+  { id: "practice", kicker: "Practice",    title: "From principle to practice" },
 ];
 
 const TabPlongees = () => {
@@ -971,19 +971,19 @@ const TabPlongees = () => {
           <p className="serif" style={{ margin: "12px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
             Remote sensing often contributes strongly to the first two: where water spread, where fire burned, where vegetation declined, where buildings stand, where a coastline retreated, where a settlement expanded. It can also provide useful proxies for vulnerability and capacity, such as building density, road access, heat exposure, land-cover change, or distance to services. But vulnerability and capacity are not reducible to what is visible from above. They depend on income, health, mobility, tenure, trust, language, governance, preparedness, social networks, and whether institutions are able to act. The methodological challenge is therefore not to reject remote sensing, but to place it correctly within a wider risk-reading system.
           </p>
-          <PFBlock kicker="the four components · click to compare"
+          <PFBlock n="I" kicker="THE FOUR COMPONENTS"
             title="Remote sensing is strongest when it is clear about the part of risk it is measuring and honest about the part it cannot measure alone."
             caption="Each component, its guiding question, the strong remote-sensing contribution, and the grounded complement. The meter reads how far the satellite can carry that dimension alone.">
             <FigRiskRelation />
           </PFBlock>
-          <PFBlock kicker="several perspectives, held at once · two views"
+          <PFBlock n="II" kicker="THE FIVE PERSPECTIVES"
             title="The satellite is one perspective among several. It is not the master view to which all other forms of knowledge report."
             lede="A defensible risk analysis must hold multiple perspectives together: the synoptic view from above, the field view from direct observation, the institutional view from planners and responders, the lived view from residents, and the political view that asks who has authority to define the problem."
             caption="These perspectives do not simply add together. They sometimes correct one another, sometimes contradict one another, and sometimes reveal that the original question was too narrow. Integration is therefore not only a technical operation. It is an act of judgment.">
             <FigPerspectives />
             <div style={{ marginTop: 20, padding: "18px 0 0", borderTop: "1px dashed var(--rule)" }}>
               <div className="mono" style={{ fontSize: 10.5, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--ink-3)", marginBottom: 14 }}>
-                or, the same five as spokes around the central UNDRR risk hub
+                THE WHEEL · the same five as spokes around the central UNDRR risk hub
               </div>
               <FivePerspectivesWheel />
             </div>
@@ -998,18 +998,18 @@ const TabPlongees = () => {
           <p className="serif" style={{ margin: "12px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
             Each transformation makes something more legible, but each also changes the object being represented. Compression, classification, smoothing, thresholding, interpolation, and modelling are not neutral steps. They are necessary simplifications, and necessary simplifications become dangerous when their assumptions disappear behind the authority of a finished map.
           </p>
-          <PFBlock kicker="walk the chain · seven stages"
+          <PFBlock n="I" kicker="THE TRANSLATION CHAIN"
             title="A signal becomes evidence only through a chain of translation."
             caption="Step through each transformation. Many political and ethical decisions enter through ordinary technical steps, none of which announces itself as a value judgment.">
             <FigChain />
           </PFBlock>
-          <PFBlock kicker="three heuristics that govern the chain"
+          <PFBlock n="II" kicker="THE THREE HEURISTICS"
             title="A heuristic is not an error. A heuristic is a rule that makes analysis possible under constraint."
             lede="Remote sensing depends on heuristics because the world is too complex, too continuous, and too variable to be represented without simplification. The problem begins when a heuristic is mistaken for the world itself. A cloud mask, a shadow mask, a land-cover class, an accuracy score, a damage threshold, or a vulnerability index can all be appropriate for one question and misleading for another. Methodological rigour means asking what each simplification does, what it hides, who is affected by it, and whether the chosen abstraction fits the decision being made.">
             <FigHeuristics />
           </PFBlock>
           <KeptHeuristicStack />
-          <PFBlock kicker="six recurring mismatches"
+          <PFBlock n="III" kicker="THE SIX MISMATCHES"
             title="Six recurring mismatches matter in applied work."
             lede="Spatial scale may not match lived scale. Temporal resolution may not match the timing of action. Classification categories may not match local meanings. Accuracy metrics may not match social consequences. Model outputs may not match institutional authority. Visibility may not match safety. These are not reasons to abandon remote sensing. They are reasons to design remote-sensing workflows around the decision context from the start."
             caption="For each mismatch, what remote sensing privileges and what often matters in practice. Reveal one row, or all six.">
@@ -1035,12 +1035,12 @@ const TabPlongees = () => {
           <p className="serif" style={{ margin: "12px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
             Community knowledge is not simply another noisy sensor. It may identify a different object, a different boundary, a different time scale, or a different reason the map matters. A satellite product may classify a surface as water, bare ground, shrubland, ice, wetland, or built area. Local knowledge may identify a fire-suppression pond, a trapline cabin, an ice road, a seasonal gathering place, a burial site that should not be mapped, a grazing commons, or an evacuation refuge. The disagreement is not always an error to be resolved. Sometimes the disagreement reveals that the official category is too poor for the decision being made.
           </p>
-          <PFBlock kicker="four registers of integration"
+          <PFBlock n="I" kicker="THE FOUR REGISTERS"
             title="Technical fusion asks how different measurements describe the same state. Interpretive integration asks whether the state has been defined correctly."
             lede="Institutional integration asks who has authority to use the result. Ethical integration asks whether the result should circulate at all.">
             <FigRegisters />
           </PFBlock>
-          <PFBlock kicker="counter-mapping · an inversion"
+          <PFBlock n="II" kicker="COUNTER-MAPPING"
             title="Counter-mapping is not merely adding local labels to a remote-sensing product. It reverses the direction of the question."
             lede="Instead of asking how a community can help validate a map, counter-mapping asks what the map failed to recognize, whose categories organized the analysis, what forms of use or meaning were made invisible, and whether visibility itself creates risk. The satellite may identify where a surface changed. Counter-mapping asks what changed, for whom, by whose categories, and with what consequences.">
             <FigCounterMap />
@@ -1054,7 +1054,7 @@ const TabPlongees = () => {
         <React.Fragment>
           <PFMovement id="m4" num="IV" name="Ethics is internal to method"
             lede="Ethics is not an extra paragraph added after the analysis. Ethics is built into the choice of sensor, resolution, classification scheme, training data, uncertainty threshold, release format, access control, and map audience. A technically accurate map can still expose people to harm, misrepresent a community, support coercive action, or circulate without the authority of those represented. The goal is therefore not maximum visibility. The goal is accountable visibility." />
-          <PFBlock kicker="the governing matrix · click a quadrant"
+          <PFBlock n="I" kicker="THE GOVERNING MATRIX"
             title="Some information should be public. Some information should remain under community control. Some information should not be mapped at all."
             lede="Sacred sites, burial grounds, culturally sensitive places, informal shelters, routes used for safety, and locations that could expose vulnerable people require governance before representation. Non-mapping can be a valid method. Refusal can be a valid data-governance decision.">
             <FigVisibilityMatrix />
@@ -1067,7 +1067,7 @@ const TabPlongees = () => {
             Visibility can protect, and visibility can endanger. The same type of image can document harm, guide humanitarian response, support legal evidence, expose environmental damage, or assist surveillance and targeting. The political meaning of resolution depends on who has access, who interprets the image, who can challenge the interpretation, and who bears the consequences. A responsible workflow therefore needs a visibility-risk review before release: who benefits from this visibility, who is exposed by it, who can refuse it, and what safeguards are required?
           </p>
           <KeptVisibilityBalance />
-          <PFBlock kicker="the affective dimension · solastalgia"
+          <PFBlock n="II" kicker="SOLASTALGIA"
             title="Remote sensing also has an affective dimension. Change detection does not only show altered surfaces. It can show the transformation of home while people are still living there."
             lede="Solastalgia names the distress caused by environmental change to a place of belonging. Before-and-after images, time series, shoreline retreat maps, burn-scar archives, glacier photographs, disappearing wetlands, and eroding islands can become technical records of grief. Community mapping, when done well, can therefore become more than data collection. It can become a way to decide what must be remembered, what must be protected, what must be mourned, what must be repaired, and what must be transformed.">
             <FigSolastalgia />
@@ -1087,7 +1087,8 @@ const TabPlongees = () => {
               The question is not only whether the warning reached the household. The question is whether the household could act on it.
             </p>
           </section>
-          <PFBlock caption="Drag the probability of damage; willingness to evacuate does not track it linearly. Toggle the conditions through which a household interprets the warning.">
+          <PFBlock n="III" kicker="THE TAIWAN CURVE" kc="var(--clay)"
+            caption="Drag the probability of damage; willingness to evacuate does not track it linearly. Toggle the conditions through which a household interprets the warning.">
             <FigTaiwan />
           </PFBlock>
           <KeptTaiwanProse />
@@ -1101,11 +1102,11 @@ const TabPlongees = () => {
           <p className="serif" style={{ margin: "12px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
             The second step is to identify who has authority and who is affected. The third step is to decide what remote sensing can contribute and what it cannot responsibly answer alone. Only then should the workflow move to data selection, preprocessing, classification, modelling, validation, interpretation, uncertainty communication, visibility review, public release, action, monitoring, and revision.
           </p>
-          <PFBlock kicker="the community-first workflow · expand any stage" kc="var(--clay)"
+          <PFBlock n="I" kicker="THE COMMUNITY-FIRST WORKFLOW" kc="var(--clay)"
             title="Eleven stages, beginning with the question and ending in action, monitoring, and revision.">
             <FigWorkflow />
           </PFBlock>
-          <PFBlock kicker="the visibility-risk review · run it on a sample" kc="var(--clay)"
+          <PFBlock n="II" kicker="THE VISIBILITY-RISK REVIEW" kc="var(--clay)"
             title="A rigorous project funds and evaluates the work it claims to value."
             lede="Community interpretation, translation, legal review, data-sovereignty review, accessibility, maintenance, and post-release accountability are not optional extras. They are part of the method.">
             <FigVisibilityReview />
@@ -1246,8 +1247,8 @@ const RhizoSubTabs = ({ view, set }) => (
     borderBottom: "1px solid var(--rule)",
   }}>
     {[
-      { id: "guide",     n: "§ I",  label: "Field Guide to Remote Sensing & Community Mapping" },
-      { id: "practices", n: "§ II", label: "Observations & Best Practices" },
+      { id: "guide",     n: "1", label: "Field Guide to Remote Sensing & Community Mapping" },
+      { id: "practices", n: "2", label: "Observations & Best Practices" },
     ].map((t) => {
       const on = view === t.id;
       return (

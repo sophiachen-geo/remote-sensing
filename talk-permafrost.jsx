@@ -107,31 +107,54 @@ const PFProse = ({ children, max = 720 }) => (
   </div>
 );
 
-// Backwards-compat shim for callers still using the old PFBlock API
-// (kicker + title + lede + caption + kc). Forwards to the original layout
-// so the existing TabPlongees keeps rendering while migration is in flight.
-const PFBlock = ({ kicker, kc, title, lede, caption, children }) => (
-  <section style={{ padding: "22px 0 30px" }}>
-    {kicker && <PFMono c={kc || PF.sky} s={10}>{kicker}</PFMono>}
-    {title && (
-      <h3 style={{
-        margin: "10px 0 0", fontSize: 24, lineHeight: 1.18, fontWeight: 700,
-        letterSpacing: "-0.015em", color: PF.ink, maxWidth: 820,
-      }}>{title}</h3>
-    )}
-    {lede && (
-      <p className="serif" style={{
-        margin: "12px 0 0", fontSize: 16.5, lineHeight: 1.55, color: PF.ink2, maxWidth: 760,
-      }}>{lede}</p>
-    )}
-    <div style={{ marginTop: 22 }}>{children}</div>
-    {caption && (
-      <p className="serif" style={{
-        margin: "12px 0 0", fontSize: 13, lineHeight: 1.45, color: PF.ink3, fontStyle: "italic", maxWidth: 780,
-      }}>{caption}</p>
-    )}
-  </section>
-);
+// PFBlock renders one numbered Level 3 section inside a Level 2 movement.
+//   n       — Level 3 marker, e.g. "I", "II"; renders as "§ I" in accent
+//   kicker  — Level 4 subtitle (mono caps short), e.g. "THE COMPONENTS"
+//   title   — the serif h3 argument
+//   lede    — optional standfirst paragraph
+//   caption — italic caption after the figure
+//   kc      — color override for the eyebrow row (defaults to PF.sky)
+const PFBlock = ({ n, kicker, kc, title, lede, caption, children }) => {
+  const accent = kc || PF.sky;
+  const hasEyebrow = n || kicker;
+  return (
+    <section style={{ padding: "22px 0 30px" }}>
+      {hasEyebrow && (
+        <div style={{ display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap" }}>
+          {n && (
+            <span className="mono" style={{
+              fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase",
+              color: accent, fontWeight: 600,
+            }}>§ {n}</span>
+          )}
+          {n && kicker && (
+            <span style={{ width: 1, height: 12, background: PF.rule2 }} aria-hidden="true" />
+          )}
+          {kicker && (
+            <PFMono c={PF.ink3} s={10} ls={0.18}>{kicker}</PFMono>
+          )}
+        </div>
+      )}
+      {title && (
+        <h3 style={{
+          margin: "10px 0 0", fontSize: 24, lineHeight: 1.18, fontWeight: 700,
+          letterSpacing: "-0.015em", color: PF.ink, maxWidth: 820,
+        }}>{title}</h3>
+      )}
+      {lede && (
+        <p className="serif" style={{
+          margin: "12px 0 0", fontSize: 16.5, lineHeight: 1.55, color: PF.ink2, maxWidth: 760,
+        }}>{lede}</p>
+      )}
+      <div style={{ marginTop: 22 }}>{children}</div>
+      {caption && (
+        <p className="serif" style={{
+          margin: "12px 0 0", fontSize: 13, lineHeight: 1.45, color: PF.ink3, fontStyle: "italic", maxWidth: 780,
+        }}>{caption}</p>
+      )}
+    </section>
+  );
+};
 
 // ─── I·A · Risk is a relation ─────────────────────────────────────────────
 
