@@ -305,6 +305,197 @@ const FigPerspectives = ({ accent = PF.navy } = {}) => {
   );
 };
 
+// ─── I·B merged · wheel + rich detail panel ───────────────────────────────
+// One figure: radial wheel on the left, click any vertex to update the
+// right-hand panel (philosopher pill, perspective name + subtitle,
+// contributes callout, strength + limit boxes, sees/knows two-column list,
+// instrument caption). The central hub is intentionally bare — no "Risk /
+// UNDRR / hazard, exposure, vulnerability, capacity" text.
+const PF_PERSPECTIVES_RICH = [
+  {
+    key: "sky", name: "Sky-eye", color: "#5d709a",
+    philosopher: "PLATO",
+    subtitle: "abstraction, distance, pattern, anticipation",
+    contributes: "Scale, repetition, synoptic comparison, change detection.",
+    strength: "pattern",
+    limit: "Overextension: treating visible change as complete knowledge.",
+    sees: ["flood extent","wildfire scars","shoreline erosion","land-cover change","vegetation stress","building exposure","road interruption","heat patterns","damage signatures"],
+    instrument: "Satellite, aircraft, orbital platform. For decisions made at the rate and grain of daily life, the orbit is too far.",
+    n: "01",
+  },
+  {
+    key: "ground", name: "Ground sensor", color: "#0e7490",
+    philosopher: "TYCHO",
+    subtitle: "calibration at the scale of local action",
+    contributes: "In-situ measurement, thresholds, validation against the world the sensor cannot reach.",
+    strength: "precision",
+    limit: "Coverage: precise in place, blind between points.",
+    sees: ["river stage","rain gauge totals","soil-moisture probe","piezometer levels","tide gauge","air-quality station","weather mast","stream temperature","snow depth"],
+    instrument: "Gauges, probes, loggers, met stations. Trustworthy where they are, silent everywhere else.",
+    n: "02",
+  },
+  {
+    key: "community", name: "Community", color: "#c2562a",
+    philosopher: "ARISTOTLE",
+    subtitle: "use, memory, access, refusal",
+    contributes: "What the place is used for, by whom, at what time, with what trust, with what history.",
+    strength: "relevance",
+    limit: "Treated as anecdotal unless a project grants it authority.",
+    sees: ["safe routes","seasonal access","warning channels","trusted sources","sacred and protected places","commons and shared rights","prior false alarms","local thresholds","what counts as recovery"],
+    instrument: "Interview, walkthrough, mapping workshop, council meeting. The map is jointly authored or it does not bind.",
+    n: "03",
+  },
+  {
+    key: "embodied", name: "Embodied", color: "#b07c3e",
+    philosopher: "ARISTOTLE",
+    subtitle: "exposure as lived experience",
+    contributes: "The bottom ten metres of the atmosphere, body altitude.",
+    strength: "lived exposure",
+    limit: "Much of it leaves no spectral signature.",
+    sees: ["heat as exhaustion","slope as burden","distance as impossibility","evacuation as fear, delay, or refusal","smoke as breathing difficulty","water level as danger","traffic as stress","climate change as a change in daily movement"],
+    instrument: "Q-TRAK and the body. For carbon dioxide as a health question rather than a climate question, satellites are measuring the wrong thing.",
+    n: "04",
+  },
+  {
+    key: "inst", name: "Institutional", color: "#6d5ac2",
+    philosopher: "MACHIAVELLI",
+    subtitle: "mandate, jurisdiction, decision",
+    contributes: "Authority to act, budget, liability, legal effect, the conversion of evidence into action.",
+    strength: "governability",
+    limit: "Abstraction from lived experience.",
+    sees: ["evacuation order","insurance trigger","disaster declaration","planning restriction","aid allocation","camp recognition","land claim","infrastructure mandate","adaptation funding"],
+    instrument: "Statute, mandate, plan, budget. The form decides who is heard before the data arrives.",
+    n: "05",
+  },
+];
+
+const FigPerspectivesMerged = ({ accent = PF.navy } = {}) => {
+  const [sel, setSel] = React.useState("embodied");
+  const cx = 180, cy = 180, R = 118;
+  const verts = PF_PERSPECTIVES_RICH.map((p, i) => {
+    const a = (-90 + i * 72) * Math.PI / 180;
+    return { ...p, x: cx + R * Math.cos(a), y: cy + R * Math.sin(a) };
+  });
+  const a = verts.find(v => v.key === sel) || verts[0];
+
+  // Subtle vertex symbol per perspective for visual differentiation
+  const symbol = {
+    sky: "↑", ground: "●", community: "◆", embodied: "→", inst: "▲",
+  }[a.key];
+
+  return (
+    <div style={{
+      border: `1px solid ${PF.rule2}`, background: PF.bg,
+      display: "grid", gridTemplateColumns: "minmax(320px, 1fr) minmax(360px, 1.1fr)",
+      gap: 0,
+    }}>
+      {/* LEFT — wheel, bare hub */}
+      <div style={{ padding: "22px 18px 28px", background: PF.bg2, borderRight: `1px solid ${PF.rule}` }}>
+        <svg viewBox="0 0 360 380" role="img" aria-label="Five perspectives arranged around a central hub" style={{ width: "100%", maxWidth: 360, margin: "0 auto", height: "auto", display: "block" }}>
+          {/* Faint ring */}
+          <circle cx={cx} cy={cy} r={R} fill="none" stroke={PF.rule2} strokeWidth="0.7" opacity="0.7" />
+          {/* Spokes */}
+          {verts.map(v => (
+            <line key={v.key} x1={cx} y1={cy} x2={v.x} y2={v.y}
+              stroke={v.key === sel ? v.color : PF.rule2}
+              strokeWidth={v.key === sel ? 2 : 1}
+              strokeDasharray={v.key === sel ? "0" : "3 4"}
+              opacity={v.key === sel ? 0.9 : 0.55} />
+          ))}
+          {/* Bare hub, no UNDRR text */}
+          <circle cx={cx} cy={cy} r="34" fill={PF.bg} stroke={PF.rule2} strokeWidth="1" />
+          <text x={cx} y={cy + 5} textAnchor="middle" fontFamily="var(--serif)" fontSize="18" fill={PF.ink2} fontStyle="italic">Risk</text>
+          {/* Vertices */}
+          {verts.map(v => {
+            const on = v.key === sel;
+            const ux = v.x - cx, uy = v.y - cy, mag = Math.sqrt(ux*ux + uy*uy);
+            let lx = cx + ux/mag * (R + 28), ly = cy + uy/mag * (R + 28) + 4;
+            let anchor = "middle";
+            if (lx < cx - 12) { anchor = "start"; lx = 4; }
+            else if (lx > cx + 12) { anchor = "end"; lx = 356; }
+            return (
+              <g key={v.key} style={{ cursor: "pointer" }} onClick={() => setSel(v.key)}>
+                <circle cx={v.x} cy={v.y} r={on ? 22 : 16} fill={v.color}
+                  stroke={on ? PF.bg : "#ffffff"} strokeWidth={on ? 3 : 1.5}
+                  opacity={on ? 1 : 0.85} />
+                <text x={lx} y={ly} textAnchor={anchor}
+                  fontFamily="var(--sans)" fontSize="12.5"
+                  fontWeight={on ? 700 : 500}
+                  fill={on ? v.color : PF.ink2}>
+                  {v.name}
+                </text>
+              </g>
+            );
+          })}
+        </svg>
+        <div className="mono" style={{
+          fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase",
+          color: PF.ink3, marginTop: 16, textAlign: "center",
+        }}>fig. 02 · click any perspective</div>
+      </div>
+
+      {/* RIGHT — rich detail panel */}
+      <div style={{ padding: "22px 26px 24px", borderTop: `3px solid ${a.color}` }} key={a.key}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, animation: "pfIn .25s ease both" }}>
+          <span style={{
+            display: "inline-flex", alignItems: "center", gap: 8,
+            background: PF.bg2, border: `1px solid ${PF.rule}`,
+            padding: "5px 12px", borderRadius: 999,
+          }}>
+            <span className="mono" style={{ fontSize: 11, color: a.color, fontWeight: 600 }}>← {symbol}</span>
+            <span className="mono" style={{ fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase", color: PF.ink2, fontWeight: 600 }}>{a.philosopher}</span>
+          </span>
+          <span className="mono" style={{ fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase", color: PF.ink3 }}>perspective, {a.n} of 05</span>
+        </div>
+        <h4 className="serif" style={{ margin: "16px 0 4px", fontSize: 32, fontWeight: 500, letterSpacing: "-0.012em", color: PF.ink, animation: "pfIn .25s ease both", animationDelay: ".04s" }}>{a.name}</h4>
+        <div className="mono" style={{ fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase", color: a.color, fontWeight: 500, animation: "pfIn .25s ease both", animationDelay: ".06s" }}>{a.subtitle}</div>
+
+        {/* Contributes callout */}
+        <div style={{
+          marginTop: 16,
+          background: PF.bg2, borderLeft: `3px solid ${a.color}`,
+          padding: "12px 14px",
+          animation: "pfIn .25s ease both", animationDelay: ".08s",
+        }}>
+          <div className="mono" style={{ fontSize: 9.5, letterSpacing: "0.18em", textTransform: "uppercase", color: a.color, fontWeight: 600, marginBottom: 4 }}>Contributes</div>
+          <div className="serif" style={{ fontSize: 15, lineHeight: 1.4, color: PF.ink }}>{a.contributes}</div>
+        </div>
+
+        {/* Strength + Limit boxes */}
+        <div style={{ marginTop: 12, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, animation: "pfIn .25s ease both", animationDelay: ".10s" }}>
+          <div style={{ background: PF.bg2, border: `1px solid ${PF.rule}`, padding: "10px 12px" }}>
+            <div className="mono" style={{ fontSize: 9.5, letterSpacing: "0.18em", textTransform: "uppercase", color: a.color, fontWeight: 600 }}>Strength</div>
+            <div className="serif" style={{ fontSize: 16, fontStyle: "italic", color: PF.ink, marginTop: 4, fontWeight: 500 }}>{a.strength}</div>
+          </div>
+          <div style={{ background: PF.clayT, border: `1px solid ${PF.clay}44`, padding: "10px 12px" }}>
+            <div className="mono" style={{ fontSize: 9.5, letterSpacing: "0.18em", textTransform: "uppercase", color: PF.clay, fontWeight: 600 }}>Limit or hazard</div>
+            <div style={{ fontSize: 13.5, lineHeight: 1.4, color: PF.ink2, marginTop: 4 }}>{a.limit}</div>
+          </div>
+        </div>
+
+        {/* Sees, knows */}
+        <div style={{ marginTop: 16, animation: "pfIn .25s ease both", animationDelay: ".12s" }}>
+          <div className="mono" style={{ fontSize: 9.5, letterSpacing: "0.18em", textTransform: "uppercase", color: PF.ink3, fontWeight: 600, marginBottom: 8 }}>Sees, knows</div>
+          <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gridTemplateColumns: "1fr 1fr", columnGap: 18, rowGap: 4 }}>
+            {a.sees.map((s, i) => (
+              <li key={i} style={{ fontSize: 13.5, lineHeight: 1.4, color: PF.ink, display: "flex", alignItems: "baseline", gap: 8 }}>
+                <span style={{ width: 5, height: 5, background: a.color, flex: "none", marginTop: 6 }} aria-hidden="true" />
+                <span>{s}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Instrument caption */}
+        <p className="serif" style={{ margin: "18px 0 0", paddingTop: 14, borderTop: `1px solid ${PF.rule}`, fontSize: 13, lineHeight: 1.5, color: PF.ink3, fontStyle: "italic" }}>
+          {a.instrument}
+        </p>
+      </div>
+      <PFKeys />
+    </div>
+  );
+};
+
 // ─── II·A · Translation chain ─────────────────────────────────────────────
 
 const PF_CHAIN = [
@@ -434,6 +625,119 @@ const FigHeuristics = ({ accent = PF.navy } = {}) => {
   );
 };
 
+// ─── II·B merged · three heuristics + three-layer stack, monochrome ───────
+// One figure: three tabs (Sensor / Model / Decision) sit above three
+// stacked layers (Physical / Interpretive / Ethical) so the heuristic and
+// its layer of operation can be read together. Intentionally monochrome.
+const PF_HEUR_M = [
+  { k: "Sensor",
+    def: "Sensor heuristic defines what kind of world can be measured. Optical privileges reflectance, SAR privileges roughness and moisture, thermal privileges surface temperature, LiDAR privileges structure.",
+    ex:  "A flooded road is visible as water extent. Its contamination, and the fear of crossing it after dark, require other evidence." },
+  { k: "Model",
+    def: "Model heuristic defines how measurement becomes category or prediction, through thresholds, training labels, and loss functions. This is where bare, built-up, damaged, and high-risk become operational objects.",
+    ex:  "A building-detection model may identify rooftops accurately while leaving occupancy, tenure, and safe egress outside the output. Strong as geometry, incomplete as social evidence." },
+  { k: "Decision",
+    def: "Decision heuristic defines how evidence becomes action. A hazard map can become an evacuation order, an insurance premium, or a humanitarian priority.",
+    ex:  "At that point the technical output enters mandate, trust, liability, and budget." },
+];
+
+const PF_LAYERS = [
+  { n: "01", verb: "measures",   name: "Physical",
+    summary: "A sensor does not measure flood, methane, heat, or risk. It measures a signal.",
+    items: ["signal","reflectance","backscatter","temperature","elevation","moisture"] },
+  { n: "02", verb: "interprets", name: "Interpretive",
+    summary: "Classes are not given by the world. They are decided in the chain — by labels, thresholds, residual classes, transferability assumptions.",
+    items: ["class","threshold","training label","residual class","fusion choice","transferred model"] },
+  { n: "03", verb: "decides",    name: "Ethical",
+    summary: "The category becomes a decision about a life. The heuristic stack at the bottom and middle is now operating at the top of someone's life.",
+    items: ["evacuation","funding","insurance","enforcement","humanitarian intervention","camp recognition","land claims","infrastructure repair","climate adaptation investment","surveillance"] },
+];
+
+const FigHeuristicsMerged = () => {
+  const [i, setI] = React.useState(0);
+  const a = PF_HEUR_M[i];
+  return (
+    <div style={{ border: `1px solid ${PF.rule2}`, background: PF.bg }}>
+      {/* 3 monochrome tabs */}
+      <div style={{ display: "flex", borderBottom: `1px solid ${PF.rule}` }}>
+        {PF_HEUR_M.map((h, k) => {
+          const on = i === k;
+          return (
+            <button key={k} onClick={() => setI(k)} style={{
+              flex: 1, cursor: "pointer", border: "none",
+              borderLeft: k ? `1px solid ${PF.rule}` : "none",
+              borderTop: on ? `3px solid ${PF.ink}` : "3px solid transparent",
+              background: on ? PF.bg : PF.bg2,
+              padding: "14px 18px", textAlign: "left", transition: "all .18s",
+            }}>
+              <PFMono c={PF.ink3} s={9}>heuristic {k + 1}</PFMono>
+              <div style={{ marginTop: 5, fontSize: 16, fontWeight: on ? 700 : 500, color: on ? PF.ink : PF.ink2, letterSpacing: "-0.005em" }}>{h.k}</div>
+            </button>
+          );
+        })}
+      </div>
+      {/* Active heuristic panel */}
+      <div style={{ padding: "20px 26px 22px", animation: "pfIn .2s ease both" }} key={i}>
+        <p className="serif" style={{ margin: 0, fontSize: 16.5, lineHeight: 1.55, color: PF.ink }}>
+          <b style={{ fontFamily: "var(--sans)", fontWeight: 700 }}>{a.k} heuristic</b> {a.def.replace(/^Sensor heuristic |^Model heuristic |^Decision heuristic /, "")}
+        </p>
+        <div style={{
+          marginTop: 14, background: PF.bg2, border: `1px solid ${PF.rule}`,
+          borderLeft: `3px solid ${PF.ink}`, padding: "12px 16px",
+        }}>
+          <PFMono c={PF.ink3} s={9}>where it turns invisible</PFMono>
+          <p className="serif" style={{ margin: "5px 0 0", fontSize: 15, lineHeight: 1.5, color: PF.ink2, fontStyle: "italic" }}>{a.ex}</p>
+        </div>
+      </div>
+
+      {/* The three-layer stack below */}
+      <div style={{ padding: "20px 26px 22px", borderTop: `1px solid ${PF.rule}`, background: PF.bg2 }}>
+        <PFMono c={PF.ink3} s={10}>the three-layer heuristic stack</PFMono>
+        <p className="serif" style={{ margin: "6px 0 16px", fontSize: 14, lineHeight: 1.5, color: PF.ink2, fontStyle: "italic", maxWidth: 720 }}>
+          A life, a decision, a consequence ↑ &nbsp;&nbsp; The vocabulary is owed to Andreas Braun, 2021 (<em>Progress in Physical Geography</em>) and Mia Bennett and colleagues, 2022, <em>Politics of Pixels</em> (<em>Progress in Human Geography</em>).
+        </p>
+        <div style={{ display: "flex", flexDirection: "column-reverse", gap: 10 }}>
+          {PF_LAYERS.map((L, idx) => (
+            <React.Fragment key={L.n}>
+              <div style={{
+                display: "grid", gridTemplateColumns: "60px auto 1fr", gap: 16,
+                alignItems: "start",
+                background: PF.bg, border: `1px solid ${PF.rule}`,
+                padding: "14px 16px",
+                borderLeft: `3px solid ${PF.ink}`,
+              }}>
+                <div>
+                  <PFMono c={PF.ink3} s={10}>layer {L.n}</PFMono>
+                  <div style={{ fontSize: 11, color: PF.ink4, marginTop: 4, fontStyle: "italic" }}>{L.verb}</div>
+                </div>
+                <div style={{ minWidth: 110 }}>
+                  <div style={{ fontSize: 17, fontWeight: 700, color: PF.ink, letterSpacing: "-0.005em" }}>{L.name}</div>
+                </div>
+                <div>
+                  <p className="serif" style={{ margin: 0, fontSize: 14, lineHeight: 1.5, color: PF.ink2 }}>{L.summary}</p>
+                  <div style={{ marginTop: 8, display: "flex", flexWrap: "wrap", gap: 6 }}>
+                    {L.items.map((it, j) => (
+                      <span key={j} className="mono" style={{
+                        fontSize: 10.5, letterSpacing: "0.04em",
+                        color: PF.ink3, padding: "2px 8px",
+                        background: PF.bg2, border: `1px solid ${PF.rule}`,
+                      }}>{it}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              {idx < PF_LAYERS.length - 1 && (
+                <div style={{ textAlign: "center", color: PF.ink4 }} className="mono">↑ becomes ↑</div>
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+      <PFKeys />
+    </div>
+  );
+};
+
 // ─── II·C · Six mismatches ────────────────────────────────────────────────
 
 const PF_MIS = [
@@ -469,7 +773,7 @@ const FigMismatches = ({ accent = PF.navy }) => {
             width: "100%", textAlign: "left", cursor: "pointer", border: "none",
             display: "grid", gridTemplateColumns: "130px 1fr 1fr", alignItems: "stretch",
             borderTop: i ? `1px solid ${PF.rule}` : "none",
-            background: i % 2 ? PF.bg2 : PF.bg,
+            background: PF.bg,
           }}>
             <div style={{ padding: "14px 18px", display: "flex", alignItems: "center" }}>
               <span style={{ fontSize: 14.5, fontWeight: 600, color: PF.ink }}>{m[0]}</span>
@@ -932,7 +1236,7 @@ const FigVisibilityReview = ({ accent = PF.navy }) => {
 
 Object.assign(window, {
   PF, PFMono, PFKeys, PFMovement, Block, PFProse, MOVEMENT_ACCENT,
-  FigRiskRelation, FigPerspectives, FigChain, FigHeuristics, FigMismatches,
+  FigRiskRelation, FigPerspectives, FigPerspectivesMerged, FigChain, FigHeuristics, FigHeuristicsMerged, FigMismatches,
   FigRegisters, FigCounterMap, FigVisibilityMatrix, FigSolastalgia,
   FigTaiwan, FigWorkflow, FigVisibilityReview,
 });

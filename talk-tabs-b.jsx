@@ -591,50 +591,84 @@ const KeptHeuristicStack = () => (
   </Card>
 );
 
+// Defaults indictment, ten cards spread on a table. Click to flip — the
+// front is the default move and an image placeholder, the back is the
+// care reading. Each card is rotated a hair to feel hand-laid. The tenth
+// card carries the old / new question contrast that used to sit in
+// KeptFitForPurpose.
 const KeptDefaults = () => {
   const [flipped, setFlipped] = React.useState({});
   const toggle = (i) => setFlipped(f => ({ ...f, [i]: !f[i] }));
+  // Small, deterministic rotation per card to read like cards on a table
+  const tilt = (i) => {
+    const angles = [-2.2, 1.4, -1.0, 2.0, -1.6, 1.8, -2.4, 1.2, -1.4, 2.2];
+    return angles[i % angles.length];
+  };
   return (
-    <Card pad={30} style={{ marginTop: 20 }}>
-      <Kicker color="var(--terra)">Also kept · the defaults indictment, click any card to flip</Kicker>
-      <h3 className="serif" style={{ margin: "10px 0 12px", fontSize: 26, fontWeight: 500, letterSpacing: "-0.01em", maxWidth: 760 }}>The data is fine. The defaults are the problem.</h3>
-      <p style={{ margin: "0 0 22px", color: "var(--ink-2)", fontSize: 14, maxWidth: 760 }}>
-        Every introductory remote-sensing course teaches a set of preprocessing defaults that, from a community-resilience perspective, ask their questions from the wrong direction. Each card names a standard default on the front and the care reading on the back.
+    <section style={{ marginTop: 36, marginBottom: 12 }}>
+      <div className="mono" style={{
+        fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase",
+        color: "var(--terra)", fontWeight: 600, marginBottom: 12,
+      }}>The defaults indictment · click any card to flip</div>
+      <h3 className="serif" style={{ margin: "0 0 14px", fontSize: 28, fontWeight: 500, letterSpacing: "-0.012em", maxWidth: 820, lineHeight: 1.18 }}>
+        The data is not the enemy. The defaults are the first politics of the image.
+      </h3>
+      <p className="serif" style={{ margin: "0 0 32px", color: "var(--ink-2)", fontSize: 15.5, lineHeight: 1.6, maxWidth: 820 }}>
+        Every introductory remote-sensing course teaches a set of defaults: remove shadow, mask cloud, smooth speckle, assign one class per pixel, suppress edges, discard uncertainty, clean the image until it becomes easier to model. These steps are often necessary. The problem begins when they are treated as neutral. From a community-resilience perspective, many defaults ask the question from the wrong direction. A preprocessing choice that improves a classifier may erase the very condition that matters to people on the ground. Each card names a standard default on the front and a care reading on the back.
       </p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12 }}>
+      <div className="defaults-table">
         {DEFAULTS.map((d, i) => {
           const isFlipped = !!flipped[i];
           return (
-            <button key={i} onClick={() => toggle(i)} style={{
-              appearance: "none", border: "none", background: "none", padding: 0,
-              cursor: "pointer", textAlign: "left", color: "var(--ink)",
-              perspective: 800, fontFamily: "var(--sans)",
-            }}>
-              <div style={{
-                position: "relative", width: "100%", aspectRatio: "0.78",
-                transition: "transform 500ms cubic-bezier(.2,.7,.3,1)",
-                transformStyle: "preserve-3d",
-                transform: isFlipped ? "rotateY(180deg)" : "none",
-              }}>
-                <div style={cardFace({ bg: "var(--paper-2)", border: "1px solid var(--rule)" })}>
-                  <div className="mono" style={{ fontSize: 10, letterSpacing: "0.18em", color: "var(--ink-3)", textTransform: "uppercase" }}>default {String(i + 1).padStart(2, "0")}</div>
-                  <div className="serif" style={{ fontSize: 24, lineHeight: 1.1, fontWeight: 500, marginTop: 8, color: "var(--ink)" }}>{d.default}</div>
-                  <div style={{ marginTop: "auto", display: "flex", alignItems: "center", gap: 8 }}>
-                    <Sigil color="var(--terra)" size={7} />
-                    <span className="mono" style={{ fontSize: 10, color: "var(--terra)", letterSpacing: "0.10em" }}>flip</span>
+            <button key={i} onClick={() => toggle(i)} className="default-card"
+              aria-pressed={isFlipped ? "true" : "false"}
+              style={{ transform: `rotate(${tilt(i)}deg)`, "--terra": "var(--terra)" }}>
+              <div className="default-card__inner" style={{ transform: isFlipped ? "rotateY(180deg)" : "none" }}>
+                {/* Front */}
+                <div className="default-card__face default-card__front">
+                  <div className="default-card__head">
+                    <span className="mono" style={{ fontSize: 10, letterSpacing: "0.20em", color: "var(--ink-3)", textTransform: "uppercase" }}>
+                      Default {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="mono" style={{ fontSize: 9, letterSpacing: "0.14em", color: "var(--terra)", textTransform: "uppercase" }}>tap to flip</span>
+                  </div>
+                  {/* Image area placeholder — swap for real artwork later */}
+                  <div className="default-card__image" aria-hidden="true">
+                    <span className="serif" style={{ fontSize: 11, fontStyle: "italic", color: "var(--ink-4)" }}>image · {String(i + 1).padStart(2, "0")}</span>
+                  </div>
+                  <div className="serif default-card__title">{d.default}</div>
+                  <div className="default-card__corner" aria-hidden="true">
+                    <span className="mono" style={{ fontSize: 8.5, letterSpacing: "0.16em", color: "var(--ink-4)" }}>{String(i + 1).padStart(2, "0")}</span>
                   </div>
                 </div>
-                <div style={{ ...cardFace({ bg: "var(--terra)", border: "none", color: "var(--paper)" }), transform: "rotateY(180deg)" }}>
-                  <div className="mono" style={{ fontSize: 10, letterSpacing: "0.18em", color: "color-mix(in oklch, var(--paper) 70%, transparent)", textTransform: "uppercase" }}>care reading</div>
-                  <div className="serif" style={{ fontSize: 20, lineHeight: 1.1, fontWeight: 500, marginTop: 8, color: "var(--paper)" }}>{d.answer}</div>
-                  <div style={{ marginTop: 12, fontSize: 12, lineHeight: 1.45, color: "color-mix(in oklch, var(--paper) 90%, transparent)" }}>{d.body}</div>
+                {/* Back */}
+                <div className="default-card__face default-card__back">
+                  <div className="default-card__head">
+                    <span className="mono" style={{ fontSize: 10, letterSpacing: "0.20em", color: "color-mix(in oklch, var(--paper) 75%, transparent)", textTransform: "uppercase" }}>
+                      Care reading · {String(i + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+                  <div className="serif default-card__answer">{d.answer}</div>
+                  <div className="default-card__body">{d.body}</div>
+                  {d.oldQ && (
+                    <div className="default-card__qa">
+                      <div>
+                        <span className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase", color: "color-mix(in oklch, var(--paper) 70%, transparent)" }}>The old question</span>
+                        <p className="serif" style={{ margin: "4px 0 0", fontSize: 14, lineHeight: 1.35, fontStyle: "italic", color: "color-mix(in oklch, var(--paper) 92%, transparent)" }}>"{d.oldQ}"</p>
+                      </div>
+                      <div style={{ marginTop: 10 }}>
+                        <span className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase", color: "color-mix(in oklch, var(--paper) 90%, transparent)" }}>The question we must ask</span>
+                        <p className="serif" style={{ margin: "4px 0 0", fontSize: 14, lineHeight: 1.35, color: "var(--paper)", fontWeight: 500 }}>"{d.newQ}"</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </button>
           );
         })}
       </div>
-    </Card>
+    </section>
   );
 };
 
@@ -955,11 +989,31 @@ const TabPlongees = () => {
 
   return (
     <div className="wrap" style={{ padding: "40px 56px 100px", "--accent": "var(--st-perma-accent-2)" }}>
-      {/* Tab masthead, focused question only */}
-      <header style={{ padding: "8px 0 28px" }}>
-        <h1 style={{ margin: "0", fontSize: 44, lineHeight: 1.05, fontWeight: 800, letterSpacing: "-0.026em", maxWidth: 1040, color: "var(--ink)" }}>
+      {/* Tab masthead, focused question + the four-movement framing */}
+      <header style={{ padding: "8px 0 28px", maxWidth: 820 }}>
+        <h1 style={{ margin: "0", fontSize: 40, lineHeight: 1.08, fontWeight: 800, letterSpacing: "-0.026em", color: "var(--ink)" }}>
           How does distant observation become usable knowledge, and what has to happen before that knowledge can support responsible decisions?
         </h1>
+        <div className="serif" style={{ marginTop: 22, maxWidth: 760 }}>
+          <p style={{ margin: "0 0 14px", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
+            This question cannot be answered in one step, because remote sensing does not move directly from image to action. A satellite observation becomes useful only after a sequence of work: the problem must first be defined, the observation must be translated into something meaningful, different forms of knowledge must be brought into relation, and the resulting evidence must be governed according to its possible consequences. The four movements of this section follow that sequence.
+          </p>
+          <p style={{ margin: "0 0 14px", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
+            <strong style={{ color: "var(--ink)", fontWeight: 700 }}>Movement I</strong> begins with risk because no remote-sensing workflow is meaningful until the object of analysis is clear. Risk is not simply the flood, the fire, the landslide, the heat island, or the damaged building. Risk emerges from the relation between hazard, exposure, vulnerability, and capacity. Remote sensing often contributes strongly to the first two: where water spread, where fire burned, where vegetation declined, where buildings stand, where a coastline retreated, where a settlement expanded. It can also provide useful proxies for vulnerability and capacity, such as building density, road access, heat exposure, land-cover change, or distance to services. But vulnerability and capacity are not reducible to what is visible from above. They depend on income, health, mobility, tenure, trust, language, governance, preparedness, social networks, and whether institutions are able to act. The methodological challenge is therefore not to reject remote sensing, but to place it correctly within a wider risk-reading system.
+          </p>
+          <p style={{ margin: "0 0 14px", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
+            <strong style={{ color: "var(--ink)", fontWeight: 700 }}>Movement II</strong> follows from that first limit. Once the problem is defined, the observation still has to be translated. A signal does not become knowledge automatically. It becomes an image, an index, a class, a model input, a risk score, a map, and sometimes a decision. Each step makes the world more legible, but each step also simplifies it. Clouds are masked, shadows are removed, pixels are classified, edges are smoothed, mixed surfaces are forced into categories, and uncertainty is often hidden behind a clean visual output. This movement therefore asks what happens between sensing and knowing. It treats preprocessing, classification, modelling, interpolation, and visualization as acts of interpretation, not as neutral technical housekeeping.
+          </p>
+          <p style={{ margin: "0 0 14px", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
+            <strong style={{ color: "var(--ink)", fontWeight: 700 }}>Movement III</strong> asks what happens when remote-sensing knowledge meets other forms of knowledge. Integration is often described as sensor fusion, data assimilation, or the combination of multiple datasets. Those methods are useful, but they are not enough for community-facing risk work. A satellite product, a field measurement, a municipal plan, an elder's observation, a farmer's account, and a household's evacuation decision do not always describe the same object in the same way. Sometimes integration means combining measurements; sometimes it means recognizing that different actors define the problem differently. This movement therefore shifts the question from "how can data streams be fused?" to "who has the authority to define what the map is about?"
+          </p>
+          <p style={{ margin: "0 0 14px", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
+            <strong style={{ color: "var(--ink)", fontWeight: 700 }}>Movement IV</strong> follows because knowledge that can support decisions can also produce harm. Once remote sensing enters planning, insurance, humanitarian response, policing, conservation, adaptation, or public communication, ethics is no longer external to the method. Resolution, access, uncertainty, classification, visibility, and release are governance choices. Some information should be public; some should be restricted; some should remain under community control; some should not be mapped at all. The aim is not maximum visibility, but accountable visibility.
+          </p>
+          <p style={{ margin: 0, fontSize: 16, lineHeight: 1.65, color: "var(--ink)", fontStyle: "italic" }}>
+            From principle to practice, the sequence is therefore clear: define the risk relation, translate the observation, negotiate integration, and govern the consequences. Only then can distant observation become usable knowledge. Only then can usable knowledge support responsible decisions.
+          </p>
+        </div>
       </header>
 
       <PermaSubNav tabs={PERMA_TABS} active={active} set={setActive} accentMap={MOVEMENT_ACCENT} />
@@ -980,13 +1034,7 @@ const TabPlongees = () => {
             title="The satellite is one perspective among several. It is not the master view to which all other forms of knowledge report."
             lede="A defensible risk analysis must hold multiple perspectives together: the synoptic view from above, the field view from direct observation, the institutional view from planners and responders, the lived view from residents, and the political view that asks who has authority to define the problem."
             caption="These perspectives do not simply add together. They sometimes correct one another, sometimes contradict one another, and sometimes reveal that the original question was too narrow. Integration is therefore not only a technical operation. It is an act of judgment.">
-            <FigPerspectives />
-            <div style={{ marginTop: 20, padding: "18px 0 0", borderTop: "1px dashed var(--rule)" }}>
-              <div className="mono" style={{ fontSize: 10.5, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--ink-3)", marginBottom: 14 }}>
-                THE WHEEL · the same five as spokes around the central UNDRR risk hub
-              </div>
-              <FivePerspectivesWheel />
-            </div>
+            <FigPerspectivesMerged />
           </PFBlock>
         </React.Fragment>
       )}
@@ -1006,9 +1054,8 @@ const TabPlongees = () => {
           <PFBlock n="II" kicker="THE THREE HEURISTICS"
             title="A heuristic is not an error. A heuristic is a rule that makes analysis possible under constraint."
             lede="Remote sensing depends on heuristics because the world is too complex, too continuous, and too variable to be represented without simplification. The problem begins when a heuristic is mistaken for the world itself. A cloud mask, a shadow mask, a land-cover class, an accuracy score, a damage threshold, or a vulnerability index can all be appropriate for one question and misleading for another. Methodological rigour means asking what each simplification does, what it hides, who is affected by it, and whether the chosen abstraction fits the decision being made.">
-            <FigHeuristics />
+            <FigHeuristicsMerged />
           </PFBlock>
-          <KeptHeuristicStack />
           <PFBlock n="III" kicker="THE SIX MISMATCHES"
             title="Six recurring mismatches matter in applied work."
             lede="Spatial scale may not match lived scale. Temporal resolution may not match the timing of action. Classification categories may not match local meanings. Accuracy metrics may not match social consequences. Model outputs may not match institutional authority. Visibility may not match safety. These are not reasons to abandon remote sensing. They are reasons to design remote-sensing workflows around the decision context from the start."
@@ -1024,7 +1071,6 @@ const TabPlongees = () => {
             </p>
           </section>
           <KeptDefaults />
-          <KeptFitForPurpose />
         </React.Fragment>
       )}
 

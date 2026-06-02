@@ -244,6 +244,82 @@
     .section-intro__row { grid-template-columns: 1fr; gap: 10px; }
   }
 
+  /* Defaults indictment — table-spread flip cards */
+  .defaults-table {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 22px 18px; padding: 14px 0 28px;
+  }
+  @media (max-width: 1100px) { .defaults-table { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 880px)  { .defaults-table { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 640px)  { .defaults-table { grid-template-columns: repeat(2, 1fr); } }
+  .default-card {
+    appearance: none; border: none; background: none; padding: 0;
+    cursor: pointer; text-align: left; color: var(--ink);
+    perspective: 1100px; font-family: var(--sans);
+    transition: transform .25s ease, filter .25s ease;
+    filter: drop-shadow(0 6px 14px rgba(31, 42, 64, 0.12));
+  }
+  .default-card:hover { transform: rotate(0deg) translateY(-3px) !important; filter: drop-shadow(0 12px 22px rgba(31, 42, 64, 0.20)); z-index: 2; }
+  .default-card[aria-pressed="true"] { transform: rotate(0deg) !important; filter: drop-shadow(0 12px 28px rgba(31, 42, 64, 0.22)); z-index: 3; }
+  .default-card__inner {
+    position: relative; width: 100%; aspect-ratio: 2 / 3;
+    transition: transform 620ms cubic-bezier(.2,.7,.3,1);
+    transform-style: preserve-3d;
+  }
+  .default-card__face {
+    position: absolute; inset: 0; backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 8px; padding: 16px 16px 18px;
+    display: flex; flex-direction: column; gap: 10px;
+    box-shadow: inset 0 0 0 1px rgba(17, 32, 58, 0.06);
+  }
+  .default-card__front {
+    background: linear-gradient(180deg, #fdfcf8 0%, #f3eee4 100%);
+    color: var(--ink);
+  }
+  .default-card__back {
+    background: linear-gradient(165deg, var(--terra) 0%, #8a2f08 100%);
+    color: var(--paper);
+    transform: rotateY(180deg);
+    padding: 18px 18px 18px;
+    overflow: auto;
+  }
+  .default-card__head {
+    display: flex; justify-content: space-between; align-items: center;
+    flex: 0 0 auto;
+  }
+  .default-card__image {
+    flex: 1 1 auto; min-height: 120px;
+    border-radius: 4px;
+    background:
+      repeating-linear-gradient(45deg, rgba(194, 65, 12, 0.06) 0 8px, transparent 8px 16px),
+      linear-gradient(180deg, #f6f0e3, #ece5d4);
+    border: 1px dashed color-mix(in oklch, var(--terra) 35%, transparent);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .default-card__title {
+    font-size: 21px; line-height: 1.15; font-weight: 500;
+    letter-spacing: -0.01em; color: var(--ink);
+    margin-top: 4px;
+  }
+  .default-card__corner {
+    position: absolute; right: 12px; bottom: 12px;
+  }
+  .default-card__answer {
+    font-size: 19px; line-height: 1.2; font-weight: 500;
+    letter-spacing: -0.01em; color: var(--paper);
+    margin-top: 2px;
+  }
+  .default-card__body {
+    margin: 6px 0 0; font-size: 12.5px; line-height: 1.5;
+    color: color-mix(in oklch, var(--paper) 92%, transparent);
+    flex: 1 1 auto; overflow: auto;
+  }
+  .default-card__qa {
+    margin-top: 12px; padding-top: 10px;
+    border-top: 1px solid color-mix(in oklch, var(--paper) 30%, transparent);
+  }
+
   /* Case study Abstract callout */
   .case-abstract {
     margin: 0 0 40px;
