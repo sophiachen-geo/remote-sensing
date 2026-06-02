@@ -308,11 +308,15 @@
   .default-card__image {
     flex: 1 1 auto; min-height: 120px;
     border-radius: 4px;
-    background:
-      repeating-linear-gradient(45deg, rgba(194, 65, 12, 0.06) 0 8px, transparent 8px 16px),
-      linear-gradient(180deg, #f6f0e3, #ece5d4);
-    border: 1px dashed color-mix(in oklch, var(--terra) 35%, transparent);
+    background: linear-gradient(180deg, #fbf6ea, #f0e8d3);
+    border: 1px solid rgba(194, 65, 12, 0.18);
     display: flex; align-items: center; justify-content: center;
+    padding: 8px; overflow: hidden;
+  }
+  .default-card__image img {
+    max-width: 100%; max-height: 100%;
+    width: auto; height: auto;
+    object-fit: contain;
   }
   .default-card__title {
     font-size: 21px; line-height: 1.15; font-weight: 500;

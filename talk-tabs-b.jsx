@@ -632,9 +632,11 @@ const KeptDefaults = () => {
                     </span>
                     <span className="mono" style={{ fontSize: 9, letterSpacing: "0.14em", color: "var(--terra)", textTransform: "uppercase" }}>tap to flip</span>
                   </div>
-                  {/* Image area placeholder — swap for real artwork later */}
+                  {/* Card artwork */}
                   <div className="default-card__image" aria-hidden="true">
-                    <span className="serif" style={{ fontSize: 11, fontStyle: "italic", color: "var(--ink-4)" }}>image · {String(i + 1).padStart(2, "0")}</span>
+                    <img src={`img/defaults/default-${String(i + 1).padStart(2, "0")}.svg`}
+                      alt=""
+                      style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
                   </div>
                   <div className="serif default-card__title">{d.default}</div>
                   <div className="default-card__corner" aria-hidden="true">
@@ -973,11 +975,11 @@ const PermaSubNav = ({ tabs, active, set, accentMap }) => {
 };
 
 const PERMA_TABS = [
-  { id: "m1",       kicker: "Risk",        title: "Risk is a relation" },
-  { id: "m2",       kicker: "Translation", title: "Knowledge through translation" },
-  { id: "m3",       kicker: "Integration", title: "Integration begins before fusion" },
-  { id: "m4",       kicker: "Ethics",      title: "Ethics is internal to method" },
-  { id: "practice", kicker: "Practice",    title: "From principle to practice" },
+  { id: "m1",       kicker: "Movement I",   title: "Interpretation" },
+  { id: "m2",       kicker: "Movement II",  title: "Translation" },
+  { id: "m3",       kicker: "Movement III", title: "Integration" },
+  { id: "m4",       kicker: "Movement IV",  title: "Ethics" },
+  { id: "practice", kicker: "Movement V",   title: "Practice" },
 ];
 
 const TabPlongees = () => {
@@ -985,20 +987,22 @@ const TabPlongees = () => {
 
   return (
     <div className="wrap" style={{ padding: "40px 56px 100px", "--accent": "var(--st-perma-accent-2)" }}>
-      {/* Tab masthead — just the lead question. Each movement's framing
-          paragraph lives directly under its sub-tab, where the reader is. */}
-      <header style={{ padding: "8px 0 16px", maxWidth: 900 }}>
+      {/* Tab masthead — lead question + five-stage framing */}
+      <header style={{ padding: "8px 0 24px", maxWidth: 900 }}>
         <h1 style={{ margin: "0", fontSize: 36, lineHeight: 1.12, fontWeight: 800, letterSpacing: "-0.024em", color: "var(--ink)" }}>
-          How does distant observation become usable knowledge, and what has to happen before that knowledge can support responsible decisions?
+          How can distant observation be transformed into usable knowledge, and what prerequisites must be met before such knowledge can inform responsible decision-making?
         </h1>
+        <p className="serif" style={{ margin: "20px 0 0", maxWidth: 820, fontSize: 16.5, lineHeight: 1.65, color: "var(--ink-2)" }}>
+          This section addresses the question through five interconnected stages, each of which is essential to the overall process. Remote sensing does not progress directly from image acquisition to actionable outcomes. Initially, the problem must be interpreted accurately. Subsequently, observations are translated into usable evidence, which is then integrated with other forms of knowledge. The circulation and application of this evidence must be governed by ethical considerations. Only after these steps can remote sensing become a practical and responsible workflow.
+        </p>
       </header>
 
       <PermaSubNav tabs={PERMA_TABS} active={active} set={setActive} accentMap={MOVEMENT_ACCENT} />
 
       {active === "m1" && (
         <React.Fragment>
-          <PFMovement id="m1" num="I" name="Risk is a relation"
-            lede="Movement I begins with risk because no remote-sensing workflow is meaningful until the object of analysis is clear. Risk is not simply the flood, the fire, the landslide, the heat island, or the damaged building. Risk emerges from the relation between hazard, exposure, vulnerability, and capacity. Remote sensing often contributes strongly to the first two: where water spread, where fire burned, where vegetation declined, where buildings stand, where a coastline retreated, where a settlement expanded. It can also provide useful proxies for vulnerability and capacity, such as building density, road access, heat exposure, land-cover change, or distance to services. But vulnerability and capacity are not reducible to what is visible from above. They depend on income, health, mobility, tenure, trust, language, governance, preparedness, social networks, and whether institutions are able to act. The methodological challenge is therefore not to reject remote sensing, but to place it correctly within a wider risk-reading system." />
+          <PFMovement id="m1" num="I" name="Interpretation"
+            lede="The initial task is interpretive rather than technical: it involves defining the problem and clarifying the specific role of remote sensing in addressing it. Risk serves as an illustrative example, demonstrating the importance of this step. Events such as floods, fires, heat waves, landslides, or shoreline retreat do not constitute disasters by default. A hazard becomes a disaster only when it interacts with factors such as exposure, vulnerability, and limited capacity. While remote sensing can effectively identify hazards and exposed assets, and occasionally provide proxies for vulnerability and capacity, it cannot independently capture the full complexity of risk. Interpretation situates satellite observations within the broader context of physical processes, social conditions, institutional capacity, and lived consequences." />
           <PFBlock n="I" kicker="THE FOUR COMPONENTS"
             title="Remote sensing is strongest when it is clear about the part of risk it is measuring and honest about the part it cannot measure alone."
             caption="Each component, its guiding question, the strong remote-sensing contribution, and the grounded complement. The meter reads how far the satellite can carry that dimension alone.">
@@ -1015,8 +1019,8 @@ const TabPlongees = () => {
 
       {active === "m2" && (
         <React.Fragment>
-          <PFMovement id="m2" num="II" name="Knowledge is produced through translation"
-            lede="Movement II follows from that first limit. Once the problem is defined, the observation still has to be translated. A signal does not become knowledge automatically. It becomes an image, an index, a class, a model input, a risk score, a map, and sometimes a decision. Each step makes the world more legible, but each step also simplifies it. Clouds are masked, shadows are removed, pixels are classified, edges are smoothed, mixed surfaces are forced into categories, and uncertainty is often hidden behind a clean visual output. This movement therefore asks what happens between sensing and knowing. It treats preprocessing, classification, modelling, interpolation, and visualization as acts of interpretation, not as neutral technical housekeeping." />
+          <PFMovement id="m2" num="II" name="Translation"
+            lede="After the problem has been interpreted, observations must be translated into actionable forms. Signals are converted into images, indices, classes, model inputs, risk scores, maps, and occasionally direct decisions. Each transformation enhances utility but also introduces simplification. For example, clouds are masked, shadows are removed, pixels are classified, edges are smoothed, and mixed surfaces are assigned to discrete categories. Frequently, uncertainty is concealed behind visually clear outputs. Translation examines the processes that occur between sensing and knowing, treating preprocessing, classification, modeling, interpolation, and visualization as interpretive acts rather than neutral technical procedures." />
           <PFBlock n="I" kicker="THE TRANSLATION CHAIN"
             title="A signal becomes evidence only through a chain of translation."
             caption="Step through each transformation. Many political and ethical decisions enter through ordinary technical steps, none of which announces itself as a value judgment.">
@@ -1047,8 +1051,8 @@ const TabPlongees = () => {
 
       {active === "m3" && (
         <React.Fragment>
-          <PFMovement id="m3" num="III" name="Integration begins before fusion"
-            lede={`Movement III asks what happens when remote-sensing knowledge meets other forms of knowledge. Integration is often described as sensor fusion, data assimilation, or the combination of multiple datasets. Those methods are useful, but they are not enough for community-facing risk work. A satellite product, a field measurement, a municipal plan, an elder's observation, a farmer's account, and a household's evacuation decision do not always describe the same object in the same way. Sometimes integration means combining measurements; sometimes it means recognizing that different actors define the problem differently. This movement therefore shifts the question from "how can data streams be fused?" to "who has the authority to define what the map is about?"`} />
+          <PFMovement id="m3" num="III" name="Integration"
+            lede="Following translation, remote-sensing evidence must be integrated with other forms of knowledge. Integration extends beyond sensor fusion or data assimilation. In community-oriented contexts, it involves relating satellite-derived evidence to field measurements, local observations, institutional records, planning documents, lived experiences, and, in some cases, Indigenous or community-defined knowledge systems. The central challenge is not solely the technical combination of datasets, but also determining who holds the authority to define the meaning and relevance of the data." />
           <PFBlock n="I" kicker="THE FOUR REGISTERS"
             title="Technical fusion asks how different measurements describe the same state. Interpretive integration asks whether the state has been defined correctly."
             lede="Institutional integration asks who has authority to use the result. Ethical integration asks whether the result should circulate at all.">
@@ -1068,8 +1072,8 @@ const TabPlongees = () => {
 
       {active === "m4" && (
         <React.Fragment>
-          <PFMovement id="m4" num="IV" name="Ethics is internal to method"
-            lede="Movement IV follows because knowledge that can support decisions can also produce harm. Once remote sensing enters planning, insurance, humanitarian response, policing, conservation, adaptation, or public communication, ethics is no longer external to the method. Resolution, access, uncertainty, classification, visibility, and release are governance choices. Some information should be public; some should be restricted; some should remain under community control; some should not be mapped at all. The aim is not maximum visibility, but accountable visibility." />
+          <PFMovement id="m4" num="IV" name="Ethics"
+            lede="When remote-sensing evidence begins to influence decision-making, ethical considerations become integral to the methodology. Choices regarding resolution, access, uncertainty, classification, visibility, and data release all constitute aspects of governance. Even technically accurate maps can potentially expose individuals to harm, misrepresent communities, support coercive actions, or be disseminated without appropriate authorization. This stage addresses questions regarding who benefits from increased visibility, who may be exposed, who has the right to refuse participation, and what safeguards are necessary before a map is made public or operational." />
 
           <PFBlock n="I" kicker="THE GOVERNING MATRIX"
             title="Some information should be public. Some information should remain under community control. Some information should not be mapped at all."
@@ -1122,8 +1126,8 @@ const TabPlongees = () => {
 
       {active === "practice" && (
         <React.Fragment>
-          <PFMovement id="practice" num="V" name="From principle to practice"
-            lede="From principle to practice, the sequence is therefore clear: define the risk relation, translate the observation, negotiate integration, and govern the consequences. Only then can distant observation become usable knowledge. Only then can usable knowledge support responsible decisions. A community-first workflow begins with the decision that needs support, not with the satellite product that happens to be available. The first step is to identify the public-good question; the second is to identify who has authority and who is affected; the third is to decide what remote sensing can contribute and what it cannot responsibly answer alone. Only then should the workflow move to data selection, preprocessing, classification, modelling, validation, interpretation, uncertainty communication, visibility review, public release, action, monitoring, and revision." />
+          <PFMovement id="practice" num="V" name="Practice"
+            lede="The final stage translates the conceptual framework into a practical workflow. A responsible project is initiated by identifying the decision that requires support, rather than by selecting an available satellite product. This process involves specifying the public-good objective, the affected populations, relevant institutions, appropriate sensor data, complementary ground-based information, sources of uncertainty, visibility risks, and the conditions necessary for action and revision. Practice is the stage at which interpretation, translation, integration, and ethical considerations are operationalized." />
           <PFBlock n="I" kicker="THE COMMUNITY-FIRST WORKFLOW" kc="var(--clay)"
             title="Eleven stages, beginning with the question and ending in action, monitoring, and revision.">
             <FigWorkflow />
