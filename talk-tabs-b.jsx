@@ -564,24 +564,415 @@ const DiveEthics = () => (
 // -----------------------------------------------------------------------
 // PLONGÉES tab, dive selector with multimodality interlude between II and III
 // -----------------------------------------------------------------------
-const TabPlongees = () => {
-  const [active, setActive] = React.useState("applications");
+// ─── Kept-content snippets for Permafrost ─────────────────────────────────
+// These keep specific items the author wanted preserved alongside the new
+// figures from the handoff: Defaults flip cards (C), Fit-for-purpose (D),
+// Five Perspectives Wheel (F), Heuristic Stack Diagram (E), Counter-mapping
+// table + questions (I), Operative Protocols (H), Visibility Balance (J),
+// Solastalgia + artists (K), Taiwan prose with Jasanoff (L).
 
+const KeptFivePerspectives = () => (
+  <Card pad={30} style={{ marginTop: 20 }}>
+    <Kicker color="var(--terra)">Also kept · the radial five-perspectives wheel</Kicker>
+    <p style={{ margin: "8px 0 18px", color: "var(--ink-2)", fontSize: 14, maxWidth: 720 }}>
+      Click any vertex. The same five perspectives, arranged as spokes around the central UNDRR risk hub.
+    </p>
+    <FivePerspectivesWheel />
+  </Card>
+);
+
+const KeptHeuristicStack = () => (
+  <Card pad={30} style={{ marginTop: 20 }}>
+    <Kicker color="var(--terra)">Also kept · the three-layer heuristic stack</Kicker>
+    <p style={{ margin: "8px 0 18px", color: "var(--ink-2)", fontSize: 14, maxWidth: 720 }}>
+      The vocabulary of this stack is owed to Andreas Braun, 2021 (<em>Progress in Physical Geography</em>) and Mia Bennett and colleagues, 2022, <em>Politics of Pixels</em> (<em>Progress in Human Geography</em>). Click each layer to expand.
+    </p>
+    <HeuristicStackDiagram />
+  </Card>
+);
+
+const KeptDefaults = () => {
+  const [flipped, setFlipped] = React.useState({});
+  const toggle = (i) => setFlipped(f => ({ ...f, [i]: !f[i] }));
   return (
-    <div className="wrap" style={{ padding: "72px 56px 100px", "--accent": "var(--st-perma-accent-2)" }}>
-      <StrataHead section="perma" />
-      <DiveNav active={active} set={setActive} />
-      {active === "applications" && <DiveApplications />}
-      {active === "integration"  && (
-        <>
-          <DiveIntegration />
-          <MultimodalitySection />
-        </>
-      )}
-      {active === "ethics"       && <DiveEthics />}
-    </div>
+    <Card pad={30} style={{ marginTop: 20 }}>
+      <Kicker color="var(--terra)">Also kept · the defaults indictment, click any card to flip</Kicker>
+      <h3 className="serif" style={{ margin: "10px 0 12px", fontSize: 26, fontWeight: 500, letterSpacing: "-0.01em", maxWidth: 760 }}>The data is fine. The defaults are the problem.</h3>
+      <p style={{ margin: "0 0 22px", color: "var(--ink-2)", fontSize: 14, maxWidth: 760 }}>
+        Every introductory remote-sensing course teaches a set of preprocessing defaults that, from a community-resilience perspective, ask their questions from the wrong direction. Each card names a standard default on the front and the care reading on the back.
+      </p>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12 }}>
+        {DEFAULTS.map((d, i) => {
+          const isFlipped = !!flipped[i];
+          return (
+            <button key={i} onClick={() => toggle(i)} style={{
+              appearance: "none", border: "none", background: "none", padding: 0,
+              cursor: "pointer", textAlign: "left", color: "var(--ink)",
+              perspective: 800, fontFamily: "var(--sans)",
+            }}>
+              <div style={{
+                position: "relative", width: "100%", aspectRatio: "0.78",
+                transition: "transform 500ms cubic-bezier(.2,.7,.3,1)",
+                transformStyle: "preserve-3d",
+                transform: isFlipped ? "rotateY(180deg)" : "none",
+              }}>
+                <div style={cardFace({ bg: "var(--paper-2)", border: "1px solid var(--rule)" })}>
+                  <div className="mono" style={{ fontSize: 10, letterSpacing: "0.18em", color: "var(--ink-3)", textTransform: "uppercase" }}>default {String(i + 1).padStart(2, "0")}</div>
+                  <div className="serif" style={{ fontSize: 24, lineHeight: 1.1, fontWeight: 500, marginTop: 8, color: "var(--ink)" }}>{d.default}</div>
+                  <div style={{ marginTop: "auto", display: "flex", alignItems: "center", gap: 8 }}>
+                    <Sigil color="var(--terra)" size={7} />
+                    <span className="mono" style={{ fontSize: 10, color: "var(--terra)", letterSpacing: "0.10em" }}>flip</span>
+                  </div>
+                </div>
+                <div style={{ ...cardFace({ bg: "var(--terra)", border: "none", color: "var(--paper)" }), transform: "rotateY(180deg)" }}>
+                  <div className="mono" style={{ fontSize: 10, letterSpacing: "0.18em", color: "color-mix(in oklch, var(--paper) 70%, transparent)", textTransform: "uppercase" }}>care reading</div>
+                  <div className="serif" style={{ fontSize: 20, lineHeight: 1.1, fontWeight: 500, marginTop: 8, color: "var(--paper)" }}>{d.answer}</div>
+                  <div style={{ marginTop: 12, fontSize: 12, lineHeight: 1.45, color: "color-mix(in oklch, var(--paper) 90%, transparent)" }}>{d.body}</div>
+                </div>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </Card>
   );
 };
+
+const KeptFitForPurpose = () => (
+  <Card pad={30} style={{ marginTop: 20 }}>
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 30 }}>
+      <div>
+        <Kicker color="var(--lapis)">Also kept · fit-for-purpose modelling, the ordinary city</Kicker>
+        <h3 className="serif" style={{ margin: "8px 0 0", fontSize: 24, lineHeight: 1.15, fontWeight: 500, letterSpacing: "-0.01em" }}>A model can be technically strong and still fail the decision.</h3>
+        <P style={{ marginTop: 14 }}>
+          A global product may be accurate enough for continental comparison and yet entirely inadequate for a Swiss small town, a Newfoundland outport, a Quebec rang, a prairie hamlet, or an Indigenous community whose morphology is underrepresented in training data.
+        </P>
+        <P>
+          The right question for the discipline is therefore not whether the model is accurate in the abstract. The right question is accurate for whom, at what scale, for what decision, and with what consequences.
+        </P>
+      </div>
+      <Card pad={24} style={{ background: "var(--paper-2)", border: "1px solid var(--rule)" }}>
+        <div style={{ marginBottom: 16 }}>
+          <span className="caps" style={{ color: "var(--ink-3)" }}>The old question</span>
+          <p className="serif" style={{ margin: "4px 0 0", fontSize: 20, lineHeight: 1.3, color: "var(--ink-2)", fontStyle: "italic" }}>"{FIT_FOR_PURPOSE.old_q}"</p>
+        </div>
+        <Rule />
+        <div style={{ marginTop: 16 }}>
+          <span className="caps" style={{ color: "var(--lapis)" }}>The question we must ask</span>
+          <p className="serif" style={{ margin: "4px 0 0", fontSize: 20, lineHeight: 1.3, color: "var(--ink)", fontWeight: 500 }}>"{FIT_FOR_PURPOSE.new_q}"</p>
+        </div>
+      </Card>
+    </div>
+  </Card>
+);
+
+const KeptCounterMapTable = () => (
+  <Card pad={30} style={{ marginTop: 20 }}>
+    <Kicker color="var(--plum)">Also kept · counter-mapping, the satellite reads edges as lines</Kicker>
+    <h3 className="serif" style={{ margin: "8px 0 14px", fontSize: 24, lineHeight: 1.15, fontWeight: 500, letterSpacing: "-0.01em" }}>Lived experience reads them as membranes.</h3>
+    <p style={{ fontSize: 14, lineHeight: 1.55, color: "var(--ink-2)", margin: "0 0 18px", maxWidth: 720 }}>
+      The tradition is documented by Nancy Peluso's 1995 paper on the forests of Kalimantan, by Bernard Nietschmann's work with the Miskito of Nicaragua, and by Mac Chapin's 2005 critique of conservation NGO mapping in <em>World Watch Magazine</em>.
+    </p>
+    <div style={{ border: "1px solid var(--rule)" }}>
+      <div style={{
+        display: "grid", gridTemplateColumns: "1.2fr 1.4fr 1fr",
+        background: "var(--paper-2)", borderBottom: "1px solid var(--rule)",
+        padding: "10px 16px", fontFamily: "var(--mono)", fontSize: 11,
+        letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--ink-3)",
+      }}>
+        <span>Official LULC reads</span>
+        <span style={{ color: "var(--plum)" }}>Community reads</span>
+        <span>Where</span>
+      </div>
+      {COUNTER_MAP.map((row, i) => (
+        <div key={i} style={{
+          display: "grid", gridTemplateColumns: "1.2fr 1.4fr 1fr",
+          padding: "12px 16px",
+          borderBottom: i < COUNTER_MAP.length - 1 ? "1px solid var(--rule-soft)" : "none",
+          alignItems: "baseline",
+        }}>
+          <span style={{ fontSize: 13, color: "var(--ink-3)", fontStyle: "italic" }}>{row.official}</span>
+          <span className="serif" style={{ fontSize: 16, color: "var(--ink)" }}>{row.community}</span>
+          <span className="mono" style={{ fontSize: 11, color: "var(--ink-2)", letterSpacing: "0.04em" }}>{row.where}</span>
+        </div>
+      ))}
+    </div>
+    <div style={{
+      marginTop: 20, padding: "18px 22px",
+      background: "var(--plum-tint)",
+      border: "1px solid color-mix(in oklch, var(--plum) 30%, transparent)",
+    }}>
+      <span className="caps" style={{ color: "var(--plum)" }}>Counter-mapping asks</span>
+      <div style={{ marginTop: 10, display: "flex", flexWrap: "wrap", gap: 14, alignItems: "baseline" }}>
+        {COUNTER_MAPPING_QUESTIONS.map((q, i) => (
+          <React.Fragment key={i}>
+            <span className="serif" style={{ fontSize: 20, fontStyle: "italic", color: "var(--plum)", fontWeight: 500 }}>{q}</span>
+            {i < COUNTER_MAPPING_QUESTIONS.length - 1 && <span style={{ color: "var(--ink-4)" }}>·</span>}
+          </React.Fragment>
+        ))}
+      </div>
+    </div>
+  </Card>
+);
+
+const KeptOperativeProtocols = () => (
+  <Card pad={36} style={{ marginTop: 20, background: "var(--ink)", color: "var(--paper)", border: "none" }}>
+    <Kicker color="var(--ochre-2)">Also kept · Indigenous data sovereignty, the operative protocols</Kicker>
+    <h3 className="serif" style={{
+      margin: "8px 0 4px", fontSize: 32, fontWeight: 300, letterSpacing: "-0.014em",
+      color: "var(--paper)", maxWidth: 880,
+    }}>The <em style={{ color: "var(--ochre-2)" }}>Operative</em> Protocols.</h3>
+    <p style={{ margin: "10px 0 24px", fontSize: 14.5, lineHeight: 1.55, color: "color-mix(in oklch, var(--paper) 80%, transparent)", maxWidth: 800 }}>
+      Some things should not be mapped. Sacred sites, burial grounds, sensitive cultural locations. Non-mapping is a methodology, and a sovereign choice. Some things must be mapped, but by whom matters. SmartICE in Inuit Nunangat and the Indigenous Guardians programs are the institutional and embodied forms of what the frameworks below name in writing.
+    </p>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 0,
+      borderTop: "1px solid color-mix(in oklch, var(--paper) 22%, transparent)",
+      borderLeft: "1px solid color-mix(in oklch, var(--paper) 22%, transparent)" }}>
+      {GOV.map((g, i) => (
+        <div key={g.name} style={{
+          padding: "26px 22px",
+          borderRight: "1px solid color-mix(in oklch, var(--paper) 22%, transparent)",
+          borderBottom: "1px solid color-mix(in oklch, var(--paper) 22%, transparent)",
+          minHeight: 240, display: "flex", flexDirection: "column", justifyContent: "space-between",
+        }}>
+          <div>
+            <div className="mono" style={{ fontSize: 10, letterSpacing: "0.18em", color: "color-mix(in oklch, var(--paper) 55%, transparent)", textTransform: "uppercase", marginBottom: 12 }}>framework {String(i + 1).padStart(2, "0")}</div>
+            <h4 className="serif" style={{ margin: 0, fontSize: 44, fontWeight: 400, letterSpacing: "-0.02em" }}>{g.name}</h4>
+            <p className="mono" style={{ margin: "8px 0 0", fontSize: 11, color: "var(--ochre-2)", letterSpacing: "0.10em", textTransform: "uppercase" }}>{g.full}</p>
+          </div>
+          <p style={{ margin: "14px 0 0", fontSize: 13, lineHeight: 1.55, color: "color-mix(in oklch, var(--paper) 80%, transparent)" }}>{g.body}</p>
+        </div>
+      ))}
+    </div>
+  </Card>
+);
+
+const KeptVisibilityBalance = () => (
+  <Card pad={30} style={{ marginTop: 20 }}>
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 30, alignItems: "start" }}>
+      <div>
+        <Kicker color="var(--terra)">Also kept · visibility, protection and exposure</Kicker>
+        <h3 className="serif" style={{ margin: "8px 0 0", fontSize: 24, lineHeight: 1.15, fontWeight: 500, letterSpacing: "-0.01em" }}>The same Maxar tile.</h3>
+        <P style={{ marginTop: 14 }}>
+          Visibility can be protective. It can be dangerous. What determines the technology's valence is governance, institutional embedding, and whether anyone can challenge an interpretation. The same Sentinel-2 scene can be read for refugee camp population estimation by UNHCR and for forced displacement targeting by a military. The same Maxar tile documented Russian atrocities in Bucha in 2022 and informs Gaza operations today.
+        </P>
+        <P>
+          The Decentralized Damage Mapping Group, with Van Den Hoek at Oregon State, Scher at the City University of New York, and Yin at Kent State, uses Sentinel-1 SAR coherence change detection to count damaged buildings in Gaza, conservatively, and only when a building is more than ninety-nine per cent covered by damaged pixels. The October 2025 UNOSAT Comprehensive Damage Assessment, using Pléiades NEO and Maxar very high resolution optical imagery, reports approximately 198,000 damaged or destroyed structures, around 81 per cent of all structures in the territory. Planet Labs has publicly acknowledged delaying its highest resolution Gaza imagery by thirty days, in their words, to reduce the potential for misuse and abuse.
+        </P>
+        <Pull color="var(--terra)">The resolution of an edge is itself a political variable.</Pull>
+      </div>
+      <div>
+        <VisibilityBalance />
+        <p className="mono" style={{
+          marginTop: 12, fontSize: 10.5, letterSpacing: "0.14em",
+          color: "var(--ink-3)", textTransform: "uppercase", textAlign: "center",
+        }}>who benefits from this visibility, who is exposed by it, who has the authority to refuse it</p>
+      </div>
+    </div>
+  </Card>
+);
+
+const KeptSolastalgia = () => (
+  <Card pad={30} style={{ marginTop: 20 }}>
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr", gap: 30 }}>
+      <div>
+        <Kicker color="var(--plum)">Also kept · solastalgia, change detection as the visual grammar of grief</Kicker>
+        <h3 className="serif" style={{ margin: "8px 0 0", fontSize: 26, lineHeight: 1.15, fontWeight: 500, letterSpacing: "-0.014em" }}>The before-and-after pair is a memorial structure.</h3>
+        <P style={{ marginTop: 14 }}>
+          Glenn Albrecht coined the term solastalgia in 2003. It names the distress caused by environmental change to one's home while one is still in it. Change detection in remote sensing, the before-and-after pair and the time series, is structurally the technical apparatus of solastalgia. Glacier National Park's repeat photography, the receding coastlines of southwestern Newfoundland, the vanishing wetlands of the Mississippi delta, the burn scars accumulating across the boreal year after year, and the disappeared villages of climate displacement are all forms of this apparatus at work.
+        </P>
+        <P>
+          Community mapping, when it works, is not only a technical practice. It becomes collective grief work. The community decides what must be remembered, what must be protected, what must be mourned, what must be repaired, and what must be transformed.
+        </P>
+      </div>
+      <Card pad={26} style={{ background: "var(--plum-tint)", border: `1px solid color-mix(in oklch, var(--plum) 35%, transparent)` }}>
+        <Kicker color="var(--plum)">A short memorial archive</Kicker>
+        <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
+          {[
+            "Glacier National Park, repeat photography",
+            "Southwestern Newfoundland, receding coastline",
+            "Mississippi delta, vanishing wetlands",
+            "Boreal Canada, accumulating burn scars",
+            "Climate displacement, disappeared villages",
+            "Tuktoyaktuk Island, two metres per year of shoreline",
+          ].map((it, i) => (
+            <li key={i} style={{
+              padding: "10px 0",
+              borderBottom: i < 5 ? "1px solid color-mix(in oklch, var(--plum) 25%, transparent)" : "none",
+              fontSize: 14, color: "var(--ink)",
+            }}>{it}</li>
+          ))}
+        </ul>
+      </Card>
+    </div>
+    <div style={{ marginTop: 24, paddingTop: 22, borderTop: "1px solid var(--rule)" }}>
+      <Kicker color="var(--plum)">Artists of the vanishing, two works that hold the grief</Kicker>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 6 }}>
+        {[
+          { who: "Jakob Kudsk Steensen", work: "Boreal Dreams — disappearing ecosystems, rendered as immersive living worlds.", href: "https://borealdreams.live/" },
+          { who: "Ludwig Berger",         work: "Melting Landscapes — the sound of crying glaciers and the acoustics of ice in retreat.", href: "https://ludwigberger.com/work/melting-landscapes/" },
+        ].map((a, i) => (
+          <a key={i} href={a.href} target="_blank" rel="noopener noreferrer" style={{
+            display: "flex", flexDirection: "column", gap: 6, textDecoration: "none",
+            padding: "20px 22px",
+            background: "var(--plum-tint)",
+            border: "1px solid color-mix(in oklch, var(--plum) 30%, transparent)",
+          }}>
+            <span className="serif" style={{ fontSize: 22, lineHeight: 1.1, color: "var(--ink)", fontWeight: 500, letterSpacing: "-0.01em" }}>{a.who}</span>
+            <span style={{ fontSize: 13.5, lineHeight: 1.55, color: "var(--ink-2)" }}>{a.work}</span>
+            <span className="mono" style={{ fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--plum)", marginTop: 4 }}>Visit the work &#8599;</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </Card>
+);
+
+const KeptTaiwanProse = () => (
+  <Card pad={30} style={{
+    marginTop: 20, background: "var(--ochre-tint)",
+    border: "1px solid color-mix(in oklch, var(--ochre) 30%, transparent)",
+  }}>
+    <Kicker color="var(--ochre)">Also kept · Taiwan, the last mile turns out not to be a delivery problem</Kicker>
+    <p className="serif" style={{ margin: "10px 0 14px", fontSize: 22, lineHeight: 1.35, fontStyle: "italic", color: "var(--ink)" }}>
+      Probability of damage and willingness to evacuate are not linearly related.
+    </p>
+    <P>
+      At the Taiwan Typhoon Research Centre, the question that mattered was not the satellite's confidence that a typhoon would strike. The question was what households would do once the warning arrived. Trust in the source, prior false alarms, household composition, place attachment, language access, the social capital of the neighbourhood, and the practicalities of where to go and with whom all intervene between the map and the action.
+    </P>
+    <P>
+      The framing of last mile concedes too much. The last mile is not a delivery problem in which a clear message simply needs to travel further. It is an epistemological problem in which the receiver constitutes the meaning of the message according to her own civic epistemology, in Sheila Jasanoff's term. The work of remote sensing for care, resilience, and community is not finished when the map is published. It begins there.
+    </P>
+  </Card>
+);
+
+const TabPlongees = () => (
+  <div className="wrap" style={{ padding: "72px 56px 100px", "--accent": "var(--st-perma-accent-2)" }}>
+    <StrataHead section="perma" />
+
+    {/* Masthead from handoff */}
+    <header style={{ padding: "44px 0 20px", borderTop: "1px solid var(--rule)" }}>
+      <PFMono c="var(--sky)" s={11}>Permafrost · the layer that carries everything else</PFMono>
+      <h1 style={{ margin: "16px 0 0", fontSize: 50, lineHeight: 1.05, fontWeight: 800, letterSpacing: "-0.026em", maxWidth: 1040, color: "var(--ink)" }}>
+        How does distant observation become knowledge, and when does that knowledge become useful, accountable, and just?
+      </h1>
+      <p className="serif" style={{ margin: "22px 0 0", fontSize: 18, lineHeight: 1.55, color: "var(--ink-2)", maxWidth: 760 }}>
+        Remote sensing is indispensable to contemporary risk work. It supplies scale, speed, repetition, and continuity across territories that exceed direct observation. The guide begins from a more demanding proposition. Seeing at scale is not the same as understanding in place.
+      </p>
+      <div style={{ marginTop: 28, borderLeft: "3px solid var(--clay)", paddingLeft: 22, maxWidth: 820 }}>
+        <p className="serif" style={{ margin: 0, fontSize: 22, lineHeight: 1.35, color: "var(--ink)", fontStyle: "italic" }}>
+          Remote sensing begins with seeing at a distance. Resilience begins when that distant seeing is returned to relationship.
+        </p>
+      </div>
+    </header>
+
+    {/* MOVEMENT I */}
+    <PFMovement id="m1" num="I" name="Risk is a relation"
+      lede="Most confusion about what remote sensing can and cannot do begins with treating risk as a single object rather than a relation among hazard, exposure, vulnerability and capacity." />
+    <PFBlock kicker="the four components · click to compare"
+      title="Remote sensing is strong on some dimensions of risk, and needs grounding on others."
+      caption="Each component, its guiding question, the strong remote-sensing contribution, and the grounded complement. The meter reads how far the satellite can carry that dimension alone.">
+      <FigRiskRelation />
+    </PFBlock>
+    <PFBlock kicker="several perspectives, held at once"
+      title="The satellite is one perspective among five, not the master view to which the others report."
+      caption="Five ways of seeing the same risk. Integrating them is the work of judgment, not of a filter.">
+      <FigPerspectives />
+    </PFBlock>
+    <KeptFivePerspectives />
+
+    {/* MOVEMENT II */}
+    <PFMovement id="m2" num="II" name="Knowledge is produced through translation"
+      lede="Remote sensing never moves directly from observation to decision. It passes through a sequence of transformations, and each one carries assumptions that are easy to forget once the map looks finished." />
+    <PFBlock kicker="walk the chain · seven stages"
+      title="A signal becomes an image, an indicator, a class, a model input, a risk score, a decision, an intervention."
+      lede="At every stage something is gained, including compression, legibility, and the capacity to act across scale. At every stage something is also transformed."
+      caption="Step through each transformation. Many political and ethical decisions enter through ordinary technical steps, none of which announces itself as a value judgment.">
+      <FigChain />
+    </PFBlock>
+    <PFBlock kicker="three heuristics that govern the chain"
+      title="A heuristic is not an error but a necessary simplification that becomes dangerous only when it turns invisible.">
+      <FigHeuristics />
+    </PFBlock>
+    <KeptHeuristicStack />
+    <PFBlock kicker="six recurring mismatches"
+      title="Where the grammar of remote sensing meets how risk is lived, governed, and contested."
+      caption="For each mismatch, what remote sensing privileges and what often matters in practice. Reveal one row, or all six.">
+      <FigMismatches />
+    </PFBlock>
+    <KeptDefaults />
+    <KeptFitForPurpose />
+
+    {/* MOVEMENT III */}
+    <PFMovement id="m3" num="III" name="Integration is a contest over who defines the problem"
+      lede="Heard technically, integration suggests sensor fusion or Bayesian updating. But community knowledge is not simply another noisy sensor feeding the same estimate. It may name another state altogether, challenge the category, or contest the purpose of the map." />
+    <PFBlock kicker="four registers of integration"
+      title="Technical fusion asks how data streams describe the same state. The harder registers ask who defines the state.">
+      <FigRegisters />
+    </PFBlock>
+    <PFBlock kicker="counter-mapping · an inversion"
+      title="The satellite identifies where something changed. Counter-mapping asks what changed, for whom, by whose categories.">
+      <FigCounterMap />
+    </PFBlock>
+    <KeptCounterMapTable />
+    <MultimodalitySection />
+
+    {/* MOVEMENT IV */}
+    <PFMovement id="m4" num="IV" name="Ethics is internal to method"
+      lede="If remote sensing produces decision-ready evidence through a chain of translations, ethics is not an addition to the technical work. The governing question is larger than accuracy. It asks who has authority over the meaning, circulation, and consequences of the data." />
+    <PFBlock kicker="the governing matrix · click a quadrant"
+      title="The aim is not maximum visibility. It is accountable visibility."
+      lede="Three commitments converge here: objectivity that becomes answerable, attention to dual use, and data sovereignty.">
+      <FigVisibilityMatrix />
+    </PFBlock>
+    <KeptOperativeProtocols />
+    <KeptVisibilityBalance />
+    <PFBlock kicker="the affective dimension · solastalgia"
+      title="Remote sensing shows the changed surface. Solastalgia names what the changed surface does to belonging.">
+      <FigSolastalgia />
+    </PFBlock>
+    <KeptSolastalgia />
+
+    {/* TAIWAN ANCHOR */}
+    <section id="taiwan" style={{ padding: "56px 0 0", borderTop: "1px solid var(--rule)" }}>
+      <PFMono c="var(--clay)" s={11}>the anchor · early warning in Taiwan</PFMono>
+      <h2 style={{ margin: "12px 0 0", fontSize: 34, lineHeight: 1.1, fontWeight: 800, letterSpacing: "-0.022em", maxWidth: 900, color: "var(--ink)" }}>
+        The last mile is not a delivery problem. It is a meaning problem.
+      </h2>
+      <p className="serif" style={{ margin: "16px 0 0", fontSize: 17, lineHeight: 1.55, color: "var(--ink-2)", maxWidth: 760 }}>
+        The usual phrase suggests the warning is complete and simply needs to travel farther. But a warning becomes action only when it is interpreted, trusted, situated, and made practical. A household does not respond to probability alone.
+      </p>
+    </section>
+    <PFBlock caption="Drag the probability of damage; willingness to evacuate does not track it linearly. Toggle the conditions through which a household interprets the warning.">
+      <FigTaiwan />
+    </PFBlock>
+    <KeptTaiwanProse />
+
+    {/* PRACTICE */}
+    <PFMovement id="practice" num="→" name="From principle to practice"
+      lede="The structure above becomes operational through a community-first workflow. The decisive design choice is where it begins: from a community question or decision point, not from the available satellite product." />
+    <PFBlock kicker="the community-first workflow · expand any stage" kc="var(--clay)"
+      title="Eleven stages, beginning with the question and ending in action, monitoring, and revision.">
+      <FigWorkflow />
+    </PFBlock>
+    <PFBlock kicker="the visibility-risk review · run it on a sample" kc="var(--clay)"
+      title="Simple enough to apply to any output, before it is released."
+      lede="A rigorous project funds and evaluates the work it claims to value. Community interpretation, visibility review, translation, and legal review are part of the method, not optional extras.">
+      <FigVisibilityReview />
+    </PFBlock>
+
+    {/* CLOSING */}
+    <section style={{ background: "var(--ink)", color: "#fff", padding: "60px 32px 72px", marginTop: 48 }}>
+      <PFMono c="#8fb4d6" s={11}>closing · from seeing to judgment</PFMono>
+      <h2 style={{ margin: "16px 0 0", fontSize: 32, lineHeight: 1.18, fontWeight: 700, letterSpacing: "-0.018em", maxWidth: 980, color: "#fff" }}>
+        The satellite can show where the water went. Judgment asks who could leave, who stayed, who was believed, who had authority, and what kind of recovery became possible afterward.
+      </h2>
+      <p className="serif" style={{ margin: "20px 0 0", maxWidth: 760, fontSize: 18, lineHeight: 1.55, color: "rgba(255,255,255,0.84)" }}>
+        Remote sensing begins with seeing at a distance. Resilience begins when that distant seeing is brought back into relationship with the people, institutions, and places that must live with its consequences.
+      </p>
+    </section>
+  </div>
+);
 
 // -----------------------------------------------------------------------
 // AVENIR. Future, fragility, and the Phase 1 and Phase 2 GEE methodology.
