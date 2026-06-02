@@ -714,7 +714,7 @@ const FigWorkflow = () => {
               }}>
                 <span className="mono num" style={{ fontSize: 12, fontWeight: 600, color: i === 0 ? PF.clay : PF.ink4 }}>{String(i + 1).padStart(2, "0")}</span>
                 <span style={{ fontSize: 15.5, fontWeight: 600, color: isOpen ? PF.ink : PF.ink2 }}>{f[0]}</span>
-                <span className="mono" style={{ fontSize: 13, color: PF.ink4 }}>{isOpen ? "–" : "+"}</span>
+                <span className="mono" style={{ fontSize: 13, color: PF.ink4 }}>{isOpen ? "-" : "+"}</span>
               </button>
               {isOpen && (
                 <div style={{ padding: "0 24px 16px 70px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, animation: "pfIn .25s ease both" }}>

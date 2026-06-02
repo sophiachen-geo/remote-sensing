@@ -283,8 +283,8 @@ const TabSlides = () => {
               }}>{slide.title}</h3>
               {slide.kicker && (
                 <p className="serif" style={{
-                  margin: "10px 0 0", fontSize: 16, color: "var(--ink-3)",
-                  fontStyle: "italic", fontWeight: 400,
+                  margin: "10px 0 0", fontSize: 16, color: "var(--ink-2)",
+                  fontWeight: 400,
                 }}>{slide.kicker}</p>
               )}
             </div>
@@ -519,8 +519,8 @@ const TabModalities = () => {
           }}>
             <div className="caps" style={{ color: accentVar(m.accent), marginBottom: 6 }}>Care question</div>
             <p className="serif" style={{
-              margin: 0, fontSize: 24, lineHeight: 1.4, fontStyle: "italic",
-              color: "var(--ink)", fontWeight: 400,
+              margin: 0, fontSize: 20, lineHeight: 1.5,
+              color: "var(--ink)", fontWeight: 500,
             }}>{m.care}</p>
           </div>
 
@@ -551,7 +551,7 @@ const TabModalities = () => {
                   <li key={i} style={{
                     fontSize: 14, lineHeight: 1.55, padding: "8px 0",
                     borderBottom: i < m.invisible.length - 1 ? "1px solid var(--rule-soft)" : "none",
-                    color: "var(--ink-2)", fontStyle: "italic",
+                    color: "var(--ink-2)",
                   }}>{v}</li>
                 ))}
               </ul>

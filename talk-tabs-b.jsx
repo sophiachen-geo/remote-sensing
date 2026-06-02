@@ -103,7 +103,7 @@ const DiveApplications = () => (
         <Kicker color="var(--ochre)">Taiwan, where the last mile turns out not to be a delivery problem</Kicker>
         <div>
           <p className="serif" style={{
-            margin: 0, fontSize: 24, lineHeight: 1.35, fontStyle: "italic", color: "var(--ink)",
+            margin: 0, fontSize: 22, lineHeight: 1.45, color: "var(--ink)", fontWeight: 500,
           }}>
             Probability of damage and willingness to evacuate are not linearly related.
           </p>
@@ -188,8 +188,8 @@ const DiveIntegration = () => {
           <Kicker color="var(--moss)">SOCODEVI, West Africa, the integration is a person</Kicker>
           <div>
             <p className="serif" style={{
-              margin: 0, fontSize: 22, lineHeight: 1.35, fontWeight: 300,
-              fontStyle: "italic", color: "var(--ink)",
+              margin: 0, fontSize: 20, lineHeight: 1.5, fontWeight: 500,
+              color: "var(--ink)",
             }}>
               A Kalman filter can combine estimates once the variable has already been defined. In resilience work, the variable itself is contested.
             </p>
@@ -290,18 +290,18 @@ const DiveIntegration = () => {
             <div style={{ marginBottom: 18 }}>
               <span className="caps" style={{ color: "var(--ink-3)" }}>The old question</span>
               <p className="serif" style={{
-                margin: "4px 0 0", fontSize: 22, lineHeight: 1.3, color: "var(--ink-2)", fontStyle: "italic",
+                margin: "4px 0 0", fontSize: 19, lineHeight: 1.5, color: "var(--ink-2)",
               }}>
-                "{FIT_FOR_PURPOSE.old_q}"
+                {FIT_FOR_PURPOSE.old_q}
               </p>
             </div>
             <Rule />
             <div style={{ marginTop: 18 }}>
               <span className="caps" style={{ color: "var(--lapis)" }}>The question we must ask</span>
               <p className="serif" style={{
-                margin: "4px 0 0", fontSize: 22, lineHeight: 1.3, color: "var(--ink)", fontWeight: 500,
+                margin: "4px 0 0", fontSize: 19, lineHeight: 1.5, color: "var(--ink)", fontWeight: 500,
               }}>
-                "{FIT_FOR_PURPOSE.new_q}"
+                {FIT_FOR_PURPOSE.new_q}
               </p>
             </div>
           </Card>
@@ -384,7 +384,7 @@ const DiveEthics = () => (
             borderBottom: i < COUNTER_MAP.length - 1 ? "1px solid var(--rule-soft)" : "none",
             alignItems: "baseline",
           }}>
-            <span style={{ fontSize: 13.5, color: "var(--ink-3)", fontStyle: "italic" }}>{row.official}</span>
+            <span style={{ fontSize: 13.5, color: "var(--ink-3)" }}>{row.official}</span>
             <span className="serif" style={{ fontSize: 17, color: "var(--ink)" }}>{row.community}</span>
             <span className="mono" style={{ fontSize: 11, color: "var(--ink-2)", letterSpacing: "0.04em" }}>{row.where}</span>
           </div>
@@ -401,7 +401,7 @@ const DiveEthics = () => (
           {COUNTER_MAPPING_QUESTIONS.map((q, i) => (
             <React.Fragment key={i}>
               <span className="serif" style={{
-                fontSize: 22, fontStyle: "italic", color: "var(--plum)", fontWeight: 500,
+                fontSize: 20, color: "var(--ink)", fontWeight: 500,
               }}>{q}</span>
               {i < COUNTER_MAPPING_QUESTIONS.length - 1 && (
                 <span style={{ color: "var(--ink-4)" }}>·</span>
@@ -541,8 +541,8 @@ const DiveEthics = () => (
         <Kicker color="var(--plum)">Artists of the vanishing, two works that hold the grief</Kicker>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginTop: 6 }}>
           {[
-            { who: "Jakob Kudsk Steensen", work: "Boreal Dreams — disappearing ecosystems, rendered as immersive living worlds.", href: "https://borealdreams.live/" },
-            { who: "Ludwig Berger", work: "Melting Landscapes — the sound of crying glaciers and the acoustics of ice in retreat.", href: "https://ludwigberger.com/work/melting-landscapes/" },
+            { who: "Jakob Kudsk Steensen", work: "Boreal Dreams, disappearing ecosystems rendered as immersive living worlds.", href: "https://borealdreams.live/" },
+            { who: "Ludwig Berger", work: "Melting Landscapes, the sound of crying glaciers and the acoustics of ice in retreat.", href: "https://ludwigberger.com/work/melting-landscapes/" },
           ].map((a, i) => (
             <a key={i} href={a.href} target="_blank" rel="noopener noreferrer" style={{
               display: "flex", flexDirection: "column", gap: 8, textDecoration: "none",
@@ -573,7 +573,7 @@ const DiveEthics = () => (
 
 const KeptFivePerspectives = () => (
   <Card pad={30} style={{ marginTop: 20 }}>
-    <Kicker color="var(--terra)">Also kept · the radial five-perspectives wheel</Kicker>
+    <Kicker color="var(--terra)">The radial five-perspectives wheel</Kicker>
     <p style={{ margin: "8px 0 18px", color: "var(--ink-2)", fontSize: 14, maxWidth: 720 }}>
       Click any vertex. The same five perspectives, arranged as spokes around the central UNDRR risk hub.
     </p>
@@ -583,7 +583,7 @@ const KeptFivePerspectives = () => (
 
 const KeptHeuristicStack = () => (
   <Card pad={30} style={{ marginTop: 20 }}>
-    <Kicker color="var(--terra)">Also kept · the three-layer heuristic stack</Kicker>
+    <Kicker color="var(--terra)">The three-layer heuristic stack</Kicker>
     <p style={{ margin: "8px 0 18px", color: "var(--ink-2)", fontSize: 14, maxWidth: 720 }}>
       The vocabulary of this stack is owed to Andreas Braun, 2021 (<em>Progress in Physical Geography</em>) and Mia Bennett and colleagues, 2022, <em>Politics of Pixels</em> (<em>Progress in Human Geography</em>). Click each layer to expand.
     </p>
@@ -596,7 +596,7 @@ const KeptDefaults = () => {
   const toggle = (i) => setFlipped(f => ({ ...f, [i]: !f[i] }));
   return (
     <Card pad={30} style={{ marginTop: 20 }}>
-      <Kicker color="var(--terra)">Also kept · the defaults indictment, click any card to flip</Kicker>
+      <Kicker color="var(--terra)">The defaults indictment, click any card to flip</Kicker>
       <h3 className="serif" style={{ margin: "10px 0 12px", fontSize: 26, fontWeight: 500, letterSpacing: "-0.01em", maxWidth: 760 }}>The data is fine. The defaults are the problem.</h3>
       <p style={{ margin: "0 0 22px", color: "var(--ink-2)", fontSize: 14, maxWidth: 760 }}>
         Every introductory remote-sensing course teaches a set of preprocessing defaults that, from a community-resilience perspective, ask their questions from the wrong direction. Each card names a standard default on the front and the care reading on the back.
@@ -642,7 +642,7 @@ const KeptFitForPurpose = () => (
   <Card pad={30} style={{ marginTop: 20 }}>
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 30 }}>
       <div>
-        <Kicker color="var(--lapis)">Also kept · fit-for-purpose modelling, the ordinary city</Kicker>
+        <Kicker color="var(--lapis)">Fit-for-purpose modelling, the ordinary city</Kicker>
         <h3 className="serif" style={{ margin: "8px 0 0", fontSize: 24, lineHeight: 1.15, fontWeight: 500, letterSpacing: "-0.01em" }}>A model can be technically strong and still fail the decision.</h3>
         <P style={{ marginTop: 14 }}>
           A global product may be accurate enough for continental comparison and yet entirely inadequate for a Swiss small town, a Newfoundland outport, a Quebec rang, a prairie hamlet, or an Indigenous community whose morphology is underrepresented in training data.
@@ -654,12 +654,12 @@ const KeptFitForPurpose = () => (
       <Card pad={24} style={{ background: "var(--paper-2)", border: "1px solid var(--rule)" }}>
         <div style={{ marginBottom: 16 }}>
           <span className="caps" style={{ color: "var(--ink-3)" }}>The old question</span>
-          <p className="serif" style={{ margin: "4px 0 0", fontSize: 20, lineHeight: 1.3, color: "var(--ink-2)", fontStyle: "italic" }}>"{FIT_FOR_PURPOSE.old_q}"</p>
+          <p className="serif" style={{ margin: "4px 0 0", fontSize: 18, lineHeight: 1.5, color: "var(--ink-2)" }}>{FIT_FOR_PURPOSE.old_q}</p>
         </div>
         <Rule />
         <div style={{ marginTop: 16 }}>
           <span className="caps" style={{ color: "var(--lapis)" }}>The question we must ask</span>
-          <p className="serif" style={{ margin: "4px 0 0", fontSize: 20, lineHeight: 1.3, color: "var(--ink)", fontWeight: 500 }}>"{FIT_FOR_PURPOSE.new_q}"</p>
+          <p className="serif" style={{ margin: "4px 0 0", fontSize: 18, lineHeight: 1.5, color: "var(--ink)", fontWeight: 500 }}>{FIT_FOR_PURPOSE.new_q}</p>
         </div>
       </Card>
     </div>
@@ -668,7 +668,7 @@ const KeptFitForPurpose = () => (
 
 const KeptCounterMapTable = () => (
   <Card pad={30} style={{ marginTop: 20 }}>
-    <Kicker color="var(--plum)">Also kept · counter-mapping, the satellite reads edges as lines</Kicker>
+    <Kicker color="var(--plum)">Counter-mapping, the satellite reads edges as lines</Kicker>
     <h3 className="serif" style={{ margin: "8px 0 14px", fontSize: 24, lineHeight: 1.15, fontWeight: 500, letterSpacing: "-0.01em" }}>Lived experience reads them as membranes.</h3>
     <p style={{ fontSize: 14, lineHeight: 1.55, color: "var(--ink-2)", margin: "0 0 18px", maxWidth: 720 }}>
       The tradition is documented by Nancy Peluso's 1995 paper on the forests of Kalimantan, by Bernard Nietschmann's work with the Miskito of Nicaragua, and by Mac Chapin's 2005 critique of conservation NGO mapping in <em>World Watch Magazine</em>.
@@ -691,7 +691,7 @@ const KeptCounterMapTable = () => (
           borderBottom: i < COUNTER_MAP.length - 1 ? "1px solid var(--rule-soft)" : "none",
           alignItems: "baseline",
         }}>
-          <span style={{ fontSize: 13, color: "var(--ink-3)", fontStyle: "italic" }}>{row.official}</span>
+          <span style={{ fontSize: 13, color: "var(--ink-3)" }}>{row.official}</span>
           <span className="serif" style={{ fontSize: 16, color: "var(--ink)" }}>{row.community}</span>
           <span className="mono" style={{ fontSize: 11, color: "var(--ink-2)", letterSpacing: "0.04em" }}>{row.where}</span>
         </div>
@@ -706,7 +706,7 @@ const KeptCounterMapTable = () => (
       <div style={{ marginTop: 10, display: "flex", flexWrap: "wrap", gap: 14, alignItems: "baseline" }}>
         {COUNTER_MAPPING_QUESTIONS.map((q, i) => (
           <React.Fragment key={i}>
-            <span className="serif" style={{ fontSize: 20, fontStyle: "italic", color: "var(--plum)", fontWeight: 500 }}>{q}</span>
+            <span className="serif" style={{ fontSize: 18, color: "var(--ink)", fontWeight: 500 }}>{q}</span>
             {i < COUNTER_MAPPING_QUESTIONS.length - 1 && <span style={{ color: "var(--ink-4)" }}>·</span>}
           </React.Fragment>
         ))}
@@ -717,7 +717,7 @@ const KeptCounterMapTable = () => (
 
 const KeptOperativeProtocols = () => (
   <Card pad={36} style={{ marginTop: 20, background: "var(--ink)", color: "var(--paper)", border: "none" }}>
-    <Kicker color="var(--ochre-2)">Also kept · Indigenous data sovereignty, the operative protocols</Kicker>
+    <Kicker color="var(--ochre-2)">Indigenous data sovereignty, the operative protocols</Kicker>
     <h3 className="serif" style={{
       margin: "8px 0 4px", fontSize: 32, fontWeight: 300, letterSpacing: "-0.014em",
       color: "var(--paper)", maxWidth: 880,
@@ -751,7 +751,7 @@ const KeptVisibilityBalance = () => (
   <Card pad={30} style={{ marginTop: 20 }}>
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 30, alignItems: "start" }}>
       <div>
-        <Kicker color="var(--terra)">Also kept · visibility, protection and exposure</Kicker>
+        <Kicker color="var(--terra)">Visibility, protection and exposure</Kicker>
         <h3 className="serif" style={{ margin: "8px 0 0", fontSize: 24, lineHeight: 1.15, fontWeight: 500, letterSpacing: "-0.01em" }}>The same Maxar tile.</h3>
         <P style={{ marginTop: 14 }}>
           Visibility can be protective. It can be dangerous. What determines the technology's valence is governance, institutional embedding, and whether anyone can challenge an interpretation. The same Sentinel-2 scene can be read for refugee camp population estimation by UNHCR and for forced displacement targeting by a military. The same Maxar tile documented Russian atrocities in Bucha in 2022 and informs Gaza operations today.
@@ -776,7 +776,7 @@ const KeptSolastalgia = () => (
   <Card pad={30} style={{ marginTop: 20 }}>
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr", gap: 30 }}>
       <div>
-        <Kicker color="var(--plum)">Also kept · solastalgia, change detection as the visual grammar of grief</Kicker>
+        <Kicker color="var(--plum)">Solastalgia, change detection as the visual grammar of grief</Kicker>
         <h3 className="serif" style={{ margin: "8px 0 0", fontSize: 26, lineHeight: 1.15, fontWeight: 500, letterSpacing: "-0.014em" }}>The before-and-after pair is a memorial structure.</h3>
         <P style={{ marginTop: 14 }}>
           Glenn Albrecht coined the term solastalgia in 2003. It names the distress caused by environmental change to one's home while one is still in it. Change detection in remote sensing, the before-and-after pair and the time series, is structurally the technical apparatus of solastalgia. Glacier National Park's repeat photography, the receding coastlines of southwestern Newfoundland, the vanishing wetlands of the Mississippi delta, the burn scars accumulating across the boreal year after year, and the disappeared villages of climate displacement are all forms of this apparatus at work.
@@ -809,8 +809,8 @@ const KeptSolastalgia = () => (
       <Kicker color="var(--plum)">Artists of the vanishing, two works that hold the grief</Kicker>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 6 }}>
         {[
-          { who: "Jakob Kudsk Steensen", work: "Boreal Dreams — disappearing ecosystems, rendered as immersive living worlds.", href: "https://borealdreams.live/" },
-          { who: "Ludwig Berger",         work: "Melting Landscapes — the sound of crying glaciers and the acoustics of ice in retreat.", href: "https://ludwigberger.com/work/melting-landscapes/" },
+          { who: "Jakob Kudsk Steensen", work: "Boreal Dreams, disappearing ecosystems rendered as immersive living worlds.", href: "https://borealdreams.live/" },
+          { who: "Ludwig Berger",         work: "Melting Landscapes, the sound of crying glaciers and the acoustics of ice in retreat.", href: "https://ludwigberger.com/work/melting-landscapes/" },
         ].map((a, i) => (
           <a key={i} href={a.href} target="_blank" rel="noopener noreferrer" style={{
             display: "flex", flexDirection: "column", gap: 6, textDecoration: "none",
@@ -833,8 +833,8 @@ const KeptTaiwanProse = () => (
     marginTop: 20, background: "var(--ochre-tint)",
     border: "1px solid color-mix(in oklch, var(--ochre) 30%, transparent)",
   }}>
-    <Kicker color="var(--ochre)">Also kept · Taiwan, the last mile turns out not to be a delivery problem</Kicker>
-    <p className="serif" style={{ margin: "10px 0 14px", fontSize: 22, lineHeight: 1.35, fontStyle: "italic", color: "var(--ink)" }}>
+    <Kicker color="var(--ochre)">Taiwan, the last mile turns out not to be a delivery problem</Kicker>
+    <p className="serif" style={{ margin: "10px 0 14px", fontSize: 19, lineHeight: 1.5, color: "var(--ink)", fontWeight: 500 }}>
       Probability of damage and willingness to evacuate are not linearly related.
     </p>
     <P>
@@ -908,9 +908,9 @@ const PermaStyles = () => (
       border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
     }
     .perma-thesis blockquote {
-      margin:0; font-family:var(--serif); font-weight:330; font-style:italic;
-      font-size:clamp(24px,3.4vw,38px); line-height:1.28; letter-spacing:-0.018em;
-      color:var(--perma-bg-deep); max-width:28ch;
+      margin:0; font-family:var(--serif); font-weight:380; font-style:normal;
+      font-size:clamp(22px,3vw,32px); line-height:1.28; letter-spacing:-0.014em;
+      color:var(--ink); max-width:42ch;
     }
     .perma-roadmap {
       margin-top:30px; display:grid; grid-template-columns:repeat(5,1fr);
@@ -972,10 +972,9 @@ const PermaStyles = () => (
       color:var(--perma-bg-deep);
     }
     .perma-pull {
-      font-family:var(--serif); font-style:italic; font-weight:340;
-      font-size:clamp(22px,3vw,30px); line-height:1.3; color:var(--perma-bg-deep);
-      border-left:3px solid var(--perma-bg-soft); padding:6px 0 6px 28px;
-      margin:38px 0; max-width:38ch;
+      font-family:var(--perma-body); font-style:normal; font-weight:440;
+      font-size:19px; line-height:1.6; color:var(--ink);
+      padding:0; margin:30px 0; max-width:var(--perma-measure);
     }
 
     /* FIGURE FRAME --------------------------------------------------- */
@@ -1039,7 +1038,7 @@ const PermaStyles = () => (
       font-size:clamp(22px,2.6vw,28px); line-height:1.22; letter-spacing:-0.014em;
       margin:10px 0 0; color:var(--ink); max-width:36ch;
     }
-    .perma-interlude-title em { font-style:italic; font-weight:340; color:var(--perma-bg-deep); }
+    .perma-interlude-title em { font-style:normal; font-weight:500; color:var(--perma-bg-deep); }
     .perma-interlude-sub {
       font-family:var(--perma-body); font-size:15px; line-height:1.55;
       color:var(--ink-2); margin:6px 0 0; max-width:62ch; font-weight:380;
@@ -1073,10 +1072,10 @@ const PermaStyles = () => (
       border-top:1px solid var(--rule);
     }
     .perma-closing .big {
-      font-family:var(--serif); font-weight:330;
-      font-size:clamp(26px,4vw,44px); line-height:1.18;
-      letter-spacing:-0.02em; color:var(--perma-bg-deep);
-      max-width:26ch; font-style:italic; margin:0;
+      font-family:var(--serif); font-weight:400;
+      font-size:clamp(26px,3.6vw,40px); line-height:1.2;
+      letter-spacing:-0.02em; color:var(--ink);
+      max-width:32ch; margin:0;
     }
     .perma-closing p {
       max-width:var(--perma-measure); margin-top:36px;
@@ -1131,7 +1130,7 @@ const InterludeDisclosure = () => {
         <div>
           <div className="perma-interlude-kicker">Interlude · click to {open ? "collapse" : "expand"}</div>
           <div className="perma-interlude-title">
-            Multimodality, <em>or, when more than one way of knowing has to share the page.</em>
+            Multimodality, or when more than one way of knowing has to share the page.
           </div>
           <div className="perma-interlude-sub">
             A short detour between Movements III and IV. Why integrating community knowledge into a remote-sensing pipeline is not a data problem but a methodological one.
@@ -1379,8 +1378,8 @@ const PhaseOneMethodology = () => (
       margin: "0 0 14px", fontSize: 36, fontWeight: 400, letterSpacing: "-0.014em", maxWidth: 880,
     }}>{GEE_PHASE_1.title}</h3>
     <p className="serif" style={{
-      margin: "0 0 22px", fontSize: 20, lineHeight: 1.4, color: "var(--moss)",
-      fontStyle: "italic", fontWeight: 400, maxWidth: 880,
+      margin: "0 0 22px", fontSize: 19, lineHeight: 1.55, color: "var(--ink-2)",
+      fontWeight: 400, maxWidth: 880,
     }}>{GEE_PHASE_1.subtitle}</p>
 
     <p style={{ margin: "0 0 26px", fontSize: 15.5, lineHeight: 1.65, color: "var(--ink-2)", maxWidth: 820 }}>
@@ -1397,7 +1396,7 @@ const PhaseOneMethodology = () => (
       <ol style={{ margin: "12px 0 0", padding: "0 0 0 22px" }}>
         {GEE_PHASE_1.questions.map((q, i) => (
           <li key={i} className="serif" style={{
-            fontSize: 17, lineHeight: 1.5, color: "var(--ink)", marginBottom: 6, fontStyle: "italic",
+            fontSize: 17, lineHeight: 1.55, color: "var(--ink)", marginBottom: 6,
           }}>{q}</li>
         ))}
       </ol>
@@ -1453,8 +1452,8 @@ const PhaseTwoMethodology = () => (
       margin: "0 0 14px", fontSize: 32, fontWeight: 400, letterSpacing: "-0.014em", maxWidth: 880,
     }}>{GEE_PHASE_2.title}</h3>
     <p className="serif" style={{
-      margin: "0 0 22px", fontSize: 18, lineHeight: 1.4, color: "var(--lapis)",
-      fontStyle: "italic", fontWeight: 400, maxWidth: 880,
+      margin: "0 0 22px", fontSize: 18, lineHeight: 1.55, color: "var(--ink-2)",
+      fontWeight: 400, maxWidth: 880,
     }}>{GEE_PHASE_2.subtitle}</p>
 
     <p style={{ margin: "0 0 26px", fontSize: 15, lineHeight: 1.65, color: "var(--ink-2)", maxWidth: 820 }}>
@@ -1582,9 +1581,9 @@ const TabAvenir = () => {
               {TALK.closing_aristotle}
             </P>
             <p className="serif" style={{
-              margin: "24px 0 0", fontSize: 22, lineHeight: 1.45, color: "var(--ink)", fontStyle: "italic",
+              margin: "24px 0 0", fontSize: 19, lineHeight: 1.55, color: "var(--ink)", fontWeight: 500,
             }}>
-              The discipline we need is not only a discipline of better seeing. It is a discipline of <em style={{ color: "var(--terra)" }}>returning</em>, returning the image to the people, the places, and the decisions that give it meaning.
+              The discipline we need is not only a discipline of better seeing. It is a discipline of returning, returning the image to the people, the places, and the decisions that give it meaning.
             </p>
           </div>
           <div style={{
@@ -1599,18 +1598,18 @@ const TabAvenir = () => {
         {/* Final line */}
         <div style={{
           marginTop: 56, padding: "44px 48px",
-          background: "var(--ink)", color: "var(--paper)",
+          background: "var(--paper-2)", color: "var(--ink)",
+          borderTop: "1px solid var(--rule)",
         }}>
           <div className="mono" style={{
-            fontSize: 11, letterSpacing: "0.20em", color: "var(--ochre-2)",
+            fontSize: 11, letterSpacing: "0.20em", color: "var(--ink-3)",
             textTransform: "uppercase", marginBottom: 18,
           }}>Final line, the closing sentence</div>
           <p className="serif" style={{
-            margin: 0, fontSize: 28, lineHeight: 1.35, fontWeight: 300,
-            color: "var(--paper)", letterSpacing: "-0.012em", maxWidth: 1100,
+            margin: 0, fontSize: 22, lineHeight: 1.5, fontWeight: 500,
+            color: "var(--ink)", letterSpacing: "-0.008em", maxWidth: 1100,
           }}>
-            "Remote sensing points upward in order to look down. For care, resilience, and community, the real work begins when the image enters the messy middle, where the sky-eye view must answer to ground-up knowledge, embodied experience, and
-            <em style={{ color: "var(--ochre-2)" }}> the obligations of shared life.</em>"
+            Remote sensing points upward in order to look down. For care, resilience, and community, the real work begins when the image enters the messy middle, where the sky-eye view must answer to ground-up knowledge, embodied experience, and the obligations of shared life.
           </p>
         </div>
       </section>

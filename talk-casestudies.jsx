@@ -87,7 +87,7 @@ const SocodeviCNAAS = ({ accent = "ochre" }) => {
   const FRAMES = [
     { t: "Climate Information Services", a: "CIS", v: "Formalised in West Africa since about 2011, it treats climate data as an agricultural input comparable to seed or fertiliser, delivered along a value chain from data producers through interpreters to decision-makers." },
     { t: "Participatory GIS", a: "PGIS", v: "Geospatial tools acquire legitimacy only when their reference layers and interpretive authority are shared with the communities being mapped, rather than imposed upon them." },
-    { t: "Adaptation finance infrastructure", a: "", v: "Index insurance, parametric cover, and drought-contingent transfers — each categorically dependent on a verified link between an environmental measurement and a list of beneficiaries." },
+    { t: "Adaptation finance infrastructure", a: "", v: "Index insurance, parametric cover, and drought-contingent transfers, each categorically dependent on a verified link between an environmental measurement and a list of beneficiaries." },
   ];
 
   return (
@@ -103,8 +103,8 @@ const SocodeviCNAAS = ({ accent = "ochre" }) => {
         </Lead>
         <P>
           Climate change has rendered the monsoon increasingly erratic, and traditional
-          indemnity-based crop insurance — in which an adjuster visits the farm to assess
-          each loss individually — is unworkable at smallholder scale, because the cost of
+          indemnity-based crop insurance, in which an adjuster visits the farm to assess
+          each loss individually, is unworkable at smallholder scale, because the cost of
           assessment routinely exceeds the value of the average claim. Parametric, or index,
           insurance addresses this constraint by triggering automatic payouts when rainfall
           recorded at a designated gauge falls below a contracted threshold during the growing
@@ -141,8 +141,8 @@ const SocodeviCNAAS = ({ accent = "ochre" }) => {
       <Prose max={760}>
         <P>
           The CNAAS network in 2023 comprised approximately 160 gauges distributed across nine
-          regions — Kaffrine, Kolda, Vélingara, Ziguinchor, Sédhiou, Tambacounda, Fatick,
-          Kaolack, and Thiès — installed by successive field teams across four annual cohorts
+          regions, Kaffrine, Kolda, Vélingara, Ziguinchor, Sédhiou, Tambacounda, Fatick,
+          Kaolack, and Thiès, installed by successive field teams across four annual cohorts
           from 2017 to 2020. The database we inherited was riddled with the residue of that
           piecemeal history:
         </P>
@@ -164,7 +164,7 @@ const SocodeviCNAAS = ({ accent = "ochre" }) => {
           combining pandas for data handling, fuzzywuzzy for string matching, and pyproj for
           coordinate projection, with the aim of aligning the CNAAS database against the
           populated-places reference for Senegal published by the United Nations Office for the
-          Coordination of Humanitarian Affairs (OCHA) — a validated dataset of 2,896 villages
+          Coordination of Humanitarian Affairs (OCHA), a validated dataset of 2,896 villages
           with complete administrative coding.
         </P>
         <P>
@@ -205,7 +205,7 @@ const SocodeviCNAAS = ({ accent = "ochre" }) => {
           <span style={{ fontSize: 13, lineHeight: 1.5, color: "var(--ink-3)", maxWidth: 740 }}>
             Every village joined to its assigned rain gauge across the nine CNAAS regions, drawn over the
             median growing-season NDVI. Click a village to read its name and its distance to the gauge that
-            governs its payout — some sit within a kilometre, others more than a hundred. Imagery: Google
+            governs its payout, some sit within a kilometre, others more than a hundred. Imagery: Google
             Earth Engine / Copernicus.
           </span>
           <a href={MAP_SRC} target="_blank" rel="noopener noreferrer" className="mono" style={{
@@ -221,8 +221,8 @@ const SocodeviCNAAS = ({ accent = "ochre" }) => {
           The reconciled database then became the substrate for the second phase of our
           intervention, which addressed capacity-building at the cooperative level. Working
           through the Farmer Field School methodology that SOCODEVI employs across its global
-          portfolio, we delivered training in QGIS — the free and open-source geographic
-          information system — to cooperative officers, extension agents, and the coordinators
+          portfolio, we delivered training in QGIS, the free and open-source geographic
+          information system, to cooperative officers, extension agents, and the coordinators
           of the Groupements d'Intérêt Économique (GIE), the women-led economic interest groups
           through which CNAAS distributes the majority of its policies in the Casamance regions.
         </P>
@@ -264,10 +264,10 @@ const SocodeviCNAAS = ({ accent = "ochre" }) => {
         <P>
           Satellite rainfall products perform well at continental scale but poorly at the scale
           at which insurance payouts are actually decided. The three global products most
-          relevant here — the Climate Hazards Group InfraRed Precipitation with Station data
+          relevant here, the Climate Hazards Group InfraRed Precipitation with Station data
           (CHIRPS), the Integrated Multi-satellite Retrievals for the Global Precipitation
           Measurement mission (IMERG), and the Tropical Applications of Meteorology using
-          Satellite data (TAMSAT) — all measure rainfall in pixels of roughly five to ten
+          Satellite data (TAMSAT), all measure rainfall in pixels of roughly five to ten
           kilometres on a side. A single pixel of that size covers dozens of villages, and the
           rain that actually fell within it on any given afternoon was almost certainly uneven
           across that area. The satellite cannot determine whether the rain it averaged across
@@ -292,7 +292,7 @@ const SocodeviCNAAS = ({ accent = "ochre" }) => {
         <P>
           What appears on the satellite map as an average rainfall figure for a pixel must, by
           the time a payout decision is made, become the rain that fell on the seven hectares
-          west of the road on Tuesday afternoon — and only a cooperative that possesses both the
+          west of the road on Tuesday afternoon, and only a cooperative that possesses both the
           technical literacy and the institutional authority to perform that translation can
           render the satellite measurement actionable.
         </P>
@@ -437,7 +437,7 @@ const ShockCard = ({ color, lines }) => (
       </ul>
       <div style={{ marginTop: 16, paddingTop: 14, borderTop: "1px solid var(--rule-soft)" }}>
         <span className="mono" style={{ fontSize: 10.5, letterSpacing: "0.14em", textTransform: "uppercase", color }}>Question</span>
-        <div className="serif" style={{ fontSize: 17, lineHeight: 1.35, color: "var(--ink)", fontStyle: "italic", marginTop: 6 }}>Qui fait quoi dans les 72 prochaines heures, et avec quel outil ?</div>
+        <div className="serif" style={{ fontSize: 17, lineHeight: 1.5, color: "var(--ink)", marginTop: 6, fontWeight: 500 }}>Qui fait quoi dans les 72 prochaines heures, et avec quel outil ?</div>
       </div>
     </div>
   </div>
@@ -525,7 +525,7 @@ const LayerStack = ({ layers, color, ratio = "16 / 10" }) => {
       <div className="mono" style={{
         fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase",
         color: "var(--ink-3)", margin: "14px 0 8px",
-      }}>Layer opacity — drag to blend the georeferenced layers</div>
+      }}>Layer opacity, drag to blend the georeferenced layers</div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: "12px 24px" }}>
         {layers.map((l, i) => (
           <div key={i} style={{ display: "flex", flexDirection: "column", gap: 5 }}>
@@ -547,11 +547,11 @@ const SeriousGames = ({ accent = "plum" }) => {
   const ACC = accentVar(accent);
 
   const INSTRUMENTS = [
-    { k: "Sentinel-2", v: "Every patch of Quebec every five days at ten metres — cropping shifts, riparian buffers, lakeside development, the timing of lake blooms." },
-    { k: "Landsat", v: "A continuous record since the 1970s at thirty metres — five decades of wetland loss and land-cover change." },
+    { k: "Sentinel-2", v: "Every patch of Quebec every five days at ten metres, cropping shifts, riparian buffers, lakeside development, the timing of lake blooms." },
+    { k: "Landsat", v: "A continuous record since the 1970s at thirty metres, five decades of wetland loss and land-cover change." },
     { k: "MODIS", v: "Daily surface temperature, vegetation health, and snow cover across the whole region." },
-    { k: "SMAP", v: "Soil moisture in the top few centimetres — how many weeks the root zone stays below its historical tenth percentile." },
-    { k: "Sentinel-1", v: "Radar that sees through cloud and dark — flooded ground, snow-phase change, irrigated versus rainfed fields." },
+    { k: "SMAP", v: "Soil moisture in the top few centimetres, how many weeks the root zone stays below its historical tenth percentile." },
+    { k: "Sentinel-1", v: "Radar that sees through cloud and dark, flooded ground, snow-phase change, irrigated versus rainfed fields." },
     { k: "GRACE", v: "Total water mass at continental scale, read from tiny variations in Earth's gravity field." },
   ];
 
@@ -578,10 +578,10 @@ const SeriousGames = ({ accent = "plum" }) => {
   ];
 
   const SCENARIOS = [
-    { k: "Acute shock", v: "A documented historical event the satellite record verifies, handed to players mid-session — the 2021 drought, the spring 2020 recharge deficit, a bloom that shut a filtration plant." },
+    { k: "Acute shock", v: "A documented historical event the satellite record verifies, handed to players mid-session, the 2021 drought, the spring 2020 recharge deficit, a bloom that shut a filtration plant." },
     { k: "Slow trend", v: "Co-constructed futures along two axes, climate intensity and governance response. At least two must live side by side, so players reckon with possibilities rather than a single forecast." },
-    { k: "Cascade", v: "One event triggers a chain across the cards — drought concentrates nutrients, a bloom closes an intake, a town switches to the aquifer that farmers already draw. The chain is the lesson." },
-    { k: "Counterfactual", v: "A governance action played against an observed trend — what if every source protection plan were done by 2030? It separates knowledge gaps from agency gaps." },
+    { k: "Cascade", v: "One event triggers a chain across the cards, drought concentrates nutrients, a bloom closes an intake, a town switches to the aquifer that farmers already draw. The chain is the lesson." },
+    { k: "Counterfactual", v: "A governance action played against an observed trend, what if every source protection plan were done by 2030? It separates knowledge gaps from agency gaps." },
     { k: "Lived experience", v: "A data-derived shift paired with a human voice: the Saint-Rémi well pumping sand beside the SMAP record, an elder's vanished stream beside the inferred baseflow trend." },
   ];
 
@@ -637,8 +637,8 @@ const SeriousGames = ({ accent = "plum" }) => {
           <B>The hardest part of water governance is not learning more about the water. It is making
           the people who already know what they know coordinate with one another.</B> A research
           project led by INRS and Université Laval is adapting a participatory tool,
-          {" "}<Fr>Trajectoire Eau et Territoire</Fr> — originally developed at the Université de
-          Rennes — for two contrasting regions: Brome-Missisquoi in the Eastern Townships, and
+          {" "}<Fr>Trajectoire Eau et Territoire</Fr>, originally developed at the Université de
+          Rennes, for two contrasting regions: Brome-Missisquoi in the Eastern Townships, and
           Montérégie Ouest, the intensive agricultural plain southwest of Montreal that the drought
           of 2021 stressed nearly to failure.
         </P>
@@ -650,8 +650,8 @@ const SeriousGames = ({ accent = "plum" }) => {
           Around a large printed table, participants assemble a regional water system from cards:
           reservoirs (aquifers, wetlands, lakes), flows (recharge, evapotranspiration, withdrawals),
           and pressures (climate change, urbanization, intensification, contamination). Partway
-          through, they take on governance roles — watershed director, county planner, municipal
-          officer, farmer, citizen — and renegotiate the same system from those positions,
+          through, they take on governance roles, watershed director, county planner, municipal
+          officer, farmer, citizen, and renegotiate the same system from those positions,
           discovering where each mandate stops and coordination is needed. They then project
           alternative futures and commit to actions that can feed the <Fr>Plan Directeur de l'Eau</Fr>
           {" "}and the <Fr>Schéma d'Aménagement et de Développement</Fr>.
@@ -664,7 +664,7 @@ const SeriousGames = ({ accent = "plum" }) => {
         real trends, participants bring their actual professional judgment to bear.
       </NoteBox>
 
-      <Sub kicker="The instruments" color={ACC}>What satellites can — and cannot — show</Sub>
+      <Sub kicker="The instruments" color={ACC}>What satellites can, and cannot, show</Sub>
       <Prose max={760}>
         <P>
           A handful of instruments together produce an enormous amount of evidence about how water
@@ -727,12 +727,12 @@ const SeriousGames = ({ accent = "plum" }) => {
           "drier summer" means little in the abstract.
         </P>
       </Prose>
-      <div className="serif" style={{ margin: "20px 0", fontSize: 26, lineHeight: 1.3, fontStyle: "italic", color: "var(--ink)", maxWidth: 760 }}>
+      <div className="serif" style={{ margin: "20px 0", fontSize: 21, lineHeight: 1.45, color: "var(--ink)", maxWidth: 760, fontWeight: 500 }}>
         Drier for whom? With what consequences? For which practice? On what timescale?
       </div>
       <Prose max={760}>
         <P>
-          The team interviewed a deliberately heterogeneous population — not for opinions about
+          The team interviewed a deliberately heterogeneous population, not for opinions about
           management, but for the texture of each actor's relationship to specific changes. A single
           shift then fractures across positions.
         </P>
@@ -755,14 +755,14 @@ const SeriousGames = ({ accent = "plum" }) => {
       <Prose max={760}>
         <P>
           MODIS vegetation and surface-temperature rasters, SMAP soil moisture, and Landsat detail
-          yield indicators — consecutive weeks of critical vegetation anomaly, the share of farmland
+          yield indicators, consecutive weeks of critical vegetation anomaly, the share of farmland
           below the tenth soil-moisture percentile, the peak temperature anomaly. The shift: the
           hottest, driest summer since the record began, with crop and soil stress roughly double the
           prior decade. The artifact is a shock card the facilitator hands players mid-session.
         </P>
       </Prose>
       <ShockCard color={ACC} lines={[
-        "L'indice de végétation sur le maïs est à 25 % sous la moyenne 2010–2020.",
+        "L'indice de végétation sur le maïs est à 25 % sous la moyenne 2010 to 2020.",
         "Le débit de la rivière Châteauguay est à 12 % de sa moyenne historique.",
         "Trois municipalités ont déclenché leur protocole d'alerte.",
       ]} />
@@ -806,7 +806,7 @@ const SeriousGames = ({ accent = "plum" }) => {
       <Sub kicker="The layers" color={ACC}>Reading the region one layer at a time</Sub>
       <Prose max={760}>
         <P>
-          The same territory carries many georeferenced readings at once — satellite indicators,
+          The same territory carries many georeferenced readings at once, satellite indicators,
           planning instruments, hydrography, hazard zones. Piling them in register and fading each
           over the others is how a table full of different mandates can look at one shared system.
           Drag any slider to bring a layer up or take it down.
@@ -828,7 +828,7 @@ const SeriousGames = ({ accent = "plum" }) => {
       <Sub kicker="The argument" color={ACC}>Why build scenarios from satellite evidence</Sub>
       <Prose max={760}>
         <P>
-          Expert intuition, institutional memory, and imagined futures all have their place — the
+          Expert intuition, institutional memory, and imagined futures all have their place, the
           game makes deliberate room for each. But satellite-derived evidence adds six things they
           cannot.
         </P>
@@ -839,7 +839,7 @@ const SeriousGames = ({ accent = "plum" }) => {
       <Prose max={760}>
         <P>
           The game does not treat satellite data as the truth of the system. It treats it as one
-          disciplined view among several — the technical knowledge of the PACES groundwater studies,
+          disciplined view among several, the technical knowledge of the PACES groundwater studies,
           the administrative knowledge in the planning instruments, the practical knowledge of
           farmers, the lived knowledge of citizens and elders.
         </P>
@@ -866,7 +866,7 @@ const SeriousGames = ({ accent = "plum" }) => {
       <NoteBox label="Parallel display, not synthesis" color={ACC}>
         The market gardener whose well begins pumping sand in July 2021 is not corroborated by the
         SMAP soil-moisture record. <B>She is paired with it.</B> Measured and lived knowledge are not
-        forced to validate one another; they are placed side by side — Two-Eyed Seeing, after Mi'kmaw
+        forced to validate one another; they are placed side by side, Two-Eyed Seeing, after Mi'kmaw
         Elder Albert Marshall, extended into the artifact itself.
       </NoteBox>
       <Prose max={760}>
@@ -1032,7 +1032,7 @@ const LausanneEPFL = ({ accent = "lapis" }) => {
         <figcaption style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginTop: 10 }}>
           <span style={{ fontSize: 13, lineHeight: 1.5, color: "var(--ink-3)", maxWidth: 740 }}>
             The interactive companion: the handheld walk joined to satellite layers from the same
-            period. The map, the charts, and the detail panel are linked — click any numbered point or
+            period. The map, the charts, and the detail panel are linked, click any numbered point or
             any bar to inspect it everywhere.
           </span>
           <a href={DASH_SRC} target="_blank" rel="noopener noreferrer" className="mono" style={{
@@ -1045,7 +1045,7 @@ const LausanneEPFL = ({ accent = "lapis" }) => {
       <Plate
         src="img/lausanne-fig1-pipeline.png"
         alt="Figure 1: the five-tier sensing pipeline, from satellite to indoor sensor grid"
-        caption="Figure 1. The five linked tiers, from the atmospheric column to a body-altitude indoor grid — satellite, climate model, mobile sensor, building section, indoor sensor grid — each annotated with what it sees and what is invisible to it."
+        caption="Figure 1. The five linked tiers, from the atmospheric column to a body-altitude indoor grid, satellite, climate model, mobile sensor, building section, indoor sensor grid, each annotated with what it sees and what is invisible to it."
         credit="Generated by Claude AI"
       />
 
@@ -1173,7 +1173,7 @@ const LausanneEPFL = ({ accent = "lapis" }) => {
       <Plate
         src="img/lausanne-fig2-section.png"
         alt="Figure 2: schematic transverse section of the Rolex Learning Center with the four CO₂ accumulation mechanisms"
-        caption="Figure 2. Schematic transverse section, building geometry after SANAA project documentation, with the four accumulation mechanisms — average dilution, local accumulation, slab geometry, winter closure — located against the Q-TRAK plane at 1.4 m."
+        caption="Figure 2. Schematic transverse section, building geometry after SANAA project documentation, with the four accumulation mechanisms, average dilution, local accumulation, slab geometry, winter closure, located against the Q-TRAK plane at 1.4 m."
         credit="Generated by Claude AI"
       />
 
@@ -1243,7 +1243,7 @@ const LausanneEPFL = ({ accent = "lapis" }) => {
       <Plate
         src="img/lausanne-rolex-axonometric.png"
         alt="Axonometric drawing of the Rolex Learning Center"
-        caption="An axonometric reading of the building as form — the spatial logic that a Rahmian retrofit would leave intact while making its latent atmospheres legible."
+        caption="An axonometric reading of the building as form, the spatial logic that a Rahmian retrofit would leave intact while making its latent atmospheres legible."
         credit="Drawing: Adrien François Nicolas Von Der Weid"
       />
     </div>
@@ -1375,7 +1375,7 @@ const BarbadosPlatinumCoast = ({ accent = "moss" }) => {
         <figcaption style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginTop: 10 }}>
           <span style={{ fontSize: 13, lineHeight: 1.5, color: "var(--ink-3)", maxWidth: 740 }}>
             The linked dual-map viewer: a satellite-analysis basemap with a 16-layer Earth Engine
-            picker and a 1984–2025 time scrubber on the left, the 17 government planning maps on the
+            picker and a 1984 to 2025 time scrubber on the left, the 17 government planning maps on the
             right. Pan or zoom either map and the other follows in lockstep.
           </span>
           <a href={DASH_SRC} target="_blank" rel="noopener noreferrer" className="mono" style={{
@@ -1646,7 +1646,7 @@ const CASE_STUDIES = [
   {
     id: "greater-lausanne",
     kind: "essay",
-    eyebrow: "Field Survey · Switzerland / Lausanne–EPFL · 2019",
+    eyebrow: "Field Survey · Switzerland / Lausanne-EPFL · 2019",
     tabTitle: "GHG hotspots and lower-atmosphere dynamics at the city scale",
     title: "Mapping GHG hotspots and lower-atmosphere dynamics at the city scale",
     blurb:
@@ -1674,7 +1674,7 @@ const CASE_STUDIES = [
     tabTitle: "Land-use change, tourism real estate, coastal ecology, and care along the Platinum Coast",
     title: "Tracing land-use change along the Platinum Coast through tourism real estate, coastal ecology, and community care",
     blurb:
-      "Two years on Barbados's western shore, read three ways at once — a hedonic regression of the luxury villa market, a tropical-ecology study of the West Coast reef, and a week of fieldwork on houses, churches, and front yards. The three converge on a single object: a commons of overt and covert care that the leisure economy depletes and a small constellation of Barbadians rebuilds. The linked satellite-and-planning dual-map viewer is embedded within.",
+      "Two years on Barbados's western shore, read three ways at once, a hedonic regression of the luxury villa market, a tropical-ecology study of the West Coast reef, and a week of fieldwork on houses, churches, and front yards. The three converge on a single object: a commons of overt and covert care that the leisure economy depletes and a small constellation of Barbadians rebuilds. The linked satellite-and-planning dual-map viewer is embedded within.",
     tags: ["Hedonic regression", "Reef ecology", "Commoning care", "Linked dual maps", "Barbados · 2020"],
     body: BarbadosPlatinumCoast,
     accent: "moss",

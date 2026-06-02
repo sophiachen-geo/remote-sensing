@@ -573,7 +573,7 @@ const P8Figure = () => {
           <div className="mono" style={{ fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: FG.sky }}>The sensor sees</div>
           <div className="serif" style={{ fontSize: 24, fontWeight: 600, color: FG.ink, margin: "10px 0 8px", letterSpacing: "-0.01em" }}>one register · sight</div>
           <div className="serif" style={{ fontSize: 13.5, color: FG.ink2, fontStyle: "italic", lineHeight: 1.55 }}>
-            radar, thermal, optical, lidar — all rendered as surfaces to look at
+            radar, thermal, optical, lidar, all rendered as surfaces to look at
           </div>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
@@ -1246,7 +1246,7 @@ const CriticalFieldGuide = () => (
     }}>
       <div style={{ padding: "0 28px" }}>
         <p className="serif" style={{
-          margin: 0, fontSize: 30, lineHeight: 1.35, fontWeight: 300, fontStyle: "italic",
+          margin: 0, fontSize: 26, lineHeight: 1.35, fontWeight: 500,
           color: FG.bg, letterSpacing: "-0.014em", maxWidth: 920,
         }}>
           Satellites provide quantitative measurements; communities interpret and assign meaning to these measurements.

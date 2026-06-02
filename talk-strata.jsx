@@ -164,10 +164,10 @@ const SectionGlyph = ({ section = "active", size = 108, showSurface = true }) =>
   return (
     <svg
       width={size} height={size} viewBox="0 0 108 108"
-      role="img" aria-label={`${m.label} — ${m.sub}`}
+      role="img" aria-label={`${m.label}, ${m.sub}`}
       style={{ display: "block", flex: "0 0 auto" }}
     >
-      <title>{`${m.label} — ${m.sub}`}</title>
+      <title>{`${m.label}, ${m.sub}`}</title>
       <StrataDefs />
       {STRATA_GLYPH[section]}
       {showSurface && (

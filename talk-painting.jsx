@@ -49,14 +49,14 @@ const GestureCard = ({ fig, onClose }) => (
       display: "grid", gridTemplateColumns: "94px 1fr", rowGap: 10, columnGap: 14, alignItems: "baseline",
     }}>
       <span className="caps" style={{ color: "var(--ink-3)" }}>Holds</span>
-      <span className="serif" style={{ fontSize: 16, color: "var(--ink)", fontStyle: "italic" }}>{fig.holds}</span>
+      <span className="serif" style={{ fontSize: 16, color: "var(--ink)" }}>{fig.holds}</span>
 
       <span className="caps" style={{ color: "var(--ink-3)" }}>Key idea</span>
       <span style={{ fontSize: 13.5, color: "var(--ink-2)", lineHeight: 1.5 }}>{fig.keyIdea}</span>
 
       <span className="caps" style={{ color: "var(--ink-3)" }}>Reading</span>
       <span style={{ fontSize: 13.5, color: "var(--ink-2)", lineHeight: 1.5 }}>
-        {fig.reading.thinker}, <em className="fr" style={{ color: "var(--ink)" }}>{fig.reading.fr}</em> — {fig.reading.desc}
+        {fig.reading.thinker}, <em className="fr" style={{ color: "var(--ink)" }}>{fig.reading.fr}</em>, {fig.reading.desc}
       </span>
     </div>
 
@@ -180,7 +180,7 @@ const InteractivePainting = () => {
           margin: 0, fontSize: 15, lineHeight: 1.65, maxWidth: 980,
           color: "color-mix(in oklch, var(--paper) 82%, transparent)",
         }}>
-          Remote sensing for the commons needs both gestures. <em style={{ color: "var(--lapis-2)", fontStyle: "italic" }}>Plato gives it reach</em>: scale, pattern, anticipation, and the possibility of seeing beyond the immediate. <em style={{ color: "var(--terra-2)", fontStyle: "italic" }}>Aristotle gives it obligation</em>: judgment, validation, consequence, and responsibility to the worlds it represents.
+          Remote sensing for the commons needs both gestures. <strong style={{ color: "var(--lapis-2)", fontStyle: "normal" }}>Plato gives it reach</strong>: scale, pattern, anticipation, and the possibility of seeing beyond the immediate. <strong style={{ color: "var(--terra-2)", fontStyle: "normal" }}>Aristotle gives it obligation</strong>: judgment, validation, consequence, and responsibility to the worlds it represents.
         </p>
       </div>
 

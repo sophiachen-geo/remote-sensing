@@ -81,9 +81,9 @@ const P = ({ children, ...rest }) => (
 
 const Lead = ({ children, ...rest }) => (
   <p {...rest} style={{
-    margin: "0 0 22px", fontSize: 22, lineHeight: 1.45,
-    fontFamily: "var(--serif)", fontWeight: 300,
-    color: "var(--ink-2)", fontStyle: "italic",
+    margin: "0 0 22px", fontSize: 20, lineHeight: 1.55,
+    fontFamily: "var(--serif)", fontWeight: 400,
+    color: "var(--ink-2)",
     textWrap: "pretty", ...rest.style,
   }}>{children}</p>
 );
@@ -92,23 +92,20 @@ const Fr = ({ children }) => (
   <em className="fr">{children}</em>
 );
 
-// Pull quote, attribution separator is now a middle-dot rather than an em-dash
-const Pull = ({ children, by, color = "var(--terra)" }) => (
-  <blockquote style={{
-    margin: "32px 0", paddingLeft: 28,
-    borderLeft: `2px solid ${color}`,
-  }}>
-    <p className="serif" style={{
-      margin: 0, fontSize: 28, lineHeight: 1.3, fontWeight: 400,
-      letterSpacing: "-0.01em", color: "var(--ink)", fontStyle: "italic",
-    }}>"{children}"</p>
+// Inline claim, plain serif sentence per the design system. No italics, no quotation marks.
+const Pull = ({ children, by }) => (
+  <div style={{ margin: "30px 0", maxWidth: 760 }}>
     {by && (
       <div className="mono" style={{
-        marginTop: 12, fontSize: 11, letterSpacing: "0.16em",
+        marginBottom: 10, fontSize: 11, letterSpacing: "0.16em",
         textTransform: "uppercase", color: "var(--ink-3)",
-      }}>· {by}</div>
+      }}>{by}</div>
     )}
-  </blockquote>
+    <p className="serif" style={{
+      margin: 0, fontSize: 22, lineHeight: 1.45, fontWeight: 500,
+      letterSpacing: "-0.008em", color: "var(--ink)",
+    }}>{children}</p>
+  </div>
 );
 
 const BigStat = ({ value, label, accent = "var(--terra)", size = 72, sub }) => (

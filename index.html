@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Sensing for the Commons — A CRSS Presentation Companion Guide</title>
+<title>Sensing for the Commons. A CRSS Presentation Companion Guide</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -75,12 +75,14 @@
   html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
   body {
     font-family: var(--sans);
-    font-size: 15.5px;
-    line-height: 1.55;
+    font-size: 16px;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     font-feature-settings: "ss01", "cv11";
+    text-wrap: pretty;
   }
+  h1, h2, h3, h4 { text-wrap: balance; }
 
   a { color: inherit; }
   ::selection { background: var(--ochre-tint); color: var(--ink); }
@@ -90,7 +92,7 @@
   .serif { font-family: var(--serif); }
   .num   { font-family: var(--serif); font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
   .caps  { text-transform: uppercase; letter-spacing: 0.16em; font-size: 11px; font-weight: 500; }
-  .fr    { font-family: var(--serif); font-style: italic; font-weight: 400; }
+  .fr    { font-family: var(--serif); font-weight: 400; }
 
   .wrap {
     max-width: 1280px;
@@ -159,27 +161,27 @@
      Naming: --st-<section>-<role>
      ============================================================ */
   :root {
-    /* ACTIVE LAYER · intro — thaw surface */
+    /* ACTIVE LAYER · intro, thaw surface */
     --st-active-bg-deep:#5c93ad; --st-active-bg:#7cb4cc; --st-active-bg-soft:#a9d4e6;
     --st-active-soil:#6b513a; --st-active-edge:#4a3826;
     --st-active-accent:#ffffff; --st-active-accent-2:#7fa8c0; --st-active-ink:#1d3b47;
 
-    /* PERMAFROST · core ideas — frozen load-bearing substrate */
+    /* PERMAFROST · core ideas, frozen load-bearing substrate */
     --st-perma-bg-deep:#3f4f73; --st-perma-bg:#5d709a; --st-perma-bg-soft:#7d90b4;
     --st-perma-ice:#cfdcee; --st-perma-edge:#33405f;
     --st-perma-accent:#e3edf6; --st-perma-accent-2:#9fb4d0; --st-perma-ink:#1a2238;
 
-    /* CANOPY · case studies — light-capturing, sits ABOVE surface */
+    /* CANOPY · case studies, light-capturing, sits ABOVE surface */
     --st-canopy-sky:#cfe6f5; --st-canopy-bg-deep:#3d6e34; --st-canopy-bg:#5d9a4f;
     --st-canopy-bg-soft:#9ed086; --st-canopy-trunk:#5e4326; --st-canopy-edge:#2f5d34;
     --st-canopy-accent:#a8d68f; --st-canopy-accent-2:#356b2d; --st-canopy-ink:#20381c;
 
-    /* RHIZOSPHERE · field guide / toolkit — root-soil exchange */
+    /* RHIZOSPHERE · field guide / toolkit, root-soil exchange */
     --st-rhizo-bg-deep:#5f4628; --st-rhizo-bg:#9a7748; --st-rhizo-bg-soft:#b89668;
     --st-rhizo-root:#6e4d28; --st-rhizo-edge:#4a3318;
     --st-rhizo-accent:#caa86f; --st-rhizo-accent-2:#7c5830; --st-rhizo-ink:#2e2113;
 
-    /* SEAFLOOR · annexes / about — deepest, slow sediment; LIGHT ink */
+    /* SEAFLOOR · annexes / about, deepest, slow sediment; LIGHT ink */
     --st-floor-bg-deep:#0a232d; --st-floor-bg:#163d4c; --st-floor-bg-soft:#2e6577;
     --st-floor-sediment:#0a212a; --st-floor-edge:#06161d;
     --st-floor-accent:#4a7888; --st-floor-accent-2:#bfe0ec; --st-floor-ink:#cfe6f0;
@@ -210,8 +212,8 @@
     display: inline-block; color: var(--ink);
   }
   .strata-head__epigraph {
-    font-family: var(--serif); font-style: italic; font-size: 19px; line-height: 1.45;
-    color: var(--accent, var(--ink-2)); margin: 0 0 16px; max-width: 48ch;
+    font-family: var(--serif); font-size: 19px; line-height: 1.5;
+    color: var(--ink); font-weight: 500; margin: 0 0 16px; max-width: 48ch;
   }
   .strata-head__standfirst {
     font-size: 16px; line-height: 1.65; color: var(--ink-2);
