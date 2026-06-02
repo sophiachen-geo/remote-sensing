@@ -969,6 +969,137 @@ const PERMA_TABS = [
   { id: "practice", kicker: "Movement V",   title: "Practice" },
 ];
 
+// ─── Movement I helpers ───────────────────────────────────────────────────
+
+// Inline serif paragraph for the Movement I prose. Keeps margins consistent
+// across the long body text.
+const Para = ({ children, italic, style }) => (
+  <p className="serif" style={{
+    margin: "16px 0 0", fontSize: 16, lineHeight: 1.7, color: "var(--ink-2)",
+    maxWidth: 820, fontStyle: italic ? "italic" : "normal", ...style,
+  }}>{children}</p>
+);
+
+// Equation callout — the shorthand for risk.
+const RiskEquation = () => (
+  <div style={{
+    margin: "26px 0 6px", padding: "24px 28px",
+    background: "color-mix(in oklch, var(--sky) 6%, var(--paper))",
+    border: "1px solid var(--rule)",
+    borderLeft: "3px solid var(--sky)",
+    textAlign: "center",
+  }}>
+    <p className="serif" style={{
+      margin: 0, fontSize: 17, lineHeight: 1.45, fontStyle: "italic",
+      color: "var(--ink-2)",
+    }}>
+      Risk rises with hazard, exposure, and vulnerability, and falls when capacity is strong.
+    </p>
+    <p className="serif" style={{
+      margin: "16px 0 0", fontSize: 22, lineHeight: 1.35, fontWeight: 500,
+      letterSpacing: "-0.005em", color: "var(--ink)",
+    }}>
+      Risk &nbsp;&approx;&nbsp; <strong style={{ fontWeight: 700 }}>Hazard</strong> &times; <strong style={{ fontWeight: 700 }}>Exposure</strong> &times; <strong style={{ fontWeight: 700 }}>Vulnerability</strong>, &nbsp;moderated by&nbsp; <strong style={{ fontWeight: 700 }}>Capacity</strong>
+    </p>
+  </div>
+);
+
+// The four-row risk quartet reference table.
+const RiskQuartetTable = () => {
+  const ROWS = [
+    {
+      k: "Hazard",        q: "What threatens?",
+      rs: "Flood extent, fire scar, heat anomaly, drought signal, landslide susceptibility, shoreline retreat",
+      gr: "Local thresholds, remembered extremes, field evidence, historical events",
+    },
+    {
+      k: "Exposure",      q: "Who or what is in the way?",
+      rs: "Buildings, roads, crops, settlements, infrastructure, land use, hazard overlap",
+      gr: "Occupancy, seasonal use, informal structures, daily movement, actual presence",
+    },
+    {
+      k: "Vulnerability", q: "Who is most harmed, and why?",
+      rs: "Proxy indicators, spatial correlation, hazard overlap, built-form indicators, access constraints",
+      gr: "Health, mobility, age, tenure, income, language, trust, social networks, legal status",
+    },
+    {
+      k: "Capacity",      q: "Who can prepare, act, refuse, respond, or recover?",
+      rs: "Access routes, service locations, distance to shelters, road redundancy, visible infrastructure",
+      gr: "Leadership, mutual aid, evacuation options, institutional readiness, local knowledge, trust, resources",
+    },
+  ];
+  return (
+    <div style={{ margin: "28px 0 8px", border: "1px solid var(--rule)", overflow: "auto" }}>
+      <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 760, fontSize: 13.5, lineHeight: 1.5 }}>
+        <thead>
+          <tr style={{ background: "var(--paper-2)", borderBottom: "1.5px solid var(--rule)" }}>
+            {["Component", "Guiding question", "Strong remote-sensing contribution", "Grounded complement"].map((h, i) => (
+              <th key={i} className="mono" style={{
+                padding: "12px 16px", textAlign: "left",
+                fontSize: 10.5, letterSpacing: "0.12em", textTransform: "uppercase",
+                color: "var(--ink-3)", fontWeight: 600, verticalAlign: "bottom",
+              }}>{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {ROWS.map((row, i) => (
+            <tr key={i} style={{ borderBottom: i < ROWS.length - 1 ? "1px solid var(--rule-soft)" : "none" }}>
+              <td style={{ padding: "14px 16px", fontFamily: "var(--serif)", fontSize: 17, fontWeight: 500, color: "var(--navy)", verticalAlign: "top", width: "14%" }}>{row.k}</td>
+              <td style={{ padding: "14px 16px", color: "var(--ink)", verticalAlign: "top", width: "22%", fontStyle: "italic" }}>{row.q}</td>
+              <td style={{ padding: "14px 16px", color: "var(--ink-2)", verticalAlign: "top", width: "32%" }}>
+                <span className="mono" style={{ fontSize: 9.5, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--sky)", display: "block", marginBottom: 4, fontWeight: 600 }}>Sky</span>
+                {row.rs}
+              </td>
+              <td style={{ padding: "14px 16px", color: "var(--ink-2)", verticalAlign: "top", width: "32%" }}>
+                <span className="mono" style={{ fontSize: 9.5, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--clay)", display: "block", marginBottom: 4, fontWeight: 600 }}>Ground</span>
+                {row.gr}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+// Single perspective card for § II.
+const PerspectiveCard = ({ n, philosopher, name, subtitle, color, children }) => (
+  <article style={{
+    display: "grid", gridTemplateColumns: "auto 1fr", gap: 32,
+    padding: "30px 0", borderTop: "1px solid var(--rule)",
+  }}>
+    <div style={{ minWidth: 120 }}>
+      <div className="mono" style={{
+        fontSize: 11, letterSpacing: "0.20em", textTransform: "uppercase",
+        color, fontWeight: 600, marginBottom: 8,
+      }}>{n} · {philosopher}</div>
+      <div style={{
+        width: 64, height: 64, borderRadius: "50%",
+        background: color, color: "#fff",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        fontFamily: "var(--serif)", fontSize: 26, fontStyle: "italic",
+        fontWeight: 500, letterSpacing: "-0.01em",
+        boxShadow: "0 4px 14px rgba(31, 42, 64, 0.18)",
+      }}>{n}</div>
+    </div>
+    <div>
+      <h4 className="serif" style={{
+        margin: 0, fontSize: 24, fontWeight: 500, lineHeight: 1.18,
+        letterSpacing: "-0.012em", color: "var(--ink)",
+      }}>{name}</h4>
+      <div className="serif" style={{
+        marginTop: 4, fontSize: 15.5, lineHeight: 1.35,
+        color, fontStyle: "italic", fontWeight: 500,
+      }}>{subtitle}</div>
+      <p className="serif" style={{
+        margin: "14px 0 0", fontSize: 15.5, lineHeight: 1.7, color: "var(--ink-2)",
+        maxWidth: 820,
+      }}>{children}</p>
+    </div>
+  </article>
+);
+
 const TabPlongees = () => {
   const [active, setActive] = React.useState("m1");
 
@@ -990,16 +1121,101 @@ const TabPlongees = () => {
         <React.Fragment>
           <PFMovement id="m1" num="I" name="Interpretation"
             lede="The initial task is interpretive rather than technical: it involves defining the problem and clarifying the specific role of remote sensing in addressing it. Risk serves as an illustrative example, demonstrating the importance of this step. Events such as floods, fires, heat waves, landslides, or shoreline retreat do not constitute disasters by default. A hazard becomes a disaster only when it interacts with factors such as exposure, vulnerability, and limited capacity. While remote sensing can effectively identify hazards and exposed assets, and occasionally provide proxies for vulnerability and capacity, it cannot independently capture the full complexity of risk. Interpretation situates satellite observations within the broader context of physical processes, social conditions, institutional capacity, and lived consequences." />
-          <PFBlock n="I" kicker="THE FOUR COMPONENTS"
-            title="Remote sensing is strongest when it is clear about the part of risk it is measuring and honest about the part it cannot measure alone."
-            caption="Each component, its guiding question, the strong remote-sensing contribution, and the grounded complement. The meter reads how far the satellite can carry that dimension alone.">
-            <FigRiskRelation />
+
+          {/* § I — THE FOUR COMPONENTS OF RISK */}
+          <PFBlock n="I" kicker="THE FOUR COMPONENTS OF RISK"
+            title="Risk is relational. Hazards exist; disasters never do, on their own.">
+            <Para>
+              Risk differs fundamentally from disaster. Risk refers to the potential for loss prior to the full manifestation of an event: for example, a flood before it causes displacement, a fire before it necessitates evacuation, an earthquake before it results in collapsed buildings, or a heat wave before it leads to fatalities. A hazard escalates into a disaster only when it affects exposed populations, vulnerable systems, and when there is insufficient capacity to prepare, respond, or recover. Consequently, disaster-risk research often begins with a foundational proposition: while natural hazards exist, disasters are never solely natural phenomena. Earthquakes alone do not cause fatalities; rather, factors such as unsafe buildings, inadequate planning, poverty, poor enforcement, and lack of preparedness transform seismic events into widespread harm.
+            </Para>
+
+            <Para style={{ marginTop: 22 }}>A useful shorthand is:</Para>
+
+            <RiskEquation />
+
+            <Para>
+              This formulation does not represent a precise mathematical equation; rather, it serves as a reminder that risk is inherently relational. Remote sensing is a valuable tool within this framework, though its effectiveness varies across different components. It excels at mapping hazards and exposures, such as flood extent, burn scars, heat anomalies, landslide zones, shoreline retreat, buildings, roads, crops, settlements, and infrastructure. Additionally, remote sensing can provide proxy indicators for vulnerability and capacity, including building density, road access, distance to services, land-cover change, heat exposure, or spatial overlap with hazard zones. However, vulnerability and capacity cannot be directly inferred from imagery alone. These components depend on factors such as health, mobility, tenure, income, trust, language, governance, preparedness, leadership, mutual aid, and the ability of individuals to respond effectively to warnings.
+            </Para>
+
+            <Para>
+              The distinction is not that satellites are solely responsible for assessing hazard and exposure, while communities are solely responsible for vulnerability and capacity. Rather, the key point is that remote sensing can address certain aspects of risk more effectively than others. Its utility is maximized when it explicitly identifies which components it measures directly, which it approximates, and which require validation through social, experiential, and institutional knowledge.
+            </Para>
+
+            <div style={{ marginTop: 36 }}>
+              <div className="mono" style={{
+                fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase",
+                color: "var(--ink-3)", fontWeight: 600, marginBottom: 6,
+              }}>The risk quartet</div>
+              <RiskQuartetTable />
+            </div>
+
+            <Para style={{ marginTop: 28 }}>
+              Remote sensing, therefore, does not constitute a comprehensive risk model on its own. It represents a systematic approach to analyzing specific aspects of risk. Its societal value emerges when mapped hazards and exposures are integrated with contextual realities that determine who is affected, who is protected, who can relocate, who is trusted, and who possesses the resources necessary for recovery.
+            </Para>
           </PFBlock>
+
+          {/* § II — THE FIVE PERSPECTIVES */}
           <PFBlock n="II" kicker="THE FIVE PERSPECTIVES"
-            title="The satellite is one perspective among several. It is not the master view to which all other forms of knowledge report."
-            lede="A defensible risk analysis must hold multiple perspectives together: the synoptic view from above, the field view from direct observation, the institutional view from planners and responders, the lived view from residents, and the political view that asks who has authority to define the problem."
-            caption="These perspectives do not simply add together. They sometimes correct one another, sometimes contradict one another, and sometimes reveal that the original question was too narrow. Integration is therefore not only a technical operation. It is an act of judgment.">
-            <FigPerspectivesMerged />
+            title="No single perspective can carry the whole problem.">
+            <Para>
+              The framework below is not presented as the final truth about risk, knowledge, or remote sensing. It is a working interpretation: a way of remembering that no single perspective can carry the whole problem. A defensible risk analysis has to hold several forms of evidence together without pretending that they all see the same thing, speak with the same authority, or answer the same question.
+            </Para>
+            <Para>
+              The satellite is one perspective among several. It is not the master view to which all other forms of knowledge report. It gives scale, repetition, comparison, and pattern. But risk is not only pattern. Risk is also measurement at the point of action, use and memory of place, exposure as lived experience, and institutional authority to decide. These perspectives do not simply add together. They can confirm one another, correct one another, contradict one another, or reveal that the original question was too narrow. Integration is therefore not only a technical operation. It is an act of judgment.
+            </Para>
+            <Para style={{ marginTop: 22 }}>The five names are used as conceptual handles.</Para>
+
+            {/* Interactive wheel/panel — the overview the cards expand */}
+            <div style={{ marginTop: 24 }}>
+              <FigPerspectivesMerged />
+            </div>
+
+            {/* The five perspective cards — full prose per philosopher */}
+            <div style={{ marginTop: 36 }}>
+              <PerspectiveCard n="01" philosopher="PLATO"
+                name="Sky-eye"
+                subtitle="Abstraction, distance, pattern, anticipation"
+                color="var(--sky)">
+                The sky-eye perspective contributes scale, repetition, synoptic comparison, and change detection. It is the perspective of satellites, aircraft, orbital platforms, image archives, and large-area models. It sees flood extent, wildfire scars, shoreline erosion, land-cover change, vegetation stress, building exposure, road interruption, heat patterns, and damage signatures. Its strength is pattern: the capacity to notice what no single observer on the ground could see alone. Its danger is overextension: treating visible change as complete knowledge. For decisions made at the rhythm and grain of daily life, the orbit is often too far. The image can show that something changed; it cannot, by itself, explain what that change means, who is affected, or what should be done.
+              </PerspectiveCard>
+
+              <PerspectiveCard n="02" philosopher="TYCHO"
+                name="Ground sensor"
+                subtitle="Calibration at the scale of local action"
+                color="var(--teal)">
+                The ground-sensor perspective contributes in-situ measurement, thresholds, calibration, and validation against the world that the satellite cannot directly touch. It is the perspective of rain gauges, river-stage sensors, soil-moisture probes, piezometers, tide gauges, air-quality stations, weather masts, stream-temperature loggers, and snow-depth measurements. It sees rain totals at a station, river height at a bridge, groundwater level in a well, tide at a gauge, smoke concentration near a school, or soil moisture in a specific field. Its strength is precision in place. Its limit is coverage. A sensor can be trustworthy where it is and silent everywhere else. The ground sensor therefore does not replace the satellite; it anchors, tests, and sometimes challenges the satellite's broader pattern.
+              </PerspectiveCard>
+
+              <PerspectiveCard n="03" philosopher="COMMUNITY"
+                name="Place-based knowledge"
+                subtitle="Use, memory, access, trust, refusal"
+                color="var(--clay)">
+                The community perspective contributes what the place is used for, by whom, at what time, under what history, with what trust, and with what forms of care or refusal. It is the perspective of interviews, walkthroughs, mapping workshops, council meetings, local observers, mutual-aid networks, elders, land users, residents, and people who know how a place actually works. It sees safe routes, seasonal access, trusted warning channels, sacred and protected places, commons and shared rights, prior false alarms, local thresholds, informal shelters, gathering places, and what counts as recovery. Its strength is relevance. Its danger is being treated as anecdotal unless the project gives it authority. A map that affects a community but is not interpretable, contestable, or co-authored by that community does not yet have social legitimacy.
+              </PerspectiveCard>
+
+              <PerspectiveCard n="04" philosopher="ARISTOTLE"
+                name="Embodied judgment"
+                subtitle="Exposure as lived experience"
+                color="var(--amber)">
+                The embodied perspective contributes the lived scale of exposure: the bottom metres of the atmosphere, the body in heat, smoke, water, traffic, slope, fear, delay, fatigue, and uncertainty. It is the perspective of people moving through risk, not merely appearing inside a risk layer. It sees heat as exhaustion, slope as burden, distance as impossibility, evacuation as fear or refusal, smoke as breathing difficulty, water level as danger, traffic as stress, and climate change as a change in daily movement. Its strength is lived exposure. Its limit is that much of it leaves no spectral signature. A person can be at risk in ways no satellite can directly detect. This is why the Q-TRAK example matters: for carbon dioxide as a health question rather than a climate question, the satellite is often measuring the wrong scale of air. The body is not a footnote to the map. The body is where the consequence arrives.
+              </PerspectiveCard>
+
+              <PerspectiveCard n="05" philosopher="MACHIAVELLI"
+                name="Institutional power"
+                subtitle="Mandate, jurisdiction, decision"
+                color="var(--plum)">
+                The institutional perspective contributes authority to act. It is the perspective of statutes, mandates, plans, budgets, liability, insurance rules, emergency powers, land-use regulations, aid programs, and infrastructure responsibilities. It sees evacuation orders, insurance triggers, disaster declarations, planning restrictions, aid allocation, camp recognition, land claims, service mandates, and adaptation funding. Its strength is governability: the capacity to convert evidence into enforceable action. Its danger is abstraction from lived experience. Institutions may decide before the people most affected are heard, or may lack the mandate to act even when the evidence is clear. The form of authority often decides who can speak, what counts as evidence, and what action becomes possible before the data even arrives.
+              </PerspectiveCard>
+            </div>
+
+            <div style={{ marginTop: 36, paddingTop: 28, borderTop: "1px solid var(--rule)" }}>
+              <Para style={{ marginTop: 0 }}>
+                The point of the five perspectives is not balance for its own sake. The point is diagnostic. When a risk analysis fails, it often fails because one perspective has been mistaken for the whole. A satellite pattern is treated as lived exposure. A gauge is treated as regional truth. A community account is treated as anecdote. A bodily experience is treated as subjective noise. An institutional category is treated as reality itself.
+              </Para>
+              <Para>
+                A stronger workflow asks each perspective to do what it can do well, and then makes the gaps visible. The sky-eye shows the pattern. The ground sensor tests the measurement. The community names use and meaning. The embodied perspective brings exposure back to the body. The institution reveals who can act, who cannot, and under what authority. Only when these perspectives are held together can distant observation become usable, accountable, and situated knowledge.
+              </Para>
+            </div>
           </PFBlock>
         </React.Fragment>
       )}
