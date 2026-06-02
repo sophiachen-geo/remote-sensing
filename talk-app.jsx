@@ -3,11 +3,11 @@
 // =======================================================================
 
 const TABS = [
-  { id: "activelayer",  roman: "i",   label: "Active Layer", component: TabOuverture, accent: "var(--st-active-accent-2)", strata: "active" },
-  { id: "permafrost",   roman: "ii",  label: "Permafrost",   component: TabPlongees,  accent: "var(--st-perma-accent-2)",  strata: "perma"  },
-  { id: "canopy",       roman: "iii", label: "Canopy",       component: TabDeepDive,  accent: "var(--st-canopy-bg)",       strata: "canopy" },
-  { id: "rhizosphere",  roman: "iv",  label: "Rhizosphere",  component: TabAvenir,    accent: "var(--st-rhizo-accent-2)",  strata: "rhizo"  },
-  { id: "seafloor",     roman: "v",   label: "Seafloor",     component: TabAnnexes,   accent: "var(--st-floor-accent)",    strata: "floor"  },
+  { id: "activelayer",  roman: "i",   label: "Active Layer", component: TabOuverture, accent: "var(--st-chrome-tab)", strata: "active" },
+  { id: "permafrost",   roman: "ii",  label: "Permafrost",   component: TabPlongees,  accent: "var(--st-chrome-tab)", strata: "perma"  },
+  { id: "canopy",       roman: "iii", label: "Canopy",       component: TabDeepDive,  accent: "var(--st-chrome-tab)", strata: "canopy" },
+  { id: "rhizosphere",  roman: "iv",  label: "Rhizosphere",  component: TabAvenir,    accent: "var(--st-chrome-tab)", strata: "rhizo"  },
+  { id: "seafloor",     roman: "v",   label: "Seafloor",     component: TabAnnexes,   accent: "var(--st-chrome-tab)", strata: "floor"  },
 ];
 
 const useHashTab = () => {

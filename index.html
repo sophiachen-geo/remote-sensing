@@ -161,6 +161,12 @@
      Naming: --st-<section>-<role>
      ============================================================ */
   :root {
+    /* SectionGlyph pictograms keep their earth-tone palette so the
+       little SVG illustrations stay legible. The chrome tokens that
+       drive title underlines, kicker colors, and tab underlines are
+       unified to the Blueprint palette below, so the field guide and
+       every other section share one consistent chrome. */
+
     /* ACTIVE LAYER · intro, thaw surface */
     --st-active-bg-deep:#5c93ad; --st-active-bg:#7cb4cc; --st-active-bg-soft:#a9d4e6;
     --st-active-soil:#6b513a; --st-active-edge:#4a3826;
@@ -181,10 +187,17 @@
     --st-rhizo-root:#6e4d28; --st-rhizo-edge:#4a3318;
     --st-rhizo-accent:#caa86f; --st-rhizo-accent-2:#7c5830; --st-rhizo-ink:#2e2113;
 
-    /* SEAFLOOR · annexes / about, deepest, slow sediment; LIGHT ink */
+    /* SEAFLOOR · annexes / about, deepest, slow sediment */
     --st-floor-bg-deep:#0a232d; --st-floor-bg:#163d4c; --st-floor-bg-soft:#2e6577;
     --st-floor-sediment:#0a212a; --st-floor-edge:#06161d;
     --st-floor-accent:#4a7888; --st-floor-accent-2:#bfe0ec; --st-floor-ink:#cfe6f0;
+
+    /* Chrome tokens, used for tab underlines, StrataHead title border
+       and kicker color. Unified across sections so the field guide
+       reads as part of the same site as every other tab. */
+    --st-chrome-accent:    var(--ink);
+    --st-chrome-accent-2:  var(--sky);
+    --st-chrome-tab:       var(--ink);
 
     /* shared structural */
     --st-surface-line:#8bbdd4; --st-radius:10px; --st-card:108px; --st-stroke:0.75px;

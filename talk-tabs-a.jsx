@@ -6,7 +6,7 @@
 // OUVERTURE
 // -----------------------------------------------------------------------
 const TabOuverture = () => (
-  <div style={{ "--accent": "var(--st-active-accent-2)" }}>
+  <div style={{ "--accent": "var(--st-chrome-accent)" }}>
     {/* Masthead */}
     <section style={{
       borderBottom: "1px solid var(--rule)",

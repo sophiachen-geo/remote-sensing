@@ -224,31 +224,31 @@ const StrataColumn = ({ width = 150 }) => (
 const STRATA_CONTENT = {
   active: {
     key: "active", label: "Active layer", sub: "intro",
-    accent: "var(--st-active-accent-2)",
+    accent: "var(--st-chrome-accent)",
     epigraph: "Everything here moves. It is the only part of the ground that answers.",
     standfirst: "This is the surface that thaws each season and freezes again, the thin skin where weather and earth negotiate. Nothing is settled here yet. Read it as the place you and the material first touch, before either of you has committed to anything.",
   },
   perma: {
     key: "perma", label: "Permafrost", sub: "core ideas",
-    accent: "var(--st-perma-accent-2)",
+    accent: "var(--st-chrome-accent)",
     epigraph: "Beneath the thaw, the ground that does not move.",
     standfirst: "Everything above rests on this. It is frozen not because it is dead but because it is load-bearing, the substrate that lets the surface cycle without collapsing. Handle it carefully. A layer like this degrades slowly, then all at once.",
   },
   canopy: {
     key: "canopy", label: "Canopy", sub: "case studies",
-    accent: "var(--st-canopy-bg)",
+    accent: "var(--st-chrome-accent)",
     epigraph: "The part that reaches the light, and gets photographed.",
     standfirst: "Up here the abstractions become things you can see. This is the stratum outsiders point to, the visible proof that something is growing underneath. It rises above the surface on purpose. Case studies are where the work stops being theory and starts being observed.",
   },
   rhizo: {
     key: "rhizo", label: "Rhizosphere", sub: "field guide / toolkit",
-    accent: "var(--st-rhizo-accent-2)",
+    accent: "var(--st-chrome-accent)",
     epigraph: "Where the roots meet the soil and trade.",
     standfirst: "This is the exchange layer, the narrow zone where what you have made passes into someone else's growth. Less a place where ideas live than where they are taken up and metabolized. Everything here is built to be lifted out and used.",
   },
   floor: {
     key: "floor", label: "Seafloor", sub: "annexes / about",
-    accent: "var(--st-floor-accent)",
+    accent: "var(--st-chrome-accent)",
     epigraph: "The deepest floor, where everything finally settles.",
     standfirst: "Nothing here is in a hurry. Sources, notes, provenance, the record of how the rest came to be, all of it drifts down and accumulates in the dark. Rarely disturbed, but this is where the account is kept.",
   },

@@ -1180,7 +1180,7 @@ const TabPlongees = () => {
   const [active, setActive] = React.useState("m1");
 
   return (
-    <div className="wrap" style={{ padding: "60px 56px 0", "--accent": "var(--st-perma-accent-2)" }}>
+    <div className="wrap" style={{ padding: "60px 56px 0", "--accent": "var(--st-chrome-accent)" }}>
       <StrataHead section="perma" />
 
       <PermaStyles />
@@ -1522,7 +1522,7 @@ const TabAvenir = () => {
     { t: "Communities need accountability to refusal.", b: "If a community decides that a place, a phenomenon, or a category of information should not be mapped, that decision is a methodological constraint, not a barrier to be negotiated around. Some things should not be mapped, and some that must be, only by whom matters. The constraint applies particularly strongly to sacred sites, harvest locations whose disclosure would invite commercial exploitation, and sea ice corridors whose disclosure could be weaponised by extractive industries." },
   ];
   return (
-    <div className="wrap" style={{ padding: "72px 56px 100px", "--accent": "var(--st-rhizo-accent-2)" }}>
+    <div className="wrap" style={{ padding: "72px 56px 100px", "--accent": "var(--st-chrome-accent)" }}>
       <StrataHead section="rhizo" />
       <RhizoSubTabs view={view} set={setView} />
 
@@ -1622,7 +1622,7 @@ const TabAvenir = () => {
 // ANNEXES, time budget, cuts and expands, Q&A, reading, bilingual, spine.
 // -----------------------------------------------------------------------
 const TabAnnexes = () => (
-  <div className="wrap" style={{ padding: "72px 56px 100px", "--accent": "var(--st-floor-accent)" }}>
+  <div className="wrap" style={{ padding: "72px 56px 100px", "--accent": "var(--st-chrome-accent)" }}>
     <StrataHead section="floor" />
 
     <Card pad={32} style={{ marginTop: 8 }}>

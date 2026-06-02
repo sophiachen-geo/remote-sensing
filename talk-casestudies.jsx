@@ -1724,7 +1724,7 @@ const TabDeepDive = () => {
   const Body = active.body;
 
   return (
-    <div className="wrap" style={{ padding: "64px 56px 96px", "--accent": "var(--st-canopy-bg)" }}>
+    <div className="wrap" style={{ padding: "64px 56px 96px", "--accent": "var(--st-chrome-accent)" }}>
       <StrataHead section="canopy" />
 
       {CASE_STUDIES.length > 1 && (

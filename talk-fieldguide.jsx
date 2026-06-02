@@ -86,7 +86,7 @@ const BackToTop = () => (
 
 const FrameworkPanel = () => {
   const [open, setOpen] = React.useState(null);
-  const colors = [FG.sky, FG.amber, FG.teal, FG.clay];
+  const colors = [FG.ink, FG.ink, FG.ink, FG.ink];
   const summaries = [
     "Begin with the decision, risk or community concern. Let the dataset follow the question.",
     "Every workflow narrows the world. Make translations explicit; treat each output as produced evidence.",
@@ -615,9 +615,9 @@ const P9Figure = () => {
           padding: "14px 18px", gap: 12, alignItems: "center",
           borderBottom: i < rows.length - 1 ? `1px solid ${FG.rule}` : "none",
         }}>
-          <span className="serif" style={{ fontSize: 16, color: FG.sky, fontStyle: "italic" }}>{r.sym}</span>
+          <span className="serif" style={{ fontSize: 16, color: FG.sky }}>{r.sym}</span>
           <span style={{ textAlign: "center", fontFamily: "var(--mono)", fontSize: 18, color: FG.ink4 }}>?</span>
-          <span className="serif" style={{ fontSize: 16, color: FG.plum, fontStyle: "italic" }}>{r.q}</span>
+          <span className="serif" style={{ fontSize: 16, color: FG.clay }}>{r.q}</span>
         </div>
       ))}
       <div style={{
