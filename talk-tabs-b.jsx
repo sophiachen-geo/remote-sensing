@@ -846,126 +846,370 @@ const KeptTaiwanProse = () => (
   </Card>
 );
 
+// Scoped styles for the Permafrost aesthetic, lifted from the design HTML.
+const PermaStyles = () => (
+  <style>{`
+    .perma-aesthetic {
+      --perma-bg-deep:#3f4f73; --perma-bg:#5d709a; --perma-bg-soft:#7d90b4;
+      --perma-ice:#cfdcee; --perma-edge:#33405f;
+      --perma-accent:#e3edf6; --perma-accent-2:#9fb4d0;
+      --perma-ink-deep:#1a2238;
+      --gain:#2f6fd0; --loss:#c2562a; --loss-soft:#e8d3c6;
+      /* override site palette inside this scope so existing figures inherit the warm aesthetic */
+      --paper:#f4f2ec; --paper-2:#eceadf; --paper-3:#f4f2ec; --paper-4:#dcd8ca;
+      --ink:#1c2230; --ink-2:#454f63; --ink-3:#8b93a4; --ink-4:#a8aeba;
+      --rule:#d3cdbe; --rule-2:#dcd8ca; --rule-soft:#e2dccb;
+      --navy:#3f4f73; --sky:#2f6fd0; --clay:#c2562a;
+      --serif:'Fraunces',Georgia,serif;
+      --mono:'Spline Sans Mono',ui-monospace,monospace;
+      --perma-body:'Newsreader',Georgia,serif;
+      --perma-measure:68ch;
+      background:#f4f2ec;
+      background-image:
+        radial-gradient(1200px 600px at 78% -8%, rgba(125,144,180,0.20), transparent 60%),
+        radial-gradient(900px 500px at -5% 4%, rgba(63,79,115,0.10), transparent 55%);
+      font-family:'Newsreader',Georgia,serif;
+      font-size:19px; line-height:1.72; font-weight:380; letter-spacing:-0.003em;
+      color:var(--ink);
+      padding:clamp(40px,6vh,72px) 0 clamp(60px,8vh,100px);
+      margin-top:24px;
+    }
+    .perma-aesthetic ::selection { background:#7d90b4; color:#fff; }
+    .perma-aesthetic .perma-reading { max-width: var(--perma-measure); }
+
+    /* MASTHEAD ------------------------------------------------------- */
+    .perma-mast { position:relative; padding:clamp(48px,7vh,90px) 0 clamp(36px,5vh,56px); }
+    .perma-mast-grid { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:48px; align-items:start; }
+    @media (max-width:760px) { .perma-mast-grid { grid-template-columns:1fr; } }
+    .perma-kicker {
+      font-family:var(--mono); font-size:12.5px; letter-spacing:0.32em;
+      text-transform:uppercase; color:var(--perma-bg); font-weight:500; margin:0 0 22px;
+    }
+    .perma-kicker .sub { color:var(--ink-3); }
+    .perma-h1 {
+      font-family:var(--serif); font-weight:340;
+      font-size:clamp(48px,8.5vw,104px); line-height:0.94;
+      letter-spacing:-0.025em; margin:0 0 28px; color:var(--ink);
+    }
+    .perma-h1 em { font-style:italic; font-weight:300; color:var(--perma-bg-deep); }
+    .perma-dek {
+      font-family:var(--perma-body); font-size:clamp(20px,2.3vw,25px);
+      line-height:1.5; font-weight:360; color:var(--ink-2);
+      max-width:42ch; margin:0;
+    }
+    .perma-mast-glyph {
+      width:128px; height:128px; flex:0 0 auto;
+      filter:drop-shadow(0 18px 30px rgba(31,42,64,0.22));
+    }
+
+    /* THESIS BAND + ROADMAP TABS -------------------------------------- */
+    .perma-thesis {
+      margin:8px 0 0; padding:40px 0;
+      border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+    }
+    .perma-thesis blockquote {
+      margin:0; font-family:var(--serif); font-weight:330; font-style:italic;
+      font-size:clamp(24px,3.4vw,38px); line-height:1.28; letter-spacing:-0.018em;
+      color:var(--perma-bg-deep); max-width:28ch;
+    }
+    .perma-roadmap {
+      margin-top:30px; display:grid; grid-template-columns:repeat(5,1fr);
+      gap:1px; background:var(--rule); border:1px solid var(--rule);
+      position:sticky; top:48px; z-index:5;
+    }
+    @media (max-width:880px) { .perma-roadmap { grid-template-columns:repeat(2,1fr); } }
+    .perma-roadmap button {
+      appearance:none; border:none; background:var(--paper);
+      padding:20px 22px; text-align:left; cursor:pointer; color:var(--ink);
+      transition:background .2s;
+    }
+    .perma-roadmap button:hover { background:#fff; }
+    .perma-roadmap button[aria-pressed="true"] { background:var(--perma-bg-deep); color:#fff; }
+    .perma-roadmap .n {
+      font-family:var(--mono); font-size:11px; letter-spacing:0.22em;
+      color:var(--perma-bg); font-weight:500; text-transform:uppercase;
+    }
+    .perma-roadmap button[aria-pressed="true"] .n { color:var(--perma-accent); }
+    .perma-roadmap .t {
+      font-family:var(--serif); font-size:17px; font-weight:420; line-height:1.22;
+      margin-top:10px; color:var(--ink); letter-spacing:-0.005em;
+    }
+    .perma-roadmap button[aria-pressed="true"] .t { color:#fff; font-weight:440; }
+
+    /* MOVEMENT ------------------------------------------------------- */
+    .perma-movement {
+      padding:clamp(48px,8vh,90px) 0 12px;
+      border-top:1px solid var(--rule); position:relative;
+      scroll-margin-top:80px;
+    }
+    .perma-movement:first-of-type { border-top:none; padding-top:clamp(40px,6vh,72px); }
+    .perma-mv-head { display:flex; align-items:baseline; gap:18px; margin-bottom:8px; }
+    .perma-mv-num {
+      font-family:var(--mono); font-size:13px; letter-spacing:0.22em;
+      color:var(--perma-bg); font-weight:500; padding-top:6px;
+    }
+    .perma-mv-title {
+      font-family:var(--serif); font-weight:360;
+      font-size:clamp(30px,4.6vw,52px); line-height:1.04;
+      letter-spacing:-0.02em; margin:0; color:var(--ink); max-width:24ch;
+    }
+    .perma-mv-title em { font-style:italic; font-weight:320; color:var(--perma-bg-deep); }
+    .perma-lede {
+      font-size:21px; line-height:1.6; color:var(--ink-2);
+      font-weight:360; margin:24px 0 0; max-width:var(--perma-measure);
+      font-family:var(--perma-body);
+    }
+    .perma-body {
+      margin:22px 0 0; max-width:var(--perma-measure);
+      font-family:var(--perma-body); font-size:19px; line-height:1.72;
+      font-weight:380; color:var(--ink-2);
+    }
+    .perma-body strong { font-weight:560; color:var(--ink); }
+    .perma-body.first { margin-top:34px; }
+    .perma-drop::first-letter {
+      font-family:var(--serif); font-weight:340; float:left;
+      font-size:5.4em; line-height:0.74; padding:8px 14px 0 0;
+      color:var(--perma-bg-deep);
+    }
+    .perma-pull {
+      font-family:var(--serif); font-style:italic; font-weight:340;
+      font-size:clamp(22px,3vw,30px); line-height:1.3; color:var(--perma-bg-deep);
+      border-left:3px solid var(--perma-bg-soft); padding:6px 0 6px 28px;
+      margin:38px 0; max-width:38ch;
+    }
+
+    /* FIGURE FRAME --------------------------------------------------- */
+    .perma-figure { margin:48px 0; padding:0; }
+    .perma-fig-kicker {
+      font-family:var(--mono); font-size:11px; letter-spacing:0.28em;
+      text-transform:uppercase; color:var(--perma-bg); font-weight:500;
+      margin-bottom:14px;
+    }
+    .perma-fig-title {
+      font-family:var(--serif); font-weight:420;
+      font-size:clamp(22px,2.8vw,28px); line-height:1.18;
+      letter-spacing:-0.014em; margin:0 0 12px; color:var(--ink);
+      max-width:38ch;
+    }
+    .perma-fig-lede {
+      font-family:var(--perma-body); font-size:17px; line-height:1.6;
+      color:var(--ink-2); margin:0 0 22px; max-width:60ch; font-weight:380;
+    }
+    .perma-figcard {
+      background:linear-gradient(180deg,#fff,#fbfaf6);
+      border:1px solid var(--paper-4); border-radius:12px;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.7) inset, 0 24px 48px -34px rgba(31,42,64,0.45);
+      overflow:hidden;
+    }
+    .perma-figcaption {
+      font-family:var(--perma-body); font-size:15.5px; line-height:1.55;
+      color:var(--ink-2); padding:16px 4px 0; font-style:italic; max-width:64ch;
+    }
+    .perma-figcaption b { font-style:normal; font-weight:560; color:var(--ink); }
+
+    /* Kept-content cards take on the figcard treatment in this scope */
+    .perma-aesthetic .perma-kept { margin:36px 0; }
+    .perma-aesthetic .perma-kept-label {
+      font-family:var(--mono); font-size:11px; letter-spacing:0.18em;
+      text-transform:uppercase; color:var(--perma-bg); font-weight:500;
+      margin-bottom:10px; display:block;
+    }
+
+    /* INTERLUDE DISCLOSURE ------------------------------------------- */
+    .perma-interlude { margin:48px 0; }
+    .perma-interlude-toggle {
+      appearance:none; width:100%; text-align:left; cursor:pointer;
+      padding:26px 28px; background:linear-gradient(180deg,#fff,#fbfaf6);
+      border:1px solid var(--paper-4); border-radius:12px;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.7) inset, 0 16px 36px -28px rgba(31,42,64,0.35);
+      display:grid; grid-template-columns:1fr auto; gap:28px; align-items:center;
+      color:var(--ink); transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .perma-interlude-toggle:hover { transform:translateY(-1px); box-shadow: 0 1px 0 rgba(255,255,255,0.7) inset, 0 22px 46px -28px rgba(31,42,64,0.45); }
+    .perma-interlude[data-open="true"] .perma-interlude-toggle {
+      border-bottom-left-radius:0; border-bottom-right-radius:0;
+      border-bottom:1px solid var(--paper-4);
+    }
+    .perma-interlude-kicker {
+      font-family:var(--mono); font-size:11px; letter-spacing:0.28em;
+      text-transform:uppercase; color:var(--loss); font-weight:500;
+    }
+    .perma-interlude-title {
+      font-family:var(--serif); font-weight:380;
+      font-size:clamp(22px,2.6vw,28px); line-height:1.22; letter-spacing:-0.014em;
+      margin:10px 0 0; color:var(--ink); max-width:36ch;
+    }
+    .perma-interlude-title em { font-style:italic; font-weight:340; color:var(--perma-bg-deep); }
+    .perma-interlude-sub {
+      font-family:var(--perma-body); font-size:15px; line-height:1.55;
+      color:var(--ink-2); margin:6px 0 0; max-width:62ch; font-weight:380;
+    }
+    .perma-interlude-chip {
+      font-family:var(--mono); font-size:11px; letter-spacing:0.18em;
+      text-transform:uppercase; color:var(--loss);
+      padding:10px 14px; border:1px solid rgba(194,86,42,0.4);
+      background:var(--loss-soft); border-radius:999px; white-space:nowrap;
+    }
+    .perma-interlude-body {
+      border:1px solid var(--paper-4); border-top:none;
+      border-bottom-left-radius:12px; border-bottom-right-radius:12px;
+      background:linear-gradient(180deg,#fff,#fbfaf6);
+      padding:28px 28px 8px;
+    }
+    .perma-interlude-body > p {
+      font-family:var(--perma-body); font-size:18px; line-height:1.68;
+      color:var(--ink-2); font-weight:380; margin:0; max-width:64ch;
+    }
+
+    /* TAIWAN ANCHOR -------------------------------------------------- */
+    .perma-anchor {
+      padding:clamp(48px,8vh,90px) 0 12px;
+      border-top:1px solid var(--rule); scroll-margin-top:80px;
+    }
+
+    /* CLOSING -------------------------------------------------------- */
+    .perma-closing {
+      padding:clamp(56px,10vh,110px) 0 clamp(40px,6vh,72px);
+      border-top:1px solid var(--rule);
+    }
+    .perma-closing .big {
+      font-family:var(--serif); font-weight:330;
+      font-size:clamp(26px,4vw,44px); line-height:1.18;
+      letter-spacing:-0.02em; color:var(--perma-bg-deep);
+      max-width:26ch; font-style:italic; margin:0;
+    }
+    .perma-closing p {
+      max-width:var(--perma-measure); margin-top:36px;
+      font-family:var(--perma-body); font-size:19px; line-height:1.68;
+      color:var(--ink-2); font-weight:380;
+    }
+
+    /* Restyle StrataHead inside the aesthetic so it doesn't clash */
+    .perma-aesthetic h1, .perma-aesthetic h2, .perma-aesthetic h3 { text-wrap:balance; }
+    .perma-aesthetic p { text-wrap:pretty; }
+  `}</style>
+);
+
+const MAST_GLYPH = (
+  <svg className="perma-mast-glyph" viewBox="0 0 108 108" role="img" aria-label="Permafrost glyph">
+    <defs>
+      <linearGradient id="pm-glyph-perma" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#7d90b4" /><stop offset="1" stopColor="#3f4f73" />
+      </linearGradient>
+      <linearGradient id="pm-glyph-ice" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stopColor="#e3edf6" /><stop offset="1" stopColor="#9fb4d0" />
+      </linearGradient>
+      <linearGradient id="pm-glyph-sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#cfe6f5" /><stop offset="1" stopColor="#a9d4e6" />
+      </linearGradient>
+      <clipPath id="pm-glyph-clip"><rect width="108" height="108" rx="14" /></clipPath>
+    </defs>
+    <g clipPath="url(#pm-glyph-clip)">
+      <rect width="108" height="40" fill="url(#pm-glyph-sky)" opacity="0.35" />
+      <rect y="40" width="108" height="68" fill="url(#pm-glyph-perma)" />
+      <g opacity="0.5" stroke="#33405f" strokeWidth="0.7" fill="none">
+        <path d="M0 58 Q30 54 60 58 T108 56" />
+        <path d="M0 84 Q34 80 64 84 T108 82" />
+      </g>
+      <g fill="url(#pm-glyph-ice)" stroke="#9fb4d0" strokeWidth="0.4" opacity="0.92">
+        <polygon points="22,50 56,47 64,80 26,86" />
+        <polygon points="68,60 96,57 100,90 72,92" />
+      </g>
+      <line x1="26" y1="54" x2="42" y2="51" stroke="#e3edf6" strokeWidth="0.6" opacity="0.55" />
+      <line x1="0" y1="40" x2="108" y2="40" stroke="#8bbdd4" strokeWidth="1.2" opacity="0.6" />
+    </g>
+    <rect x="0.5" y="0.5" width="107" height="107" rx="14" fill="none" stroke="#33405f" strokeOpacity="0.2" strokeWidth="0.75" />
+  </svg>
+);
+
 // Click-to-expand interlude for the multimodality section.
 const InterludeDisclosure = () => {
   const [open, setOpen] = React.useState(false);
   return (
-    <section style={{ marginTop: 36, marginBottom: 12 }}>
-      <button
-        onClick={() => setOpen(o => !o)}
-        style={{
-          appearance: "none", width: "100%", textAlign: "left",
-          cursor: "pointer", padding: "22px 26px",
-          background: open ? "var(--bg-2, var(--paper-2))" : "var(--paper)",
-          border: "1px solid var(--rule)",
-          borderLeft: "3px solid var(--plum)",
-          color: "var(--ink)", display: "grid",
-          gridTemplateColumns: "1fr auto", gap: 24, alignItems: "center",
-        }}
-      >
+    <div className="perma-interlude" data-open={open ? "true" : "false"}>
+      <button className="perma-interlude-toggle" onClick={() => setOpen(o => !o)}>
         <div>
-          <div className="mono" style={{ fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--plum)" }}>
-            Interlude · click to {open ? "collapse" : "expand"}
+          <div className="perma-interlude-kicker">Interlude · click to {open ? "collapse" : "expand"}</div>
+          <div className="perma-interlude-title">
+            Multimodality, <em>or, when more than one way of knowing has to share the page.</em>
           </div>
-          <div className="serif" style={{ marginTop: 8, fontSize: 22, lineHeight: 1.2, fontWeight: 500, letterSpacing: "-0.01em", color: "var(--ink)" }}>
-            Multimodality, or, when more than one way of knowing has to share the page.
-          </div>
-          <div style={{ marginTop: 6, fontSize: 14, lineHeight: 1.5, color: "var(--ink-3)", maxWidth: 700 }}>
+          <div className="perma-interlude-sub">
             A short detour between Movements III and IV. Why integrating community knowledge into a remote-sensing pipeline is not a data problem but a methodological one.
           </div>
         </div>
-        <span className="mono" style={{
-          fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase",
-          color: "var(--plum)", padding: "8px 12px",
-          border: "1px solid color-mix(in oklch, var(--plum) 40%, transparent)",
-          background: "var(--plum-tint)",
-        }}>{open ? "Close ▲" : "Open ▼"}</span>
+        <span className="perma-interlude-chip">{open ? "Close ▲" : "Open ▼"}</span>
       </button>
       {open && (
-        <div style={{ marginTop: 0 }}>
-          <section style={{ padding: "24px 28px 8px", border: "1px solid var(--rule)", borderTop: "none", background: "var(--paper)" }}>
-            <p className="serif" style={{ margin: 0, fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
-              Multimodality should be understood in more than a technical sense. There is physical multimodality, where optical, SAR, thermal, LiDAR, passive microwave, hyperspectral, atmospheric, acoustic, or gravity-based sensors observe different properties of the same landscape. There is geometric multimodality, where satellites, aircraft, drones, fixed stations, handheld sensors, and indoor instruments observe from different distances and reference frames. There is contributory multimodality, where institutions, volunteers, residents, citizen scientists, and community observers help author the data. There is ontological multimodality, where different knowledge systems define the object of concern differently. The first two are mature technical practices. The last two are where remote sensing becomes socially and politically consequential.
-            </p>
-          </section>
+        <div className="perma-interlude-body">
+          <p>
+            Multimodality should be understood in more than a technical sense. There is physical multimodality, where optical, SAR, thermal, LiDAR, passive microwave, hyperspectral, atmospheric, acoustic, or gravity-based sensors observe different properties of the same landscape. There is geometric multimodality, where satellites, aircraft, drones, fixed stations, handheld sensors, and indoor instruments observe from different distances and reference frames. There is contributory multimodality, where institutions, volunteers, residents, citizen scientists, and community observers help author the data. There is ontological multimodality, where different knowledge systems define the object of concern differently. The first two are mature technical practices. The last two are where remote sensing becomes socially and politically consequential.
+          </p>
           <MultimodalitySection />
         </div>
       )}
-    </section>
+    </div>
   );
 };
 
-const PermaSubNav = ({ tabs, active, set }) => (
-  <div style={{
-    display: "grid", gridTemplateColumns: `repeat(${tabs.length}, 1fr)`,
-    gap: 0, marginTop: 36, marginBottom: 4,
-    border: "1px solid var(--rule)", background: "var(--paper)",
-    position: "sticky", top: 56, zIndex: 5,
-  }}>
-    {tabs.map((t, i) => {
-      const on = active === t.id;
-      return (
-        <button key={t.id} onClick={() => set(t.id)} style={{
-          appearance: "none", border: "none",
-          background: on ? "var(--paper-2)" : "var(--paper)",
-          padding: "16px 16px 18px", textAlign: "left", cursor: "pointer",
-          borderRight: i < tabs.length - 1 ? "1px solid var(--rule)" : "none",
-          borderTop: on ? "3px solid var(--clay)" : "3px solid transparent",
-          color: "var(--ink)", transition: "background .15s",
-        }}>
-          <div className="mono" style={{
-            fontSize: 10.5, letterSpacing: "0.16em", textTransform: "uppercase",
-            color: on ? "var(--clay)" : "var(--ink-3)",
-          }}>{t.kicker}</div>
-          <div className="serif" style={{
-            marginTop: 6, fontSize: 17, lineHeight: 1.18,
-            fontWeight: on ? 600 : 500, letterSpacing: "-0.005em", color: "var(--ink)",
-          }}>{t.title}</div>
+const PermaRoadmap = ({ tabs, active, set }) => (
+  <section className="perma-thesis">
+    <blockquote>
+      Remote sensing begins with distance. Responsible use begins when that distance is brought back into relation.
+    </blockquote>
+    <div className="perma-roadmap" role="tablist">
+      {tabs.map((t) => (
+        <button key={t.id} role="tab"
+          aria-pressed={active === t.id ? "true" : "false"}
+          onClick={() => set(t.id)}>
+          <div className="n">{t.kicker}</div>
+          <div className="t">{t.title}</div>
         </button>
-      );
-    })}
-  </div>
+      ))}
+    </div>
+  </section>
 );
 
 const PERMA_TABS = [
-  { id: "m1",       kicker: "Movement I",   title: "Risk is a relation" },
-  { id: "m2",       kicker: "Movement II",  title: "Knowledge through translation" },
-  { id: "m3",       kicker: "Movement III", title: "Integration is a contest" },
-  { id: "m4",       kicker: "Movement IV",  title: "Ethics is internal to method" },
-  { id: "practice", kicker: "→",            title: "From principle to practice" },
+  { id: "m1",       kicker: "I",   title: "Risk is a relation" },
+  { id: "m2",       kicker: "II",  title: "Knowledge through translation" },
+  { id: "m3",       kicker: "III", title: "Integration begins before fusion" },
+  { id: "m4",       kicker: "IV",  title: "Ethics is internal to method" },
+  { id: "practice", kicker: "→",   title: "From principle to practice" },
 ];
 
 const TabPlongees = () => {
   const [active, setActive] = React.useState("m1");
 
   return (
-    <div className="wrap" style={{ padding: "72px 56px 100px", "--accent": "var(--st-perma-accent-2)" }}>
+    <div className="wrap" style={{ padding: "60px 56px 0", "--accent": "var(--st-perma-accent-2)" }}>
       <StrataHead section="perma" />
 
-      {/* Masthead */}
-      <header style={{ padding: "44px 0 20px", borderTop: "1px solid var(--rule)" }}>
-        <PFMono c="var(--sky)" s={11}>Permafrost · the layer beneath the method</PFMono>
-        <h1 style={{ margin: "16px 0 0", fontSize: 50, lineHeight: 1.05, fontWeight: 800, letterSpacing: "-0.026em", maxWidth: 1040, color: "var(--ink)" }}>
-          How does distant observation become usable knowledge, and what has to happen before that knowledge can support responsible decisions?
-        </h1>
-        <p className="serif" style={{ margin: "22px 0 0", fontSize: 18, lineHeight: 1.55, color: "var(--ink-2)", maxWidth: 760 }}>
-          Remote sensing is central to contemporary risk, resilience, and environmental work because it provides scale, speed, repetition, and continuity across places that cannot be observed directly or continuously from the ground. Its strength is not simply that it sees from above. Its strength is that it can detect patterns, compare places, follow change through time, and create evidence where direct observation is partial, delayed, dangerous, or impossible. But seeing at scale is not the same as understanding in place. A satellite image becomes useful only after it is interpreted, validated, situated, communicated, and connected to the people and institutions that must act on it.
-        </p>
-        <div style={{ marginTop: 28, borderLeft: "3px solid var(--clay)", paddingLeft: 22, maxWidth: 820 }}>
-          <p className="serif" style={{ margin: 0, fontSize: 22, lineHeight: 1.35, color: "var(--ink)", fontStyle: "italic" }}>
-            Remote sensing begins with distance. Responsible use begins when that distance is brought back into relation.
-          </p>
-        </div>
-      </header>
+      <PermaStyles />
+      <div className="perma-aesthetic">
 
-      <PermaSubNav tabs={PERMA_TABS} active={active} set={setActive} />
+        {/* Masthead with glyph */}
+        <header className="perma-mast">
+          <div className="perma-mast-grid">
+            <div>
+              <p className="perma-kicker">Core ideas <span className="sub">/ the layer beneath the method</span></p>
+              <h1 className="perma-h1">Perma<em>frost</em></h1>
+              <p className="perma-dek">
+                The slow, dense, load-bearing layer beneath remote-sensing practice. How distant observation becomes usable knowledge, and what has to happen before that knowledge can support responsible decisions.
+              </p>
+            </div>
+            {MAST_GLYPH}
+          </div>
+        </header>
+
+        {/* Thesis band doubles as the movement-selector */}
+        <PermaRoadmap tabs={PERMA_TABS} active={active} set={setActive} />
 
       {active === "m1" && (
         <React.Fragment>
-          <PFMovement id="m1" num="I" name="Risk is a relation"
+          <PFMovement id="m1" num="I" name="Risk is a " nameEm="relation"
             lede="Most confusion about remote sensing begins when risk is treated as a thing that can be mapped directly. Risk is not a single object. It is a relation among hazard, exposure, vulnerability, and capacity." />
-          <p className="serif" style={{ margin: "12px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
-            Remote sensing often contributes strongly to the first two: where water spread, where fire burned, where vegetation declined, where buildings stand, where a coastline retreated, where a settlement expanded. It can also provide useful proxies for vulnerability and capacity, such as building density, road access, heat exposure, land-cover change, or distance to services. But vulnerability and capacity are not reducible to what is visible from above. They depend on income, health, mobility, tenure, trust, language, governance, preparedness, social networks, and whether institutions are able to act. The methodological challenge is therefore not to reject remote sensing, but to place it correctly within a wider risk-reading system.
+          <p className="perma-body perma-drop">
+            Remote sensing often contributes strongly to the first two: where water spread, where fire burned, where vegetation declined, where buildings stand, where a coastline retreated, where a settlement expanded. It can also provide useful proxies for vulnerability and capacity, such as building density, road access, heat exposure, land-cover change, or distance to services. But vulnerability and capacity are not reducible to what is visible from above. They depend on income, health, mobility, tenure, trust, language, governance, preparedness, social networks, and whether institutions are able to act. <strong>The methodological challenge is therefore not to reject remote sensing, but to place it correctly within a wider risk-reading system.</strong>
           </p>
           <PFBlock kicker="the four components · click to compare"
             title="Remote sensing is strongest when it is clear about the part of risk it is measuring and honest about the part it cannot measure alone."
@@ -984,10 +1228,10 @@ const TabPlongees = () => {
 
       {active === "m2" && (
         <React.Fragment>
-          <PFMovement id="m2" num="II" name="Knowledge is produced through translation"
+          <PFMovement id="m2" num="II" name="Knowledge is produced through " nameEm="translation"
             lede="Remote sensing never moves directly from observation to decision. A signal becomes an image. An image becomes an indicator. An indicator becomes a class or model input. A model input becomes a risk score. A risk score may then become a decision, a budget priority, an evacuation zone, an insurance trigger, a planning restriction, or a public-facing map." />
-          <p className="serif" style={{ margin: "12px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
-            Each transformation makes something more legible, but each also changes the object being represented. Compression, classification, smoothing, thresholding, interpolation, and modelling are not neutral steps. They are necessary simplifications, and necessary simplifications become dangerous when their assumptions disappear behind the authority of a finished map.
+          <p className="perma-body perma-drop">
+            Each transformation makes something more legible, but each also changes the object being represented. Compression, classification, smoothing, thresholding, interpolation, and modelling are not neutral steps. <strong>They are necessary simplifications, and necessary simplifications become dangerous when their assumptions disappear behind the authority of a finished map.</strong>
           </p>
           <PFBlock kicker="walk the chain · seven stages"
             title="A signal becomes evidence only through a chain of translation."
@@ -1006,14 +1250,12 @@ const TabPlongees = () => {
             caption="For each mismatch, what remote sensing privileges and what often matters in practice. Reveal one row, or all six.">
             <FigMismatches />
           </PFBlock>
-          <section style={{ padding: "20px 0 0" }}>
-            <p className="serif" style={{ margin: 0, fontSize: 22, lineHeight: 1.35, color: "var(--ink)", fontStyle: "italic", maxWidth: 820, borderLeft: "3px solid var(--clay)", paddingLeft: 22 }}>
-              The data may be good and still be misused. The problem is often not the sensor. The problem is the default question.
-            </p>
-            <p className="serif" style={{ margin: "16px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
-              Standard preprocessing choices should be treated as methodological decisions, not automatic cleaning. Shadow may be noise in a land-cover classifier, but shade may be life-saving infrastructure during a heat wave. Cloud may obstruct an optical image, but cloud may also indicate the rain system that matters to farmers. SAR speckle may make an image harder to read, but it can also contain information about roughness, ice texture, soil moisture, or surface disturbance. A "bare" class may contain evacuation grounds, weekly markets, schoolyards, sacred spaces, or temporary shelters. An edge may be a fence in a raster but a membrane in lived experience, with openings, timing, surveillance, negotiation, and fear. Good remote sensing does not eliminate these complexities too early. It asks whether the default serves the problem.
-            </p>
-          </section>
+          <p className="perma-pull">
+            The data may be good and still be misused. The problem is often not the sensor. The problem is the default question.
+          </p>
+          <p className="perma-body">
+            Standard preprocessing choices should be treated as methodological decisions, not automatic cleaning. Shadow may be noise in a land-cover classifier, but shade may be life-saving infrastructure during a heat wave. Cloud may obstruct an optical image, but cloud may also indicate the rain system that matters to farmers. SAR speckle may make an image harder to read, but it can also contain information about roughness, ice texture, soil moisture, or surface disturbance. A "bare" class may contain evacuation grounds, weekly markets, schoolyards, sacred spaces, or temporary shelters. An edge may be a fence in a raster but a membrane in lived experience, with openings, timing, surveillance, negotiation, and fear. <strong>Good remote sensing does not eliminate these complexities too early. It asks whether the default serves the problem.</strong>
+          </p>
           <KeptDefaults />
           <KeptFitForPurpose />
         </React.Fragment>
@@ -1021,10 +1263,13 @@ const TabPlongees = () => {
 
       {active === "m3" && (
         <React.Fragment>
-          <PFMovement id="m3" num="III" name="Integration begins before fusion"
-            lede="In technical language, integration often means sensor fusion, data assimilation, or statistical updating. These methods are valuable when different data streams are measuring the same underlying variable at different scales or with different uncertainties. But in community-facing risk work, integration often begins earlier. The key question is not only how to combine data streams. The key question is who defines what the data are about." />
-          <p className="serif" style={{ margin: "12px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
-            Community knowledge is not simply another noisy sensor. It may identify a different object, a different boundary, a different time scale, or a different reason the map matters. A satellite product may classify a surface as water, bare ground, shrubland, ice, wetland, or built area. Local knowledge may identify a fire-suppression pond, a trapline cabin, an ice road, a seasonal gathering place, a burial site that should not be mapped, a grazing commons, or an evacuation refuge. The disagreement is not always an error to be resolved. Sometimes the disagreement reveals that the official category is too poor for the decision being made.
+          <PFMovement id="m3" num="III" name="Integration begins before " nameEm="fusion"
+            lede="In technical language, integration often means sensor fusion, data assimilation, or statistical updating. These methods are valuable when different data streams are measuring the same underlying variable at different scales or with different uncertainties. But in community-facing risk work, integration often begins earlier." />
+          <p className="perma-pull">
+            The key question is not only how to combine data streams. The key question is who defines what the data are about.
+          </p>
+          <p className="perma-body perma-drop">
+            Community knowledge is not simply another noisy sensor. It may identify a different object, a different boundary, a different time scale, or a different reason the map matters. A satellite product may classify a surface as water, bare ground, shrubland, ice, wetland, or built area. Local knowledge may identify a fire-suppression pond, a trapline cabin, an ice road, a seasonal gathering place, a burial site that should not be mapped, a grazing commons, or an evacuation refuge. <strong>The disagreement is not always an error to be resolved. Sometimes the disagreement reveals that the official category is too poor for the decision being made.</strong>
           </p>
           <PFBlock kicker="four registers of integration"
             title="Technical fusion asks how different measurements describe the same state. Interpretive integration asks whether the state has been defined correctly."
@@ -1043,19 +1288,22 @@ const TabPlongees = () => {
 
       {active === "m4" && (
         <React.Fragment>
-          <PFMovement id="m4" num="IV" name="Ethics is internal to method"
-            lede="Ethics is not an extra paragraph added after the analysis. Ethics is built into the choice of sensor, resolution, classification scheme, training data, uncertainty threshold, release format, access control, and map audience. A technically accurate map can still expose people to harm, misrepresent a community, support coercive action, or circulate without the authority of those represented. The goal is therefore not maximum visibility. The goal is accountable visibility." />
+          <PFMovement id="m4" num="IV" name="Ethics is internal to " nameEm="method"
+            lede="Ethics is not an extra paragraph added after the analysis. Ethics is built into the choice of sensor, resolution, classification scheme, training data, uncertainty threshold, release format, access control, and map audience. A technically accurate map can still expose people to harm, misrepresent a community, support coercive action, or circulate without the authority of those represented." />
+          <p className="perma-pull">
+            The goal is therefore not maximum visibility. The goal is accountable visibility.
+          </p>
           <PFBlock kicker="the governing matrix · click a quadrant"
             title="Some information should be public. Some information should remain under community control. Some information should not be mapped at all."
             lede="Sacred sites, burial grounds, culturally sensitive places, informal shelters, routes used for safety, and locations that could expose vulnerable people require governance before representation. Non-mapping can be a valid method. Refusal can be a valid data-governance decision.">
             <FigVisibilityMatrix />
           </PFBlock>
-          <p className="serif" style={{ margin: "10px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
-            Indigenous data sovereignty frameworks make this operational. OCAP&reg; centres First Nations ownership, control, access, and possession. CARE centres collective benefit, authority to control, responsibility, and ethics. The National Inuit Strategy on Research establishes expectations for research in Inuit Nunangat. These frameworks do not ask remote sensing to become less rigorous. They ask rigour to include authority, consent, benefit, governance, and the right to define what should and should not be known through a map.
+          <p className="perma-body">
+            Indigenous data sovereignty frameworks make this operational. <strong>OCAP&reg;</strong> centres First Nations ownership, control, access, and possession. <strong>CARE</strong> centres collective benefit, authority to control, responsibility, and ethics. The <strong>National Inuit Strategy on Research</strong> establishes expectations for research in Inuit Nunangat. These frameworks do not ask remote sensing to become less rigorous. They ask rigour to include authority, consent, benefit, governance, and the right to define what should and should not be known through a map.
           </p>
           <KeptOperativeProtocols />
-          <p className="serif" style={{ margin: "10px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
-            Visibility can protect, and visibility can endanger. The same type of image can document harm, guide humanitarian response, support legal evidence, expose environmental damage, or assist surveillance and targeting. The political meaning of resolution depends on who has access, who interprets the image, who can challenge the interpretation, and who bears the consequences. A responsible workflow therefore needs a visibility-risk review before release: who benefits from this visibility, who is exposed by it, who can refuse it, and what safeguards are required?
+          <p className="perma-body">
+            Visibility can protect, and visibility can endanger. The same type of image can document harm, guide humanitarian response, support legal evidence, expose environmental damage, or assist surveillance and targeting. The political meaning of resolution depends on who has access, who interprets the image, who can challenge the interpretation, and who bears the consequences. A responsible workflow therefore needs a visibility-risk review before release: <strong>who benefits from this visibility, who is exposed by it, who can refuse it, and what safeguards are required?</strong>
           </p>
           <KeptVisibilityBalance />
           <PFBlock kicker="the affective dimension · solastalgia"
@@ -1066,15 +1314,18 @@ const TabPlongees = () => {
           <KeptSolastalgia />
 
           {/* Taiwan anchor sits inside Movement IV because it closes the ethics argument */}
-          <section id="taiwan" style={{ padding: "56px 0 0", borderTop: "1px solid var(--rule)" }}>
-            <PFMono c="var(--clay)" s={11}>the anchor · early warning in Taiwan</PFMono>
-            <h2 style={{ margin: "12px 0 0", fontSize: 34, lineHeight: 1.1, fontWeight: 800, letterSpacing: "-0.022em", maxWidth: 900, color: "var(--ink)" }}>
-              The last mile is not only a delivery problem. It is an interpretation problem.
-            </h2>
-            <p className="serif" style={{ margin: "16px 0 0", fontSize: 17, lineHeight: 1.55, color: "var(--ink-2)", maxWidth: 760 }}>
-              A warning is not complete when a probability map is published. A warning becomes action only when it is trusted, understood, situated, and made practical. Households do not respond to probability alone. They respond through prior experience, false alarms, language access, household composition, mobility, social networks, place attachment, available shelters, work obligations, caregiving responsibilities, and trust in institutions. A technically strong hazard forecast can therefore fail if it does not become meaningful and actionable inside the lives of the people receiving it.
+          <section id="taiwan" className="perma-anchor">
+            <div className="perma-mv-head">
+              <span className="perma-mv-num">◎</span>
+              <h2 className="perma-mv-title">The Taiwan <em>anchor</em></h2>
+            </div>
+            <p className="perma-lede">
+              The last mile is not only a delivery problem. It is an <em style={{ color: "var(--perma-bg-deep)" }}>interpretation</em> problem.
             </p>
-            <p className="serif" style={{ margin: "16px 0 0", fontSize: 19, lineHeight: 1.4, color: "var(--ink)", fontStyle: "italic", maxWidth: 760 }}>
+            <p className="perma-body perma-drop">
+              A warning is not complete when a probability map is published. A warning becomes action only when it is trusted, understood, situated, and made practical. Households do not respond to probability alone. They respond through prior experience, false alarms, language access, household composition, mobility, social networks, place attachment, available shelters, work obligations, caregiving responsibilities, and trust in institutions. <strong>A technically strong hazard forecast can therefore fail if it does not become meaningful and actionable inside the lives of the people receiving it.</strong>
+            </p>
+            <p className="perma-pull">
               The question is not only whether the warning reached the household. The question is whether the household could act on it.
             </p>
           </section>
@@ -1087,10 +1338,10 @@ const TabPlongees = () => {
 
       {active === "practice" && (
         <React.Fragment>
-          <PFMovement id="practice" num="→" name="From principle to practice"
-            lede="A community-first workflow begins with the decision that needs support, not with the satellite product that happens to be available. The first step is to identify the public-good question: evacuation, adaptation, land-use planning, damage assessment, food security, infrastructure protection, insurance, conservation, or community memory." />
-          <p className="serif" style={{ margin: "12px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
-            The second step is to identify who has authority and who is affected. The third step is to decide what remote sensing can contribute and what it cannot responsibly answer alone. Only then should the workflow move to data selection, preprocessing, classification, modelling, validation, interpretation, uncertainty communication, visibility review, public release, action, monitoring, and revision.
+          <PFMovement id="practice" num="→" name="From principle to " nameEm="practice"
+            lede="A community-first workflow begins with the decision that needs support, not with the satellite product that happens to be available." />
+          <p className="perma-body perma-drop">
+            The first step is to identify the public-good question: evacuation, adaptation, land-use planning, damage assessment, food security, infrastructure protection, insurance, conservation, or community memory. The second step is to identify who has authority and who is affected. The third step is to decide what remote sensing can contribute and what it cannot responsibly answer alone. Only then should the workflow move to data selection, preprocessing, classification, modelling, validation, interpretation, uncertainty communication, visibility review, public release, action, monitoring, and revision.
           </p>
           <PFBlock kicker="the community-first workflow · expand any stage" kc="var(--clay)"
             title="Eleven stages, beginning with the question and ending in action, monitoring, and revision.">
@@ -1103,17 +1354,17 @@ const TabPlongees = () => {
           </PFBlock>
 
           {/* Closing block, only shown at the very end */}
-          <section style={{ background: "var(--ink)", color: "#fff", padding: "60px 32px 72px", marginTop: 48 }}>
-            <PFMono c="#8fb4d6" s={11}>closing · from seeing to judgment</PFMono>
-            <h2 style={{ margin: "16px 0 0", fontSize: 32, lineHeight: 1.18, fontWeight: 700, letterSpacing: "-0.018em", maxWidth: 980, color: "#fff" }}>
+          <section className="perma-closing">
+            <p className="big">
               The satellite can show where water spread, where fire burned, where vegetation declined, where ice thinned, where the shoreline moved, or where buildings appeared. Judgment asks different questions: who could leave, who stayed, who was believed, who had authority, who was protected, who was exposed, what decision followed, and what kind of recovery became possible afterward.
-            </h2>
-            <p className="serif" style={{ margin: "20px 0 0", maxWidth: 760, fontSize: 18, lineHeight: 1.55, color: "rgba(255,255,255,0.84)" }}>
+            </p>
+            <p>
               Remote sensing begins with seeing at a distance. Responsible practice begins when that distant seeing is brought back into relation with the people, institutions, and places that must live with its consequences.
             </p>
           </section>
         </React.Fragment>
       )}
+      </div>
     </div>
   );
 };
