@@ -43,6 +43,26 @@ const TranslatorChain = ({ steps, color }) => (
   </div>
 );
 
+// A short standing-summary block placed at the top of each case study.
+const ProjectSummary = ({ color, children }) => (
+  <section style={{
+    margin: "0 0 36px", padding: "26px 30px 28px",
+    background: "var(--paper-2)",
+    border: "1px solid var(--rule)",
+    borderLeft: `3px solid ${color}`,
+    maxWidth: 860,
+  }}>
+    <div className="mono" style={{
+      fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase",
+      color, marginBottom: 12, fontWeight: 500,
+    }}>In one paragraph</div>
+    <p className="serif" style={{
+      margin: 0, fontSize: 17, lineHeight: 1.62, color: "var(--ink)",
+      textWrap: "pretty",
+    }}>{children}</p>
+  </section>
+);
+
 const SocodeviCNAAS = ({ accent = "ochre" }) => {
   const ACC = accentVar(accent);
   const MAP_SRC = "case-studies/socodevi-senegal.html";
@@ -72,6 +92,10 @@ const SocodeviCNAAS = ({ accent = "ochre" }) => {
 
   return (
     <div>
+      <ProjectSummary color={ACC}>
+        The SOCODEVI and CNAAS case shows that remote sensing becomes useful when seasonal satellite evidence is reconciled with punctual ground measurements and institutional records. The public good problem is not simply drought monitoring; it is whether a smallholder farmer receives a fair insurance payout when rainfall becomes irregular. Parametric crop insurance depends on a precise chain: a village must be assigned to the correct rain gauge, the gauge must be correctly located, the rainfall threshold must reflect the growing season, and the resulting trigger must correspond to conditions experienced by farmers on the ground. Satellite rainfall products such as CHIRPS, IMERG, and TAMSAT help verify broader seasonal patterns, detect regional rainfall deficits, and compare gauge readings against independent estimates. Growing-season NDVI adds another layer by showing whether vegetation stress is consistent with reported rainfall conditions. But satellite products average rainfall over pixels of several kilometres, while insurance decisions are made for specific villages, parcels, and planting periods. A satellite can indicate a dry seasonal pattern; a rain gauge records a punctual measurement at one location; farmers observe whether rain actually arrived at the field when germination, flowering, or harvest depended on it. The methodological task is therefore reconciliation: cleaning gauge coordinates, correcting village names and assignments, comparing gauges with satellite-derived rainfall and vegetation trends, and creating a QGIS-literate cooperative network able to verify, interpret, and contest the system. Remote sensing supports decision-making by flagging inconsistencies, contextualizing local measurements, identifying seasonal anomalies, and strengthening transparency; ground gauges and cooperative knowledge keep the system accountable to actual farmers. The value of the case is that remote sensing is not treated as a replacement for field infrastructure. It becomes part of a care-oriented climate-information system where pixels, gauges, databases, and local observation are brought into relation so that adaptation finance reaches the right people for the right reasons.
+      </ProjectSummary>
+
       <Prose max={760}>
         <Lead>
           Senegalese agriculture is overwhelmingly rainfed and dominated by smallholder
@@ -581,6 +605,10 @@ const SeriousGames = ({ accent = "plum" }) => {
 
   return (
     <div>
+      <ProjectSummary color={ACC}>
+        The southern Québec serious-game case shows how remote sensing can be brought back to the ground by turning satellite evidence into shared governance scenarios. The public good problem is not a lack of water data; it is the fact that the people responsible for water do not work in the same room. A watershed director, municipal officer, county planner, farmer, engineer, and citizen may depend on the same aquifer, wetland, river, or lake, but each actor works with different tools, mandates, responsibilities, and time horizons. Remote sensing matters because the game succeeds or fails on the quality of its scenarios: invented situations produce abstract discussion, while scenarios grounded in real satellite records force professional judgment. Sentinel-2, Landsat, MODIS, SMAP, Sentinel-1, GRACE, lidar-derived terrain models, 3D flood models, planning layers, hydrography, and hazard zones help document snowmelt timing, soil-moisture deficits, wetland loss, vegetation stress, irrigation expansion, flood exposure, lake blooms, and land-cover change. But these datasets are not yet decisions. The method is a translation chain: a raster or time series becomes a regional indicator; the indicator becomes a plain-language shift; interviews translate that shift into consequences for each actor; the result becomes a card, shock scenario, voice card, briefing-pack entry, projection panel, or trajectory strip. A "drier summer" only becomes meaningful when it becomes a farmer's well pumping sand, a municipal conservation protocol, a recalibrated engineering standard, a warmer trout stream, or a county plan that works on a five-year horizon while the crisis unfolds in seventy-two hours. Remote sensing contributes traceability, uniform coverage, temporal depth, standardization, and independent friction against denial or exaggeration. Interviews, local knowledge, planning instruments, and Two-Eyed Seeing keep the satellite view from becoming sovereign. The point is not to synthesize everything into one final truth, but to place measured change beside lived experience so that participants can see where coordination fails, where responsibility is unclear, and where action must be owned. The pixels do not govern. The pixels make the shared situation visible; the game turns that visibility into operational knowledge, shared mental models, named coordination gaps, action commitments, owners, and time horizons.
+      </ProjectSummary>
+
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, margin: "0 0 12px" }}>
         <Plate
           src="img/quebec-3d-flood-model.png"
@@ -922,6 +950,10 @@ const LausanneEPFL = ({ accent = "lapis" }) => {
 
   return (
     <div>
+      <ProjectSummary color={ACC}>
+        The Lausanne and EPFL case shows that remote sensing becomes most useful when the scale of observation is adapted to the scale of the question. Urban air is not experienced as a single satellite pixel: people move between streets, parks, trains, stations, classrooms, offices, and large public buildings, and much of everyday exposure happens indoors. For that reason, the method moves deliberately from sky to body: Sentinel-5P TROPOMI provides the regional atmospheric background; Landsat land-surface temperature, Sentinel-2 vegetation indices, Local Climate Zones, building-height data, and urban form indicators help explain surface conditions and possible spatial patterns; handheld Q-TRAK CO₂ measurements bring the analysis down to breathing height. Interpolation, extrapolation, and correlation analysis remain valuable because they help identify trends, relationships, and likely exposure patterns beyond isolated measurement points: greener areas tend to cool surfaces, valley-floor pollution can be compared with elevation, and enclosed occupied spaces show higher CO₂ than outdoor environments. The point is not to make the satellite do everything, but to let each instrument answer the question suited to its scale. Remote sensing supports decision-making by locating broader urban patterns, testing relationships, and guiding where closer monitoring or intervention is needed; field sensors and architectural analysis then translate those patterns into human exposure, ventilation, comfort, and care. The case therefore bridges sky and ground by treating urban atmosphere not only as a remote environmental variable, but as a lived condition shaped by movement, enclosure, building design, and the air people actually breathe.
+      </ProjectSummary>
+
       <Prose max={760}>
         <P>
           When we began the greenhouse gas fieldwork in the spring of 2019, we already knew the
@@ -1281,6 +1313,10 @@ const BarbadosPlatinumCoast = ({ accent = "moss" }) => {
 
   return (
     <div>
+      <ProjectSummary color={ACC}>
+        The Barbados Platinum Coast case shows how a classic land-cover and land-use change study can become a broader inquiry into tourism, real estate, ecology, and care. The research began with a precise spatial question: how has the tourism real-estate economy transformed land use along the West Coast? Landsat classifications from 1984 to 2025, Sentinel-2 10-metre classification, change-detection layers, NDVI trends, manicured-vegetation indices, classifier consensus, classifier disagreement, and trajectory mapping were used to identify built expansion, sugarcane conversion, resort lawns, golf landscapes, vegetation decline, and unstable development zones. These tools were essential because land-use change is often too slow, dispersed, and normalized to be grasped from field observation alone. Remote sensing made the transformation visible as a long-term spatial process. But the imagery also exposed the limits of conventional classification. A pixel can distinguish built area, cropland, natural vegetation, or manicured grass; it cannot explain who owns the land, whether a house is occupied or empty, whether a beach feels publicly accessible, whether "green" development displaces social and ecological sustainability, or whether runoff from a luxury hillside project reaches the reef. Fieldwork therefore did not merely validate the classification; fieldwork changed what the classification meant. Walking the coast, reading real-estate listings, studying reef decline, observing front yards, churches, beach access, turtle conservation, and coral-restoration work revealed that land-use change was not only a change in surface cover. It was the spatial expression of a wider political economy: plantation land becoming tourism property, productive yards becoming enclosed amenities, local thresholds becoming gates, and coastal beauty becoming a commodity that depends on the very reef, turtle habitat, and community care it helps erode. Remote sensing was useful because it located the pattern; fieldwork was necessary because it named the stakes. Together, satellite and ground evidence showed that land-use change sat at the centre of many connected questions: housing, access, ecology, tourism, water, vegetation, reef health, and the hidden labour of care that keeps the coastline alive.
+      </ProjectSummary>
+
       <div style={{ marginBottom: 24 }}>
         <div className="serif" style={{ fontSize: 34, lineHeight: 1.18, letterSpacing: "-0.014em", color: "var(--ink)", maxWidth: 820 }}>
           The Platinum Coast, three ways
