@@ -163,12 +163,15 @@
   .tab-card:hover { background: var(--rule-soft); color: var(--ink); }
   .tab-card:hover .tab-strip { opacity: 0.85; }
   .tab-card:hover .tab-label { color: var(--ink); }
+  .tab-card.on {
+    background: color-mix(in oklch, var(--tab-accent) 22%, var(--paper));
+  }
   .tab-card.on .tab-strip { opacity: 1; }
   .tab-card.on .tab-label { color: var(--ink); font-weight: 700; }
   .tab-card.on .tab-sub { color: var(--tab-accent, var(--ink-3)); }
   .tab-card.on::after {
     content: ""; position: absolute; left: 0; right: 0; bottom: -1px;
-    height: 2px; background: var(--tab-accent, var(--terra));
+    height: 3px; background: var(--tab-accent, var(--terra));
   }
   @media (max-width: 760px) {
     .chrome-tabs { padding: 0 16px; }
@@ -178,55 +181,62 @@
     .tab-card .tab-sub { font-size: 9px; letter-spacing: 0.14em; }
   }
 
-  /* Per-tab intro panel, sits directly under the chrome */
+  /* Per-tab intro panel, sits directly under the chrome.
+     The text content is sized to fit alongside the 108px pictogram. */
   .section-intro {
-    background: color-mix(in oklch, var(--accent, var(--rule)) 6%, var(--paper));
-    border-bottom: 1px solid var(--rule);
+    background: color-mix(in oklch, var(--accent, var(--rule)) 16%, var(--paper));
+    border-bottom: 1px solid color-mix(in oklch, var(--accent, var(--rule)) 28%, var(--rule));
   }
   .section-intro__inner {
     max-width: 1000px; margin: 0 auto;
-    padding: 36px 56px 32px;
+    padding: 22px 56px 22px;
     display: grid; grid-template-columns: 108px 1fr;
-    gap: 40px; align-items: start;
+    gap: 32px; align-items: center;
   }
   .section-intro__glyph {
-    flex: 0 0 auto; padding-top: 4px;
+    flex: 0 0 auto;
     filter: drop-shadow(0 8px 18px rgba(31, 42, 64, 0.10));
   }
   .section-intro__text { min-width: 0; }
-  @media (max-width: 760px) {
-    .section-intro__inner { grid-template-columns: 64px 1fr; gap: 22px; padding: 26px 20px 24px; }
-    .section-intro__glyph svg { width: 64px !important; height: 64px !important; }
-  }
   .section-intro__epigraph {
     font-family: var(--serif); font-style: italic; font-weight: 400;
-    font-size: 22px; line-height: 1.35;
-    color: var(--ink-2); margin: 0 0 22px;
+    font-size: 15.5px; line-height: 1.3;
+    color: var(--ink); margin: 0 0 6px;
     letter-spacing: -0.005em;
   }
   .section-intro__body {
-    font-family: var(--sans); font-size: 15.5px; line-height: 1.65;
-    color: var(--ink-2); margin: 0 0 26px;
+    font-family: var(--sans); font-size: 13px; line-height: 1.5;
+    color: var(--ink-2); margin: 0 0 8px;
     max-width: 720px;
   }
   .section-intro__row {
     display: grid; grid-template-columns: auto 1fr;
-    gap: 22px; align-items: baseline;
-    padding-top: 18px;
-    border-top: 1px solid color-mix(in oklch, var(--accent, var(--rule)) 20%, var(--rule-soft));
+    gap: 14px; align-items: baseline;
+    padding-top: 8px;
+    border-top: 1px solid color-mix(in oklch, var(--accent, var(--rule)) 28%, var(--rule-soft));
   }
   .section-intro__tag {
-    font-family: var(--mono); font-size: 11px;
+    font-family: var(--mono); font-size: 9.5px;
     letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--ink); font-weight: 500;
-    background: color-mix(in oklch, var(--accent, var(--terra)) 22%, var(--paper));
-    padding: 5px 10px;
+    color: var(--ink); font-weight: 600;
+    background: color-mix(in oklch, var(--accent, var(--terra)) 36%, var(--paper));
+    padding: 3px 8px;
     align-self: start;
     white-space: nowrap;
   }
   .section-intro__list {
-    font-family: var(--sans); font-size: 15px; line-height: 1.6;
+    font-family: var(--sans); font-size: 12.5px; line-height: 1.45;
     color: var(--ink-2); max-width: 680px;
+  }
+  @media (max-width: 760px) {
+    .section-intro__inner {
+      grid-template-columns: 64px 1fr; gap: 18px;
+      padding: 18px 20px;
+    }
+    .section-intro__glyph svg { width: 64px !important; height: 64px !important; }
+    .section-intro__epigraph { font-size: 14px; }
+    .section-intro__body { font-size: 12.5px; }
+    .section-intro__row { grid-template-columns: 1fr; gap: 6px; }
   }
   @media (max-width: 760px) {
     .section-intro__epigraph { font-size: 18px; }
@@ -302,9 +312,9 @@
      ============================================================ */
   :root {
     /* ACTIVE LAYER · intro — thaw surface */
-    --st-active-bg-deep:#5c93ad; --st-active-bg:#7cb4cc; --st-active-bg-soft:#a9d4e6;
+    --st-active-bg-deep:#6e8a2c; --st-active-bg:#9bb04a; --st-active-bg-soft:#c4d27a;
     --st-active-soil:#6b513a; --st-active-edge:#4a3826;
-    --st-active-accent:#ffffff; --st-active-accent-2:#7fa8c0; --st-active-ink:#1d3b47;
+    --st-active-accent:#ffffff; --st-active-accent-2:#9bb04a; --st-active-ink:#293a0e;
 
     /* PERMAFROST · core ideas — frozen load-bearing substrate */
     --st-perma-bg-deep:#3f4f73; --st-perma-bg:#5d709a; --st-perma-bg-soft:#7d90b4;
@@ -322,9 +332,9 @@
     --st-rhizo-accent:#caa86f; --st-rhizo-accent-2:#7c5830; --st-rhizo-ink:#2e2113;
 
     /* SEAFLOOR · annexes / about — deepest, slow sediment; LIGHT ink */
-    --st-floor-bg-deep:#0a232d; --st-floor-bg:#163d4c; --st-floor-bg-soft:#2e6577;
-    --st-floor-sediment:#0a212a; --st-floor-edge:#06161d;
-    --st-floor-accent:#4a7888; --st-floor-accent-2:#bfe0ec; --st-floor-ink:#cfe6f0;
+    --st-floor-bg-deep:#0d3a3a; --st-floor-bg:#1a7878; --st-floor-bg-soft:#3eb4af;
+    --st-floor-sediment:#0a3030; --st-floor-edge:#062424;
+    --st-floor-accent:#3eb4af; --st-floor-accent-2:#a7e0dc; --st-floor-ink:#d6f1ee;
 
     /* shared structural */
     --st-surface-line:#8bbdd4; --st-radius:10px; --st-card:108px; --st-stroke:0.75px;
