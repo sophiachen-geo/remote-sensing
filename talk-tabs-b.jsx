@@ -624,43 +624,30 @@ const KeptDefaults = () => {
               aria-pressed={isFlipped ? "true" : "false"}
               style={{ transform: `rotate(${tilt(i)}deg)`, "--terra": "var(--terra)" }}>
               <div className="default-card__inner" style={{ transform: isFlipped ? "rotateY(180deg)" : "none" }}>
-                {/* Front */}
+                {/* Front — the SVG carries its own title; no extra header */}
                 <div className="default-card__face default-card__front">
-                  <div className="default-card__head">
-                    <span className="mono" style={{ fontSize: 10, letterSpacing: "0.20em", color: "var(--ink-3)", textTransform: "uppercase" }}>
-                      Default {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="mono" style={{ fontSize: 9, letterSpacing: "0.14em", color: "var(--terra)", textTransform: "uppercase" }}>tap to flip</span>
-                  </div>
-                  {/* Card artwork */}
-                  <div className="default-card__image" aria-hidden="true">
-                    <img src={`img/defaults/default-${String(i + 1).padStart(2, "0")}.svg`}
-                      alt=""
-                      style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
-                  </div>
-                  <div className="serif default-card__title">{d.default}</div>
-                  <div className="default-card__corner" aria-hidden="true">
-                    <span className="mono" style={{ fontSize: 8.5, letterSpacing: "0.16em", color: "var(--ink-4)" }}>{String(i + 1).padStart(2, "0")}</span>
-                  </div>
+                  <img src={`img/defaults/default-${String(i + 1).padStart(2, "0")}.svg`}
+                    alt={d.default} />
                 </div>
-                {/* Back */}
+                {/* Back — care reading */}
                 <div className="default-card__face default-card__back">
                   <div className="default-card__head">
-                    <span className="mono" style={{ fontSize: 10, letterSpacing: "0.20em", color: "color-mix(in oklch, var(--paper) 75%, transparent)", textTransform: "uppercase" }}>
+                    <span className="mono" style={{ fontSize: 9.5, letterSpacing: "0.20em", color: "rgba(255,255,255,0.78)", textTransform: "uppercase" }}>
                       Care reading · {String(i + 1).padStart(2, "0")}
                     </span>
+                    <span className="mono" style={{ fontSize: 9, letterSpacing: "0.14em", color: "rgba(255,255,255,0.78)", textTransform: "uppercase" }}>tap to close</span>
                   </div>
                   <div className="serif default-card__answer">{d.answer}</div>
                   <div className="default-card__body">{d.body}</div>
                   {d.oldQ && (
                     <div className="default-card__qa">
                       <div>
-                        <span className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase", color: "color-mix(in oklch, var(--paper) 70%, transparent)" }}>The old question</span>
-                        <p className="serif" style={{ margin: "4px 0 0", fontSize: 14, lineHeight: 1.35, fontStyle: "italic", color: "color-mix(in oklch, var(--paper) 92%, transparent)" }}>"{d.oldQ}"</p>
+                        <span className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(255,255,255,0.78)" }}>The old question</span>
+                        <p className="serif" style={{ margin: "3px 0 0", fontSize: 12.5, lineHeight: 1.35, fontStyle: "italic", color: "rgba(255,255,255,0.92)" }}>"{d.oldQ}"</p>
                       </div>
-                      <div style={{ marginTop: 10 }}>
-                        <span className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase", color: "color-mix(in oklch, var(--paper) 90%, transparent)" }}>The question we must ask</span>
-                        <p className="serif" style={{ margin: "4px 0 0", fontSize: 14, lineHeight: 1.35, color: "var(--paper)", fontWeight: 500 }}>"{d.newQ}"</p>
+                      <div style={{ marginTop: 8 }}>
+                        <span className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(255,255,255,0.92)" }}>The question we must ask</span>
+                        <p className="serif" style={{ margin: "3px 0 0", fontSize: 12.5, lineHeight: 1.35, color: "#ffffff", fontWeight: 500 }}>"{d.newQ}"</p>
                       </div>
                     </div>
                   )}
