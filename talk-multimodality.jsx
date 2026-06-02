@@ -14,15 +14,15 @@ const RegistersOverview = () => (
       <div key={r.n} style={{
         padding: "20px 20px 22px",
         borderRight: i < 3 ? "1px solid var(--rule)" : "none",
-        borderTop: `4px solid ${r.color}`,
+        borderTop: "4px solid var(--clay)",
         background: i % 2 === 0 ? "var(--paper)" : "var(--paper-2)",
         minHeight: 200,
       }}>
         <div className="num" style={{
-          fontSize: 36, color: r.color, lineHeight: 1, letterSpacing: "-0.02em",
+          fontSize: 36, color: "var(--clay)", lineHeight: 1, letterSpacing: "-0.02em",
         }}>{r.n}</div>
         <div className="mono" style={{
-          marginTop: 8, fontSize: 10, color: r.color, letterSpacing: "0.14em",
+          marginTop: 8, fontSize: 10, color: "var(--clay)", letterSpacing: "0.14em",
           textTransform: "uppercase",
         }}>register {r.n}</div>
         <h4 className="serif" style={{
@@ -43,19 +43,19 @@ const RegistersOverview = () => (
 
 const RegisterDeep = ({ r }) => (
   <Card pad={36} style={{
-    marginTop: 16, borderLeft: `5px solid ${r.color}`,
+    marginTop: 16, borderLeft: `5px solid var(--clay)`,
   }}>
     <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 36 }}>
       <div>
         <div className="num" style={{
-          fontSize: 64, color: r.color, lineHeight: 0.9, letterSpacing: "-0.025em",
+          fontSize: 64, color: "var(--clay)", lineHeight: 0.9, letterSpacing: "-0.025em",
         }}>{r.n}</div>
         <h4 className="serif" style={{
           margin: "8px 0 4px", fontSize: 36, lineHeight: 1.0, fontWeight: 400,
           letterSpacing: "-0.018em",
         }}>{r.name}</h4>
         <p style={{
-          margin: "8px 0 0", fontSize: 14, color: r.color, fontStyle: "italic",
+          margin: "8px 0 0", fontSize: 14, color: "var(--clay)", fontStyle: "italic",
         }}>{r.domain}</p>
         <div style={{
           marginTop: 20, paddingTop: 14, borderTop: "1px solid var(--rule-soft)",
@@ -69,7 +69,7 @@ const RegisterDeep = ({ r }) => (
         </div>
       </div>
       <div>
-        <div className="caps" style={{ color: r.color, marginBottom: 8 }}>Operation</div>
+        <div className="caps" style={{ color: "var(--clay)", marginBottom: 8 }}>Operation</div>
         <p className="serif" style={{
           margin: "0 0 18px", fontSize: 19, lineHeight: 1.4, color: "var(--ink)",
           fontStyle: "italic", fontWeight: 400,
@@ -87,10 +87,10 @@ const RegisterDeep = ({ r }) => (
 
         <div style={{
           marginTop: 22, padding: "16px 18px",
-          background: `color-mix(in oklch, ${r.color} 8%, var(--paper))`,
-          borderLeft: `3px solid ${r.color}`,
+          background: `color-mix(in oklch, var(--clay) 8%, var(--paper))`,
+          borderLeft: `3px solid var(--clay)`,
         }}>
-          <div className="caps" style={{ color: r.color, marginBottom: 6 }}>The limit of this register</div>
+          <div className="caps" style={{ color: "var(--clay)", marginBottom: 6 }}>The limit of this register</div>
           <p style={{
             margin: 0, fontSize: 14.5, lineHeight: 1.55, color: "var(--ink)",
             fontStyle: "italic",
@@ -115,7 +115,7 @@ const HistoryTimeline = () => (
         background: i % 2 === 0 ? "var(--paper)" : "var(--paper-2)",
       }}>
         <span className="num" style={{
-          fontSize: 22, color: "var(--terra)", letterSpacing: "-0.01em",
+          fontSize: 22, color: "var(--clay)", letterSpacing: "-0.01em",
         }}>{h.era}</span>
         <span className="serif" style={{
           fontSize: 17, color: "var(--ink)", lineHeight: 1.25, fontWeight: 500,
@@ -224,22 +224,72 @@ const OperationalExamplesGrid = () => {
   );
 };
 
+// Small toggle helper used twice below — same visual language as the
+// outer MultimodalityInterlude's expand button.
+const InterludeToggle = ({ title, blurb, children }) => {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <div style={{
+      marginTop: 28,
+      border: "1px solid color-mix(in oklch, var(--clay) 22%, var(--rule))",
+      background: "color-mix(in oklch, var(--clay) 3%, var(--paper))",
+      borderRadius: 4, overflow: "hidden",
+    }}>
+      <button type="button" onClick={() => setOpen(o => !o)}
+        aria-expanded={open ? "true" : "false"}
+        style={{
+          appearance: "none", border: "none", background: "transparent",
+          width: "100%", textAlign: "left", padding: "18px 22px",
+          cursor: "pointer", color: "var(--ink)", fontFamily: "var(--sans)",
+          display: "grid", gridTemplateColumns: "1fr auto", gap: 20, alignItems: "center",
+        }}>
+        <div>
+          <div className="mono" style={{
+            fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase",
+            color: "var(--clay)", fontWeight: 700,
+          }}>Toggle</div>
+          <div className="serif" style={{
+            margin: "4px 0 0", fontSize: 19, lineHeight: 1.18, fontWeight: 500,
+            letterSpacing: "-0.008em", color: "var(--ink)",
+          }}>{title}</div>
+          {blurb && !open && (
+            <p style={{ margin: "6px 0 0", fontSize: 13, color: "var(--ink-2)", lineHeight: 1.5, maxWidth: 720 }}>{blurb}</p>
+          )}
+        </div>
+        <span className="mono" style={{
+          fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase",
+          color: "var(--clay)", fontWeight: 700,
+          padding: "7px 12px",
+          background: "color-mix(in oklch, var(--clay) 14%, var(--paper))",
+          border: "1px solid color-mix(in oklch, var(--clay) 35%, transparent)",
+          whiteSpace: "nowrap",
+        }}>{open ? "Hide ▴" : "Open ▾"}</span>
+      </button>
+      {open && (
+        <div style={{
+          padding: "14px 22px 22px",
+          borderTop: "1px solid color-mix(in oklch, var(--clay) 22%, var(--rule))",
+          background: "var(--paper)",
+        }}>{children}</div>
+      )}
+    </div>
+  );
+};
+
 const MultimodalitySection = () => {
   const [activeRegister, setActiveRegister] = React.useState("01");
   const active = MULTIMODALITY_REGISTERS.find(r => r.n === activeRegister) || MULTIMODALITY_REGISTERS[0];
 
   return (
     <section style={{ marginTop: 0 }}>
-      {/* Overview row */}
+      {/* Overview row — all four registers in one neutral clay palette */}
       <RegistersOverview />
 
-      {/* Register selector */}
-      <div style={{
-        display: "flex", gap: 10, marginTop: 32, flexWrap: "wrap",
-      }}>
+      {/* Register selector — uniform clay chips */}
+      <div style={{ display: "flex", gap: 10, marginTop: 32, flexWrap: "wrap" }}>
         {MULTIMODALITY_REGISTERS.map(r => (
           <Chip key={r.n}
-            accent={r.color}
+            accent="var(--clay)"
             on={activeRegister === r.n}
             onClick={() => setActiveRegister(r.n)}>
             {r.n} · {r.name}
@@ -250,94 +300,33 @@ const MultimodalitySection = () => {
       {/* Deep panel for selected register */}
       <RegisterDeep r={active} />
 
-      {/* The bridge sentence */}
-      <Card pad={44} style={{
-        marginTop: 24,
-        background: "var(--ink)", color: "var(--paper)",
-        border: "none",
-      }}>
-        <Kicker color="var(--ochre-2)">The bridge sentence</Kicker>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 18, maxWidth: 920 }}>
-          <p className="serif" style={{
-            margin: 0, fontSize: 24, lineHeight: 1.4, fontWeight: 300,
-            color: "color-mix(in oklch, var(--paper) 88%, transparent)",
-          }}>
-            {ARGUMENT_BRIDGE.technical}
-          </p>
-          <p className="serif" style={{
-            margin: 0, fontSize: 24, lineHeight: 1.4, fontWeight: 300,
-            color: "color-mix(in oklch, var(--paper) 88%, transparent)",
-          }}>
-            {ARGUMENT_BRIDGE.political}
-          </p>
-          <p className="serif" style={{
-            margin: "12px 0", fontSize: 32, lineHeight: 1.3, fontWeight: 400,
-            color: "var(--ochre-2)", letterSpacing: "-0.012em",
-            paddingTop: 18,
-            borderTop: "1px solid color-mix(in oklch, var(--paper) 22%, transparent)",
-          }}>
-            {ARGUMENT_BRIDGE.hinge}
-          </p>
-          <p className="serif" style={{
-            margin: 0, fontSize: 18, lineHeight: 1.5, fontWeight: 300,
-            color: "color-mix(in oklch, var(--paper) 75%, transparent)",
-            fontStyle: "italic",
-          }}>
-            {ARGUMENT_BRIDGE.close}
-          </p>
-        </div>
-      </Card>
-
-      {/* Ontology principles */}
-      <div style={{ marginTop: 40 }}>
-        <Kicker color="var(--terra)">Five principles for working in register four</Kicker>
-        <h3 className="serif" style={{
-          margin: "0 0 22px", fontSize: 30, fontWeight: 400, letterSpacing: "-0.012em",
-          maxWidth: 800,
-        }}>
-          What changes once you take ontological multimodality seriously.
-        </h3>
-        <OntologyPrinciples />
-      </div>
-
-      {/* History timeline */}
-      <div style={{ marginTop: 48 }}>
-        <Kicker color="var(--lapis)">A convergence history, not a single chronology</Kicker>
-        <h3 className="serif" style={{
-          margin: "0 0 8px", fontSize: 30, fontWeight: 400, letterSpacing: "-0.012em",
-          maxWidth: 880,
-        }}>
-          Multimodal remote sensing did not begin once. It is the convergence of several lineages.
-        </h3>
-        <p style={{
-          margin: "0 0 22px", fontSize: 14.5, color: "var(--ink-2)", maxWidth: 820,
-        }}>
+      {/* Toggle 1 — the convergence history, renamed "Deep Dive into Multimodality" */}
+      <InterludeToggle
+        title="Deep Dive into Multimodality"
+        blurb="Multimodal remote sensing did not begin once. It is the convergence of several lineages, each carrying a different epistemology.">
+        <p style={{ margin: "0 0 18px", fontSize: 14.5, color: "var(--ink-2)", lineHeight: 1.6, maxWidth: 820 }}>
           The 2025 Samadzadegan review synthesises more than 950 papers on multi-sensor and multi-platform fusion. Citizen science and Earth observation literature traces its formal articulation to the mid 2000s. Indigenous data governance frameworks become institutionally visible from the late 2010s. Each lineage carries a different epistemology, and the fourth register is where they collide.
         </p>
         <HistoryTimeline />
-      </div>
+      </InterludeToggle>
 
-      {/* Operational examples */}
-      <div style={{ marginTop: 48 }}>
-        <Kicker color="var(--moss)">Operational examples at scale</Kicker>
-        <h3 className="serif" style={{
-          margin: "0 0 8px", fontSize: 30, fontWeight: 400, letterSpacing: "-0.012em",
-          maxWidth: 820,
-        }}>
-          Where the registers work together, in institutions you can name.
-        </h3>
-        <p style={{
-          margin: "0 0 22px", fontSize: 14.5, color: "var(--ink-2)", maxWidth: 760,
-        }}>
+      {/* Toggle 2 — operational examples at scale */}
+      <InterludeToggle
+        title="Operational examples at scale"
+        blurb="Where the registers work together, in institutions you can name.">
+        <p style={{ margin: "0 0 18px", fontSize: 14.5, color: "var(--ink-2)", lineHeight: 1.6, maxWidth: 820 }}>
           Eight institutional examples that operate across registers one, two, three, and in the best cases, four. None of them is a research demonstration. Each is an operational system delivering decisions today.
         </p>
         <OperationalExamplesGrid />
-      </div>
+      </InterludeToggle>
 
-      {/* Section claim */}
-      <Pull color="var(--terra)" by="Section claim · the bridge">
+      {/* Section claim — now plain prose, not a pull quote */}
+      <p className="serif" style={{
+        margin: "32px 0 0", fontSize: 16, lineHeight: 1.65,
+        color: "var(--ink-2)", maxWidth: 820,
+      }}>
         {SECTION_CLAIMS.multimodality}
-      </Pull>
+      </p>
     </section>
   );
 };
