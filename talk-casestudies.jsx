@@ -1690,7 +1690,7 @@ const TabDeepDive = () => {
         eyebrow="Case studies"
         title="Canopy"
         lede="Extended companions to the argument. Some are live, interactive dashboards; others are field case studies — from the gauge networks behind crop insurance to a serious game for water governance. Each follows a single thread, from a satellite pixel to a decision made on the ground."
-        color="var(--lapis)"
+        color="var(--moss)"
       />
 
       {CASE_STUDIES.length > 1 && (

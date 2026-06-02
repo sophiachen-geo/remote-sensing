@@ -571,6 +571,7 @@ const TabPlongees = () => {
     <div className="wrap" style={{ padding: "72px 56px 100px" }}>
       <SectionHead
         index="ii"
+        color="var(--lapis)"
         eyebrow="Three deep dives, plus the interlude on multimodality, the body of the talk"
         title="Each dive sits in the messy middle."
         lede={
@@ -725,7 +726,7 @@ const TabAvenir = () => {
         index="iv"
         eyebrow="Rhizosphere, what good practice looks like"
         title="Best practices, observations, and a return to where we began."
-        color="var(--moss)"
+        color="var(--ochre)"
         lede="If remote sensing is to enter the messy middle with care, the how matters as much as the what. A set of practices the work keeps pointing back to, a set of observations from community-facing projects, and then the bookend."
       />
 
@@ -824,6 +825,7 @@ const TabAnnexes = () => (
   <div className="wrap" style={{ padding: "72px 56px 100px" }}>
     <SectionHead
       index="v"
+      color="var(--plum)"
       eyebrow="Seafloor, references"
       title="Further reading."
       lede="The bibliography that sits behind the talk. It is intentionally layered across the critical remote sensing literature, the participatory and citizen science literature, the Indigenous data governance literature, the soundscape ecology literature, and the foundational sensor fusion papers."

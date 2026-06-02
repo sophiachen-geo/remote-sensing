@@ -90,10 +90,8 @@ const InteractivePainting = () => {
         <div style={{
           color: "color-mix(in oklch, var(--paper) 72%, transparent)",
           fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase",
-          display: "flex", alignItems: "baseline", gap: 12,
         }}>
-          <Sigil color="var(--ochre-2)" />
-          <span>Raphael, The School of Athens, 1509&ndash;1511. Fresco in the Stanza della Segnatura, one of the Raphael Rooms in the Apostolic Palace, Vatican City.</span>
+          Raphael, The School of Athens, 1509&ndash;1511. Fresco in the Stanza della Segnatura, one of the Raphael Rooms in the Apostolic Palace, Vatican City.
         </div>
       </div>
 
