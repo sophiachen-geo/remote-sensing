@@ -11,43 +11,64 @@
 
 <style>
   :root {
-    /* Paper and ink scale, warmer than off-white to evoke fresco */
-    --paper:        oklch(0.965 0.014 78);
-    --paper-2:      oklch(0.940 0.018 78);
-    --paper-3:      oklch(0.900 0.022 78);
-    --paper-4:      oklch(0.860 0.025 78);
+    /* Blueprint palette, sensor blue + meaning clay, applied site-wide. */
+    --paper:        #ffffff;
+    --paper-2:      #eef3f9;
+    --paper-3:      #e3ebf4;
+    --paper-4:      #c2d0e0;
 
-    --ink:          oklch(0.20 0.018 250);
-    --ink-2:        oklch(0.36 0.018 250);
-    --ink-3:        oklch(0.52 0.015 250);
-    --ink-4:        oklch(0.66 0.012 250);
+    --ink:          #11203a;
+    --ink-2:        #33415c;
+    --ink-3:        #5d6b86;
+    --ink-4:        #8e9bb3;
 
-    --rule:         oklch(0.78 0.020 78);
-    --rule-soft:    oklch(0.86 0.016 78);
+    --rule:         #d8e1ec;
+    --rule-soft:    #e8eef5;
 
-    /* The dialectic, Aristotle as terra, Plato as lapis, ochre as gilded ground */
-    --terra:        oklch(0.50 0.130 38);
-    --terra-2:      oklch(0.62 0.140 42);
-    --terra-tint:   oklch(0.93 0.035 42);
+    /* Existing accent names remapped onto Blueprint values so every
+       reference across the codebase picks up the new palette. */
+    --terra:        #c2410c;
+    --terra-2:      #d2691e;
+    --terra-tint:   #fbede2;
 
-    --lapis:        oklch(0.40 0.110 252);
-    --lapis-2:      oklch(0.55 0.110 245);
-    --lapis-tint:   oklch(0.93 0.030 250);
+    --lapis:        #1f6feb;
+    --lapis-2:      #5a90ef;
+    --lapis-tint:   #e8f1fe;
 
-    --ochre:        oklch(0.66 0.115 78);
-    --ochre-2:      oklch(0.78 0.110 82);
-    --ochre-tint:   oklch(0.94 0.045 82);
+    --ochre:        #b8730f;
+    --ochre-2:      #d4a657;
+    --ochre-tint:   #fbf3e4;
 
-    --moss:         oklch(0.42 0.075 155);
-    --moss-tint:    oklch(0.93 0.030 155);
+    --moss:         #0e7490;
+    --moss-2:       #14b8a6;
+    --moss-tint:    #e6f1f3;
 
-    --plum:         oklch(0.42 0.10 330);
-    --plum-tint:    oklch(0.92 0.030 330);
+    --plum:         #6d5ac2;
+    --plum-2:       #9b87d8;
+    --plum-tint:    #ede9fa;
+
+    /* Blueprint-native aliases, for figures that want explicit names. */
+    --sky:          #1f6feb;
+    --sky-2:        #5a90ef;
+    --sky-tint:     #e8f1fe;
+    --clay:         #c2410c;
+    --clay-2:       #d2691e;
+    --clay-tint:    #fbede2;
+    --navy:         #0b3a82;
+    --amber:        #b8730f;
+    --teal:         #0e7490;
+    --protect:      #15803d;
+    --protect-tint: #e6f2ea;
+    --expose:       #c2410c;
+    --expose-tint:  #fbe8df;
 
     --serif: "Spectral", "Iowan Old Style", Georgia, serif;
     --sans:  "IBM Plex Sans", system-ui, -apple-system, sans-serif;
     --mono:  "IBM Plex Mono", ui-monospace, Menlo, monospace;
   }
+
+  html { scroll-behavior: smooth; }
+  [id] { scroll-margin-top: 80px; }
 
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
@@ -223,7 +244,7 @@
   }
 </style>
 </head>
-<body style="font-family: Times; background-color: rgb(250, 246, 246)">
+<body style="font-family: var(--sans); background-color: var(--paper)">
 
 <div id="app"><div class="boot">loading companion, setting fonts</div></div>
 
