@@ -53,14 +53,17 @@ const TabOuverture = () => (
             <div className="how-to-read__title">How to read this guide</div>
             <ol className="how-to-read__list">
               {[
-                ["01", "Introduction", "Start here for the central question, the purpose of the guide, and how the sections fit together."],
-                ["02", "Core Ideas",   "The main argument: risk as a relation, the heuristic stack, and the problem of integration."],
-                ["03", "Case Studies", "Worked examples showing how remote sensing is used in practice, with maps, data, field evidence, and visual material."],
-                ["04", "Field Guide",  "Practical methods, governance protocols, and a checklist for applying the argument responsibly."],
-                ["05", "Annexes",      "Sources, references, and the closing argument."],
-              ].map(([n, name, body]) => (
+                ["01", "active", "Introduction", "Start here for the central question, the purpose of the guide, and how the sections fit together."],
+                ["02", "perma",  "Core Ideas",   "The main argument: risk as a relation, the heuristic stack, and the problem of integration."],
+                ["03", "canopy", "Case Studies", "Worked examples showing how remote sensing is used in practice, with maps, data, field evidence, and visual material."],
+                ["04", "rhizo",  "Field Guides", "Practical methods, governance protocols, and a checklist for applying the argument responsibly."],
+                ["05", "floor",  "Annexes",      "Sources, references, the bookend, and the closing argument."],
+              ].map(([n, strata, name, body]) => (
                 <li key={n}>
                   <div className="how-to-read__head">
+                    <span className="how-to-read__glyph" aria-hidden="true">
+                      <SectionGlyph section={strata} size={26} showSurface={false} />
+                    </span>
                     <span className="how-to-read__num">{n}</span>
                     <span className="how-to-read__dot">·</span>
                     <span className="how-to-read__name">{name}</span>

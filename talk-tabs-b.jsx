@@ -1246,27 +1246,34 @@ const RhizoSubTabs = ({ view, set }) => (
     borderBottom: "1px solid var(--rule)",
   }}>
     {[
-      { id: "practices", label: "Best practices, observations and bookend" },
-      { id: "guide",     label: "A critical field guide to remote sensing" },
+      { id: "guide",     n: "1", label: "Field Guide to Remote Sensing & Community Mapping" },
+      { id: "practices", n: "2", label: "Observations & Best Practices" },
     ].map((t) => {
       const on = view === t.id;
       return (
         <button key={t.id} onClick={() => set(t.id)} style={{
           appearance: "none", border: "none", background: "none",
-          padding: "14px 28px 16px",
+          padding: "14px 26px 16px",
           cursor: "pointer", color: on ? "var(--ink)" : "var(--ink-3)",
           fontFamily: "var(--sans)", fontSize: 14, letterSpacing: "0.01em",
           fontWeight: on ? 600 : 400,
           borderBottom: on ? "2px solid var(--accent, var(--ochre))" : "2px solid transparent",
           marginBottom: -1,
-        }}>{t.label}</button>
+          display: "inline-flex", alignItems: "baseline", gap: 9,
+        }}>
+          <span className="mono" style={{
+            fontSize: 11, letterSpacing: "0.06em", fontWeight: 600,
+            color: on ? "var(--accent, var(--ochre))" : "var(--ink-4)",
+          }}>{t.n}</span>
+          <span>{t.label}</span>
+        </button>
       );
     })}
   </div>
 );
 
 const TabAvenir = () => {
-  const [view, setView] = React.useState("practices");
+  const [view, setView] = React.useState("guide");
   const PRACTICES = [
     { t: "Co-design from the start, including question formulation.", b: "The most common failure mode is a southern team arriving with a question, a sensor list, and a sampling design, and asking for community validation. The more useful posture is to arrive with the sensor list and ask which of the community's existing questions the data could help answer. This often produces entirely different study designs from the imported one." },
     { t: "Layered governance.", b: "Technical metadata combined with social and legal metadata, including provenance, consent status, cultural protocols, permitted reuses, withdrawal mechanisms, and benefit-sharing expectations where relevant." },
@@ -1320,61 +1327,64 @@ const TabAvenir = () => {
           ))}
         </div>
       </Card>
-
-      {/* Bookend, return to the School of Athens */}
-      <section style={{
-        marginTop: 64,
-        borderTop: "1px solid var(--rule)", paddingTop: 56,
-      }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56, alignItems: "center" }}>
-          <div>
-            <Kicker color="var(--terra)">Bookend, return to the School of Athens</Kicker>
-            <h3 className="serif" style={{ margin: 0, fontSize: 44, fontWeight: 300, letterSpacing: "-0.018em", lineHeight: 1.05 }}>
-              Plato <em style={{ color: "var(--lapis-2)" }}>and</em> Aristotle.
-            </h3>
-            <P style={{ marginTop: 22, fontSize: 17 }}>
-              {TALK.closing_plato}
-            </P>
-            <P style={{ fontSize: 17 }}>
-              {TALK.closing_aristotle}
-            </P>
-            <p className="serif" style={{
-              margin: "24px 0 0", fontSize: 22, lineHeight: 1.45, color: "var(--ink)", fontStyle: "italic",
-            }}>
-              The discipline we need is not only a discipline of better seeing. It is a discipline of <em style={{ color: "var(--terra)" }}>returning</em>, returning the image to the people, the places, and the decisions that give it meaning.
-            </p>
-          </div>
-          <div style={{
-            position: "relative", aspectRatio: "4/3", overflow: "hidden", background: "var(--ink)",
-            backgroundImage: "url(img/school-of-athens.jpg)",
-            backgroundSize: "180%",
-            backgroundPosition: "53% 36%",
-            backgroundRepeat: "no-repeat",
-          }} />
-        </div>
-
-        {/* Final line */}
-        <div style={{
-          marginTop: 56, padding: "44px 48px",
-          background: "var(--ink)", color: "var(--paper)",
-        }}>
-          <div className="mono" style={{
-            fontSize: 11, letterSpacing: "0.20em", color: "var(--ochre-2)",
-            textTransform: "uppercase", marginBottom: 18,
-          }}>Final line, the closing sentence</div>
-          <p className="serif" style={{
-            margin: 0, fontSize: 28, lineHeight: 1.35, fontWeight: 300,
-            color: "var(--paper)", letterSpacing: "-0.012em", maxWidth: 1100,
-          }}>
-            "Remote sensing points upward in order to look down. For care, resilience, and community, the real work begins when the image enters the messy middle, where the sky-eye view must answer to ground-up knowledge, embodied experience, and
-            <em style={{ color: "var(--ochre-2)" }}> the obligations of shared life.</em>"
-          </p>
-        </div>
-      </section>
       </>)}
     </div>
   );
 };
+
+// Bookend, lifted out of TabAvenir so it sits at the bottom of the Annexes
+// tab (the closing argument, alongside the bibliography).
+const Bookend = () => (
+  <section style={{
+    marginTop: 32,
+    borderTop: "1px solid var(--rule)", paddingTop: 56,
+  }}>
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56, alignItems: "center" }}>
+      <div>
+        <Kicker color="var(--terra)">Bookend, return to the School of Athens</Kicker>
+        <h3 className="serif" style={{ margin: 0, fontSize: 44, fontWeight: 300, letterSpacing: "-0.018em", lineHeight: 1.05 }}>
+          Plato <em style={{ color: "var(--lapis-2)" }}>and</em> Aristotle.
+        </h3>
+        <P style={{ marginTop: 22, fontSize: 17 }}>
+          {TALK.closing_plato}
+        </P>
+        <P style={{ fontSize: 17 }}>
+          {TALK.closing_aristotle}
+        </P>
+        <p className="serif" style={{
+          margin: "24px 0 0", fontSize: 22, lineHeight: 1.45, color: "var(--ink)", fontStyle: "italic",
+        }}>
+          The discipline we need is not only a discipline of better seeing. It is a discipline of <em style={{ color: "var(--terra)" }}>returning</em>, returning the image to the people, the places, and the decisions that give it meaning.
+        </p>
+      </div>
+      <div style={{
+        position: "relative", aspectRatio: "4/3", overflow: "hidden", background: "var(--ink)",
+        backgroundImage: "url(img/school-of-athens.jpg)",
+        backgroundSize: "180%",
+        backgroundPosition: "53% 36%",
+        backgroundRepeat: "no-repeat",
+      }} />
+    </div>
+
+    {/* Final line */}
+    <div style={{
+      marginTop: 56, padding: "44px 48px",
+      background: "var(--ink)", color: "var(--paper)",
+    }}>
+      <div className="mono" style={{
+        fontSize: 11, letterSpacing: "0.20em", color: "var(--ochre-2)",
+        textTransform: "uppercase", marginBottom: 18,
+      }}>Final line, the closing sentence</div>
+      <p className="serif" style={{
+        margin: 0, fontSize: 28, lineHeight: 1.35, fontWeight: 300,
+        color: "var(--paper)", letterSpacing: "-0.012em", maxWidth: 1100,
+      }}>
+        "Remote sensing points upward in order to look down. For care, resilience, and community, the real work begins when the image enters the messy middle, where the sky-eye view must answer to ground-up knowledge, embodied experience, and
+        <em style={{ color: "var(--ochre-2)" }}> the obligations of shared life.</em>"
+      </p>
+    </div>
+  </section>
+);
 
 // -----------------------------------------------------------------------
 // ANNEXES, time budget, cuts and expands, Q&A, reading, bilingual, spine.
@@ -1401,7 +1411,10 @@ const TabAnnexes = () => (
         ))}
       </ul>
     </Card>
+
+    {/* Bookend, the closing argument — moved here from the Field Guides tab */}
+    <Bookend />
   </div>
 );
 
-Object.assign(window, { TabPlongees, TabAvenir, TabAnnexes });
+Object.assign(window, { TabPlongees, TabAvenir, TabAnnexes, Bookend });

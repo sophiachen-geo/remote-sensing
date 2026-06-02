@@ -6,7 +6,7 @@ const TABS = [
   { id: "activelayer",  label: "Introduction", sub: "Active Layer", component: TabOuverture, accent: "var(--st-active-accent-2)", strata: "active" },
   { id: "permafrost",   label: "Core Ideas",   sub: "Permafrost",   component: TabPlongees,  accent: "var(--st-perma-accent-2)",  strata: "perma"  },
   { id: "canopy",       label: "Case Studies", sub: "Canopy",       component: TabDeepDive,  accent: "var(--st-canopy-bg)",       strata: "canopy" },
-  { id: "rhizosphere",  label: "Field Guide",  sub: "Rhizosphere",  component: TabAvenir,    accent: "var(--st-rhizo-accent-2)",  strata: "rhizo"  },
+  { id: "rhizosphere",  label: "Field Guides", sub: "Rhizosphere",  component: TabAvenir,    accent: "var(--st-rhizo-accent-2)",  strata: "rhizo"  },
   { id: "seafloor",     label: "Annexes",      sub: "Seafloor",     component: TabAnnexes,   accent: "var(--st-floor-accent)",    strata: "floor"  },
 ];
 
@@ -33,6 +33,7 @@ const Chrome = ({ active, go, introOpen }) => (
   <header className="chrome">
     <div className="chrome-strip">
       <span>Canadian Remote Sensing Society · Presentation Companion Guide</span>
+      <span className="chrome-byline">Sophia Chen · May 2026</span>
     </div>
     <nav className="chrome-tabs">
       {TABS.map(t => {

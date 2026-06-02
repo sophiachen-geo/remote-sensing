@@ -248,14 +248,14 @@ const STRATA_CONTENT = {
     accent: "var(--st-rhizo-accent-2)",
     epigraph: "Where the roots meet the soil and trade.",
     standfirst: "This is the exchange layer, the narrow zone where what you have made passes into someone else's growth. Less a place where ideas live than where they are taken up and metabolized. Everything here is built to be lifted out and used.",
-    inSection: "Twelve operating principles, five practices, and what the work requires from the people who do it.",
+    inSection: "Two guides for getting from theory to practice: a field guide to remote sensing and community mapping, and a set of observations and best practices from the work.",
   },
   floor: {
     key: "floor", label: "Seafloor", sub: "annexes / about",
     accent: "var(--st-floor-accent)",
     epigraph: "The deepest floor, where everything finally settles.",
     standfirst: "Nothing here is in a hurry. Sources, notes, provenance, the record of how the rest came to be, all of it drifts down and accumulates in the dark. Rarely disturbed, but this is where the account is kept.",
-    inSection: "References, sources, methods, and the record of how the rest came to be.",
+    inSection: "References, sources, methods, and the bookend that returns to Plato and Aristotle.",
   },
 };
 
