@@ -259,10 +259,14 @@
     .section-intro__row { grid-template-columns: 1fr; gap: 10px; }
   }
 
-  /* Defaults indictment — landscape table-spread flip cards */
+  /* Defaults indictment — landscape table-spread flip cards.
+     The card reserves its grid space with aspect-ratio; the __inner is
+     absolutely positioned so it can grow to a fixed large size on hover
+     and flip without disturbing the grid. */
   .defaults-table {
     display: grid; grid-template-columns: repeat(5, 1fr);
-    gap: 24px 18px; padding: 22px 0 32px;
+    gap: 28px 22px; padding: 22px 0 32px;
+    overflow: visible;
   }
   @media (max-width: 1180px) { .defaults-table { grid-template-columns: repeat(4, 1fr); } }
   @media (max-width: 960px)  { .defaults-table { grid-template-columns: repeat(3, 1fr); } }
@@ -270,40 +274,52 @@
   .default-card {
     appearance: none; border: none; background: none; padding: 0;
     cursor: pointer; text-align: left; color: var(--ink);
-    perspective: 1400px; font-family: var(--sans);
-    transition: transform .35s cubic-bezier(.2,.7,.3,1),
-                filter .35s ease,
-                box-shadow .35s ease;
+    font-family: var(--sans);
+    position: relative;
+    aspect-ratio: 8 / 5;
+    perspective: 1500px;
+    z-index: 1;
+    transition: filter .35s ease, opacity .35s ease;
     filter: grayscale(0.92) brightness(0.96);
     opacity: 0.78;
-    will-change: transform, filter;
   }
   .default-card:hover,
-  .default-card:focus-visible {
-    filter: none;
-    opacity: 1;
-    transform: rotate(0deg) scale(1.22) !important;
-    z-index: 10;
-  }
+  .default-card:focus-visible,
   .default-card[aria-pressed="true"] {
     filter: none;
     opacity: 1;
-    transform: rotate(0deg) scale(1.22) !important;
-    z-index: 11;
+    z-index: 50;
   }
+  .default-card[aria-pressed="true"] { z-index: 60; }
   .default-card__inner {
-    position: relative; width: 100%; aspect-ratio: 8 / 5;
-    transition: transform 620ms cubic-bezier(.2,.7,.3,1);
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
     transform-style: preserve-3d;
     box-shadow: 0 4px 12px rgba(31, 42, 64, 0.14);
     border-radius: 8px;
+    transition:
+      top .4s cubic-bezier(.2,.7,.3,1),
+      left .4s cubic-bezier(.2,.7,.3,1),
+      width .4s cubic-bezier(.2,.7,.3,1),
+      height .4s cubic-bezier(.2,.7,.3,1),
+      margin .4s cubic-bezier(.2,.7,.3,1),
+      transform 700ms cubic-bezier(.2,.7,.3,1),
+      box-shadow .35s ease;
   }
-  .default-card:hover .default-card__inner,
-  .default-card[aria-pressed="true"] .default-card__inner {
-    box-shadow: 0 18px 36px -10px rgba(31, 42, 64, 0.32);
+  /* Hover pops the card out to a large size, still showing the front */
+  .default-card:hover .default-card__inner {
+    top: 50%; left: 50%;
+    width: 600px; height: 375px;
+    margin-top: -187.5px; margin-left: -300px;
+    box-shadow: 0 26px 52px -12px rgba(31, 42, 64, 0.40);
   }
+  /* Flipped (pressed) — grows even bigger so the back text fits comfortably */
   .default-card[aria-pressed="true"] .default-card__inner {
+    top: 50%; left: 50%;
+    width: 720px; height: 450px;
+    margin-top: -225px; margin-left: -360px;
     transform: rotateY(180deg);
+    box-shadow: 0 32px 64px -14px rgba(31, 42, 64, 0.48);
   }
   .default-card__face {
     position: absolute; inset: 0; backface-visibility: hidden;
@@ -324,30 +340,31 @@
     background: linear-gradient(165deg, #c2410c 0%, #7a2906 100%);
     color: #ffffff;
     transform: rotateY(180deg);
-    padding: 14px 18px 16px;
+    padding: 26px 32px 28px;
     overflow: auto;
   }
   .default-card__back .mono { color: rgba(255, 255, 255, 0.78) !important; }
   .default-card__back .serif { color: #ffffff !important; }
   .default-card__head {
     display: flex; justify-content: space-between; align-items: center;
-    flex: 0 0 auto; margin-bottom: 8px;
+    flex: 0 0 auto; margin-bottom: 14px;
   }
   .default-card__answer {
-    font-size: 18px; line-height: 1.18; font-weight: 500;
-    letter-spacing: -0.01em; color: #ffffff;
+    font-size: 26px; line-height: 1.2; font-weight: 500;
+    letter-spacing: -0.012em; color: #ffffff;
     margin-top: 0;
   }
   .default-card__body {
-    margin: 6px 0 0; font-size: 12px; line-height: 1.5;
-    color: rgba(255, 255, 255, 0.92);
-    flex: 1 1 auto; overflow: auto;
+    margin: 12px 0 0; font-size: 15px; line-height: 1.55;
+    color: rgba(255, 255, 255, 0.94);
+    flex: 1 1 auto;
   }
   .default-card__qa {
-    margin-top: 8px; padding-top: 8px;
+    margin-top: 14px; padding-top: 12px;
     border-top: 1px solid rgba(255, 255, 255, 0.3);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
   }
-  .default-card__qa p { color: #ffffff !important; font-size: 12.5px !important; }
+  .default-card__qa p { color: #ffffff !important; font-size: 14.5px !important; }
   .default-card__qa .mono { color: rgba(255, 255, 255, 0.78); }
 
   /* Case study Abstract callout */
