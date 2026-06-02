@@ -4,9 +4,35 @@
 // rendered natively in the companion's type system (kind "essay").
 // =======================================================================
 
-const Sub = ({ kicker, color, children }) => (
+// Case study sub-section heading.
+//   n      — Level 3 marker (e.g., "I", "II"); renders as "§ I" in accent
+//   kicker — Level 4 short mono caps subtitle (e.g., "THE FRAME")
+//   children — Level 3 serif h3 title
+//   color  — eyebrow accent
+const Sub = ({ n, kicker, color, children }) => (
   <div style={{ marginTop: 56, marginBottom: 18 }}>
-    {kicker && <Kicker color={color}>{kicker}</Kicker>}
+    {(n || kicker) && (
+      <div style={{
+        display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap",
+        marginBottom: 14,
+      }}>
+        {n && (
+          <span className="mono" style={{
+            fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase",
+            color, fontWeight: 600,
+          }}>§ {n}</span>
+        )}
+        {n && kicker && (
+          <span aria-hidden="true" style={{ width: 1, height: 12, background: "var(--rule)" }} />
+        )}
+        {kicker && (
+          <span className="mono" style={{
+            fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase",
+            color: "var(--ink-3)", fontWeight: 500,
+          }}>{kicker}</span>
+        )}
+      </div>
+    )}
     <h3 className="serif" style={{
       margin: 0, fontSize: 28, lineHeight: 1.1, fontWeight: 400,
       letterSpacing: "-0.012em", maxWidth: 760,
@@ -127,7 +153,7 @@ const SocodeviCNAAS = ({ accent = "ochre" }) => {
         </P>
       </Prose>
 
-      <Sub kicker="The insurer" color={ACC}>A subsidised, public-private scheme</Sub>
+      <Sub n="I" kicker="THE INSURER" color={ACC}>A subsidised, public-private scheme</Sub>
       <Prose max={760}>
         <P>
           The national agricultural insurer that operates this scheme is the Compagnie
@@ -152,7 +178,7 @@ const SocodeviCNAAS = ({ accent = "ochre" }) => {
         ))}
       </div>
 
-      <Sub kicker="The substrate" color={ACC}>A database that was operationally compromised</Sub>
+      <Sub n="II" kicker="THE SUBSTRATE" color={ACC}>A database that was operationally compromised</Sub>
       <Prose max={760}>
         <P>
           The CNAAS network in 2023 comprised approximately 160 gauges distributed across nine
@@ -172,7 +198,7 @@ const SocodeviCNAAS = ({ accent = "ochre" }) => {
         </P>
       </Prose>
 
-      <Sub kicker="Phase one · reconciliation" color={ACC}>A Python pipeline against a validated reference</Sub>
+      <Sub n="III" kicker="PHASE ONE · RECONCILIATION" color={ACC}>A Python pipeline against a validated reference</Sub>
       <Prose max={760}>
         <P>
           As geomatics consultant on the project, I developed a Python reconciliation pipeline
@@ -230,7 +256,7 @@ const SocodeviCNAAS = ({ accent = "ochre" }) => {
         </figcaption>
       </figure>
 
-      <Sub kicker="Phase two · capacity" color={ACC}>Training cooperatives to read their own gauges</Sub>
+      <Sub n="IV" kicker="PHASE TWO · CAPACITY" color={ACC}>Training cooperatives to read their own gauges</Sub>
       <Prose max={760}>
         <P>
           The reconciled database then became the substrate for the second phase of our
@@ -258,7 +284,7 @@ const SocodeviCNAAS = ({ accent = "ochre" }) => {
         <BigStat value="844,000" label="Household members whose livelihoods were thereby secured" accent={ACC} size={50} />
       </div>
 
-      <Sub kicker="The ecology" color={ACC}>A wider climate-information infrastructure</Sub>
+      <Sub n="V" kicker="THE ECOLOGY" color={ACC}>A wider climate-information infrastructure</Sub>
       <Prose max={760}>
         <P>
           This intervention sits within a broader Senegalese climate-information infrastructure
@@ -274,7 +300,7 @@ const SocodeviCNAAS = ({ accent = "ochre" }) => {
         </P>
       </Prose>
 
-      <Sub kicker="The scale problem" color={ACC}>From a pixel to seven hectares west of the road</Sub>
+      <Sub n="VI" kicker="THE SCALE PROBLEM" color={ACC}>From a pixel to seven hectares west of the road</Sub>
       <Prose max={760}>
         <P>
           Satellite rainfall products perform well at continental scale but poorly at the scale
@@ -313,7 +339,7 @@ const SocodeviCNAAS = ({ accent = "ochre" }) => {
         </P>
       </Prose>
 
-      <Sub kicker="The frame" color={ACC}>Three overlapping institutional categories</Sub>
+      <Sub n="VII" kicker="THE FRAME" color={ACC}>Three overlapping institutional categories</Sub>
       <Prose max={760}>
         <P>
           This case is finally a particular instance of three overlapping institutional
@@ -659,7 +685,7 @@ const SeriousGames = ({ accent = "plum" }) => {
         </P>
       </Prose>
 
-      <Sub kicker="The game" color={ACC}>A card-and-board exercise, then a renegotiation</Sub>
+      <Sub n="I" kicker="THE GAME" color={ACC}>A card-and-board exercise, then a renegotiation</Sub>
       <Prose max={760}>
         <P>
           Around a large printed table, participants assemble a regional water system from cards:
@@ -679,7 +705,7 @@ const SeriousGames = ({ accent = "plum" }) => {
         real trends, participants bring their actual professional judgment to bear.
       </NoteBox>
 
-      <Sub kicker="The instruments" color={ACC}>What satellites can — and cannot — show</Sub>
+      <Sub n="II" kicker="THE INSTRUMENTS" color={ACC}>What satellites can — and cannot — show</Sub>
       <Prose max={760}>
         <P>
           A handful of instruments together produce an enormous amount of evidence about how water
@@ -713,7 +739,7 @@ const SeriousGames = ({ accent = "plum" }) => {
         </P>
       </Prose>
 
-      <Sub kicker="The method" color={ACC}>How a satellite image becomes a scenario</Sub>
+      <Sub n="III" kicker="THE METHOD" color={ACC}>How a satellite image becomes a scenario</Sub>
       <Prose max={760}>
         <P>
           Every scenario travels through a five-step chain. A raw product becomes a regional
@@ -766,7 +792,7 @@ const SeriousGames = ({ accent = "plum" }) => {
         </P>
       </Prose>
 
-      <Sub kicker="A worked example" color={ACC}>The summer of 2021 in Montérégie Ouest</Sub>
+      <Sub n="IV" kicker="A WORKED EXAMPLE" color={ACC}>The summer of 2021 in Montérégie Ouest</Sub>
       <Prose max={760}>
         <P>
           MODIS vegetation and surface-temperature rasters, SMAP soil moisture, and Landsat detail
@@ -794,7 +820,7 @@ const SeriousGames = ({ accent = "plum" }) => {
         </P>
       </Prose>
 
-      <Sub kicker="The two pilots" color={ACC}>What the satellites see in each region</Sub>
+      <Sub n="V" kicker="THE TWO PILOTS" color={ACC}>What the satellites see in each region</Sub>
       <Contrast
         color={ACC}
         leftLabel="Brome-Missisquoi · snow-phase shift"
@@ -818,7 +844,7 @@ const SeriousGames = ({ accent = "plum" }) => {
         ))}
       </div>
 
-      <Sub kicker="The layers" color={ACC}>Reading the region one layer at a time</Sub>
+      <Sub n="VI" kicker="THE LAYERS" color={ACC}>Reading the region one layer at a time</Sub>
       <Prose max={760}>
         <P>
           The same territory carries many georeferenced readings at once — satellite indicators,
@@ -829,10 +855,10 @@ const SeriousGames = ({ accent = "plum" }) => {
       </Prose>
       <LayerStack color={ACC} layers={QUEBEC_LAYERS} ratio="1696 / 1298" />
 
-      <Sub kicker="The deck" color={ACC}>Five kinds of scenario the data can build</Sub>
+      <Sub n="VII" kicker="THE DECK" color={ACC}>Five kinds of scenario the data can build</Sub>
       <Tiles items={SCENARIOS} color={ACC} />
 
-      <Sub kicker="At the table" color={ACC}>How the scenarios enter the game</Sub>
+      <Sub n="VIII" kicker="AT THE TABLE" color={ACC}>How the scenarios enter the game</Sub>
       <TableScene
         accent={accent}
         at={["Cards", "Roles", "Discussion"]}
@@ -840,7 +866,7 @@ const SeriousGames = ({ accent = "plum" }) => {
         caption={<>The scenarios sit on, around, and beside the table. <B>They do not replace the cards.</B> Players still build the system themselves; the evidence only ensures that what they build resembles the region they are trying to govern.</>}
       />
 
-      <Sub kicker="The argument" color={ACC}>Why build scenarios from satellite evidence</Sub>
+      <Sub n="IX" kicker="THE ARGUMENT" color={ACC}>Why build scenarios from satellite evidence</Sub>
       <Prose max={760}>
         <P>
           Expert intuition, institutional memory, and imagined futures all have their place — the
@@ -850,7 +876,7 @@ const SeriousGames = ({ accent = "plum" }) => {
       </Prose>
       <Tiles items={ADVANTAGES} color={ACC} />
 
-      <Sub kicker="The posture" color={ACC}>How the game treats knowledge</Sub>
+      <Sub n="X" kicker="THE POSTURE" color={ACC}>How the game treats knowledge</Sub>
       <Prose max={760}>
         <P>
           The game does not treat satellite data as the truth of the system. It treats it as one
@@ -1064,7 +1090,7 @@ const LausanneEPFL = ({ accent = "lapis" }) => {
         credit="Generated by Claude AI"
       />
 
-      <Sub kicker="Method" color={ACC}>The Pipeline</Sub>
+      <Sub n="I" kicker="THE METHOD" color={ACC}>The Pipeline</Sub>
       <Prose max={760}>
         <P>
           Each instrument and each model in the pipeline carries its own spatial and temporal
@@ -1116,7 +1142,7 @@ const LausanneEPFL = ({ accent = "lapis" }) => {
         </P>
       </Prose>
 
-      <Sub kicker="Testbed" color={ACC}>The Rolex Learning Center as Testbed</Sub>
+      <Sub n="II" kicker="THE TESTBED" color={ACC}>The Rolex Learning Center as Testbed</Sub>
       <Prose max={760}>
         <P>
           The Rolex Learning Center is the EPFL building at which every tier of the pipeline can be
@@ -1208,7 +1234,7 @@ const LausanneEPFL = ({ accent = "lapis" }) => {
         </P>
       </Prose>
 
-      <Sub kicker="Atmosphere" color={ACC}>The Building as Atmosphere</Sub>
+      <Sub n="III" kicker="THE ATMOSPHERE" color={ACC}>The Building as Atmosphere</Sub>
       <Prose max={760}>
         <P>
           Philippe Rahm's Climatic Architecture argues that architecture should not be understood
@@ -1400,7 +1426,7 @@ const BarbadosPlatinumCoast = ({ accent = "moss" }) => {
         </figcaption>
       </figure>
 
-      <Sub kicker="I · Market" color={ACC}>The market reads the coast as a price function</Sub>
+      <Sub n="I" kicker="THE MARKET" color={ACC}>The market reads the coast as a price function</Sub>
       <Prose max={760}>
         <P>
           A web scraper written in Python and run on 7thHeaven Properties in May 2018 returned 135
@@ -1423,7 +1449,7 @@ const BarbadosPlatinumCoast = ({ accent = "moss" }) => {
         </P>
       </Prose>
 
-      <Sub kicker="II · Typology" color={ACC}>Six houses, one continuum</Sub>
+      <Sub n="II" kicker="THE TYPOLOGY" color={ACC}>Six houses, one continuum</Sub>
       <Prose max={760}>
         <P>
           The 2020 paper treated <em>type</em> as a dummy variable. Fieldwork made clear that the
@@ -1460,7 +1486,7 @@ const BarbadosPlatinumCoast = ({ accent = "moss" }) => {
         </P>
       </Prose>
 
-      <Sub kicker="III · Reef" color={ACC}>The reef beneath the price</Sub>
+      <Sub n="III" kicker="THE REEF" color={ACC}>The reef beneath the price</Sub>
       <Prose max={760}>
         <P>
           The coastline is not only a property line. It is the edge of a marine ecosystem whose health
@@ -1523,7 +1549,7 @@ const BarbadosPlatinumCoast = ({ accent = "moss" }) => {
         </P>
       </Prose>
 
-      <Sub kicker="IV · Care" color={ACC}>Overt and covert care, woven together</Sub>
+      <Sub n="IV" kicker="CARE" color={ACC}>Overt and covert care, woven together</Sub>
       <Prose max={760}>
         <P>
           Where the formal architecture of public coastal space thins under leisure economy pressure,
@@ -1579,7 +1605,7 @@ const BarbadosPlatinumCoast = ({ accent = "moss" }) => {
         </P>
       </Prose>
 
-      <Sub kicker="V · Synthesis" color={ACC}>The four coasts read as one</Sub>
+      <Sub n="V" kicker="SYNTHESIS" color={ACC}>The four coasts read as one</Sub>
       <Prose max={760}>
         <P>Laying the three readings over one another makes the coast legible as a single integrated system.</P>
       </Prose>
@@ -1596,7 +1622,7 @@ const BarbadosPlatinumCoast = ({ accent = "moss" }) => {
         </P>
       </Prose>
 
-      <Sub kicker="VI · Inversion" color={ACC}>The inversion that organises everything</Sub>
+      <Sub n="VI" kicker="THE INVERSION" color={ACC}>The inversion that organises everything</Sub>
       <Prose max={760}>
         <P>
           The strongest single finding of the two years is the inversion. The greener the marketing of
@@ -1618,7 +1644,7 @@ const BarbadosPlatinumCoast = ({ accent = "moss" }) => {
         </P>
       </Prose>
 
-      <Sub kicker="Coda" color={ACC}>From understanding the island to studying its commons</Sub>
+      <Sub n="VII" kicker="CODA" color={ACC}>From understanding the island to studying its commons</Sub>
       <Prose max={760}>
         <P>
           The project did not set out to argue for commons. It set out to understand a coastline. Two
