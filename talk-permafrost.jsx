@@ -815,9 +815,397 @@ const FigVisibilityReview = () => {
   );
 };
 
+// ═══════════════════════════════════════════════════════════════════════════
+// HTML-derived figures, ported from the permafrost_section.html design.
+// These sit alongside the existing Fig* components in the Permafrost tab.
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ─── Risk Quartet · reference table ───────────────────────────────────────
+const FigRiskQuartet = () => (
+  <div className="perma-tbl-scroll">
+    <table className="perma-data">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Guiding question</th>
+          <th>Strong RS contribution</th>
+          <th>Grounded complement</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Hazard</td><td>What threatens?</td><td>flood extent, fire scar, heat, landslide</td><td>local thresholds, remembered extremes</td></tr>
+        <tr><td>Exposure</td><td>Who is in the way?</td><td>buildings, roads, crops, settlements</td><td>occupancy, seasonal use, informal structures</td></tr>
+        <tr><td>Vulnerability</td><td>Who is most harmed?</td><td>proxy indicators, spatial correlation</td><td>health, mobility, tenure, trust, language</td></tr>
+        <tr><td>Capacity</td><td>Who can act or refuse?</td><td>access routes, service locations</td><td>leadership, mutual aid, evacuation options</td></tr>
+      </tbody>
+    </table>
+  </div>
+);
+
+// ─── Perspectives Wheel · interactive radial SVG ──────────────────────────
+const FIG_PERSP_WHEEL = [
+  { key: "sky",       name: "Sky-eye",       color: "#5d709a", contrib: "Abstraction, pattern, and comparison across time and space. Scale, repetition, synoptic visibility.", strength: "Pattern",            limit: "Overextension: treating visible change as complete knowledge." },
+  { key: "ground",    name: "Ground sensor", color: "#5a9aa8", contrib: "Calibration and thresholds at the scale of local action. Gauges, probes, loggers, in-situ measurement.", strength: "Precision",          limit: "Coverage: precise in place, blind between points." },
+  { key: "community", name: "Community",     color: "#c2562a", contrib: "Use, memory, access, trusted warning channels, and the meanings that make a place matter beyond its surface cover.", strength: "Relevance", limit: "Treated as anecdotal unless a project grants it authority." },
+  { key: "embodied",  name: "Embodied",      color: "#b07c3e", contrib: "Heat at walking height, smoke indoors, unsafe routes, the fatigue of detours, the difference between surface and livable recovery.", strength: "Lived consequence", limit: "Leaves no spectral signature." },
+  { key: "inst",      name: "Institutional", color: "#4a5a82", contrib: "Mandate, jurisdiction, and the decision that converts evidence into action.", strength: "Governability", limit: "Abstraction from lived experience." },
+];
+
+const FigPerspectivesWheel = () => {
+  const [sel, setSel] = React.useState("sky");
+  const cx = 180, cy = 176, R = 118;
+  const verts = FIG_PERSP_WHEEL.map((p, i) => {
+    const a = (-90 + i * 72) * Math.PI / 180;
+    return { ...p, x: cx + R * Math.cos(a), y: cy + R * Math.sin(a) };
+  });
+  const sel_p = verts.find(v => v.key === sel) || verts[0];
+  return (
+    <div className="perma-wheel-wrap">
+      <div className="perma-wheel-svg">
+        <svg viewBox="0 0 360 380" role="img" aria-label="Five perspectives arranged around a central risk hub">
+          <circle cx={cx} cy={cy} r={R} fill="none" stroke="#4a5a82" strokeWidth="0.5" opacity="0.4" />
+          <g>
+            {verts.map(v => (
+              <line key={v.key} x1={cx} y1={cy} x2={v.x} y2={v.y}
+                stroke={v.key === sel ? v.color : "#5d709a"}
+                strokeWidth={v.key === sel ? 2.5 : 1}
+                opacity={v.key === sel ? 0.9 : 0.25} />
+            ))}
+          </g>
+          <g>
+            <circle cx={cx} cy={cy - 4} r="44" fill="#2a3450" stroke="#5d709a" strokeWidth="1" />
+            <text x={cx} y={cy - 12} textAnchor="middle" fill="#cfdcee" fontFamily="'Spline Sans Mono', monospace" fontSize="11" letterSpacing="1">RISK</text>
+            <text x={cx} y={cy + 4} textAnchor="middle" fill="#8b96b4" fontFamily="'Spline Sans Mono', monospace" fontSize="7.5">hazard·exposure</text>
+            <text x={cx} y={cy + 15} textAnchor="middle" fill="#8b96b4" fontFamily="'Spline Sans Mono', monospace" fontSize="7.5">vulnerability·capacity</text>
+          </g>
+          <g>
+            {verts.map(v => {
+              const on = v.key === sel;
+              const ux = v.x - cx, uy = v.y - cy, mag = Math.sqrt(ux * ux + uy * uy);
+              let lx = cx + ux / mag * (R + 26), ly = cy + uy / mag * (R + 26) + 4, anchor = "middle";
+              if (lx < cx - 12) { anchor = "start"; lx = 6; }
+              else if (lx > cx + 12) { anchor = "end"; lx = 354; }
+              return (
+                <g key={v.key} className="perma-vertex" onClick={() => setSel(v.key)} style={{ cursor: "pointer" }}>
+                  <circle cx={v.x} cy={v.y} r={on ? 30 : 22} fill={v.color} stroke="#cfdcee" strokeWidth="1" opacity={on ? 1 : 0.45} />
+                  <text x={lx} y={ly} textAnchor={anchor} fill="#cfdcee" fontFamily="'Spline Sans Mono', monospace" fontSize="10.5">{v.name}</text>
+                </g>
+              );
+            })}
+          </g>
+        </svg>
+      </div>
+      <div className="perma-wheel-detail">
+        <p className="pname">{sel_p.name}</p>
+        <div className="pbar" style={{ background: sel_p.color }} />
+        <div className="block">
+          <div className="lab">Contributes</div>
+          <div className="val">{sel_p.contrib}</div>
+        </div>
+        <div className="block">
+          <div className="lab">Strength</div>
+          <div className="val one">{sel_p.strength}</div>
+        </div>
+        <div className="block">
+          <div className="lab">Limit or hazard</div>
+          <div className="val">{sel_p.limit}</div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ─── B-Taper · translation chain SVG ──────────────────────────────────────
+const FigBTaper = () => (
+  <div style={{ padding: "8px 26px 4px" }}>
+    <svg viewBox="0 0 1100 340" role="img" aria-label="Translation chain: operational gain holds level along the top while lived meaning falls away along the rising floor" style={{ width: "100%", height: "auto" }}>
+      <defs>
+        <linearGradient id="pm-taper" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#dce8f7" /><stop offset="1" stopColor="#f6ede7" />
+        </linearGradient>
+      </defs>
+      <text x="150" y="60" fontFamily="'Spline Sans Mono', monospace" fontSize="13" letterSpacing="1.5" fill="#2f6fd0" fontWeight="500">GAINED →  SCALE · REPETITION · COMPARISON · CHANGE DETECTION</text>
+      <polygon points="150,108 1000,108 1000,176 150,240" fill="url(#pm-taper)" stroke="#5a8fd6" strokeWidth="1.5" />
+      <line x1="150" y1="108" x2="1000" y2="108" stroke="#2f6fd0" strokeWidth="2" />
+      <line x1="150" y1="240" x2="1000" y2="240" stroke="#d8b9a6" strokeWidth="1" strokeDasharray="2 5" />
+      <g stroke="#9bb4dc" strokeWidth="1" strokeDasharray="2 4">
+        {[271, 393, 514, 636, 757, 879].map((x, i) => {
+          const yBot = [231, 222, 213, 204, 195, 186][i];
+          return <line key={x} x1={x} y1="108" x2={x} y2={yBot} />;
+        })}
+      </g>
+      <g fill="#1f4b8e">
+        {[[150,174],[271,170],[393,165],[514,161],[636,156],[757,152],[879,147],[1000,142]].map(([x,y],i) => (
+          <circle key={i} cx={x} cy={y} r="5" />
+        ))}
+      </g>
+      <g fontFamily="'Spline Sans Mono', monospace" fontSize="12" fill="#33404d" letterSpacing="0.5" textAnchor="middle">
+        <text x="150" y="278">SIGNAL</text>
+        <text x="271" y="278">IMAGE</text>
+        <text x="393" y="278">INDICATOR</text>
+        <text x="514" y="278">CLASS</text>
+        <text x="636" y="278">MODEL</text>
+        <text x="757" y="278">RISK SCORE</text>
+        <text x="879" y="278">DECISION</text>
+        <text x="1000" y="278">INTERVENTION</text>
+      </g>
+      <text x="150" y="318" fontFamily="'Spline Sans Mono', monospace" fontSize="13" letterSpacing="1.5" fill="#c2562a" fontWeight="500">LOST ↓  USE · MEMORY · ACCESS · OBLIGATION · MEANING</text>
+      <text x="1000" y="318" fontFamily="'Newsreader', serif" fontSize="12" textAnchor="end" fill="#8a93a0" fontStyle="italic">gain holds; the ground is what falls away</text>
+    </svg>
+  </div>
+);
+
+// ─── Heuristic 3-tab figure (HTML version) ────────────────────────────────
+const FIG_H3 = [
+  { k: "sensor",   tab: "Sensor",   title: "The sensor defines what kind of world can be measured",
+    defn: "Optical instruments privilege reflectance, SAR privileges roughness and moisture, thermal privileges surface temperature, LiDAR privileges structure. Each opens certain questions and makes others less accessible.",
+    inv:  "A flooded road is visible as water extent. Its contamination, and the fear of crossing it after dark, require other evidence the instrument was never built to record." },
+  { k: "model",    tab: "Model",    title: "The model defines how measurement becomes category",
+    defn: "Thresholds, training labels, and loss functions turn continuous signal into analytical objects. This is where bare, built-up, damaged, and high-risk become operational categories with hard edges.",
+    inv:  "A building-detection model identifies rooftops accurately while leaving occupancy, tenure, and safe egress outside the output. It is strong as geometry and incomplete as social evidence." },
+  { k: "decision", tab: "Decision", title: "The institution defines how evidence becomes action",
+    defn: "A hazard map can become an evacuation order, an insurance premium, or a humanitarian priority. At that point the technical output enters mandate, trust, liability, and budget.",
+    inv:  "A flood model maps inundation. Whether anyone evacuates depends on who issues the order, whether people trust that institution, and whether prior warnings were experienced as credible." },
+];
+
+const FigHeuristicsHTML = () => {
+  const [sel, setSel] = React.useState("sensor");
+  const cur = FIG_H3.find(h => h.k === sel) || FIG_H3[0];
+  return (
+    <div>
+      <div className="perma-htabs" role="tablist">
+        {FIG_H3.map(h => (
+          <button key={h.k} className="perma-htab" role="tab"
+            aria-selected={sel === h.k ? "true" : "false"}
+            onClick={() => setSel(h.k)}>{h.tab}</button>
+        ))}
+      </div>
+      <div className="perma-hpanel">
+        <h4>{cur.title}</h4>
+        <p className="defn">{cur.defn}</p>
+        <div className="invisible">
+          <b>where it turns invisible</b>{cur.inv}
+        </div>
+      </div>
+      <div className="perma-hcite">Vocabulary after Braun (2021) and Bennett, <em>Politics of Pixels</em> (2022).</div>
+    </div>
+  );
+};
+
+// ─── 6-row Mismatches reference table ─────────────────────────────────────
+const FigMismatchesTable = () => (
+  <div className="perma-tbl-scroll">
+    <table className="perma-data">
+      <thead>
+        <tr>
+          <th>Mismatch</th>
+          <th>What RS privileges</th>
+          <th>What often matters in practice</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Unit</td><td>pixel, parcel, footprint, grid cell</td><td>household, route, use-right, room, season</td></tr>
+        <tr><td>Time</td><td>revisit interval, composite window</td><td>warning moment, market day, crop cycle</td></tr>
+        <tr><td>Category</td><td>land-cover class, training label</td><td>commons, refuge, ceremonial ground</td></tr>
+        <tr><td>Validation</td><td>ground truth confirms imagery</td><td>contestation, distinct knowledges held together</td></tr>
+        <tr><td>Objectivity</td><td>disembodied, standardized pipeline</td><td>positioned seeing, accountability</td></tr>
+        <tr><td>Visibility</td><td>publication as public good</td><td>protection, confidentiality, refusal</td></tr>
+      </tbody>
+    </table>
+  </div>
+);
+
+// ─── Counter-Map flip cards + "Counter-mapping asks" question list ────────
+const FIG_CMF = [
+  { front: "A flood map shows water extent.",            back: ["which households lacked transport","which shelters were inaccessible","which warning channels were trusted","which forms of loss went uncounted"] },
+  { front: "A land-cover product shows bare ground.",    back: ["commons and grazing corridors","ceremonial grounds","evacuation sites","places of memory"] },
+  { front: "A damage map shows destroyed buildings.",    back: ["renters displaced from standing structures","contaminated wells","unresolved insurance disputes","the slow afterlife of disaster"] },
+];
+
+const FigCounterMapHTML = () => {
+  const [flip, setFlip] = React.useState({});
+  return (
+    <div>
+      <div className="perma-flipgrid">
+        {FIG_CMF.map((c, i) => {
+          const on = !!flip[i];
+          return (
+            <div key={i} className="perma-flip" role="button" tabIndex={0}
+              aria-pressed={on ? "true" : "false"}
+              onClick={() => setFlip(f => ({ ...f, [i]: !f[i] }))}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setFlip(f => ({ ...f, [i]: !f[i] })); } }}>
+              <div className="perma-flip-in">
+                <div className="perma-flip-face perma-flip-front">
+                  <div className="satlabel">the satellite shows</div>
+                  <div className="satclaim">{c.front}</div>
+                  <div className="hint">tap to see the counter-map</div>
+                </div>
+                <div className="perma-flip-face perma-flip-back">
+                  <div className="clab">the counter-map shows</div>
+                  <ul>{c.back.map((b, j) => <li key={j}>{b}</li>)}</ul>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div className="perma-whose">
+        <div className="lab">Counter-mapping asks</div>
+        <div className="perma-whose-q">
+          <span>Whose land?</span>
+          <span>Whose risk?</span>
+          <span>Whose infrastructure?</span>
+          <span>Whose memory?</span>
+          <span>Whose categories?</span>
+          <span>Whose map?</span>
+          <span>Whose decision?</span>
+        </div>
+      </div>
+      <p className="perma-tagline">
+        The satellite identifies <b>where</b> something changed. Counter-mapping asks <b>what changed for whom</b>, according to whose categories, and under whose authority. <span style={{ display: "block", marginTop: 8, fontSize: 14, color: "var(--ink-3)" }}>After Peluso (Kalimantan, 1995), Nietschmann, Chapin (2005), and Forensic Architecture / Weizman.</span>
+      </p>
+    </div>
+  );
+};
+
+// ─── Visibility 2×2 matrix with quadrant readout ──────────────────────────
+const FIG_QUAD = {
+  erasure:     { name: "Erasure",                def: "Places, people, and claims remain unseen, uncounted, and excluded from decisions.",                    ex: "Informal settlements missing from datasets; slow recovery losses absent from damage assessments." },
+  protection:  { name: "Protection",             def: "Some knowledge stays deliberately restricted because visibility carries risk.",                          ex: "Sensitive harvesting areas, sacred places, household-level vulnerability data." },
+  exposure:    { name: "Exposure",               def: "Places become visible to actors who can control, evict, stigmatize, police, or extract.",               ex: "Migrant routes mapped without protection; vulnerability maps feeding insurance exclusion." },
+  accountable: { name: "Accountable visibility", def: "Data circulates under governance, consent, purpose limitation, and community interpretation.",          ex: "Community-validated risk maps; counter-maps used to support claims and protection." },
+};
+
+const FigVisibility2x2 = () => {
+  const [sel, setSel] = React.useState(null);
+  const cur = sel ? FIG_QUAD[sel] : null;
+  return (
+    <div className="perma-matrix-wrap">
+      <div className="perma-matrix-yaxis">visibility →</div>
+      <div className="perma-matrix-core">
+        <div className="perma-matrix-xaxis">community authority →</div>
+        <div className="perma-grid2">
+          {[
+            { k: "erasure",     corner: "low · low",   name: "Erasure",                hint: "unseen, uncounted, excluded" },
+            { k: "protection",  corner: "low · high",  name: "Protection",             hint: "deliberately restricted" },
+            { k: "exposure",    corner: "high · low",  name: "Exposure",               hint: "visible to those who can harm" },
+            { k: "accountable", corner: "high · high", name: "Accountable visibility", hint: "circulates under governance" },
+          ].map(q => (
+            <button key={q.k} className="perma-quad"
+              aria-pressed={sel === q.k ? "true" : "false"}
+              onClick={() => setSel(q.k)}>
+              <span className="corner">{q.corner}</span>
+              <div className="qname">{q.name}</div>
+              <div className="qhint">{q.hint}</div>
+            </button>
+          ))}
+        </div>
+        <div className="perma-matrix-readout">
+          {cur ? (
+            <React.Fragment>
+              <p className="rname">{cur.name}</p>
+              <p className="rdef">{cur.def}</p>
+              <p className="rex">{cur.ex}</p>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <p className="rname">Tap a quadrant</p>
+              <p className="rdef">The two axes are community authority and visibility. Their combination, not visibility alone, determines whether being seen is protective or dangerous.</p>
+            </React.Fragment>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ─── Taiwan slider · non-linear willingness with 6 mediator chips ─────────
+const FIG_TW_CHIPS = [
+  { label: "prior false alarms",        d: 14, nonmono: false },
+  { label: "distrust of the source",    d: 18, nonmono: false },
+  { label: "high evacuation cost",      d: 16, nonmono: false },
+  { label: "poor shelter quality",      d: 12, nonmono: false },
+  { label: "care for elders, animals",  d: 13, nonmono: false },
+  { label: "strong place attachment",   d: 0,  nonmono: true  },
+];
+
+const FigTaiwanHTML = () => {
+  const [p, setP] = React.useState(50);
+  const [on, setOn] = React.useState({});
+  const X0 = 60, X1 = 610, Y0 = 310, Y1 = 20;
+  const px = (q) => X0 + (X1 - X0) * (q / 100);
+  const py = (w) => Y0 + (Y1 - Y0) * (w / 100);
+  const baseWill = (q) => 100 / (1 + Math.exp(-(q - 62) / 12));
+  const deltas = () => {
+    let sum = 0, nonmono = false;
+    FIG_TW_CHIPS.forEach((c, i) => { if (on[i]) { if (c.nonmono) nonmono = true; else sum += c.d; } });
+    return { sum, nonmono };
+  };
+  const willAt = (q) => {
+    const d = deltas();
+    let w = baseWill(q) - d.sum;
+    if (d.nonmono) {
+      const bump = 10 * Math.sin((q / 100) * Math.PI) * (q > 75 ? -0.4 : 1);
+      if (q > 75) w += 8; else w -= bump * 0.6;
+    }
+    return Math.max(0, Math.min(100, w));
+  };
+  const pts = [];
+  for (let q = 0; q <= 100; q += 2) pts.push(`${px(q)},${py(willAt(q))}`);
+  const curveD = "M" + pts.join(" L");
+  const w = willAt(p);
+
+  return (
+    <div className="perma-tw-grid">
+      <div className="perma-tw-plot">
+        <svg viewBox="0 0 640 360" role="img" aria-label="Willingness to evacuate against probability of damage, non-linear curve well below the linear reference">
+          <line x1="60" y1="20" x2="60" y2="310" stroke="#4a5a82" strokeWidth="1" />
+          <line x1="60" y1="310" x2="610" y2="310" stroke="#4a5a82" strokeWidth="1" />
+          <text x="35" y="30" fill="#8b96b4" fontFamily="'Spline Sans Mono', monospace" fontSize="9" textAnchor="middle">100</text>
+          <text x="35" y="312" fill="#8b96b4" fontFamily="'Spline Sans Mono', monospace" fontSize="9" textAnchor="middle">0</text>
+          <text x="335" y="340" fill="#8b96b4" fontFamily="'Spline Sans Mono', monospace" fontSize="10" textAnchor="middle" letterSpacing="1">PROBABILITY OF DAMAGE →</text>
+          <text x="20" y="170" fill="#8b96b4" fontFamily="'Spline Sans Mono', monospace" fontSize="10" textAnchor="middle" transform="rotate(-90 20 170)" letterSpacing="1">WILLINGNESS →</text>
+          <line x1="60" y1="310" x2="610" y2="20" stroke="#9fb4d0" strokeWidth="1.4" strokeDasharray="5 5" opacity="0.6" />
+          <text x="500" y="60" fill="#9fb4d0" fontFamily="'Newsreader', serif" fontStyle="italic" fontSize="12">if it were linear</text>
+          <path d={curveD} fill="none" stroke="#c2562a" strokeWidth="3" />
+          <circle cx={px(p)} cy={py(w)} r="7" fill="#e3edf6" stroke="#c2562a" strokeWidth="2.5" />
+          <line x1={px(p)} y1={Y0} x2={px(p)} y2={py(w)} stroke="#c2562a" strokeWidth="0.8" strokeDasharray="3 3" opacity="0.5" />
+        </svg>
+      </div>
+      <div className="perma-tw-readout">
+        <div className="prob">probability of damage  <b>{p}</b>%</div>
+        <div className="will">willingness to evacuate  <b>{Math.round(w)}</b>%</div>
+      </div>
+      <div className="perma-tw-slider">
+        <label htmlFor="pm-tw-slider">drag the forecast</label>
+        <input id="pm-tw-slider" type="range" min="0" max="100" value={p} onChange={(e) => setP(parseInt(e.target.value, 10))} />
+      </div>
+      <div className="perma-tw-chips">
+        {FIG_TW_CHIPS.map((c, i) => {
+          const pressed = !!on[i];
+          return (
+            <span key={i}
+              className={"perma-tw-chip" + (c.nonmono ? " nonmono" : "")}
+              role="button" tabIndex={0}
+              aria-pressed={pressed ? "true" : "false"}
+              onClick={() => setOn(s => ({ ...s, [i]: !s[i] }))}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setOn(s => ({ ...s, [i]: !s[i] })); } }}>
+              {c.label}
+            </span>
+          );
+        })}
+      </div>
+      <p className="perma-tw-note">Each mediator bends the curve. Place attachment is marked differently because it cuts both ways: it can hold a household in place against a warning, or drive an early, protective departure.</p>
+    </div>
+  );
+};
+
 Object.assign(window, {
   PF, PFMono, PFKeys, PFMovement, PFBlock,
   FigRiskRelation, FigPerspectives, FigChain, FigHeuristics, FigMismatches,
   FigRegisters, FigCounterMap, FigVisibilityMatrix, FigSolastalgia,
   FigTaiwan, FigWorkflow, FigVisibilityReview,
+  // HTML-derived figures
+  FigRiskQuartet, FigPerspectivesWheel, FigBTaper, FigHeuristicsHTML,
+  FigMismatchesTable, FigCounterMapHTML, FigVisibility2x2, FigTaiwanHTML,
 });

@@ -1087,6 +1087,139 @@ const PermaStyles = () => (
     /* Restyle StrataHead inside the aesthetic so it doesn't clash */
     .perma-aesthetic h1, .perma-aesthetic h2, .perma-aesthetic h3 { text-wrap:balance; }
     .perma-aesthetic p { text-wrap:pretty; }
+
+    /* ─────── HTML-derived figures ─────── */
+    /* Reference tables */
+    .perma-tbl-scroll { overflow-x:auto; padding:8px 26px 26px; }
+    .perma-data { border-collapse:collapse; width:100%; font-size:15.5px; line-height:1.45; min-width:560px; }
+    .perma-data th {
+      font-family:var(--mono); font-weight:500; font-size:11px; letter-spacing:0.12em;
+      text-transform:uppercase; color:var(--perma-bg); text-align:left;
+      padding:14px 16px; border-bottom:1.5px solid var(--perma-bg-soft); vertical-align:bottom;
+    }
+    .perma-data td { padding:14px 16px; border-bottom:1px solid var(--rule); vertical-align:top; color:var(--ink-2); }
+    .perma-data tr td:first-child { font-family:var(--serif); font-weight:480; color:var(--ink); font-size:16px; }
+    .perma-data tr:last-child td { border-bottom:none; }
+    .perma-data tbody tr { transition:background .18s; }
+    .perma-data tbody tr:hover { background:rgba(125,144,180,0.07); }
+
+    /* Perspectives wheel */
+    .perma-wheel-wrap { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:0; align-items:stretch; }
+    @media (max-width:780px) { .perma-wheel-wrap { grid-template-columns:1fr; } }
+    .perma-wheel-svg { padding:24px 14px; background:#1a2238; position:relative; }
+    .perma-wheel-svg svg { width:100%; max-width:340px; margin:0 auto; height:auto; display:block; }
+    .perma-vertex { cursor:pointer; transition:opacity .2s; }
+    .perma-vertex circle { transition:r .25s, stroke-width .2s; }
+    .perma-wheel-detail { padding:30px 28px; display:flex; flex-direction:column; justify-content:center; background:#fff; min-height:340px; }
+    .perma-wheel-detail .pname { font-family:var(--serif); font-weight:480; font-size:24px; color:var(--ink); margin:0; }
+    .perma-wheel-detail .pbar { height:4px; width:54px; border-radius:2px; margin:14px 0 18px; }
+    .perma-wheel-detail .block { margin-top:16px; }
+    .perma-wheel-detail .lab { font-family:var(--mono); font-size:10.5px; letter-spacing:0.18em; text-transform:uppercase; color:var(--perma-bg); font-weight:500; margin-bottom:5px; }
+    .perma-wheel-detail .val { font-size:16.5px; line-height:1.55; color:var(--ink-2); }
+    .perma-wheel-detail .val.one { font-family:var(--serif); font-size:20px; color:var(--ink); font-weight:460; }
+
+    /* Heuristic 3-tab figure (HTML version) */
+    .perma-htabs { display:flex; gap:2px; padding:22px 26px 0; flex-wrap:wrap; }
+    .perma-htab {
+      font-family:var(--mono); font-size:13px; letter-spacing:0.06em; font-weight:500;
+      padding:11px 20px; border:1px solid var(--paper-4); background:var(--paper-2);
+      color:var(--ink-2); border-radius:7px 7px 0 0; cursor:pointer; transition:all .2s; border-bottom:none;
+    }
+    .perma-htab[aria-selected="true"] { background:var(--perma-bg-deep); color:#fff; border-color:var(--perma-bg-deep); }
+    .perma-htab:hover:not([aria-selected="true"]) { background:#fff; color:var(--perma-bg-deep); }
+    .perma-hpanel { padding:30px 26px; border-top:1px solid var(--perma-bg-soft); }
+    .perma-hpanel h4 { font-family:var(--serif); font-weight:460; font-size:22px; margin:0 0 4px; color:var(--ink); }
+    .perma-hpanel .defn { font-size:17px; line-height:1.6; color:var(--ink-2); margin:14px 0 0; max-width:60ch; }
+    .perma-hpanel .invisible {
+      margin-top:22px; padding:16px 20px; background:var(--paper-2);
+      border-left:3px solid var(--loss); border-radius:0 7px 7px 0;
+      font-style:italic; font-family:var(--perma-body); font-size:16px; color:var(--ink-2);
+    }
+    .perma-hpanel .invisible b {
+      font-style:normal; font-family:var(--mono); font-size:10.5px; letter-spacing:0.18em;
+      text-transform:uppercase; color:var(--loss); display:block; margin-bottom:6px; font-weight:500;
+    }
+    .perma-hcite { font-family:var(--mono); font-size:11px; letter-spacing:0.04em; color:var(--ink-3); padding:0 26px 22px; }
+
+    /* Counter-Map flip cards (HTML version) */
+    .perma-flipgrid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; padding:26px; }
+    @media (max-width:720px) { .perma-flipgrid { grid-template-columns:1fr; } .perma-flip { height:auto !important; min-height:180px; } }
+    .perma-flip { perspective:1200px; height:230px; cursor:pointer; }
+    .perma-flip-in {
+      position:relative; width:100%; height:100%;
+      transition:transform .6s cubic-bezier(.4,.2,.2,1); transform-style:preserve-3d;
+    }
+    .perma-flip[aria-pressed="true"] .perma-flip-in { transform:rotateY(180deg); }
+    .perma-flip-face {
+      position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden;
+      border-radius:7px; padding:24px; display:flex; flex-direction:column;
+    }
+    .perma-flip-front { background:linear-gradient(165deg,#5d709a,#3f4f73); color:#fff; }
+    .perma-flip-front .satlabel { font-family:var(--mono); font-size:10.5px; letter-spacing:0.2em; text-transform:uppercase; opacity:.7; margin-bottom:auto; font-weight:500; }
+    .perma-flip-front .satclaim { font-family:var(--serif); font-size:21px; line-height:1.25; font-weight:380; }
+    .perma-flip-front .hint { font-family:var(--mono); font-size:10px; letter-spacing:0.14em; opacity:.6; margin-top:14px; }
+    .perma-flip-back { background:linear-gradient(165deg,#c2562a,#9a431f); color:#fff; transform:rotateY(180deg); }
+    .perma-flip-back .clab { font-family:var(--mono); font-size:10.5px; letter-spacing:0.2em; text-transform:uppercase; opacity:.8; margin-bottom:12px; font-weight:500; }
+    .perma-flip-back ul { margin:0; padding-left:18px; font-family:var(--perma-body); font-size:15.5px; line-height:1.5; }
+    .perma-flip-back li { margin-bottom:7px; }
+    .perma-whose { padding:8px 26px 28px; }
+    .perma-whose .lab { font-family:var(--mono); font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--loss); font-weight:500; margin-bottom:14px; }
+    .perma-whose-q { display:flex; flex-wrap:wrap; gap:10px; }
+    .perma-whose-q span { font-family:var(--serif); font-style:italic; font-size:19px; color:var(--perma-bg-deep); padding:4px 0; }
+    .perma-whose-q span:not(:last-child)::after { content:"·"; margin-left:10px; color:var(--ink-3); font-style:normal; }
+    .perma-tagline { padding:0 26px 26px; font-family:var(--serif); font-style:italic; font-size:18px; line-height:1.4; color:var(--ink-2); max-width:60ch; }
+    .perma-tagline b { font-style:normal; font-weight:560; color:var(--ink); }
+
+    /* Visibility 2x2 matrix */
+    .perma-matrix-wrap { display:grid; grid-template-columns:auto 1fr; gap:0; }
+    .perma-matrix-yaxis {
+      writing-mode:vertical-rl; transform:rotate(180deg);
+      font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
+      color:var(--ink-3); font-weight:500; display:flex; align-items:center; justify-content:center; padding:26px 0;
+    }
+    .perma-matrix-core { padding:24px 26px 26px; }
+    .perma-matrix-xaxis { font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--ink-3); font-weight:500; text-align:center; padding-bottom:14px; }
+    .perma-grid2 { display:grid; grid-template-columns:1fr 1fr; gap:2px; background:var(--rule); border:1px solid var(--rule); border-radius:7px; overflow:hidden; }
+    .perma-quad { background:#fff; padding:22px 20px; cursor:pointer; transition:all .22s; min-height:128px; position:relative; border:none; text-align:left; color:var(--ink); font-family:inherit; }
+    .perma-quad:hover { background:var(--paper-2); }
+    .perma-quad[aria-pressed="true"] { background:var(--perma-bg-deep); }
+    .perma-quad[aria-pressed="true"] .qname, .perma-quad[aria-pressed="true"] .qhint { color:#fff; }
+    .perma-quad[aria-pressed="true"] .corner { color:rgba(255,255,255,0.6); }
+    .perma-quad .qname { font-family:var(--serif); font-weight:480; font-size:21px; color:var(--ink); transition:color .2s; }
+    .perma-quad .qhint { font-family:var(--perma-body); font-size:14.5px; line-height:1.45; color:var(--ink-2); margin-top:8px; transition:color .2s; }
+    .perma-quad .corner { position:absolute; top:14px; right:16px; font-family:var(--mono); font-size:10px; letter-spacing:0.1em; color:var(--ink-3); }
+    .perma-matrix-readout { margin-top:18px; padding:20px 22px; background:var(--paper-2); border-radius:7px; border-left:3px solid var(--perma-bg); min-height:96px; }
+    .perma-matrix-readout .rname { font-family:var(--serif); font-weight:480; font-size:19px; color:var(--ink); margin:0; }
+    .perma-matrix-readout .rdef { font-size:16px; line-height:1.55; color:var(--ink-2); margin:8px 0 0; }
+    .perma-matrix-readout .rex { font-size:14.5px; line-height:1.5; color:var(--ink-3); margin:10px 0 0; font-style:italic; }
+
+    /* Taiwan slider plot */
+    .perma-tw-grid { padding:26px; }
+    .perma-tw-plot { background:#1a2238; border-radius:7px; padding:20px; position:relative; }
+    .perma-tw-plot svg { width:100%; height:auto; display:block; }
+    .perma-tw-readout { display:flex; justify-content:space-between; align-items:baseline; margin:18px 4px 8px; gap:16px; flex-wrap:wrap; }
+    .perma-tw-readout .prob, .perma-tw-readout .will { font-family:var(--mono); font-size:13px; color:var(--ink-2); }
+    .perma-tw-readout .prob b { color:var(--gain); font-size:20px; }
+    .perma-tw-readout .will b { color:var(--loss); font-size:20px; }
+    .perma-tw-slider { padding:6px 4px 18px; }
+    .perma-tw-slider label { font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-3); font-weight:500; display:block; }
+    .perma-tw-slider input[type=range] {
+      -webkit-appearance:none; appearance:none; width:100%; height:4px; border-radius:2px;
+      background:linear-gradient(90deg,var(--gain),var(--perma-bg-soft));
+      margin-top:12px; cursor:pointer;
+    }
+    .perma-tw-slider input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance:none; width:22px; height:22px; border-radius:50%;
+      background:#fff; border:2px solid var(--perma-bg-deep);
+      box-shadow:0 2px 8px rgba(31,42,64,0.4); cursor:pointer;
+    }
+    .perma-tw-slider input[type=range]::-moz-range-thumb { width:22px; height:22px; border-radius:50%; background:#fff; border:2px solid var(--perma-bg-deep); cursor:pointer; }
+    .perma-tw-chips { display:flex; flex-wrap:wrap; gap:9px; padding:4px 4px 8px; }
+    .perma-tw-chip { font-family:var(--mono); font-size:12px; letter-spacing:0.02em; padding:9px 14px; border-radius:20px; border:1px solid var(--paper-4); background:var(--paper); color:var(--ink-2); cursor:pointer; transition:all .18s; user-select:none; }
+    .perma-tw-chip[aria-pressed="true"] { background:var(--loss); color:#fff; border-color:var(--loss); }
+    .perma-tw-chip.nonmono[aria-pressed="true"] { background:var(--perma-bg); border-color:var(--perma-bg); }
+    .perma-tw-chip:hover:not([aria-pressed="true"]) { border-color:var(--perma-bg); }
+    .perma-tw-note { font-family:var(--perma-body); font-size:13.5px; font-style:italic; color:var(--ink-3); padding:6px 4px 0; line-height:1.45; }
   `}</style>
 );
 
@@ -1170,11 +1303,11 @@ const PermaRoadmap = ({ tabs, active, set }) => (
 );
 
 const PERMA_TABS = [
-  { id: "m1",       kicker: "I",   title: "Risk is a relation" },
-  { id: "m2",       kicker: "II",  title: "Knowledge through translation" },
-  { id: "m3",       kicker: "III", title: "Integration begins before fusion" },
-  { id: "m4",       kicker: "IV",  title: "Ethics is internal to method" },
-  { id: "practice", kicker: "→",   title: "From principle to practice" },
+  { id: "m1",       kicker: "Risk",        title: "Risk is a relation" },
+  { id: "m2",       kicker: "Translation", title: "Knowledge through translation" },
+  { id: "m3",       kicker: "Integration", title: "Integration begins before fusion" },
+  { id: "m4",       kicker: "Ethics",      title: "Ethics is internal to method" },
+  { id: "practice", kicker: "Practice",    title: "From principle to practice" },
 ];
 
 const TabPlongees = () => {
@@ -1216,11 +1349,21 @@ const TabPlongees = () => {
             caption="Each component, its guiding question, the strong remote-sensing contribution, and the grounded complement. The meter reads how far the satellite can carry that dimension alone.">
             <FigRiskRelation />
           </PFBlock>
+          <PFBlock kicker="the risk quartet · reference"
+            title="The same four parts, read as a single table."
+            caption="The table is not a division of property in which satellites own hazard and communities own vulnerability. Remote sensing contributes strongly to some dimensions; vulnerability and capacity require social, embodied, and institutional interpretation.">
+            <FigRiskQuartet />
+          </PFBlock>
           <PFBlock kicker="several perspectives, held at once"
             title="The satellite is one perspective among several. It is not the master view to which all other forms of knowledge report."
             lede="A defensible risk analysis must hold multiple perspectives together: the synoptic view from above, the field view from direct observation, the institutional view from planners and responders, the lived view from residents, and the political view that asks who has authority to define the problem."
             caption="These perspectives do not simply add together. They sometimes correct one another, sometimes contradict one another, and sometimes reveal that the original question was too narrow. Integration is therefore not only a technical operation. It is an act of judgment.">
             <FigPerspectives />
+          </PFBlock>
+          <PFBlock kicker="the perspectives wheel · click any vertex"
+            title="Five perspectives, the satellite is one vertex, not the hub."
+            caption="Integration here is not the work of a filter, which combines signals. It is the work of judgment, which interprets the relation among signals, bodies, institutions, memories, and consequences.">
+            <FigPerspectivesWheel />
           </PFBlock>
           <KeptFivePerspectives />
         </React.Fragment>
@@ -1238,10 +1381,23 @@ const TabPlongees = () => {
             caption="Step through each transformation. Many political and ethical decisions enter through ordinary technical steps, none of which announces itself as a value judgment.">
             <FigChain />
           </PFBlock>
+          <PFBlock kicker="the translation chain · gain holds, the ground falls away"
+            title="Read left to right and two things happen at once."
+            caption="The top edge holds level: the operational virtues stay at full strength. The floor rises until the band thins almost to a line, and the thinning is the argument. Each transformation buys legibility by discarding particularity, in James Scott's sense.">
+            <FigBTaper />
+          </PFBlock>
+          <p className="perma-pull">
+            The most consequential uncertainty is rarely inside the image. It lives in the gap between the flat ceiling and the rising floor.
+          </p>
           <PFBlock kicker="three heuristics that govern the chain"
             title="A heuristic is not an error. A heuristic is a rule that makes analysis possible under constraint."
             lede="Remote sensing depends on heuristics because the world is too complex, too continuous, and too variable to be represented without simplification. The problem begins when a heuristic is mistaken for the world itself. A cloud mask, a shadow mask, a land-cover class, an accuracy score, a damage threshold, or a vulnerability index can all be appropriate for one question and misleading for another. Methodological rigour means asking what each simplification does, what it hides, who is affected by it, and whether the chosen abstraction fits the decision being made.">
             <FigHeuristics />
+          </PFBlock>
+          <PFBlock kicker="where each heuristic turns invisible"
+            title="Three heuristics, three failures."
+            caption="The same three layers from the other angle: sensor, model, institution. Each carries an example of the kind of evidence the heuristic was never built to hold.">
+            <FigHeuristicsHTML />
           </PFBlock>
           <KeptHeuristicStack />
           <PFBlock kicker="six recurring mismatches"
@@ -1249,6 +1405,11 @@ const TabPlongees = () => {
             lede="Spatial scale may not match lived scale. Temporal resolution may not match the timing of action. Classification categories may not match local meanings. Accuracy metrics may not match social consequences. Model outputs may not match institutional authority. Visibility may not match safety. These are not reasons to abandon remote sensing. They are reasons to design remote-sensing workflows around the decision context from the start."
             caption="For each mismatch, what remote sensing privileges and what often matters in practice. Reveal one row, or all six.">
             <FigMismatches />
+          </PFBlock>
+          <PFBlock kicker="six diagnostic mismatches · reference"
+            title="The same six, read as a single table."
+            caption="These explain why community data is not a layer added after the satellite product is complete. It can change the object of inquiry itself. A sharper pixel is not automatically a more relational understanding.">
+            <FigMismatchesTable />
           </PFBlock>
           <p className="perma-pull">
             The data may be good and still be misused. The problem is often not the sensor. The problem is the default question.
@@ -1281,6 +1442,11 @@ const TabPlongees = () => {
             lede="Instead of asking how a community can help validate a map, counter-mapping asks what the map failed to recognize, whose categories organized the analysis, what forms of use or meaning were made invisible, and whether visibility itself creates risk. The satellite may identify where a surface changed. Counter-mapping asks what changed, for whom, by whose categories, and with what consequences.">
             <FigCounterMap />
           </PFBlock>
+          <PFBlock kicker="three counter-map inversions · tap a card"
+            title="The satellite reads edges as lines. Lived experience reads them as membranes."
+            caption="Three illustrations of the same inversion: the satellite's reading of the surface, and the counter-map's reading of what the surface holds.">
+            <FigCounterMapHTML />
+          </PFBlock>
           <KeptCounterMapTable />
           <InterludeDisclosure />
         </React.Fragment>
@@ -1297,6 +1463,11 @@ const TabPlongees = () => {
             title="Some information should be public. Some information should remain under community control. Some information should not be mapped at all."
             lede="Sacred sites, burial grounds, culturally sensitive places, informal shelters, routes used for safety, and locations that could expose vulnerable people require governance before representation. Non-mapping can be a valid method. Refusal can be a valid data-governance decision.">
             <FigVisibilityMatrix />
+          </PFBlock>
+          <PFBlock kicker="visibility · the resolution of an edge is itself a political variable"
+            title="The aim is not maximum visibility. It is accountable visibility."
+            caption="The same Sentinel-2 archive serves UNHCR and a military. The same Maxar tile runs from Bucha in 2022 to Gaza. Planet Labs has at times imposed a thirty-day delay on Gaza imagery. Visibility is power; the task is to govern it.">
+            <FigVisibility2x2 />
           </PFBlock>
           <p className="perma-body">
             Indigenous data sovereignty frameworks make this operational. <strong>OCAP&reg;</strong> centres First Nations ownership, control, access, and possession. <strong>CARE</strong> centres collective benefit, authority to control, responsibility, and ethics. The <strong>National Inuit Strategy on Research</strong> establishes expectations for research in Inuit Nunangat. These frameworks do not ask remote sensing to become less rigorous. They ask rigour to include authority, consent, benefit, governance, and the right to define what should and should not be known through a map.
@@ -1332,6 +1503,11 @@ const TabPlongees = () => {
           <PFBlock caption="Drag the probability of damage; willingness to evacuate does not track it linearly. Toggle the conditions through which a household interprets the warning.">
             <FigTaiwan />
           </PFBlock>
+          <PFBlock kicker="probability and willingness · not linearly related"
+            title="The forecast can rise without willingness following."
+            caption="A household interprets probability through prior false alarms, trust in the source, place attachment, language access, evacuation cost, and care obligations. A warning becomes actionable only when it enters what Sheila Jasanoff calls a civic epistemology: a community's settled expectations about whose knowledge is trustworthy and which institutions deserve confidence. Field framing draws on the Taiwan Typhoon Research Centre.">
+            <FigTaiwanHTML />
+          </PFBlock>
           <KeptTaiwanProse />
         </React.Fragment>
       )}
@@ -1357,6 +1533,9 @@ const TabPlongees = () => {
           <section className="perma-closing">
             <p className="big">
               The satellite can show where water spread, where fire burned, where vegetation declined, where ice thinned, where the shoreline moved, or where buildings appeared. Judgment asks different questions: who could leave, who stayed, who was believed, who had authority, who was protected, who was exposed, what decision followed, and what kind of recovery became possible afterward.
+            </p>
+            <p>
+              The model can estimate damage. Judgment asks what counts as repair. The warning can arrive. Judgment asks whether it can become trusted action. The map can make a place visible. Judgment asks who governs the consequences of that visibility.
             </p>
             <p>
               Remote sensing begins with seeing at a distance. Responsible practice begins when that distant seeing is brought back into relation with the people, institutions, and places that must live with its consequences.
