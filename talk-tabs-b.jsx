@@ -990,16 +990,16 @@ const RiskEquation = () => (
     textAlign: "center",
   }}>
     <p className="serif" style={{
-      margin: 0, fontSize: 17, lineHeight: 1.45, fontStyle: "italic",
+      margin: "0 0 14px", fontSize: 16, lineHeight: 1.5, fontStyle: "italic",
       color: "var(--ink-2)",
     }}>
-      Risk rises with hazard, exposure, and vulnerability, and falls when capacity is strong.
+      Risk increases as hazard, exposure, and vulnerability rise. Risk decreases when capacity is robust.
     </p>
     <p className="serif" style={{
-      margin: "16px 0 0", fontSize: 22, lineHeight: 1.35, fontWeight: 500,
+      margin: 0, fontSize: 22, lineHeight: 1.35, fontWeight: 500,
       letterSpacing: "-0.005em", color: "var(--ink)",
     }}>
-      Risk &nbsp;&approx;&nbsp; <strong style={{ fontWeight: 700 }}>Hazard</strong> &times; <strong style={{ fontWeight: 700 }}>Exposure</strong> &times; <strong style={{ fontWeight: 700 }}>Vulnerability</strong>, &nbsp;moderated by&nbsp; <strong style={{ fontWeight: 700 }}>Capacity</strong>
+      Risk &nbsp;=&nbsp; <strong style={{ fontWeight: 700 }}>Hazard</strong> &times; <strong style={{ fontWeight: 700 }}>Exposure</strong> &times; <strong style={{ fontWeight: 700 }}>Vulnerability</strong> &nbsp;&divide;&nbsp; <strong style={{ fontWeight: 700 }}>Capacity</strong>
     </p>
   </div>
 );
@@ -1124,21 +1124,30 @@ const TabPlongees = () => {
 
           {/* § I — THE FOUR COMPONENTS OF RISK */}
           <PFBlock n="I" kicker="THE FOUR COMPONENTS OF RISK"
-            title="Risk is relational. Hazards exist; disasters never do, on their own.">
+            title="Risk is a relational concept."
+            lede="While hazards exist independently, disasters arise through the interaction of hazards, exposure, vulnerability, and capacity.">
             <Para>
-              Risk differs fundamentally from disaster. Risk refers to the potential for loss prior to the full manifestation of an event: for example, a flood before it causes displacement, a fire before it necessitates evacuation, an earthquake before it results in collapsed buildings, or a heat wave before it leads to fatalities. A hazard escalates into a disaster only when it affects exposed populations, vulnerable systems, and when there is insufficient capacity to prepare, respond, or recover. Consequently, disaster-risk research often begins with a foundational proposition: while natural hazards exist, disasters are never solely natural phenomena. Earthquakes alone do not cause fatalities; rather, factors such as unsafe buildings, inadequate planning, poverty, poor enforcement, and lack of preparedness transform seismic events into widespread harm.
+              Disaster risk differs from disaster itself. Disaster risk denotes the potential for losses prior to their occurrence, such as a flood before displacement, a wildfire before evacuation, an earthquake before structural collapse, or a heat wave before fatalities. According to the UNDRR Sendai Framework, disaster risk is defined as the potential loss of life, injury, or damage to assets within a specified period, determined by the interplay of hazard, exposure, vulnerability, and capacity.
             </Para>
 
-            <Para style={{ marginTop: 22 }}>A useful shorthand is:</Para>
+            <Para>
+              This distinction is significant. A <strong style={{ color: "var(--ink)", fontWeight: 700 }}>hazard</strong> refers to a process, phenomenon, or human activity with the potential to cause harm. <strong style={{ color: "var(--ink)", fontWeight: 700 }}>Exposure</strong> encompasses people, infrastructure, housing, production capacities, and other tangible assets situated in areas prone to hazards. <strong style={{ color: "var(--ink)", fontWeight: 700 }}>Vulnerability</strong> refers to the physical, social, economic, and environmental conditions that heighten susceptibility to harm. <strong style={{ color: "var(--ink)", fontWeight: 700 }}>Capacity</strong> encompasses the strengths, resources, institutions, knowledge, skills, leadership, and social relationships that enable risk management and reduction.
+            </Para>
+
+            <Para>
+              A disaster results from the interaction of these components in a manner that significantly disrupts the functioning of a community or society. Consequently, the term &ldquo;natural disaster&rdquo; is misleading. While hazards may be natural, anthropogenic, or socionatural, disasters are not caused by hazards alone. For example, an earthquake does not cause fatalities in isolation; factors such as collapsing buildings, unsafe land-use decisions, inadequate enforcement, poverty, insufficient preparedness, weak institutions, and unequal access to protection transform seismic events into widespread harm.
+            </Para>
+
+            <Para style={{ marginTop: 22 }}>A concise summary is as follows:</Para>
 
             <RiskEquation />
 
             <Para>
-              This formulation does not represent a precise mathematical equation; rather, it serves as a reminder that risk is inherently relational. Remote sensing is a valuable tool within this framework, though its effectiveness varies across different components. It excels at mapping hazards and exposures, such as flood extent, burn scars, heat anomalies, landslide zones, shoreline retreat, buildings, roads, crops, settlements, and infrastructure. Additionally, remote sensing can provide proxy indicators for vulnerability and capacity, including building density, road access, distance to services, land-cover change, heat exposure, or spatial overlap with hazard zones. However, vulnerability and capacity cannot be directly inferred from imagery alone. These components depend on factors such as health, mobility, tenure, income, trust, language, governance, preparedness, leadership, mutual aid, and the ability of individuals to respond effectively to warnings.
+              This expression is not a precise mathematical equation but rather a pedagogical tool. Official terminology does not mandate that risk be calculated using this specific formula. The essential point is relational: identical hazards can yield markedly different outcomes depending on the nature of exposure, the degree of vulnerability, and the capacity to prepare, respond, adapt, and recover.
             </Para>
 
             <Para>
-              The distinction is not that satellites are solely responsible for assessing hazard and exposure, while communities are solely responsible for vulnerability and capacity. Rather, the key point is that remote sensing can address certain aspects of risk more effectively than others. Its utility is maximized when it explicitly identifies which components it measures directly, which it approximates, and which require validation through social, experiential, and institutional knowledge.
+              Remote sensing is a valuable tool within this framework, though its effectiveness varies across different components. It is most effective for assessing hazard and exposure, such as flood extent, burn scars, heat anomalies, landslide zones, shoreline retreat, buildings, roads, crops, settlements, and other visible infrastructure. Remote sensing can also provide proxies for vulnerability and capacity, including building density, road access, distance to services, land-cover change, heat exposure, or spatial overlap with hazard zones. However, vulnerability and capacity cannot be fully determined from imagery alone, as they depend on factors such as health, mobility, tenure, income, language, trust, governance, preparedness, leadership, mutual aid, social relationships, and the ability of individuals to act upon warnings.
             </Para>
 
             <div style={{ marginTop: 36 }}>
@@ -1150,7 +1159,7 @@ const TabPlongees = () => {
             </div>
 
             <Para style={{ marginTop: 28 }}>
-              Remote sensing, therefore, does not constitute a comprehensive risk model on its own. It represents a systematic approach to analyzing specific aspects of risk. Its societal value emerges when mapped hazards and exposures are integrated with contextual realities that determine who is affected, who is protected, who can relocate, who is trusted, and who possesses the resources necessary for recovery.
+              Therefore, the distinction is not simply that satellites measure hazard and exposure while communities assess vulnerability and capacity. Rather, remote sensing advances certain aspects of the risk relationship more effectively than others. Its greatest value is realized when analyses explicitly identify what is measured directly, what is approximated through proxies, and what requires grounding in social, experiential, and institutional knowledge.
             </Para>
           </PFBlock>
 
