@@ -1412,30 +1412,139 @@ const TabPlongees = () => {
       {active === "practice" && (
         <React.Fragment>
           <PFMovement id="practice" num="V" name="Practice"
-            lede="The final stage translates the conceptual framework into a practical workflow. A responsible project is initiated by identifying the decision that requires support, rather than by selecting an available satellite product. This process involves specifying the public-good objective, the affected populations, relevant institutions, appropriate sensor data, complementary ground-based information, sources of uncertainty, visibility risks, and the conditions necessary for action and revision. Practice is the stage at which interpretation, translation, integration, and ethical considerations are operationalized." />
-          <PFBlock n="I" kicker="THE COMMUNITY-FIRST WORKFLOW" kc="var(--clay)"
-            title="Eleven stages, beginning with the question and ending in action, monitoring, and revision.">
+            lede="From principle to workflow. Practice is where the previous four movements become operational. Interpretation defines the problem. Translation turns observations into usable evidence. Integration brings remote sensing into relation with other forms of knowledge. Ethics governs what should be visible, shared, withheld, or refused. Practice asks how those commitments are built into an actual project from the beginning." />
+
+          <Para>
+            A responsible remote-sensing project should not begin with the satellite product that happens to be available. It should begin with the decision, question, or public-good problem that needs support. The first task is to identify what is at stake, who is affected, who has authority, what kind of evidence is needed, what kind of evidence would be harmful, and what action the work is supposed to make possible.
+          </Para>
+          <Para>The practical question is therefore not only: what can be mapped?</Para>
+          <Para italic>
+            It is also: who needs this knowledge, who defines the problem, who interprets the result, who governs the data, who can act on the evidence, and who remains accountable after the map is released?
+          </Para>
+
+          {/* § I — INTERLUDE · MULTIMODALITY AS METHOD */}
+          <PFBlock n="I" kicker="INTERLUDE · MULTIMODALITY AS METHOD" kc="var(--clay)"
+            title="Multimodality is not only physical. It is also contributory and ontological."
+            lede="Multimodality is often treated as a technical matter: combining optical imagery, SAR, LiDAR, thermal data, passive microwave, hyperspectral data, atmospheric measurements, acoustic data, or gravity-based observations. This kind of physical multimodality is essential. Different sensors interact with the world differently, and no single sensor sees everything.">
+            <Para>But practice requires a broader understanding of multimodality.</Para>
+            <ul style={{ margin: "12px 0 0", padding: "0 0 0 18px", maxWidth: 820 }}>
+              <li className="serif" style={{ margin: "8px 0", fontSize: 15.5, lineHeight: 1.6, color: "var(--ink-2)" }}>
+                There is <strong style={{ color: "var(--ink)", fontWeight: 700 }}>physical multimodality</strong>: different wavelengths and sensing principles observing different properties of the same landscape.
+              </li>
+              <li className="serif" style={{ margin: "8px 0", fontSize: 15.5, lineHeight: 1.6, color: "var(--ink-2)" }}>
+                There is <strong style={{ color: "var(--ink)", fontWeight: 700 }}>geometric multimodality</strong>: satellites, aircraft, drones, fixed stations, handheld instruments, indoor sensors, and body-altitude measurements observing from different distances and reference frames.
+              </li>
+              <li className="serif" style={{ margin: "8px 0", fontSize: 15.5, lineHeight: 1.6, color: "var(--ink-2)" }}>
+                There is <strong style={{ color: "var(--clay)", fontWeight: 700 }}>contributory multimodality</strong>: institutions, researchers, volunteers, residents, citizen scientists, community observers, and local organizations helping produce or interpret data.
+              </li>
+              <li className="serif" style={{ margin: "8px 0", fontSize: 15.5, lineHeight: 1.6, color: "var(--ink-2)" }}>
+                There is <strong style={{ color: "var(--clay)", fontWeight: 700 }}>ontological multimodality</strong>: different knowledge systems defining the object of concern differently.
+              </li>
+            </ul>
+            <Para>
+              The first two are established technical practices. The last two are where remote sensing becomes socially and politically consequential. A community observation is not simply another variable to insert into a model. It may identify a different object, a different boundary, a different timescale, a different harm, or a different reason the map matters. This is why integration cannot be reduced to data fusion. Sometimes the task is not to combine measurements of the same thing. Sometimes the task is to recognize that the "thing" itself has been defined too narrowly.
+            </Para>
+            <p className="serif" style={{ margin: "26px 0 6px", padding: "16px 22px", fontSize: 18, lineHeight: 1.45, fontStyle: "italic", color: "var(--ink)", borderLeft: "3px solid var(--clay)", background: "var(--paper-2)", maxWidth: 820 }}>
+              The bridge from technical multimodality to ontological multimodality is the bridge from better sensing to better judgment.
+            </p>
+
+            <div style={{ marginTop: 18 }}>
+              <MultimodalitySection />
+            </div>
+          </PFBlock>
+
+          {/* § II — THE PRINCIPLE: KEEP EVIDENCE CONNECTED, BUT NOT COLLAPSED */}
+          <PFBlock n="II" kicker="THE PRINCIPLE" kc="var(--clay)"
+            title="Keep evidence connected, but not collapsed."
+            lede="A rigorous workflow does not force every kind of knowledge into a single grid, score, or model. Some evidence can be fused. Some evidence should be compared. Some evidence should remain parallel but linked through place, time, provenance, and interpretation.">
+            <Para>
+              A satellite-derived flood layer, a river gauge, a household interview, an evacuation route, a municipal plan, an elder's memory of past water levels, and a photograph of a washed-out road may all belong to the same analysis, but they do not all have to become the same kind of data.
+            </Para>
+            <p className="serif" style={{ margin: "20px 0 6px", padding: "16px 22px", fontSize: 18, lineHeight: 1.45, fontStyle: "italic", color: "var(--ink)", borderLeft: "3px solid var(--clay)", background: "var(--paper-2)", maxWidth: 820 }}>
+              The goal is not forced synthesis. The goal is accountable association.
+            </p>
+            <Para>
+              This means preserving the differences among evidence types rather than erasing them too early. <strong style={{ color: "var(--ink)", fontWeight: 700 }}>Remote-sensing products</strong> should remain traceable to their sensors, dates, resolutions, methods, and uncertainties. <strong style={{ color: "var(--ink)", fontWeight: 700 }}>Field measurements</strong> should remain traceable to instruments, locations, thresholds, and maintenance conditions. <strong style={{ color: "var(--ink)", fontWeight: 700 }}>Community knowledge</strong> should remain traceable to consent, context, authority, permitted use, and possible refusal. <strong style={{ color: "var(--ink)", fontWeight: 700 }}>Institutional records</strong> should remain traceable to mandates, legal effects, planning instruments, and decision responsibilities.
+            </Para>
+            <Para>
+              A useful system makes agreement visible, but also makes disagreement visible. Disagreement is not always a failure. It may be the moment when the project discovers that the satellite, the institution, and the community are not actually talking about the same object.
+            </Para>
+          </PFBlock>
+
+          {/* § III — THE COMMUNITY-FIRST WORKFLOW (11 stages, FigWorkflow) */}
+          <PFBlock n="III" kicker="THE COMMUNITY-FIRST WORKFLOW" kc="var(--clay)"
+            title="A community-first workflow begins with the question, not the dataset."
+            lede="Eleven stages, beginning with the public-good problem and ending in monitoring, maintenance, and revision.">
             <FigWorkflow />
           </PFBlock>
-          <PFBlock n="II" kicker="THE VISIBILITY-RISK REVIEW" kc="var(--clay)"
-            title="A rigorous project funds and evaluates the work it claims to value."
-            lede="Community interpretation, translation, legal review, data-sovereignty review, accessibility, maintenance, and post-release accountability are not optional extras. They are part of the method.">
+
+          {/* § IV — THE VISIBILITY-RISK REVIEW */}
+          <PFBlock n="IV" kicker="THE VISIBILITY-RISK REVIEW" kc="var(--clay)"
+            title="Visibility is not automatically good. A map can protect, but it can also expose."
+            lede="A high-resolution image can support humanitarian response, document harm, guide adaptation, or strengthen community claims. The same image can also assist surveillance, targeting, extraction, displacement, or unwanted exposure of sensitive sites. Every project therefore needs a visibility-risk review before release.">
             <FigVisibilityReview />
+            <div style={{ marginTop: 22 }}>
+              <div className="mono" style={{ fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--ink-3)", fontWeight: 600, marginBottom: 10 }}>The review should ask</div>
+              <ul style={{ margin: 0, padding: "0 0 0 18px", maxWidth: 820 }}>
+                {[
+                  "Who benefits from this visibility?",
+                  "Who may be exposed or harmed by it?",
+                  "Who has authority to approve, restrict, or refuse publication?",
+                  "Does the map reveal sensitive cultural, ecological, household, infrastructural, or safety-related information?",
+                  "Could the output be misused by actors outside the intended audience?",
+                  "What uncertainty might be misunderstood as certainty?",
+                  "What safeguards, access controls, aggregation, masking, delay, or non-mapping decisions are required?",
+                  "What obligations continue after release?",
+                ].map((q, i) => (
+                  <li key={i} className="serif" style={{ margin: "6px 0", fontSize: 15.5, lineHeight: 1.6, color: "var(--ink-2)", fontStyle: "italic" }}>{q}</li>
+                ))}
+              </ul>
+            </div>
+            <Para>
+              This review is not separate from technical quality. It is part of technical quality. A map that is accurate but unsafe is not a successful output. A map that is open but violates data sovereignty is not a responsible output. A map that is useful to outsiders but unusable or harmful to the people represented has failed the public-good test.
+            </Para>
           </PFBlock>
-          <PFBlock n="III" kicker="INTERLUDE · MULTIMODALITY" kc="var(--clay)"
-            title="More than one way of knowing, sharing the page."
-            lede="A short detour between method and ethics: why integrating community knowledge into a remote-sensing pipeline is not a data problem but a methodological one.">
-            <MultimodalitySection />
+
+          {/* § V — OPERATIONAL STANDARDS */}
+          <PFBlock n="V" kicker="OPERATIONAL STANDARDS" kc="var(--clay)"
+            title="A rigorous project funds and evaluates the work it claims to value."
+            lede="Community interpretation, translation, legal review, data-sovereignty review, accessibility, maintenance, and post-release accountability are not optional extras. They are part of the method. Five standards follow from this.">
+            <ol style={{ margin: "12px 0 0", padding: 0, listStyle: "none" }}>
+              {[
+                ["First", "Co-design begins at question formulation.",          "The project should not arrive with a completed research design and ask for local validation. It should ask which community, institutional, or public-good questions remote sensing can help answer."],
+                ["Second","Governance must be layered.",                        "Technical metadata is not enough. A responsible dataset also needs social, legal, and ethical metadata: provenance, consent, cultural protocols, permitted uses, withdrawal mechanisms, benefit-sharing expectations, and access conditions."],
+                ["Third", "Data sovereignty is a default condition.",           "Where Indigenous or community-defined knowledge is involved. OCAP®, CARE, NISR, and Traditional Knowledge Labels are not decorative references. They define minimum expectations for authority, consent, responsibility, and control."],
+                ["Fourth","Validation must be reciprocal.",                     "Community observations should not be the only evidence expected to prove itself. Sensor products must also be tested against lived conditions, local categories, language, field knowledge, and culturally meaningful interpretations of change."],
+                ["Fifth", "The project must have a future.",                    "Research that arrives, extracts, publishes, and leaves is not a durable public-good practice. A useful project identifies who maintains the data, who updates the workflow, who trains the next users, who hosts the outputs, and who remains accountable in five or ten years."],
+              ].map(([ord, head, body], i) => (
+                <li key={i} style={{
+                  display: "grid", gridTemplateColumns: "auto 1fr", gap: 22,
+                  padding: "18px 0",
+                  borderBottom: i < 4 ? "1px solid var(--rule)" : "none",
+                  alignItems: "baseline",
+                }}>
+                  <div style={{
+                    fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.18em",
+                    textTransform: "uppercase", color: "var(--clay)", fontWeight: 600,
+                    minWidth: 78,
+                  }}>{ord}</div>
+                  <div>
+                    <div className="serif" style={{ fontSize: 19, lineHeight: 1.22, fontWeight: 500, letterSpacing: "-0.008em", color: "var(--ink)" }}>{head}</div>
+                    <p className="serif" style={{ margin: "6px 0 0", fontSize: 15.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 760 }}>{body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
           </PFBlock>
 
           {/* Closing block */}
           <section style={{ background: "var(--ink)", color: "#fff", padding: "60px 32px 72px", marginTop: 48 }}>
-            <PFMono c="#8fb4d6" s={11}>closing · from seeing to judgment</PFMono>
+            <PFMono c="#8fb4d6" s={11}>closing · from seeing to relation</PFMono>
             <h2 className="serif" style={{ margin: "16px 0 0", fontSize: 30, lineHeight: 1.22, fontWeight: 500, letterSpacing: "-0.014em", maxWidth: 980, color: "#fff" }}>
-              The satellite can show where water spread, where fire burned, where vegetation declined, where ice thinned, where the shoreline moved, or where buildings appeared. Judgment asks different questions: who could leave, who stayed, who was believed, who had authority, who was protected, who was exposed, what decision followed, and what kind of recovery became possible afterward.
+              Remote sensing can show where water spread, where fire burned, where vegetation declined, where ice thinned, where the shoreline moved, or where buildings appeared. Practice asks different questions: who needed the knowledge, who interpreted it, who could act, who was exposed, who had authority, what decision followed, and what changed afterward.
             </h2>
-            <p className="serif" style={{ margin: "20px 0 0", maxWidth: 760, fontSize: 17, lineHeight: 1.55, color: "rgba(255,255,255,0.84)" }}>
-              Remote sensing begins with seeing at a distance. Responsible practice begins when that distant seeing is brought back into relation with the people, institutions, and places that must live with its consequences.
+            <p className="serif" style={{ margin: "20px 0 0", maxWidth: 760, fontSize: 17, lineHeight: 1.55, color: "rgba(255,255,255,0.84)", fontStyle: "italic" }}>
+              Responsible practice begins when distant observation is returned to relation: with the people, institutions, and places that must live with its consequences.
             </p>
           </section>
         </React.Fragment>
