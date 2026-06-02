@@ -274,7 +274,124 @@ const StrataHead = ({ section, size = 96 }) => {
   );
 };
 
+// ─── Landscape strip · used as the tab thumbnail in the chrome nav ────────
+// Reuses each strata's glyph paths but crops to a wide landscape band so it
+// reads as a small landscape photo across the top of the tab.
+const STRATA_STRIP = {
+  active: (
+    <>
+      <rect width="160" height="20" fill="url(#st-sky)" />
+      <rect y="20" width="160" height="28" fill="url(#st-active)" />
+      <ellipse cx="34" cy="10" rx="18" ry="4" fill="var(--st-active-accent)" opacity="0.55" />
+      <ellipse cx="108" cy="8"  rx="22" ry="5" fill="var(--st-active-accent)" opacity="0.45" />
+      <g stroke="var(--st-active-accent-2)" strokeWidth="0.7" opacity="0.5">
+        <line x1="20" y1="28" x2="20" y2="42" />
+        <line x1="60" y1="30" x2="60" y2="44" />
+        <line x1="100" y1="27" x2="100" y2="41" />
+        <line x1="138" y1="29" x2="138" y2="43" />
+      </g>
+      <g fill="var(--st-active-edge)" opacity="0.6">
+        <circle cx="30" cy="38" r="1.4" />
+        <circle cx="78" cy="40" r="1.2" />
+        <circle cx="120" cy="36" r="1.1" />
+      </g>
+    </>
+  ),
+  perma: (
+    <>
+      <rect width="160" height="14" fill="url(#st-sky)" opacity="0.35" />
+      <rect y="14" width="160" height="34" fill="url(#st-perma)" />
+      <g opacity="0.55" stroke="var(--st-perma-edge)" strokeWidth="0.7" fill="none">
+        <path d="M0 26 Q40 22 80 26 T160 24" />
+        <path d="M0 40 Q40 36 80 40 T160 38" />
+      </g>
+      <g fill="url(#st-ice)" stroke="var(--st-perma-accent-2)" strokeWidth="0.4" opacity="0.92">
+        <polygon points="22,18 60,16 66,42 28,44" />
+        <polygon points="92,22 130,20 134,46 96,48" />
+      </g>
+      <line x1="28" y1="22" x2="50" y2="20" stroke="var(--st-perma-accent)" strokeWidth="0.5" opacity="0.5" />
+    </>
+  ),
+  canopy: (
+    <>
+      <rect width="160" height="22" fill="url(#st-sky)" />
+      <rect y="22" width="160" height="26" fill="url(#st-soil)" />
+      <ellipse cx="28" cy="14" rx="20" ry="10" fill="url(#st-crown)" />
+      <ellipse cx="68" cy="12" rx="22" ry="11" fill="url(#st-crown)" />
+      <ellipse cx="108" cy="14" rx="20" ry="10" fill="url(#st-crown)" />
+      <ellipse cx="142" cy="13" rx="18" ry="9" fill="var(--st-canopy-bg-deep)" />
+      <ellipse cx="50" cy="22" rx="36" ry="8" fill="var(--st-canopy-bg-deep)" opacity="0.85" />
+      <ellipse cx="120" cy="22" rx="30" ry="7" fill="var(--st-canopy-bg-deep)" opacity="0.85" />
+      <g fill="var(--st-canopy-accent)" opacity="0.6">
+        <circle cx="24" cy="10" r="2.4" />
+        <circle cx="62" cy="8" r="2.6" />
+        <circle cx="104" cy="10" r="2.2" />
+      </g>
+    </>
+  ),
+  rhizo: (
+    <>
+      <rect width="160" height="14" fill="url(#st-active)" opacity="0.5" />
+      <rect y="14" width="160" height="34" fill="url(#st-soil)" />
+      <g stroke="var(--st-rhizo-root)" strokeWidth="1.4" fill="none" opacity="0.85">
+        <path d="M22 14 C18 22 14 30 16 46" />
+        <path d="M52 14 C48 24 46 32 48 46" />
+        <path d="M82 14 C82 24 80 32 78 46" />
+        <path d="M112 14 C114 24 116 32 116 46" />
+        <path d="M138 14 C138 24 142 32 144 46" />
+      </g>
+      <g stroke="var(--st-rhizo-accent-2)" strokeWidth="0.7" fill="none" opacity="0.7">
+        <path d="M16 30 C12 36 10 40 8 46" />
+        <path d="M48 30 C44 38 42 42 40 46" />
+        <path d="M78 30 C74 38 70 42 68 46" />
+        <path d="M116 30 C120 38 122 42 124 46" />
+        <path d="M144 30 C148 38 150 42 152 46" />
+      </g>
+      <g fill="var(--st-rhizo-accent)">
+        <circle cx="8" cy="46" r="1.6" />
+        <circle cx="68" cy="46" r="1.4" />
+        <circle cx="124" cy="46" r="1.4" />
+        <circle cx="152" cy="46" r="1.6" />
+      </g>
+    </>
+  ),
+  floor: (
+    <>
+      <rect width="160" height="48" fill="url(#st-sea)" />
+      <g fill="var(--st-floor-accent-2)" opacity="0.45">
+        <circle cx="22" cy="14" r="1.4" />
+        <circle cx="74" cy="10" r="1.0" />
+        <circle cx="108" cy="16" r="1.3" />
+        <circle cx="140" cy="12" r="1.0" />
+      </g>
+      <path d="M0 26 Q40 20 80 26 T160 24 L160 48 L0 48 Z" fill="url(#st-bed)" />
+      <path d="M0 34 Q40 30 80 34 T160 32 L160 48 L0 48 Z" fill="var(--st-floor-sediment)" />
+      <path d="M0 40 Q40 38 80 40 T160 38 L160 48 L0 48 Z" fill="var(--st-floor-edge)" />
+      <g fill="var(--st-floor-accent)" opacity="0.7">
+        <circle cx="28" cy="36" r="1.2" />
+        <circle cx="78" cy="40" r="1.0" />
+        <circle cx="120" cy="36" r="1.2" />
+      </g>
+    </>
+  ),
+};
+
+const StrataStrip = ({ section = "active" }) => {
+  const inner = STRATA_STRIP[section];
+  if (!inner) return null;
+  const clipId = `st-strip-clip-${section}`;
+  return (
+    <svg viewBox="0 0 160 48" preserveAspectRatio="xMidYMid slice"
+      width="100%" height="100%" role="img" aria-hidden="true"
+      style={{ display: "block" }}>
+      <StrataDefs />
+      <clipPath id={clipId}><rect width="160" height="48" rx="3" /></clipPath>
+      <g clipPath={`url(#${clipId})`}>{inner}</g>
+    </svg>
+  );
+};
+
 Object.assign(window, {
   STRATA_SECTIONS, STRATA_CONTENT, STRATA_ORDER,
-  SectionGlyph, StrataColumn, StrataHead,
+  SectionGlyph, StrataColumn, StrataHead, StrataStrip,
 });

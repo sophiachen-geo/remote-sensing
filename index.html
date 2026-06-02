@@ -113,43 +113,55 @@
     border-bottom: 1px solid var(--rule-soft);
   }
   .chrome-tabs {
-    display: flex; gap: 0; max-width: 1280px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 0; max-width: 1280px; margin: 0 auto;
     padding: 0 56px;
-    overflow: hidden;
   }
-  .tab {
+  .tab-card {
     appearance: none; background: none; border: none; cursor: pointer;
-    padding: 14px 0 16px; margin-right: 36px;
-    font-family: var(--sans); font-size: 13.5px;
-    color: var(--ink-3); position: relative;
-    display: inline-flex; align-items: center; gap: 9px;
-    white-space: nowrap;
+    padding: 12px 18px 14px; text-align: left;
+    display: flex; flex-direction: column; align-items: flex-start;
+    gap: 8px; color: var(--ink-3);
+    position: relative;
+    border-right: 1px solid var(--rule-soft);
+    transition: background 160ms, color 160ms;
+  }
+  .tab-card:last-child { border-right: none; }
+  .tab-card .tab-strip {
+    display: block; width: 100%; height: 30px;
+    border-radius: 3px; overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(17, 32, 58, 0.08);
+    opacity: 0.62;
+    transition: opacity 200ms, transform 200ms;
+  }
+  .tab-card .tab-label {
+    font-family: var(--serif); font-size: 17px; font-weight: 500;
+    letter-spacing: -0.005em;
+    color: var(--ink-3);
     transition: color 160ms;
   }
-  .tab .roman {
+  .tab-card .tab-sub {
     font-family: var(--mono); font-size: 10px;
-    letter-spacing: 0.16em;
-    color: var(--tab-accent, var(--ink-4));
-    opacity: 0.7;
-    text-transform: uppercase;
-    transition: opacity 160ms;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-4);
+    transition: color 160ms;
   }
-  .tab .glyph {
-    display: inline-block; width: 9px; height: 9px;
-    background: var(--tab-accent, var(--ink-3));
-    transform: rotate(45deg);
-    opacity: 0.45;
-    transition: opacity 160ms, transform 160ms;
-  }
-  .tab:hover { color: var(--ink); }
-  .tab:hover .roman { opacity: 1; }
-  .tab:hover .glyph { opacity: 0.85; }
-  .tab.on { color: var(--ink); }
-  .tab.on .roman { opacity: 1; }
-  .tab.on .glyph { opacity: 1; transform: rotate(45deg) scale(1.25); }
-  .tab.on::after {
+  .tab-card:hover { background: var(--rule-soft); color: var(--ink); }
+  .tab-card:hover .tab-strip { opacity: 0.85; }
+  .tab-card:hover .tab-label { color: var(--ink); }
+  .tab-card.on .tab-strip { opacity: 1; }
+  .tab-card.on .tab-label { color: var(--ink); font-weight: 700; }
+  .tab-card.on .tab-sub { color: var(--tab-accent, var(--ink-3)); }
+  .tab-card.on::after {
     content: ""; position: absolute; left: 0; right: 0; bottom: -1px;
     height: 2px; background: var(--tab-accent, var(--terra));
+  }
+  @media (max-width: 760px) {
+    .chrome-tabs { padding: 0 16px; }
+    .tab-card { padding: 10px 10px 12px; gap: 6px; }
+    .tab-card .tab-strip { height: 22px; }
+    .tab-card .tab-label { font-size: 14px; }
+    .tab-card .tab-sub { font-size: 9px; letter-spacing: 0.14em; }
   }
 
   /* ============================================================

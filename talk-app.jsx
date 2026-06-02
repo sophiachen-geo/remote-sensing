@@ -3,11 +3,11 @@
 // =======================================================================
 
 const TABS = [
-  { id: "activelayer",  roman: "i",   label: "Active Layer", component: TabOuverture, accent: "var(--st-active-accent-2)", strata: "active" },
-  { id: "permafrost",   roman: "ii",  label: "Permafrost",   component: TabPlongees,  accent: "var(--st-perma-accent-2)",  strata: "perma"  },
-  { id: "canopy",       roman: "iii", label: "Canopy",       component: TabDeepDive,  accent: "var(--st-canopy-bg)",       strata: "canopy" },
-  { id: "rhizosphere",  roman: "iv",  label: "Rhizosphere",  component: TabAvenir,    accent: "var(--st-rhizo-accent-2)",  strata: "rhizo"  },
-  { id: "seafloor",     roman: "v",   label: "Seafloor",     component: TabAnnexes,   accent: "var(--st-floor-accent)",    strata: "floor"  },
+  { id: "activelayer",  label: "Introduction", sub: "Active Layer", component: TabOuverture, accent: "var(--st-active-accent-2)", strata: "active" },
+  { id: "permafrost",   label: "Core Ideas",   sub: "Permafrost",   component: TabPlongees,  accent: "var(--st-perma-accent-2)",  strata: "perma"  },
+  { id: "canopy",       label: "Case Studies", sub: "Canopy",       component: TabDeepDive,  accent: "var(--st-canopy-bg)",       strata: "canopy" },
+  { id: "rhizosphere",  label: "Field Guide",  sub: "Rhizosphere",  component: TabAvenir,    accent: "var(--st-rhizo-accent-2)",  strata: "rhizo"  },
+  { id: "seafloor",     label: "Annexes",      sub: "Seafloor",     component: TabAnnexes,   accent: "var(--st-floor-accent)",    strata: "floor"  },
 ];
 
 const useHashTab = () => {
@@ -37,13 +37,13 @@ const Chrome = ({ active, go }) => (
     <nav className="chrome-tabs">
       {TABS.map(t => (
         <button key={t.id} onClick={() => go(t.id)}
-          className={`tab ${active === t.id ? "on" : ""}`}
+          className={`tab-card ${active === t.id ? "on" : ""}`}
           style={{ "--tab-accent": t.accent }}>
-          <span className="roman">{t.roman}</span>
-          <span className="strata-mark" aria-hidden="true">
-            <SectionGlyph section={t.strata} size={22} showSurface={false} />
+          <span className="tab-strip" aria-hidden="true">
+            <StrataStrip section={t.strata} />
           </span>
-          {t.label}
+          <span className="tab-label">{t.label}</span>
+          <span className="tab-sub">{t.sub}</span>
         </button>
       ))}
     </nav>
