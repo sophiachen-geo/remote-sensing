@@ -193,34 +193,6 @@ const FrameworkPanel = () => {
   );
 };
 
-const TranslationChain = () => {
-  const stages = ["raw imagery", "bands", "indices", "thresholds", "classes", "maps", "evidence", "decisions"];
-  const xs = stages.map((_, i) => 80 + i * 120);
-  const heights = stages.map((_, i) => 120 - i * (120 - 26) / 7);
-  const topLine = heights.map((h, i) => [xs[i], 150 - h / 2]);
-  const botLine = heights.map((h, i) => [xs[i], 150 + h / 2]);
-  return (
-    <FigureCard>
-      <div className="mono" style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: FG.ink3, marginBottom: 14 }}>
-        The translation chain
-      </div>
-      <svg viewBox="0 0 1000 300" width="100%" style={{ display: "block" }}>
-        <path d={`M ${topLine.map(p => p.join(",")).join(" L ")} L ${botLine.slice().reverse().map(p => p.join(",")).join(" L ")} Z`}
-          fill={FG.skyT} stroke={FG.sky} strokeWidth="1.2" />
-        {stages.map((s, i) => (
-          <g key={i}>
-            <line x1={xs[i]} y1={150 - heights[i] / 2} x2={xs[i]} y2={150 + heights[i] / 2} stroke={FG.sky} strokeWidth="0.8" strokeDasharray="2 3" opacity="0.65" />
-            <circle cx={xs[i]} cy={150} r="3.2" fill={FG.navy} />
-            <text x={xs[i]} y={150 + heights[i] / 2 + 22} textAnchor="middle" fontFamily="var(--mono)" fontSize="10" fill={FG.ink2} style={{ letterSpacing: "0.08em", textTransform: "uppercase" }}>{s}</text>
-          </g>
-        ))}
-        <text x={80} y={42} fontFamily="var(--mono)" fontSize="11" fill={FG.sky} style={{ letterSpacing: "0.14em", textTransform: "uppercase" }}>Gained ↑ scale · repetition · comparison · change detection</text>
-        <text x={80} y={282} fontFamily="var(--mono)" fontSize="11" fill={FG.clay} style={{ letterSpacing: "0.14em", textTransform: "uppercase" }}>Narrowed ↓ use · memory · access · obligation · meaning</text>
-      </svg>
-    </FigureCard>
-  );
-};
-
 // ─── per-principle figures ───────────────────────────────────────────────
 
 const P1Figure = () => {
@@ -1230,7 +1202,6 @@ const CriticalFieldGuide = () => (
     </section>
 
     <FrameworkPanel />
-    <TranslationChain />
 
     <div style={{ padding: "44px 0 16px" }}>
       <div className="mono" style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: FG.ink3, marginBottom: 14 }}>The twelve principles</div>
