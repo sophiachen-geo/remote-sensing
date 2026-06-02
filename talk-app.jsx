@@ -29,35 +29,56 @@ const useHashTab = () => {
   return [tab, go];
 };
 
-const Chrome = ({ active, go }) => (
+const Chrome = ({ active, go, introOpen }) => (
   <header className="chrome">
     <div className="chrome-strip">
       <span>Canadian Remote Sensing Society · Presentation Companion Guide</span>
     </div>
     <nav className="chrome-tabs">
-      {TABS.map(t => (
-        <button key={t.id} onClick={() => go(t.id)}
-          className={`tab-card ${active === t.id ? "on" : ""}`}
-          style={{ "--tab-accent": t.accent }}>
-          <span className="tab-strip" aria-hidden="true">
-            <StrataStrip section={t.strata} />
-          </span>
-          <span className="tab-label">{t.label}</span>
-          <span className="tab-sub">{t.sub}</span>
-        </button>
-      ))}
+      {TABS.map(t => {
+        const on = active === t.id;
+        return (
+          <button key={t.id} onClick={() => go(t.id)}
+            className={`tab-card ${on ? "on" : ""}`}
+            aria-expanded={on ? (introOpen ? "true" : "false") : undefined}
+            style={{ "--tab-accent": t.accent }}>
+            <span className="tab-strip" aria-hidden="true">
+              <StrataStrip section={t.strata} />
+            </span>
+            <span className="tab-label">
+              {t.label}
+              {on && (
+                <span className="tab-caret" aria-hidden="true">{introOpen ? "▾" : "▸"}</span>
+              )}
+            </span>
+            <span className="tab-sub">{t.sub}</span>
+          </button>
+        );
+      })}
     </nav>
   </header>
 );
 
 const App = () => {
   const [tab, go] = useHashTab();
+  const [introOpen, setIntroOpen] = React.useState(true);
+  const prevTabRef = React.useRef(tab);
+  React.useEffect(() => {
+    if (prevTabRef.current !== tab) {
+      setIntroOpen(true);
+      prevTabRef.current = tab;
+    }
+  }, [tab]);
+  const onTabClick = (id) => {
+    if (id === tab) setIntroOpen(o => !o);
+    else { go(id); setIntroOpen(true); }
+  };
   const activeTab = TABS.find(t => t.id === tab);
   const Current = activeTab.component;
   return (
     <>
-      <Chrome active={tab} go={go} />
-      <SectionIntro section={activeTab.strata} accent={activeTab.accent} />
+      <Chrome active={tab} go={onTabClick} introOpen={introOpen} />
+      {introOpen && <SectionIntro section={activeTab.strata} accent={activeTab.accent} />}
       <main className="pane">
         <Current />
       </main>

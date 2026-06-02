@@ -196,14 +196,30 @@ const FigRiskRelation = ({ accent = PF.navy }) => {
           </div>
         </div>
       </div>
-      <div style={{ borderTop: `1px solid ${PF.rule}`, background: PF.bg2, padding: "12px 26px" }}>
-        <span className="serif" style={{ fontSize: 15, fontStyle: "italic", color: PF.ink2 }}>
-          Risk = <b style={{ fontStyle: "normal", fontWeight: 600, color: PF.ink }}>Hazard</b>
-          {" · "}<b style={{ fontStyle: "normal", fontWeight: 600, color: PF.ink }}>Exposure</b>
-          {" · "}<b style={{ fontStyle: "normal", fontWeight: 600, color: PF.ink }}>Vulnerability</b>
-          {" · "}<b style={{ fontStyle: "normal", fontWeight: 600, color: PF.ink }}>Capacity</b>.
-          {" "}The satellite is one perspective among them, not the master view.
-        </span>
+      <div style={{ borderTop: `1px solid ${PF.rule}`, background: PF.bg2, padding: "22px 28px 24px" }}>
+        <div style={{ fontSize: 18, fontWeight: 700, color: PF.ink, marginBottom: 18 }}>
+          Risk is a disaster that hasn't happened (yet)
+        </div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start", gap: 12, margin: "0 0 22px", flexWrap: "wrap" }}>
+          <span style={{ fontSize: 28, fontWeight: 800, color: "#b91c1c", letterSpacing: "-0.01em" }}>Risk =</span>
+          <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", lineHeight: 1.1 }}>
+            <span style={{ fontSize: 24, fontWeight: 700, color: "#b91c1c", padding: "0 6px 4px", borderBottom: "2px solid #b91c1c", letterSpacing: "-0.005em" }}>
+              Hazard × Vulnerability × Exposure
+            </span>
+            <span style={{ fontSize: 24, fontWeight: 700, color: "#b91c1c", padding: "4px 6px 0", letterSpacing: "-0.005em" }}>
+              Capacity
+            </span>
+          </div>
+        </div>
+        <div style={{ fontSize: 16, fontWeight: 600, color: PF.ink, marginBottom: 8 }}>
+          There are <span style={{ fontWeight: 900 }}>NO</span> natural disasters, only natural hazards
+        </div>
+        <div style={{ fontSize: 16, fontWeight: 600, color: PF.ink, marginBottom: 18 }}>
+          Hazards cannot (always) be avoided; disasters can!
+        </div>
+        <p className="serif" style={{ margin: 0, fontSize: 15.5, lineHeight: 1.5, fontStyle: "italic", color: PF.ink2 }}>
+          "Earthquakes do not kill people but collapsing buildings and lack of urban planning do..."
+        </p>
       </div>
       <PFKeys />
     </div>

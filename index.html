@@ -119,30 +119,35 @@
   }
   .tab-card {
     appearance: none; background: none; border: none; cursor: pointer;
-    padding: 12px 18px 14px; text-align: left;
+    padding: 8px 14px 10px; text-align: left;
     display: flex; flex-direction: column; align-items: flex-start;
-    gap: 8px; color: var(--ink-3);
+    gap: 5px; color: var(--ink-3);
     position: relative;
     border-right: 1px solid var(--rule-soft);
     transition: background 160ms, color 160ms;
   }
   .tab-card:last-child { border-right: none; }
   .tab-card .tab-strip {
-    display: block; width: 100%; height: 30px;
+    display: block; width: 100%; height: 22px;
     border-radius: 3px; overflow: hidden;
     box-shadow: inset 0 0 0 1px rgba(17, 32, 58, 0.08);
     opacity: 0.62;
     transition: opacity 200ms, transform 200ms;
   }
   .tab-card .tab-label {
-    font-family: var(--serif); font-size: 17px; font-weight: 500;
+    font-family: var(--serif); font-size: 14.5px; font-weight: 500;
     letter-spacing: -0.005em;
     color: var(--ink-3);
     transition: color 160ms;
+    display: inline-flex; align-items: baseline; gap: 6px;
+  }
+  .tab-card .tab-caret {
+    font-size: 11px; color: var(--tab-accent, var(--ink-3));
+    transition: transform 160ms;
   }
   .tab-card .tab-sub {
-    font-family: var(--mono); font-size: 10px;
-    letter-spacing: 0.18em; text-transform: uppercase;
+    font-family: var(--mono); font-size: 9.5px;
+    letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--ink-4);
     transition: color 160ms;
   }

@@ -895,37 +895,52 @@ const InterludeDisclosure = () => {
   );
 };
 
-const PermaSubNav = ({ tabs, active, set }) => (
-  <div style={{
-    display: "grid", gridTemplateColumns: `repeat(${tabs.length}, 1fr)`,
-    gap: 0, marginTop: 36, marginBottom: 4,
-    border: "1px solid var(--rule)", background: "var(--paper)",
-    position: "sticky", top: 56, zIndex: 5,
-  }}>
-    {tabs.map((t, i) => {
-      const on = active === t.id;
-      return (
-        <button key={t.id} onClick={() => set(t.id)} style={{
-          appearance: "none", border: "none",
-          background: on ? "var(--paper-2)" : "var(--paper)",
-          padding: "16px 16px 18px", textAlign: "left", cursor: "pointer",
-          borderRight: i < tabs.length - 1 ? "1px solid var(--rule)" : "none",
-          borderTop: on ? "3px solid var(--clay)" : "3px solid transparent",
-          color: "var(--ink)", transition: "background .15s",
-        }}>
-          <div className="mono" style={{
-            fontSize: 10.5, letterSpacing: "0.16em", textTransform: "uppercase",
-            color: on ? "var(--clay)" : "var(--ink-3)",
-          }}>{t.kicker}</div>
-          <div className="serif" style={{
-            marginTop: 6, fontSize: 17, lineHeight: 1.18,
-            fontWeight: on ? 600 : 500, letterSpacing: "-0.005em", color: "var(--ink)",
-          }}>{t.title}</div>
-        </button>
-      );
-    })}
-  </div>
-);
+const PermaSubNav = ({ tabs, active, set, accentMap }) => {
+  const [hover, setHover] = React.useState(null);
+  return (
+    <div style={{
+      display: "grid", gridTemplateColumns: `repeat(${tabs.length}, 1fr)`,
+      gap: 0, marginTop: 8, marginBottom: 16,
+      border: "1px solid var(--rule)", background: "var(--paper)",
+      position: "sticky", top: 56, zIndex: 5,
+      borderRadius: 6, overflow: "hidden",
+    }}>
+      {tabs.map((t, i) => {
+        const on = active === t.id;
+        const hovered = hover === t.id;
+        const acc = (accentMap && accentMap[t.id]) || "var(--clay)";
+        const bg = on
+          ? `color-mix(in oklch, ${acc} 9%, var(--paper))`
+          : hovered ? "var(--paper-2)" : "var(--paper)";
+        return (
+          <button key={t.id}
+            onClick={() => set(t.id)}
+            onMouseEnter={() => setHover(t.id)}
+            onMouseLeave={() => setHover(null)}
+            style={{
+              appearance: "none", border: "none",
+              background: bg, cursor: "pointer",
+              padding: "12px 12px 14px", textAlign: "center",
+              borderRight: i < tabs.length - 1 ? "1px solid var(--rule)" : "none",
+              borderTop: `3px solid ${on ? acc : "transparent"}`,
+              color: "var(--ink)", transition: "background .2s, border-color .2s",
+              display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
+              minHeight: 64,
+            }}>
+            <div className="mono" style={{
+              fontSize: 9.5, letterSpacing: "0.18em", textTransform: "uppercase",
+              color: on ? acc : "var(--ink-3)", transition: "color .2s", fontWeight: 600,
+            }}>{t.kicker}</div>
+            <div className="serif" style={{
+              fontSize: 14.5, lineHeight: 1.22, textAlign: "center",
+              fontWeight: on ? 600 : 500, letterSpacing: "-0.005em", color: "var(--ink)",
+            }}>{t.title}</div>
+          </button>
+        );
+      })}
+    </div>
+  );
+};
 
 const PERMA_TABS = [
   { id: "m1",       kicker: "Movement I",   title: "Risk is a relation" },
@@ -939,26 +954,15 @@ const TabPlongees = () => {
   const [active, setActive] = React.useState("m1");
 
   return (
-    <div className="wrap" style={{ padding: "72px 56px 100px", "--accent": "var(--st-perma-accent-2)" }}>
-      <StrataHead section="perma" />
-
-      {/* Masthead */}
-      <header style={{ padding: "44px 0 20px", borderTop: "1px solid var(--rule)" }}>
-        <PFMono c="var(--sky)" s={11}>Permafrost · the layer beneath the method</PFMono>
-        <h1 style={{ margin: "16px 0 0", fontSize: 50, lineHeight: 1.05, fontWeight: 800, letterSpacing: "-0.026em", maxWidth: 1040, color: "var(--ink)" }}>
+    <div className="wrap" style={{ padding: "40px 56px 100px", "--accent": "var(--st-perma-accent-2)" }}>
+      {/* Tab masthead, focused question only */}
+      <header style={{ padding: "8px 0 28px" }}>
+        <h1 style={{ margin: "0", fontSize: 44, lineHeight: 1.05, fontWeight: 800, letterSpacing: "-0.026em", maxWidth: 1040, color: "var(--ink)" }}>
           How does distant observation become usable knowledge, and what has to happen before that knowledge can support responsible decisions?
         </h1>
-        <p className="serif" style={{ margin: "22px 0 0", fontSize: 18, lineHeight: 1.55, color: "var(--ink-2)", maxWidth: 760 }}>
-          Remote sensing is central to contemporary risk, resilience, and environmental work because it provides scale, speed, repetition, and continuity across places that cannot be observed directly or continuously from the ground. Its strength is not simply that it sees from above. Its strength is that it can detect patterns, compare places, follow change through time, and create evidence where direct observation is partial, delayed, dangerous, or impossible. But seeing at scale is not the same as understanding in place. A satellite image becomes useful only after it is interpreted, validated, situated, communicated, and connected to the people and institutions that must act on it.
-        </p>
-        <div style={{ marginTop: 28, borderLeft: "3px solid var(--clay)", paddingLeft: 22, maxWidth: 820 }}>
-          <p className="serif" style={{ margin: 0, fontSize: 22, lineHeight: 1.35, color: "var(--ink)", fontStyle: "italic" }}>
-            Remote sensing begins with distance. Responsible use begins when that distance is brought back into relation.
-          </p>
-        </div>
       </header>
 
-      <PermaSubNav tabs={PERMA_TABS} active={active} set={setActive} />
+      <PermaSubNav tabs={PERMA_TABS} active={active} set={setActive} accentMap={MOVEMENT_ACCENT} />
 
       {active === "m1" && (
         <React.Fragment>
@@ -972,13 +976,18 @@ const TabPlongees = () => {
             caption="Each component, its guiding question, the strong remote-sensing contribution, and the grounded complement. The meter reads how far the satellite can carry that dimension alone.">
             <FigRiskRelation />
           </PFBlock>
-          <PFBlock kicker="several perspectives, held at once"
+          <PFBlock kicker="several perspectives, held at once · two views"
             title="The satellite is one perspective among several. It is not the master view to which all other forms of knowledge report."
             lede="A defensible risk analysis must hold multiple perspectives together: the synoptic view from above, the field view from direct observation, the institutional view from planners and responders, the lived view from residents, and the political view that asks who has authority to define the problem."
             caption="These perspectives do not simply add together. They sometimes correct one another, sometimes contradict one another, and sometimes reveal that the original question was too narrow. Integration is therefore not only a technical operation. It is an act of judgment.">
             <FigPerspectives />
+            <div style={{ marginTop: 20, padding: "18px 0 0", borderTop: "1px dashed var(--rule)" }}>
+              <div className="mono" style={{ fontSize: 10.5, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--ink-3)", marginBottom: 14 }}>
+                or, the same five as spokes around the central UNDRR risk hub
+              </div>
+              <FivePerspectivesWheel />
+            </div>
           </PFBlock>
-          <KeptFivePerspectives />
         </React.Fragment>
       )}
 
@@ -1272,8 +1281,7 @@ const TabAvenir = () => {
     { t: "Communities need accountability to refusal.", b: "If a community decides that a place, a phenomenon, or a category of information should not be mapped, that decision is a methodological constraint, not a barrier to be negotiated around. Some things should not be mapped, and some that must be, only by whom matters. The constraint applies particularly strongly to sacred sites, harvest locations whose disclosure would invite commercial exploitation, and sea ice corridors whose disclosure could be weaponised by extractive industries." },
   ];
   return (
-    <div className="wrap" style={{ padding: "72px 56px 100px", "--accent": "var(--st-rhizo-accent-2)" }}>
-      <StrataHead section="rhizo" />
+    <div className="wrap" style={{ padding: "40px 56px 100px", "--accent": "var(--st-rhizo-accent-2)" }}>
       <RhizoSubTabs view={view} set={setView} />
 
       {view === "guide" && <CriticalFieldGuide />}
@@ -1372,9 +1380,7 @@ const TabAvenir = () => {
 // ANNEXES, time budget, cuts and expands, Q&A, reading, bilingual, spine.
 // -----------------------------------------------------------------------
 const TabAnnexes = () => (
-  <div className="wrap" style={{ padding: "72px 56px 100px", "--accent": "var(--st-floor-accent)" }}>
-    <StrataHead section="floor" />
-
+  <div className="wrap" style={{ padding: "40px 56px 100px", "--accent": "var(--st-floor-accent)" }}>
     <Card pad={32} style={{ marginTop: 8 }}>
       <Kicker color="var(--terra)">Further reading, the bibliography that sits behind the talk</Kicker>
       <p style={{ margin: "0 0 16px", color: "var(--ink-2)", fontSize: 13.5, lineHeight: 1.6, maxWidth: 820 }}>
