@@ -1158,16 +1158,72 @@ const TabPlongees = () => {
           <PFBlock n="II" kicker="THE FIVE PERSPECTIVES"
             title="No single perspective can carry the whole problem.">
             <Para>
-              The framework below is not presented as the final truth about risk, knowledge, or remote sensing. It is a working interpretation: a way of remembering that no single perspective can carry the whole problem. A defensible risk analysis has to hold several forms of evidence together without pretending that they all see the same thing, speak with the same authority, or answer the same question.
+              The following framework is not intended as a definitive theory of risk, knowledge, or remote sensing. It is a working interpretation: a way of remembering that no single perspective can carry the whole problem. A robust risk analysis must bring several forms of evidence into relation without assuming that they observe the same phenomenon, hold the same authority, or answer the same question.
             </Para>
             <Para>
-              The satellite is one perspective among several. It is not the master view to which all other forms of knowledge report. It gives scale, repetition, comparison, and pattern. But risk is not only pattern. Risk is also measurement at the point of action, use and memory of place, exposure as lived experience, and institutional authority to decide. These perspectives do not simply add together. They can confirm one another, correct one another, contradict one another, or reveal that the original question was too narrow. Integration is therefore not only a technical operation. It is an act of judgment.
+              The satellite is one perspective among several. It is not the master view to which all other forms of knowledge report. It provides scale, repetition, comparison, and pattern recognition. But risk is not only pattern. Risk also involves measurement at the site of action, the use and memory of place, lived exposure, and institutional authority. These perspectives do not simply accumulate. They may confirm, correct, contradict, or expose the limitations of the initial question. Integration is therefore not only a technical process. It is an exercise in judgment.
             </Para>
-            <Para style={{ marginTop: 22 }}>The five names are used as conceptual handles.</Para>
 
-            {/* Interactive wheel/panel — the overview the cards expand */}
-            <div style={{ marginTop: 24 }}>
+            <Para style={{ marginTop: 22 }}>The five names are used as conceptual tools.</Para>
+            <ul style={{ margin: "10px 0 0", padding: "0 0 0 18px", maxWidth: 820 }}>
+              <li className="serif" style={{ margin: "6px 0", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
+                <strong style={{ color: "var(--sky)", fontWeight: 700 }}>Plato</strong> names the sky-eye: abstraction, distance, pattern, and anticipation.
+              </li>
+              <li className="serif" style={{ margin: "6px 0", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
+                <strong style={{ color: "var(--teal)", fontWeight: 700 }}>Tycho</strong> names the ground sensor: calibrated observation, local measurement, and instrumental precision.
+              </li>
+              <li className="serif" style={{ margin: "6px 0", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
+                <strong style={{ color: "var(--clay)", fontWeight: 700 }}>Community</strong> names place-based knowledge: use, memory, access, trust, refusal, and shared meaning.
+              </li>
+              <li className="serif" style={{ margin: "6px 0", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
+                <strong style={{ color: "var(--amber)", fontWeight: 700 }}>Aristotle</strong> names embodied judgment: what exposure feels like in a body, in a moment, under actual conditions.
+              </li>
+              <li className="serif" style={{ margin: "6px 0", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)" }}>
+                <strong style={{ color: "var(--plum)", fontWeight: 700 }}>Machiavelli</strong> names the institution: mandate, jurisdiction, authority, budget, liability, and the conversion of evidence into action.
+              </li>
+            </ul>
+
+            <Para>
+              These names should not be read as proof that one philosophical tradition explains remote sensing. They are mnemonic figures. Their purpose is to make the differences among perspectives memorable: the view from above, the measurement at a point, the knowledge of use and meaning, the body that experiences exposure, and the institution that can act.
+            </Para>
+            <Para>
+              Collectively, the five perspectives ask a central question: what does each mode of observation reveal, and what does each overlook?
+            </Para>
+
+            {/* Figure 02 — interactive wheel/panel */}
+            <div style={{ marginTop: 32 }}>
+              <div className="mono" style={{
+                fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase",
+                color: "var(--sky)", fontWeight: 600, marginBottom: 4,
+              }}>Figure 02 · click any perspective</div>
+              <h4 className="serif" style={{ margin: "0 0 14px", fontSize: 22, lineHeight: 1.18, fontWeight: 500, letterSpacing: "-0.01em", color: "var(--ink)" }}>
+                Five perspectives on risk
+              </h4>
               <FigPerspectivesMerged />
+            </div>
+
+            {/* Diagnostic questions */}
+            <div style={{ marginTop: 28, padding: "20px 22px", background: "var(--paper-2)", border: "1px solid var(--rule)", borderLeft: "3px solid var(--sky)" }}>
+              <Para style={{ marginTop: 0 }}>
+                The figure should be read diagnostically, not hierarchically. Each perspective contributes something necessary, but each also fails in a specific way when treated as complete.
+              </Para>
+              <ul style={{ margin: "14px 0 0", padding: "0 0 0 18px", listStyle: "none" }}>
+                {[
+                  ["PLATO",       "var(--sky)",   "what pattern becomes visible from distance?"],
+                  ["TYCHO",       "var(--teal)",  "what measurement anchors or challenges that pattern on the ground?"],
+                  ["COMMUNITY",   "var(--clay)",  "what does this place mean, how is it used, who has authority, and what should not be mapped?"],
+                  ["ARISTOTLE",   "var(--amber)", "how does the risk arrive in a body, through movement, fear, fatigue, breath, heat, smoke, water, or delay?"],
+                  ["MACHIAVELLI", "var(--plum)",  "what institution can act on the evidence, with what mandate, budget, legal threshold, and accountability?"],
+                ].map(([who, color, q]) => (
+                  <li key={who} className="serif" style={{ margin: "10px 0", fontSize: 15.5, lineHeight: 1.55, color: "var(--ink-2)", display: "grid", gridTemplateColumns: "110px 1fr", gap: 16, alignItems: "baseline" }}>
+                    <span className="mono" style={{ fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase", color, fontWeight: 600 }}>{who} asks</span>
+                    <span>{q}</span>
+                  </li>
+                ))}
+              </ul>
+              <Para style={{ marginTop: 14 }}>
+                The point is not to make all five perspectives agree. The point is to know what each perspective contributes, where each one fails, and what kind of judgment is needed when they do not align.
+              </Para>
             </div>
 
             {/* The five perspective cards — full prose per philosopher */}
@@ -1183,37 +1239,59 @@ const TabPlongees = () => {
                 name="Ground sensor"
                 subtitle="Calibration at the scale of local action"
                 color="var(--teal)">
-                The ground-sensor perspective contributes in-situ measurement, thresholds, calibration, and validation against the world that the satellite cannot directly touch. It is the perspective of rain gauges, river-stage sensors, soil-moisture probes, piezometers, tide gauges, air-quality stations, weather masts, stream-temperature loggers, and snow-depth measurements. It sees rain totals at a station, river height at a bridge, groundwater level in a well, tide at a gauge, smoke concentration near a school, or soil moisture in a specific field. Its strength is precision in place. Its limit is coverage. A sensor can be trustworthy where it is and silent everywhere else. The ground sensor therefore does not replace the satellite; it anchors, tests, and sometimes challenges the satellite's broader pattern.
+                The ground-sensor perspective provides in-situ measurement, threshold determination, calibration, and validation in contexts inaccessible to satellites. This perspective includes rain gauges, river-stage sensors, soil-moisture probes, piezometers, tide gauges, air-quality stations, weather masts, stream-temperature loggers, and snow-depth measurements. It captures rain totals at specific stations, river heights at bridges, groundwater levels in wells, tides at gauges, smoke concentrations near schools, and soil moisture in particular fields. Its principal strength is spatial precision. Its limitation is restricted coverage. A sensor delivers reliable data at its location but remains silent elsewhere. Ground sensors therefore do not replace satellites. They anchor, test, and occasionally challenge the broader patterns identified by satellite observation.
               </PerspectiveCard>
 
               <PerspectiveCard n="03" philosopher="COMMUNITY"
                 name="Place-based knowledge"
                 subtitle="Use, memory, access, trust, refusal"
                 color="var(--clay)">
-                The community perspective contributes what the place is used for, by whom, at what time, under what history, with what trust, and with what forms of care or refusal. It is the perspective of interviews, walkthroughs, mapping workshops, council meetings, local observers, mutual-aid networks, elders, land users, residents, and people who know how a place actually works. It sees safe routes, seasonal access, trusted warning channels, sacred and protected places, commons and shared rights, prior false alarms, local thresholds, informal shelters, gathering places, and what counts as recovery. Its strength is relevance. Its danger is being treated as anecdotal unless the project gives it authority. A map that affects a community but is not interpretable, contestable, or co-authored by that community does not yet have social legitimacy.
+                The community perspective contributes knowledge of how a place is used, by whom, at what time, under what history, with what trust, and with what forms of care or refusal. This perspective is informed by interviews, walkthroughs, mapping workshops, council meetings, local observers, mutual-aid networks, elders, land users, residents, and people who know how the area actually works. It identifies safe routes, seasonal access, trusted warning channels, sacred and protected sites, commons and shared rights, previous false alarms, local thresholds, informal shelters, gathering places, and definitions of recovery. Its primary strength is contextual relevance. Its hazard is dismissal: community knowledge is often treated as anecdotal unless the project formally grants it authority. A map that affects a community but is not interpretable, contestable, or co-authored by that community lacks social legitimacy. The community perspective is not simply a source of validation after the map has been produced. It can change the categories of the map before analysis begins.
               </PerspectiveCard>
 
               <PerspectiveCard n="04" philosopher="ARISTOTLE"
                 name="Embodied judgment"
                 subtitle="Exposure as lived experience"
                 color="var(--amber)">
-                The embodied perspective contributes the lived scale of exposure: the bottom metres of the atmosphere, the body in heat, smoke, water, traffic, slope, fear, delay, fatigue, and uncertainty. It is the perspective of people moving through risk, not merely appearing inside a risk layer. It sees heat as exhaustion, slope as burden, distance as impossibility, evacuation as fear or refusal, smoke as breathing difficulty, water level as danger, traffic as stress, and climate change as a change in daily movement. Its strength is lived exposure. Its limit is that much of it leaves no spectral signature. A person can be at risk in ways no satellite can directly detect. This is why the Q-TRAK example matters: for carbon dioxide as a health question rather than a climate question, the satellite is often measuring the wrong scale of air. The body is not a footnote to the map. The body is where the consequence arrives.
+                The embodied perspective addresses the lived scale of exposure: the lower atmosphere and the human body's experience of heat, smoke, water, traffic, slope, fear, delay, fatigue, and uncertainty. This perspective centers on individuals navigating risk, rather than merely appearing within a risk layer. It interprets heat as exhaustion, slope as burden, distance as impossibility, evacuation as fear or refusal, smoke as respiratory difficulty, water level as danger, traffic as stress, and climate change as altered daily movement. Its principal strength is direct experience of exposure. Its limitation is that much of this experience leaves no detectable spectral signature. Individuals may face risks that satellites cannot directly observe. This is why the Q-TRAK example matters. For carbon dioxide as a health concern rather than a climate issue, satellites often measure the wrong scale of air. The body is not peripheral to the map. The body is the site where consequences arrive.
               </PerspectiveCard>
 
               <PerspectiveCard n="05" philosopher="MACHIAVELLI"
                 name="Institutional power"
                 subtitle="Mandate, jurisdiction, decision"
                 color="var(--plum)">
-                The institutional perspective contributes authority to act. It is the perspective of statutes, mandates, plans, budgets, liability, insurance rules, emergency powers, land-use regulations, aid programs, and infrastructure responsibilities. It sees evacuation orders, insurance triggers, disaster declarations, planning restrictions, aid allocation, camp recognition, land claims, service mandates, and adaptation funding. Its strength is governability: the capacity to convert evidence into enforceable action. Its danger is abstraction from lived experience. Institutions may decide before the people most affected are heard, or may lack the mandate to act even when the evidence is clear. The form of authority often decides who can speak, what counts as evidence, and what action becomes possible before the data even arrives.
+                The institutional perspective provides the authority to act. This perspective encompasses statutes, mandates, plans, budgets, liability, insurance regulations, emergency powers, land-use policies, aid programs, and infrastructure responsibilities. It identifies evacuation orders, insurance triggers, disaster declarations, planning restrictions, aid allocation, camp recognition, land claims, service mandates, and adaptation funding. Its principal strength is governability: the ability to translate evidence into enforceable action. Its limitation lies in potential abstraction from lived experience. Institutions may make decisions before those most affected are consulted, or they may lack the mandate to act even when evidence is compelling. The structure of authority often determines who is heard, what qualifies as evidence, and which actions are possible before new data arrives.
               </PerspectiveCard>
             </div>
 
+            {/* Synthesis */}
             <div style={{ marginTop: 36, paddingTop: 28, borderTop: "1px solid var(--rule)" }}>
+              <div className="mono" style={{
+                fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase",
+                color: "var(--ink-3)", fontWeight: 600, marginBottom: 4,
+              }}>Synthesis</div>
+              <h4 className="serif" style={{ margin: "0 0 14px", fontSize: 22, lineHeight: 1.18, fontWeight: 500, letterSpacing: "-0.01em", color: "var(--ink)" }}>
+                Why five perspectives are necessary
+              </h4>
               <Para style={{ marginTop: 0 }}>
-                The point of the five perspectives is not balance for its own sake. The point is diagnostic. When a risk analysis fails, it often fails because one perspective has been mistaken for the whole. A satellite pattern is treated as lived exposure. A gauge is treated as regional truth. A community account is treated as anecdote. A bodily experience is treated as subjective noise. An institutional category is treated as reality itself.
+                The purpose of the five perspectives is not balance for its own sake. The purpose is diagnostic. Risk analyses often fail when a single perspective is mistaken for the whole issue.
+              </Para>
+              <ul style={{ margin: "12px 0 0", padding: "0 0 0 18px", maxWidth: 820 }}>
+                {[
+                  "A satellite pattern may be mistaken for lived exposure.",
+                  "A gauge reading may be mistaken for regional truth.",
+                  "A community account may be dismissed as anecdote.",
+                  "A bodily experience may be treated as subjective noise.",
+                  "An institutional category may be treated as objective reality.",
+                ].map((s, i) => (
+                  <li key={i} className="serif" style={{ margin: "4px 0", fontSize: 15.5, lineHeight: 1.6, color: "var(--ink-2)" }}>{s}</li>
+                ))}
+              </ul>
+              <Para>
+                A stronger workflow assigns each perspective to its area of strength and highlights the resulting gaps. The sky-eye identifies patterns. The ground sensor verifies measurements. The community perspective defines use, meaning, access, and refusal. The embodied perspective situates exposure within the body. The institutional perspective clarifies who can act and under what authority.
               </Para>
               <Para>
-                A stronger workflow asks each perspective to do what it can do well, and then makes the gaps visible. The sky-eye shows the pattern. The ground sensor tests the measurement. The community names use and meaning. The embodied perspective brings exposure back to the body. The institution reveals who can act, who cannot, and under what authority. Only when these perspectives are held together can distant observation become usable, accountable, and situated knowledge.
+                Only by integrating these perspectives can distant observation be transformed into usable, accountable, and contextually grounded knowledge.
               </Para>
             </div>
           </PFBlock>

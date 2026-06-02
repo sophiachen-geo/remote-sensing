@@ -371,14 +371,15 @@ const PF_PERSPECTIVES_RICH = [
 
 const FigPerspectivesMerged = ({ accent = PF.navy } = {}) => {
   const [sel, setSel] = React.useState("embodied");
-  const cx = 180, cy = 180, R = 118;
+  // Wider viewBox so vertex labels have room outside the circles
+  const VBW = 520, VBH = 400;
+  const cx = VBW / 2, cy = 190, R = 130;
   const verts = PF_PERSPECTIVES_RICH.map((p, i) => {
     const a = (-90 + i * 72) * Math.PI / 180;
     return { ...p, x: cx + R * Math.cos(a), y: cy + R * Math.sin(a) };
   });
   const a = verts.find(v => v.key === sel) || verts[0];
 
-  // Subtle vertex symbol per perspective for visual differentiation
   const symbol = {
     sky: "↑", ground: "●", community: "◆", embodied: "→", inst: "▲",
   }[a.key];
@@ -390,11 +391,9 @@ const FigPerspectivesMerged = ({ accent = PF.navy } = {}) => {
       gap: 0,
     }}>
       {/* LEFT — wheel, bare hub */}
-      <div style={{ padding: "22px 18px 28px", background: PF.bg2, borderRight: `1px solid ${PF.rule}` }}>
-        <svg viewBox="0 0 360 380" role="img" aria-label="Five perspectives arranged around a central hub" style={{ width: "100%", maxWidth: 360, margin: "0 auto", height: "auto", display: "block" }}>
-          {/* Faint ring */}
+      <div style={{ padding: "22px 12px 28px", background: PF.bg2, borderRight: `1px solid ${PF.rule}` }}>
+        <svg viewBox={`0 0 ${VBW} ${VBH}`} role="img" aria-label="Five perspectives arranged around a central hub" style={{ width: "100%", maxWidth: 500, margin: "0 auto", height: "auto", display: "block" }}>
           <circle cx={cx} cy={cy} r={R} fill="none" stroke={PF.rule2} strokeWidth="0.7" opacity="0.7" />
-          {/* Spokes */}
           {verts.map(v => (
             <line key={v.key} x1={cx} y1={cy} x2={v.x} y2={v.y}
               stroke={v.key === sel ? v.color : PF.rule2}
@@ -402,24 +401,27 @@ const FigPerspectivesMerged = ({ accent = PF.navy } = {}) => {
               strokeDasharray={v.key === sel ? "0" : "3 4"}
               opacity={v.key === sel ? 0.9 : 0.55} />
           ))}
-          {/* Bare hub, no UNDRR text */}
-          <circle cx={cx} cy={cy} r="34" fill={PF.bg} stroke={PF.rule2} strokeWidth="1" />
-          <text x={cx} y={cy + 5} textAnchor="middle" fontFamily="var(--serif)" fontSize="18" fill={PF.ink2} fontStyle="italic">Risk</text>
-          {/* Vertices */}
+          <circle cx={cx} cy={cy} r="36" fill={PF.bg} stroke={PF.rule2} strokeWidth="1" />
+          <text x={cx} y={cy + 6} textAnchor="middle" fontFamily="var(--serif)" fontSize="20" fill={PF.ink2} fontStyle="italic">Risk</text>
           {verts.map(v => {
             const on = v.key === sel;
+            const cr = on ? 22 : 16;
             const ux = v.x - cx, uy = v.y - cy, mag = Math.sqrt(ux*ux + uy*uy);
-            let lx = cx + ux/mag * (R + 28), ly = cy + uy/mag * (R + 28) + 4;
+            // Push label well outside the circle: R + circle radius + comfortable padding
+            const labelDist = R + cr + 22;
+            let lx = cx + ux / mag * labelDist;
+            let ly = cy + uy / mag * labelDist + 5;
+            // Anchor based on horizontal position so the label flows AWAY from the circle
             let anchor = "middle";
-            if (lx < cx - 12) { anchor = "start"; lx = 4; }
-            else if (lx > cx + 12) { anchor = "end"; lx = 356; }
+            if (lx < cx - 30) anchor = "end";       // left side → text ends at lx, reads leftward
+            else if (lx > cx + 30) anchor = "start";// right side → text starts at lx, reads rightward
             return (
               <g key={v.key} style={{ cursor: "pointer" }} onClick={() => setSel(v.key)}>
-                <circle cx={v.x} cy={v.y} r={on ? 22 : 16} fill={v.color}
+                <circle cx={v.x} cy={v.y} r={cr} fill={v.color}
                   stroke={on ? PF.bg : "#ffffff"} strokeWidth={on ? 3 : 1.5}
                   opacity={on ? 1 : 0.85} />
                 <text x={lx} y={ly} textAnchor={anchor}
-                  fontFamily="var(--sans)" fontSize="12.5"
+                  fontFamily="var(--sans)" fontSize="13"
                   fontWeight={on ? 700 : 500}
                   fill={on ? v.color : PF.ink2}>
                   {v.name}
