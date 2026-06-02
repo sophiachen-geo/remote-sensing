@@ -33,28 +33,49 @@ const PFKeys = () => (
 
 // ─── layout helpers ───────────────────────────────────────────────────────
 
-const PFMovement = ({ id, num, name, nameEm, lede }) => (
-  <section id={id} className="perma-movement">
-    <div className="perma-mv-head">
-      <span className="perma-mv-num">{num}</span>
-      <h2 className="perma-mv-title">
-        {name}{nameEm && <em>{nameEm}</em>}
-      </h2>
+const PFMovement = ({ id, num, name, lede }) => (
+  <section id={id} style={{ padding: "56px 0 18px", borderTop: `1px solid ${PF.rule}`, scrollMarginTop: 80 }}>
+    <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 28, alignItems: "start" }}>
+      <span className="num" style={{
+        fontSize: 90, lineHeight: 0.92, color: PF.rule2, fontWeight: 300, letterSpacing: "-0.04em",
+      }}>{num}</span>
+      <div>
+        <PFMono c={PF.clay} s={10} style={{ display: "block" }}>movement</PFMono>
+        <h2 style={{
+          margin: "10px 0 0", fontSize: 40, lineHeight: 1.06, fontWeight: 800,
+          letterSpacing: "-0.025em", color: PF.ink, maxWidth: 880,
+        }}>{name}</h2>
+        {lede && (
+          <p className="serif" style={{
+            margin: "18px 0 0", fontSize: 18, lineHeight: 1.55, color: PF.ink2, maxWidth: 760,
+          }}>{lede}</p>
+        )}
+      </div>
     </div>
-    {lede && <p className="perma-lede">{lede}</p>}
   </section>
 );
 
 const PFBlock = ({ kicker, kc, title, lede, caption, children }) => (
-  <figure className="perma-figure">
-    {kicker && <div className="perma-fig-kicker" style={kc ? { color: kc } : undefined}>{kicker}</div>}
-    {title && <h3 className="perma-fig-title">{title}</h3>}
-    {lede && <p className="perma-fig-lede">{lede}</p>}
-    <div className="perma-figcard">
-      {children}
-    </div>
-    {caption && <figcaption className="perma-figcaption">{caption}</figcaption>}
-  </figure>
+  <section style={{ padding: "22px 0 30px" }}>
+    {kicker && <PFMono c={kc || PF.sky} s={10}>{kicker}</PFMono>}
+    {title && (
+      <h3 style={{
+        margin: "10px 0 0", fontSize: 24, lineHeight: 1.18, fontWeight: 700,
+        letterSpacing: "-0.015em", color: PF.ink, maxWidth: 820,
+      }}>{title}</h3>
+    )}
+    {lede && (
+      <p className="serif" style={{
+        margin: "12px 0 0", fontSize: 16.5, lineHeight: 1.55, color: PF.ink2, maxWidth: 760,
+      }}>{lede}</p>
+    )}
+    <div style={{ marginTop: 22 }}>{children}</div>
+    {caption && (
+      <p className="serif" style={{
+        margin: "12px 0 0", fontSize: 13, lineHeight: 1.45, color: PF.ink3, fontStyle: "italic", maxWidth: 780,
+      }}>{caption}</p>
+    )}
+  </section>
 );
 
 // ─── I·A · Risk is a relation ─────────────────────────────────────────────
