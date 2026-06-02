@@ -1471,11 +1471,33 @@ const TabPlongees = () => {
             It is also: who needs this knowledge, who defines the problem, who interprets the result, who governs the data, who can act on the evidence, and who remains accountable after the map is released?
           </Para>
 
-          {/* § I — INTERLUDE · MULTIMODALITY AS METHOD */}
-          <PFBlock n="I" kicker="INTERLUDE · MULTIMODALITY AS METHOD" kc="var(--clay)"
-            title="Multimodality is not only physical. It is also contributory and ontological."
-            lede="Multimodality is often treated as a technical matter: combining optical imagery, SAR, LiDAR, thermal data, passive microwave, hyperspectral data, atmospheric measurements, acoustic data, or gravity-based observations. This kind of physical multimodality is essential. Different sensors interact with the world differently, and no single sensor sees everything.">
-            <Para>But practice requires a broader understanding of multimodality.</Para>
+          {/* INTERLUDE · Multimodality as method
+              Distinct tinted callout. No § number — interludes break the
+              numbered sequence rather than continue it. */}
+          <section style={{
+            marginTop: 36, marginBottom: 18,
+            padding: "30px 32px 32px",
+            background: "color-mix(in oklch, var(--clay) 6%, var(--paper))",
+            border: "1px solid color-mix(in oklch, var(--clay) 22%, var(--rule))",
+            borderLeft: "4px solid var(--clay)",
+            borderRadius: 4,
+          }}>
+            <div className="mono" style={{
+              fontSize: 11.5, letterSpacing: "0.24em", textTransform: "uppercase",
+              color: "var(--clay)", fontWeight: 700, marginBottom: 12,
+            }}>Interlude · Multimodality as method</div>
+            <h3 className="serif" style={{
+              margin: 0, fontSize: 26, lineHeight: 1.18, fontWeight: 500,
+              letterSpacing: "-0.012em", color: "var(--ink)", maxWidth: 820,
+            }}>
+              Multimodality is not only physical. It is also contributory and ontological.
+            </h3>
+            <p className="serif" style={{ margin: "14px 0 0", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)", maxWidth: 820 }}>
+              Multimodality is often treated as a technical matter: combining optical imagery, SAR, LiDAR, thermal data, passive microwave, hyperspectral data, atmospheric measurements, acoustic data, or gravity-based observations. This kind of physical multimodality is essential. Different sensors interact with the world differently, and no single sensor sees everything.
+            </p>
+            <p className="serif" style={{ margin: "16px 0 0", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)", maxWidth: 820 }}>
+              But practice requires a broader understanding of multimodality.
+            </p>
             <ul style={{ margin: "12px 0 0", padding: "0 0 0 18px", maxWidth: 820 }}>
               <li className="serif" style={{ margin: "8px 0", fontSize: 15.5, lineHeight: 1.6, color: "var(--ink-2)" }}>
                 There is <strong style={{ color: "var(--ink)", fontWeight: 700 }}>physical multimodality</strong>: different wavelengths and sensing principles observing different properties of the same landscape.
@@ -1490,20 +1512,19 @@ const TabPlongees = () => {
                 There is <strong style={{ color: "var(--clay)", fontWeight: 700 }}>ontological multimodality</strong>: different knowledge systems defining the object of concern differently.
               </li>
             </ul>
-            <Para>
+            <p className="serif" style={{ margin: "18px 0 0", fontSize: 16, lineHeight: 1.65, color: "var(--ink-2)", maxWidth: 820 }}>
               The first two are established technical practices. The last two are where remote sensing becomes socially and politically consequential. A community observation is not simply another variable to insert into a model. It may identify a different object, a different boundary, a different timescale, a different harm, or a different reason the map matters. This is why integration cannot be reduced to data fusion. Sometimes the task is not to combine measurements of the same thing. Sometimes the task is to recognize that the "thing" itself has been defined too narrowly.
-            </Para>
-            <p className="serif" style={{ margin: "26px 0 6px", padding: "16px 22px", fontSize: 18, lineHeight: 1.45, fontStyle: "italic", color: "var(--ink)", borderLeft: "3px solid var(--clay)", background: "var(--paper-2)", maxWidth: 820 }}>
+            </p>
+            <p className="serif" style={{ margin: "22px 0 0", padding: "16px 22px", fontSize: 18, lineHeight: 1.45, fontStyle: "italic", color: "var(--ink)", borderLeft: "3px solid var(--clay)", background: "rgba(255,255,255,0.6)", maxWidth: 820 }}>
               The bridge from technical multimodality to ontological multimodality is the bridge from better sensing to better judgment.
             </p>
-
-            <div style={{ marginTop: 18 }}>
+            <div style={{ marginTop: 22 }}>
               <MultimodalitySection />
             </div>
-          </PFBlock>
+          </section>
 
-          {/* § II — THE PRINCIPLE: KEEP EVIDENCE CONNECTED, BUT NOT COLLAPSED */}
-          <PFBlock n="II" kicker="THE PRINCIPLE" kc="var(--clay)"
+          {/* § I — THE PRINCIPLE: KEEP EVIDENCE CONNECTED, BUT NOT COLLAPSED */}
+          <PFBlock n="I" kicker="THE PRINCIPLE" kc="var(--clay)"
             title="Keep evidence connected, but not collapsed."
             lede="A rigorous workflow does not force every kind of knowledge into a single grid, score, or model. Some evidence can be fused. Some evidence should be compared. Some evidence should remain parallel but linked through place, time, provenance, and interpretation.">
             <Para>
@@ -1520,15 +1541,15 @@ const TabPlongees = () => {
             </Para>
           </PFBlock>
 
-          {/* § III — THE COMMUNITY-FIRST WORKFLOW (11 stages, FigWorkflow) */}
-          <PFBlock n="III" kicker="THE COMMUNITY-FIRST WORKFLOW" kc="var(--clay)"
+          {/* § II — THE COMMUNITY-FIRST WORKFLOW */}
+          <PFBlock n="II" kicker="THE COMMUNITY-FIRST WORKFLOW" kc="var(--clay)"
             title="A community-first workflow begins with the question, not the dataset."
             lede="Eleven stages, beginning with the public-good problem and ending in monitoring, maintenance, and revision.">
             <FigWorkflow />
           </PFBlock>
 
-          {/* § IV — THE VISIBILITY-RISK REVIEW */}
-          <PFBlock n="IV" kicker="THE VISIBILITY-RISK REVIEW" kc="var(--clay)"
+          {/* § III — THE VISIBILITY-RISK REVIEW */}
+          <PFBlock n="III" kicker="THE VISIBILITY-RISK REVIEW" kc="var(--clay)"
             title="Visibility is not automatically good. A map can protect, but it can also expose."
             lede="A high-resolution image can support humanitarian response, document harm, guide adaptation, or strengthen community claims. The same image can also assist surveillance, targeting, extraction, displacement, or unwanted exposure of sensitive sites. Every project therefore needs a visibility-risk review before release.">
             <FigVisibilityReview />
@@ -1554,17 +1575,17 @@ const TabPlongees = () => {
             </Para>
           </PFBlock>
 
-          {/* § V — OPERATIONAL STANDARDS */}
-          <PFBlock n="V" kicker="OPERATIONAL STANDARDS" kc="var(--clay)"
+          {/* § IV — OPERATIONAL STANDARDS */}
+          <PFBlock n="IV" kicker="OPERATIONAL STANDARDS" kc="var(--clay)"
             title="A rigorous project funds and evaluates the work it claims to value."
             lede="Community interpretation, translation, legal review, data-sovereignty review, accessibility, maintenance, and post-release accountability are not optional extras. They are part of the method. Five standards follow from this.">
             <ol style={{ margin: "12px 0 0", padding: 0, listStyle: "none" }}>
               {[
-                ["First", "Co-design begins at question formulation.",          "The project should not arrive with a completed research design and ask for local validation. It should ask which community, institutional, or public-good questions remote sensing can help answer."],
-                ["Second","Governance must be layered.",                        "Technical metadata is not enough. A responsible dataset also needs social, legal, and ethical metadata: provenance, consent, cultural protocols, permitted uses, withdrawal mechanisms, benefit-sharing expectations, and access conditions."],
-                ["Third", "Data sovereignty is a default condition.",           "Where Indigenous or community-defined knowledge is involved. OCAP®, CARE, NISR, and Traditional Knowledge Labels are not decorative references. They define minimum expectations for authority, consent, responsibility, and control."],
-                ["Fourth","Validation must be reciprocal.",                     "Community observations should not be the only evidence expected to prove itself. Sensor products must also be tested against lived conditions, local categories, language, field knowledge, and culturally meaningful interpretations of change."],
-                ["Fifth", "The project must have a future.",                    "Research that arrives, extracts, publishes, and leaves is not a durable public-good practice. A useful project identifies who maintains the data, who updates the workflow, who trains the next users, who hosts the outputs, and who remains accountable in five or ten years."],
+                ["First",  "Co-design begins at question formulation.",          "The project should not arrive with a completed research design and ask for local validation. It should ask which community, institutional, or public-good questions remote sensing can help answer."],
+                ["Second", "Governance must be layered.",                        "Technical metadata is not enough. A responsible dataset also needs social, legal, and ethical metadata: provenance, consent, cultural protocols, permitted uses, withdrawal mechanisms, benefit-sharing expectations, and access conditions."],
+                ["Third",  "Data sovereignty is a default condition.",           "Where Indigenous or community-defined knowledge is involved. OCAP®, CARE, NISR, and Traditional Knowledge Labels are not decorative references. They define minimum expectations for authority, consent, responsibility, and control."],
+                ["Fourth", "Validation must be reciprocal.",                     "Community observations should not be the only evidence expected to prove itself. Sensor products must also be tested against lived conditions, local categories, language, field knowledge, and culturally meaningful interpretations of change."],
+                ["Fifth",  "The project must have a future.",                    "Research that arrives, extracts, publishes, and leaves is not a durable public-good practice. A useful project identifies who maintains the data, who updates the workflow, who trains the next users, who hosts the outputs, and who remains accountable in five or ten years."],
               ].map(([ord, head, body], i) => (
                 <li key={i} style={{
                   display: "grid", gridTemplateColumns: "auto 1fr", gap: 22,
