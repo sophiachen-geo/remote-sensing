@@ -52,10 +52,12 @@ const Chrome = ({ active, go }) => (
 
 const App = () => {
   const [tab, go] = useHashTab();
-  const Current = TABS.find(t => t.id === tab).component;
+  const activeTab = TABS.find(t => t.id === tab);
+  const Current = activeTab.component;
   return (
     <>
       <Chrome active={tab} go={go} />
+      <SectionIntro section={activeTab.strata} accent={activeTab.accent} />
       <main className="pane">
         <Current />
       </main>

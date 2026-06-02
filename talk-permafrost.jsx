@@ -33,28 +33,83 @@ const PFKeys = () => (
 
 // ─── layout helpers ───────────────────────────────────────────────────────
 
-const PFMovement = ({ id, num, name, lede }) => (
-  <section id={id} style={{ padding: "56px 0 18px", borderTop: `1px solid ${PF.rule}`, scrollMarginTop: 80 }}>
-    <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 28, alignItems: "start" }}>
+// Per-movement accent map. Threaded through PFMovement, Block, and every
+// Fig* widget so a single movement reads in one color throughout.
+const MOVEMENT_ACCENT = {
+  m1:       PF.sky,
+  m2:       PF.amber,
+  m3:       PF.teal,
+  m4:       PF.plum,
+  practice: PF.clay,
+};
+
+// Movement header. A stratum band, not a box: a full-width top rule in the
+// movement accent, the roman numeral in PF.rule2, a "movement" eyebrow, then
+// the bold-sans name. No border-box. Bold sans is structure only.
+const PFMovement = ({ id, num, name, accent = PF.navy }) => (
+  <section id={id} style={{ padding: "56px 0 18px", scrollMarginTop: 80 }}>
+    <div style={{ height: 2, background: accent, marginBottom: 28 }} />
+    <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 28, alignItems: "baseline" }}>
       <span className="num" style={{
         fontSize: 90, lineHeight: 0.92, color: PF.rule2, fontWeight: 300, letterSpacing: "-0.04em",
       }}>{num}</span>
       <div>
-        <PFMono c={PF.clay} s={10} style={{ display: "block" }}>movement</PFMono>
+        <PFMono c={accent} s={10} style={{ display: "block" }}>movement</PFMono>
         <h2 style={{
           margin: "10px 0 0", fontSize: 40, lineHeight: 1.06, fontWeight: 800,
           letterSpacing: "-0.025em", color: PF.ink, maxWidth: 880,
         }}>{name}</h2>
-        {lede && (
-          <p className="serif" style={{
-            margin: "18px 0 0", fontSize: 18, lineHeight: 1.55, color: PF.ink2, maxWidth: 760,
-          }}>{lede}</p>
-        )}
       </div>
     </div>
   </section>
 );
 
+// Unified block. Argument/content only — every text element is serif.
+// Two text layers max before the figure: fig number + (title OR standfirst).
+// Caption is serif italic small, lives after the figure.
+const Block = ({ accent, fig, title, standfirst, caption, children }) => (
+  <section style={{ padding: "26px 0 30px", marginLeft: 28, borderLeft: `1px solid ${PF.rule}`, paddingLeft: 28 }}>
+    {fig && (
+      <span className="mono" style={{
+        fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: accent,
+      }}>fig. {fig}</span>
+    )}
+    {title && (
+      <h3 className="serif" style={{
+        margin: "8px 0 0", fontSize: 26, fontWeight: 500, lineHeight: 1.18,
+        letterSpacing: "-0.012em", color: PF.ink, maxWidth: 820,
+      }}>{title}</h3>
+    )}
+    {standfirst && (
+      <p className="serif" style={{
+        margin: "12px 0 0", fontSize: 18, lineHeight: 1.5, color: PF.ink2,
+        fontStyle: "italic", maxWidth: 720,
+      }}>{standfirst}</p>
+    )}
+    {children && <div style={{ marginTop: 22 }}>{children}</div>}
+    {caption && (
+      <p className="serif" style={{
+        margin: "12px 0 0", fontSize: 13, lineHeight: 1.45, color: PF.ink3,
+        fontStyle: "italic", maxWidth: 740,
+      }}>{caption}</p>
+    )}
+  </section>
+);
+
+// Plain interstitial prose passage — serif column against the rail, no border,
+// no fig number, no caption. Use between Blocks for breathing room.
+const PFProse = ({ children, max = 720 }) => (
+  <div style={{ marginLeft: 28, paddingLeft: 28, paddingTop: 6, paddingBottom: 6 }}>
+    <p className="serif" style={{
+      margin: 0, fontSize: 17, lineHeight: 1.65, color: PF.ink2,
+      maxWidth: max,
+    }}>{children}</p>
+  </div>
+);
+
+// Backwards-compat shim for callers still using the old PFBlock API
+// (kicker + title + lede + caption + kc). Forwards to the original layout
+// so the existing TabPlongees keeps rendering while migration is in flight.
 const PFBlock = ({ kicker, kc, title, lede, caption, children }) => (
   <section style={{ padding: "22px 0 30px" }}>
     {kicker && <PFMono c={kc || PF.sky} s={10}>{kicker}</PFMono>}
@@ -98,7 +153,7 @@ const PFChips = ({ items, c, tint }) => (
   </div>
 );
 
-const FigRiskRelation = () => {
+const FigRiskRelation = ({ accent = PF.navy }) => {
   const [sel, setSel] = React.useState(2);
   const a = PF_RISK[sel];
   return (
@@ -110,12 +165,12 @@ const FigRiskRelation = () => {
             <button key={i} onClick={() => setSel(i)} style={{
               cursor: "pointer", border: "none",
               borderLeft: i ? `1px solid ${PF.rule}` : "none",
-              borderTop: on ? `3px solid ${PF.navy}` : "3px solid transparent",
+              borderTop: on ? `3px solid ${accent}` : "3px solid transparent",
               background: on ? PF.bg : PF.bg2,
               padding: "16px 14px 14px", textAlign: "left", transition: "all .2s",
             }}>
               <PFMono c={PF.ink4} s={9}>{["A","B","C","D"][i]}</PFMono>
-              <div style={{ marginTop: 6, fontSize: 16, fontWeight: 700, color: on ? PF.navy : PF.ink2, letterSpacing: "-0.01em" }}>{r.k}</div>
+              <div style={{ marginTop: 6, fontSize: 16, fontWeight: 700, color: on ? accent : PF.ink2, letterSpacing: "-0.01em" }}>{r.k}</div>
               <div style={{ marginTop: 10 }}>
                 <div style={{ height: 5, background: PF.bg3, position: "relative" }}>
                   <div style={{ position: "absolute", inset: 0, width: `${r.strength * 100}%`, background: r.strength > 0.5 ? PF.sky : PF.clay }} />
@@ -165,7 +220,7 @@ const PF_PERSP = [
   { k: "Institutional", c: PF.plum,  contributes: "mandate, jurisdiction, the decision that converts evidence into action",                                                                   strength: "governability",    limit: "abstraction from lived experience" },
 ];
 
-const FigPerspectives = () => {
+const FigPerspectives = ({ accent = PF.navy } = {}) => {
   const [sel, setSel] = React.useState(0);
   const a = PF_PERSP[sel];
   return (
@@ -223,7 +278,7 @@ const PF_CHAIN = [
   { k:"Action",    w:"the decision affects people and places",                                                                  q:"who benefits, who is burdened, and who can contest the outcome?",           gain:"consequence in the world",        lose:"reversibility" },
 ];
 
-const FigChain = () => {
+const FigChain = ({ accent = PF.navy }) => {
   const [i, setI] = React.useState(0);
   const a = PF_CHAIN[i];
   return (
@@ -240,14 +295,14 @@ const FigChain = () => {
                 <div style={{
                   width: 30, height: 30, borderRadius: "50%", margin: "0 auto",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  background: on ? PF.navy : (past ? PF.sky : PF.bg),
+                  background: on ? accent : (past ? PF.sky : PF.bg),
                   color: on || past ? "#fff" : PF.ink3,
-                  border: `1.5px solid ${on ? PF.navy : (past ? PF.sky : PF.rule2)}`,
+                  border: `1.5px solid ${on ? accent : (past ? PF.sky : PF.rule2)}`,
                   transition: "all .2s",
                 }}>
                   <span className="num mono" style={{ fontSize: 11, fontWeight: 600 }}>{k + 1}</span>
                 </div>
-                <PFMono c={on ? PF.navy : PF.ink3} s={9} style={{ marginTop: 6, display: "block", whiteSpace: "nowrap" }}>{s.k}</PFMono>
+                <PFMono c={on ? accent : PF.ink3} s={9} style={{ marginTop: 6, display: "block", whiteSpace: "nowrap" }}>{s.k}</PFMono>
               </button>
               {k < PF_CHAIN.length - 1 && (
                 <div style={{ flex: "none", width: 26, height: 2, background: k < i ? PF.sky : PF.rule2, transition: "background .2s" }} />
@@ -261,8 +316,8 @@ const FigChain = () => {
           <PFMono c={PF.ink4} s={9.5}>stage {i + 1} of 7</PFMono>
           <h4 style={{ margin: "6px 0 0", fontSize: 26, fontWeight: 700, color: PF.ink, letterSpacing: "-0.015em" }}>{a.k}</h4>
           <p className="serif" style={{ margin: "12px 0 0", fontSize: 16.5, lineHeight: 1.5, color: PF.ink2 }}>{a.w}</p>
-          <div style={{ marginTop: 16, borderLeft: `3px solid ${PF.navy}`, paddingLeft: 14 }}>
-            <PFMono c={PF.navy} s={9.5}>guiding question</PFMono>
+          <div style={{ marginTop: 16, borderLeft: `3px solid ${accent}`, paddingLeft: 14 }}>
+            <PFMono c={accent} s={9.5}>guiding question</PFMono>
             <p className="serif" style={{ margin: "5px 0 0", fontSize: 16, lineHeight: 1.45, color: PF.ink, fontStyle: "italic" }}>{a.q}</p>
           </div>
         </div>
@@ -305,7 +360,7 @@ const PF_HEUR = [
   { k:"Decision heuristic", c:PF.plum,  def:"defines how evidence becomes action. A hazard map can become an evacuation order, an insurance premium, or a humanitarian priority.",            ex:"At that point the technical output enters mandate, trust, liability, and budget." },
 ];
 
-const FigHeuristics = () => {
+const FigHeuristics = ({ accent = PF.navy } = {}) => {
   const [i, setI] = React.useState(0);
   const a = PF_HEUR[i];
   return (
@@ -351,13 +406,13 @@ const PF_MIS = [
   ["Visibility",  "publication and exposure as public good",                             "protection, confidentiality, refusal, restricted access"],
 ];
 
-const FigMismatches = () => {
+const FigMismatches = ({ accent = PF.navy }) => {
   const [flipped, setFlipped] = React.useState({});
   const allFlipped = Object.keys(flipped).length === PF_MIS.length && Object.values(flipped).every(Boolean);
   const toggleAll = () => { const v = !allFlipped; const o = {}; PF_MIS.forEach((_, i) => (o[i] = v)); setFlipped(o); };
   return (
     <div style={{ border: `1px solid ${PF.rule2}`, background: PF.bg }}>
-      <div style={{ display: "grid", gridTemplateColumns: "130px 1fr 1fr", background: PF.navy }}>
+      <div style={{ display: "grid", gridTemplateColumns: "130px 1fr 1fr", background: accent }}>
         <div style={{ padding: "11px 18px" }}><PFMono c="rgba(255,255,255,0.55)" s={9.5}>mismatch</PFMono></div>
         <div style={{ padding: "11px 18px" }}><PFMono c="#aecbe6" s={9.5}>what RS privileges</PFMono></div>
         <div style={{ padding: "11px 18px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -410,7 +465,7 @@ const PF_REG = [
   { k: "Institutional", side: "political", c: PF.clay, brings: "different mandates shaping the decision",       q: "who can act, through which mandate, with what legitimacy?" },
 ];
 
-const FigRegisters = () => {
+const FigRegisters = ({ accent = PF.navy } = {}) => {
   const [show, setShow] = React.useState("all");
   return (
     <div style={{ border: `1px solid ${PF.rule2}`, background: PF.bg, padding: "22px 26px 24px" }}>
@@ -463,7 +518,7 @@ const PF_CMAP = [
   { sat: "a damage map shows destroyed buildings",             counter: ["renters displaced from standing structures","contaminated wells","the slow afterlife of disaster"] },
 ];
 
-const FigCounterMap = () => {
+const FigCounterMap = ({ accent = PF.navy } = {}) => {
   const [flip, setFlip] = React.useState({ 0: false, 1: false, 2: false });
   return (
     <div style={{ border: `1px solid ${PF.rule2}`, background: PF.bg, padding: "22px 24px 24px" }}>
@@ -519,7 +574,7 @@ const PF_QUAD = {
   "1-1": { name: "Accountable visibility", c: PF.protect, def: "data circulates under governance, consent, purpose limitation, and community interpretation.",               ex: "community-validated risk maps and counter-maps used to support claims and protection." },
 };
 
-const FigVisibilityMatrix = () => {
+const FigVisibilityMatrix = ({ accent = PF.navy } = {}) => {
   const [vis, setVis] = React.useState(1);
   const [auth, setAuth] = React.useState(1);
   const a = PF_QUAD[`${vis}-${auth}`];
@@ -579,7 +634,7 @@ const PF_SOLAS = [
   { change: "disappearing snow",               signal: "a declining seasonal albedo record", felt: "a home becoming unfamiliar while you remain in place" },
 ];
 
-const FigSolastalgia = () => {
+const FigSolastalgia = ({ accent = PF.navy } = {}) => {
   const [mode, setMode] = React.useState("felt");
   const felt = mode === "felt";
   return (
@@ -632,7 +687,7 @@ const PF_MEDIATORS = [
   { k: "strong place attachment",                  d: -0.14 },
 ];
 
-const FigTaiwan = () => {
+const FigTaiwan = ({ accent = PF.navy } = {}) => {
   const [p, setP] = React.useState(70);
   const [on, setOn] = React.useState({ 0: true, 1: true, 4: true });
   const drag = PF_MEDIATORS.reduce((s, m, i) => s + (on[i] ? m.d : 0), 0);
@@ -716,7 +771,7 @@ const PF_FLOW = [
   ["Action, monitoring, revision",    "use the evidence and update the process",                                              "adaptation measure, evaluation report"],
 ];
 
-const FigWorkflow = () => {
+const FigWorkflow = ({ accent = PF.navy } = {}) => {
   const [open, setOpen] = React.useState(0);
   return (
     <div style={{ border: `1px solid ${PF.rule2}`, background: PF.bg }}>
@@ -775,7 +830,7 @@ const PF_TESTS = [
   ["Reciprocity", "what benefit, capacity, or control returns to the represented community?"],
 ];
 
-const FigVisibilityReview = () => {
+const FigVisibilityReview = ({ accent = PF.navy }) => {
   const [s, setS] = React.useState(0);
   const a = PF_SAMPLES[s];
   return (
@@ -787,7 +842,7 @@ const FigVisibilityReview = () => {
             <button key={i} onClick={() => setS(i)} style={{
               flex: 1, minWidth: 160, cursor: "pointer", border: "none",
               borderLeft: i ? `1px solid ${PF.rule}` : "none",
-              borderTop: on ? `3px solid ${PF.navy}` : "3px solid transparent",
+              borderTop: on ? `3px solid ${accent}` : "3px solid transparent",
               background: on ? PF.bg : PF.bg2, padding: "13px 16px", textAlign: "left", transition: "all .2s",
             }}>
               <PFMono c={PF.ink4} s={8.5}>run the review on</PFMono>
@@ -824,7 +879,7 @@ const FigVisibilityReview = () => {
         <PFMono c={PF.ink3} s={9.5}>the six tests</PFMono>
         <div style={{ marginTop: 10, display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 10 }}>
           {PF_TESTS.map((t, i) => (
-            <div key={i} style={{ borderLeft: `3px solid ${PF.navy}`, paddingLeft: 11 }}>
+            <div key={i} style={{ borderLeft: `3px solid ${accent}`, paddingLeft: 11 }}>
               <div style={{ fontSize: 13, fontWeight: 600, color: PF.ink }}>{t[0]}</div>
               <div className="serif" style={{ fontSize: 12.5, lineHeight: 1.4, color: PF.ink3, marginTop: 2 }}>{t[1]}</div>
             </div>
@@ -837,7 +892,7 @@ const FigVisibilityReview = () => {
 };
 
 Object.assign(window, {
-  PF, PFMono, PFKeys, PFMovement, PFBlock,
+  PF, PFMono, PFKeys, PFMovement, Block, PFProse, MOVEMENT_ACCENT,
   FigRiskRelation, FigPerspectives, FigChain, FigHeuristics, FigMismatches,
   FigRegisters, FigCounterMap, FigVisibilityMatrix, FigSolastalgia,
   FigTaiwan, FigWorkflow, FigVisibilityReview,

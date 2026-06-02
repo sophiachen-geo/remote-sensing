@@ -227,30 +227,35 @@ const STRATA_CONTENT = {
     accent: "var(--st-active-accent-2)",
     epigraph: "Everything here moves. It is the only part of the ground that answers.",
     standfirst: "This is the surface that thaws each season and freezes again, the thin skin where weather and earth negotiate. Nothing is settled here yet. Read it as the place you and the material first touch, before either of you has committed to anything.",
+    inSection: "An invitation: how to read this guide, who it speaks to, and what work the satellite cannot do alone.",
   },
   perma: {
     key: "perma", label: "Permafrost", sub: "core ideas",
     accent: "var(--st-perma-accent-2)",
     epigraph: "Beneath the thaw, the ground that does not move.",
     standfirst: "Everything above rests on this. It is frozen not because it is dead but because it is load-bearing, the substrate that lets the surface cycle without collapsing. Handle it carefully. A layer like this degrades slowly, then all at once.",
+    inSection: "The conceptual backbone: risk, the three layer heuristic stack, scale, and integration.",
   },
   canopy: {
     key: "canopy", label: "Canopy", sub: "case studies",
     accent: "var(--st-canopy-bg)",
     epigraph: "The part that reaches the light, and gets photographed.",
     standfirst: "Up here the abstractions become things you can see. This is the stratum outsiders point to, the visible proof that something is growing underneath. It rises above the surface on purpose. Case studies are where the work stops being theory and starts being observed.",
+    inSection: "Four field accounts in which the conceptual frame meets practice: Greater Lausanne, SOCODEVI and CNAAS, the Barbados Platinum Coast, and Quebec's serious games.",
   },
   rhizo: {
     key: "rhizo", label: "Rhizosphere", sub: "field guide / toolkit",
     accent: "var(--st-rhizo-accent-2)",
     epigraph: "Where the roots meet the soil and trade.",
     standfirst: "This is the exchange layer, the narrow zone where what you have made passes into someone else's growth. Less a place where ideas live than where they are taken up and metabolized. Everything here is built to be lifted out and used.",
+    inSection: "Twelve operating principles, five practices, and what the work requires from the people who do it.",
   },
   floor: {
     key: "floor", label: "Seafloor", sub: "annexes / about",
     accent: "var(--st-floor-accent)",
     epigraph: "The deepest floor, where everything finally settles.",
     standfirst: "Nothing here is in a hurry. Sources, notes, provenance, the record of how the rest came to be, all of it drifts down and accumulates in the dark. Rarely disturbed, but this is where the account is kept.",
+    inSection: "References, sources, methods, and the record of how the rest came to be.",
   },
 };
 
@@ -391,7 +396,29 @@ const StrataStrip = ({ section = "active" }) => {
   );
 };
 
+// Per-tab intro panel that sits directly under the chrome nav: epigraph,
+// description (standfirst), and an "In this section" callout. Pulls all
+// copy from STRATA_CONTENT so the chrome stays decoupled from tab internals.
+const SectionIntro = ({ section, accent }) => {
+  const s = STRATA_CONTENT[section];
+  if (!s) return null;
+  return (
+    <section className="section-intro" style={{ "--accent": accent || s.accent }}>
+      <div className="section-intro__inner">
+        <p className="section-intro__epigraph">{s.epigraph}</p>
+        <p className="section-intro__body">{s.standfirst}</p>
+        {s.inSection && (
+          <div className="section-intro__row">
+            <span className="section-intro__tag">In this section</span>
+            <span className="section-intro__list">{s.inSection}</span>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
 Object.assign(window, {
   STRATA_SECTIONS, STRATA_CONTENT, STRATA_ORDER,
-  SectionGlyph, StrataColumn, StrataHead, StrataStrip,
+  SectionGlyph, StrataColumn, StrataHead, StrataStrip, SectionIntro,
 });

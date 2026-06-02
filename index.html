@@ -164,6 +164,52 @@
     .tab-card .tab-sub { font-size: 9px; letter-spacing: 0.14em; }
   }
 
+  /* Per-tab intro panel, sits directly under the chrome */
+  .section-intro {
+    background: color-mix(in oklch, var(--accent, var(--rule)) 6%, var(--paper));
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-intro__inner {
+    max-width: 880px; margin: 0 auto;
+    padding: 36px 56px 32px;
+  }
+  .section-intro__epigraph {
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    font-size: 22px; line-height: 1.35;
+    color: var(--ink-2); margin: 0 0 22px;
+    letter-spacing: -0.005em;
+  }
+  .section-intro__body {
+    font-family: var(--sans); font-size: 15.5px; line-height: 1.65;
+    color: var(--ink-2); margin: 0 0 26px;
+    max-width: 720px;
+  }
+  .section-intro__row {
+    display: grid; grid-template-columns: auto 1fr;
+    gap: 22px; align-items: baseline;
+    padding-top: 18px;
+    border-top: 1px solid color-mix(in oklch, var(--accent, var(--rule)) 20%, var(--rule-soft));
+  }
+  .section-intro__tag {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink); font-weight: 500;
+    background: color-mix(in oklch, var(--accent, var(--terra)) 22%, var(--paper));
+    padding: 5px 10px;
+    align-self: start;
+    white-space: nowrap;
+  }
+  .section-intro__list {
+    font-family: var(--sans); font-size: 15px; line-height: 1.6;
+    color: var(--ink-2); max-width: 680px;
+  }
+  @media (max-width: 760px) {
+    .section-intro__inner { padding: 26px 20px 24px; }
+    .section-intro__epigraph { font-size: 18px; }
+    .section-intro__body { font-size: 14.5px; }
+    .section-intro__row { grid-template-columns: 1fr; gap: 10px; }
+  }
+
   /* ============================================================
      STRATA DESIGN TOKENS
      Five sections, each a layer of one earth-system cross-section.
