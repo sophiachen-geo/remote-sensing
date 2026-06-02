@@ -568,18 +568,8 @@ const TabPlongees = () => {
   const [active, setActive] = React.useState("applications");
 
   return (
-    <div className="wrap" style={{ padding: "72px 56px 100px" }}>
-      <SectionHead
-        index="ii"
-        color="var(--lapis)"
-        eyebrow="Three deep dives, plus the interlude on multimodality, the body of the talk"
-        title="Each dive sits in the messy middle."
-        lede={
-          <>
-            Three deep dives carry the argument from the operational to the ethical. The first asks why risk and resilience modelling require more than the satellite view. The second asks what happens in the chain between signal, class, model, and decision. The third asks what we owe the people and places we observe from a distance. Between Dive II and Dive III sits an interlude on the four registers of multimodality, which is the structural bridge that turns the technical observation about Kalman filters into the ontological claim about counter-mapping. Each dive carries a load-bearing diagram.
-          </>
-        }
-      />
+    <div className="wrap" style={{ padding: "72px 56px 100px", "--accent": "var(--st-perma-accent-2)" }}>
+      <StrataHead section="perma" />
       <DiveNav active={active} set={setActive} />
       {active === "applications" && <DiveApplications />}
       {active === "integration"  && (
@@ -721,14 +711,8 @@ const TabAvenir = () => {
     { t: "Communities need accountability to refusal.", b: "If a community decides that a place, a phenomenon, or a category of information should not be mapped, that decision is a methodological constraint, not a barrier to be negotiated around. Some things should not be mapped, and some that must be, only by whom matters. The constraint applies particularly strongly to sacred sites, harvest locations whose disclosure would invite commercial exploitation, and sea ice corridors whose disclosure could be weaponised by extractive industries." },
   ];
   return (
-    <div className="wrap" style={{ padding: "72px 56px 100px" }}>
-      <SectionHead
-        index="iv"
-        eyebrow="Rhizosphere, what good practice looks like"
-        title="Best practices, observations, and a return to where we began."
-        color="var(--ochre)"
-        lede="If remote sensing is to enter the messy middle with care, the how matters as much as the what. A set of practices the work keeps pointing back to, a set of observations from community-facing projects, and then the bookend."
-      />
+    <div className="wrap" style={{ padding: "72px 56px 100px", "--accent": "var(--st-rhizo-accent-2)" }}>
+      <StrataHead section="rhizo" />
 
       <Card pad={36} style={{ marginTop: 8 }}>
         <Kicker color="var(--moss)">Highly suggested best practices</Kicker>
@@ -822,14 +806,8 @@ const TabAvenir = () => {
 // ANNEXES, time budget, cuts and expands, Q&A, reading, bilingual, spine.
 // -----------------------------------------------------------------------
 const TabAnnexes = () => (
-  <div className="wrap" style={{ padding: "72px 56px 100px" }}>
-    <SectionHead
-      index="v"
-      color="var(--plum)"
-      eyebrow="Seafloor, references"
-      title="Further reading."
-      lede="The bibliography that sits behind the talk. It is intentionally layered across the critical remote sensing literature, the participatory and citizen science literature, the Indigenous data governance literature, the soundscape ecology literature, and the foundational sensor fusion papers."
-    />
+  <div className="wrap" style={{ padding: "72px 56px 100px", "--accent": "var(--st-floor-accent)" }}>
+    <StrataHead section="floor" />
 
     <Card pad={32} style={{ marginTop: 8 }}>
       <Kicker color="var(--terra)">Further reading, the bibliography that sits behind the talk</Kicker>

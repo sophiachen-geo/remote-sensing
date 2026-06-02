@@ -131,6 +131,74 @@
     height: 2px; background: var(--tab-accent, var(--terra));
   }
 
+  /* ============================================================
+     STRATA DESIGN TOKENS
+     Five sections, each a layer of one earth-system cross-section.
+     Naming: --st-<section>-<role>
+     ============================================================ */
+  :root {
+    /* ACTIVE LAYER · intro — thaw surface */
+    --st-active-bg-deep:#5c93ad; --st-active-bg:#7cb4cc; --st-active-bg-soft:#a9d4e6;
+    --st-active-soil:#6b513a; --st-active-edge:#4a3826;
+    --st-active-accent:#ffffff; --st-active-accent-2:#7fa8c0; --st-active-ink:#1d3b47;
+
+    /* PERMAFROST · core ideas — frozen load-bearing substrate */
+    --st-perma-bg-deep:#3f4f73; --st-perma-bg:#5d709a; --st-perma-bg-soft:#7d90b4;
+    --st-perma-ice:#cfdcee; --st-perma-edge:#33405f;
+    --st-perma-accent:#e3edf6; --st-perma-accent-2:#9fb4d0; --st-perma-ink:#1a2238;
+
+    /* CANOPY · case studies — light-capturing, sits ABOVE surface */
+    --st-canopy-sky:#cfe6f5; --st-canopy-bg-deep:#3d6e34; --st-canopy-bg:#5d9a4f;
+    --st-canopy-bg-soft:#9ed086; --st-canopy-trunk:#5e4326; --st-canopy-edge:#2f5d34;
+    --st-canopy-accent:#a8d68f; --st-canopy-accent-2:#356b2d; --st-canopy-ink:#20381c;
+
+    /* RHIZOSPHERE · field guide / toolkit — root-soil exchange */
+    --st-rhizo-bg-deep:#5f4628; --st-rhizo-bg:#9a7748; --st-rhizo-bg-soft:#b89668;
+    --st-rhizo-root:#6e4d28; --st-rhizo-edge:#4a3318;
+    --st-rhizo-accent:#caa86f; --st-rhizo-accent-2:#7c5830; --st-rhizo-ink:#2e2113;
+
+    /* SEAFLOOR · annexes / about — deepest, slow sediment; LIGHT ink */
+    --st-floor-bg-deep:#0a232d; --st-floor-bg:#163d4c; --st-floor-bg-soft:#2e6577;
+    --st-floor-sediment:#0a212a; --st-floor-edge:#06161d;
+    --st-floor-accent:#4a7888; --st-floor-accent-2:#bfe0ec; --st-floor-ink:#cfe6f0;
+
+    /* shared structural */
+    --st-surface-line:#8bbdd4; --st-radius:10px; --st-card:108px; --st-stroke:0.75px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --st-surface-line:#6fa6bf; }
+  }
+
+  /* Strata head, the per-section opening */
+  .strata-head {
+    display: grid; grid-template-columns: auto 1fr; gap: 32px;
+    align-items: start; margin: 32px 0 44px; padding-block: 8px;
+  }
+  .strata-head__text { padding-top: 4px; }
+  .strata-head__sub {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--accent, var(--ink-3));
+    margin: 0 0 8px;
+  }
+  .strata-head__title {
+    font-family: var(--serif); font-size: 42px; font-weight: 400;
+    letter-spacing: -0.014em; line-height: 1.05;
+    margin: 0 0 18px; padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent, var(--ink));
+    display: inline-block; color: var(--ink);
+  }
+  .strata-head__epigraph {
+    font-family: var(--serif); font-style: italic; font-size: 19px; line-height: 1.45;
+    color: var(--accent, var(--ink-2)); margin: 0 0 16px; max-width: 48ch;
+  }
+  .strata-head__standfirst {
+    font-size: 16px; line-height: 1.65; color: var(--ink-2);
+    margin: 0; max-width: 64ch;
+  }
+  @media (max-width: 720px) {
+    .strata-head { grid-template-columns: 1fr; gap: 18px; }
+  }
+
   /* Layout */
   .pane { min-height: 100vh; }
   .pane.dark { background: var(--ink); color: var(--paper); }
@@ -165,6 +233,7 @@
 
 <script type="text/babel" src="talk-data.js"></script>
 <script type="text/babel" src="talk-atoms.jsx"></script>
+<script type="text/babel" src="talk-strata.jsx"></script>
 <script type="text/babel" src="talk-painting.jsx"></script>
 <script type="text/babel" src="talk-diagrams.jsx"></script>
 <script type="text/babel" src="talk-career.jsx"></script>

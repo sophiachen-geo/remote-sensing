@@ -1684,14 +1684,8 @@ const TabDeepDive = () => {
   const Body = active.body;
 
   return (
-    <div className="wrap" style={{ padding: "64px 56px 96px" }}>
-      <SectionHead
-        index="iii"
-        eyebrow="Case studies"
-        title="Canopy"
-        lede="Extended companions to the argument. Some are live, interactive dashboards; others are field case studies — from the gauge networks behind crop insurance to a serious game for water governance. Each follows a single thread, from a satellite pixel to a decision made on the ground."
-        color="var(--moss)"
-      />
+    <div className="wrap" style={{ padding: "64px 56px 96px", "--accent": "var(--st-canopy-bg)" }}>
+      <StrataHead section="canopy" />
 
       {CASE_STUDIES.length > 1 && (
         <div style={{

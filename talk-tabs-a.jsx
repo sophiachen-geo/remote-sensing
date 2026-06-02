@@ -6,7 +6,7 @@
 // OUVERTURE
 // -----------------------------------------------------------------------
 const TabOuverture = () => (
-  <div>
+  <div style={{ "--accent": "var(--st-active-accent-2)" }}>
     {/* Masthead */}
     <section style={{
       borderBottom: "1px solid var(--rule)",
@@ -14,8 +14,9 @@ const TabOuverture = () => (
       padding: "72px 0 56px",
     }}>
       <div className="wrap">
+        <StrataHead section="active" />
         <h1 className="serif" style={{
-          margin: 0, fontSize: 88, lineHeight: 1.0, fontWeight: 300,
+          margin: "8px 0 0", fontSize: 88, lineHeight: 1.0, fontWeight: 300,
           letterSpacing: "-0.030em", whiteSpace: "nowrap",
         }}>
           Sensing for the <em style={{ fontStyle: "italic", color: "var(--terra-2)", fontWeight: 300 }}>Commons</em>

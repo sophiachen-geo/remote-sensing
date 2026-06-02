@@ -3,11 +3,11 @@
 // =======================================================================
 
 const TABS = [
-  { id: "ouverture", roman: "i",   label: "Active Layer", component: TabOuverture, accent: "var(--terra)" },
-  { id: "plongees",  roman: "ii",  label: "Permafrost",   component: TabPlongees,  accent: "var(--lapis)" },
-  { id: "deepdive",  roman: "iii", label: "Canopy",       component: TabDeepDive,  accent: "var(--moss)"  },
-  { id: "avenir",    roman: "iv",  label: "Rhizosphere",  component: TabAvenir,    accent: "var(--ochre)" },
-  { id: "annexes",   roman: "v",   label: "Seafloor",     component: TabAnnexes,   accent: "var(--plum)"  },
+  { id: "ouverture", roman: "i",   label: "Active Layer", component: TabOuverture, accent: "var(--st-active-accent-2)", strata: "active" },
+  { id: "plongees",  roman: "ii",  label: "Permafrost",   component: TabPlongees,  accent: "var(--st-perma-accent-2)",  strata: "perma"  },
+  { id: "deepdive",  roman: "iii", label: "Canopy",       component: TabDeepDive,  accent: "var(--st-canopy-bg)",       strata: "canopy" },
+  { id: "avenir",    roman: "iv",  label: "Rhizosphere",  component: TabAvenir,    accent: "var(--st-rhizo-accent-2)",  strata: "rhizo"  },
+  { id: "annexes",   roman: "v",   label: "Seafloor",     component: TabAnnexes,   accent: "var(--st-floor-accent)",    strata: "floor"  },
 ];
 
 const useHashTab = () => {
