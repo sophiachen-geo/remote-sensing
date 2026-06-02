@@ -349,9 +349,38 @@
     transform: rotateY(180deg);
     padding: 26px 32px 28px;
     overflow: auto;
+    position: relative;
   }
   .default-card__back .mono { color: rgba(255, 255, 255, 0.78) !important; }
   .default-card__back .serif { color: #ffffff !important; }
+
+  /* Close X — top-right on the back face. Pointer events only when
+     the card is actually open so it never absorbs front-face clicks. */
+  .default-card__close {
+    position: absolute; top: 10px; right: 10px;
+    appearance: none; border: none; background: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+    width: 32px; height: 32px; border-radius: 50%;
+    font-size: 20px; line-height: 1; font-weight: 400;
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0; transition: background .18s, transform .18s;
+    z-index: 2;
+  }
+  .default-card__close:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.06); }
+  .default-card__close:focus-visible { outline: 2px solid #ffffff; outline-offset: 2px; }
+
+  /* Backdrop (only visible when a card is open) — clicking it closes
+     any open card. On desktop it's faint; on phone it dims everything
+     and the card becomes a centred modal. */
+  .default-card__backdrop {
+    position: fixed; inset: 0;
+    background: rgba(28, 34, 48, 0);
+    z-index: 40;
+    pointer-events: auto;
+    transition: background .25s ease;
+  }
+  body.default-card-modal-open .default-card__backdrop { background: rgba(28, 34, 48, 0.42); }
   .default-card__head {
     display: flex; justify-content: space-between; align-items: center;
     flex: 0 0 auto; margin-bottom: 14px;
@@ -634,22 +663,33 @@
       white-space: normal !important;
     }
 
-    /* Defaults table — cards already collapse via their own media query
-       (down to 2 cols). On phone the hover-scale pop-up needs to fit. */
-    .default-card:hover .default-card__inner,
-    .default-card[aria-pressed="true"] .default-card__inner {
-      width: 92vw !important;
-      max-width: 480px;
-      height: auto !important;
-      aspect-ratio: 8 / 5;
-      margin-left: -46vw !important;
-      margin-top: -28vw !important;
+    /* Defaults table on phone — no hover-pop, and a flipped card becomes
+       a centred modal anchored to the viewport (not the grid cell), so
+       it can grow vertically and stay readable on a small screen. */
+    .default-card:hover .default-card__inner { /* hover not a thing on touch */
+      top: 0 !important; left: 0 !important;
+      width: 100% !important; height: 100% !important;
+      margin: 0 !important;
     }
-    .default-card__back { padding: 14px 16px !important; }
+    .default-card[aria-pressed="true"] .default-card__inner {
+      position: fixed !important;
+      top: 50% !important; left: 50% !important;
+      width: 92vw !important; max-width: 480px;
+      height: auto !important; aspect-ratio: 8 / 5;
+      max-height: 86vh;
+      margin: 0 !important;
+      transform: translate(-50%, -50%) rotateY(180deg) !important;
+      z-index: 100 !important;
+    }
+    .default-card__back { padding: 18px 18px 20px !important; }
     .default-card__answer { font-size: 18px !important; }
     .default-card__body { font-size: 13px !important; }
     .default-card__qa { grid-template-columns: 1fr !important; gap: 10px !important; }
     .default-card__qa p { font-size: 13px !important; }
+    .default-card__close { width: 36px !important; height: 36px !important; font-size: 22px !important; }
+
+    /* Lock body scroll while a card is open on phone */
+    body.default-card-modal-open { overflow: hidden !important; }
 
     /* Tables that have min-width set — scroll horizontally inside their container */
     .wrap div[style*="overflow: auto"] table,

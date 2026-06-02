@@ -599,29 +599,49 @@ const KeptHeuristicStack = () => (
 const KeptDefaults = () => {
   const [flipped, setFlipped] = React.useState({});
   const toggle = (i) => setFlipped(f => ({ ...f, [i]: !f[i] }));
+  const close = (i, e) => {
+    if (e) { e.stopPropagation(); e.preventDefault(); }
+    setFlipped(f => ({ ...f, [i]: false }));
+  };
   // Small, deterministic rotation per card to read like cards on a table
   const tilt = (i) => {
     const angles = [-2.2, 1.4, -1.0, 2.0, -1.6, 1.8, -2.4, 1.2, -1.4, 2.2];
     return angles[i % angles.length];
   };
+
+  // Lock body scroll when any card is open on phone (modal behaviour)
+  const anyOpen = Object.values(flipped).some(Boolean);
+  React.useEffect(() => {
+    if (anyOpen) document.body.classList.add("default-card-modal-open");
+    else document.body.classList.remove("default-card-modal-open");
+    return () => document.body.classList.remove("default-card-modal-open");
+  }, [anyOpen]);
+
   return (
-    <section style={{ marginTop: 36, marginBottom: 12 }}>
+    <section style={{ marginTop: 4 }}>
       <div className="mono" style={{
-        fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase",
-        color: "var(--terra)", fontWeight: 600, marginBottom: 12,
-      }}>The defaults indictment · click any card to flip</div>
-      <h3 className="serif" style={{ margin: "0 0 14px", fontSize: 28, fontWeight: 500, letterSpacing: "-0.012em", maxWidth: 820, lineHeight: 1.18 }}>
-        The data is not the enemy. The defaults are the first politics of the image.
-      </h3>
-      <p className="serif" style={{ margin: "0 0 32px", color: "var(--ink-2)", fontSize: 15.5, lineHeight: 1.6, maxWidth: 820 }}>
-        Every introductory remote-sensing course teaches a set of defaults: remove shadow, mask cloud, smooth speckle, assign one class per pixel, suppress edges, discard uncertainty, clean the image until it becomes easier to model. These steps are often necessary. The problem begins when they are treated as neutral. From a community-resilience perspective, many defaults ask the question from the wrong direction. A preprocessing choice that improves a classifier may erase the very condition that matters to people on the ground. Each card names a standard default on the front and a care reading on the back.
-      </p>
+        fontSize: 10.5, letterSpacing: "0.16em", textTransform: "uppercase",
+        color: "var(--ink-3)", fontWeight: 500, marginBottom: 10,
+      }}>tap any card to flip · click × to close</div>
+
+      {/* Tap-anywhere backdrop closes any open card on small viewports */}
+      {anyOpen && (
+        <div className="default-card__backdrop"
+          onClick={() => setFlipped({})}
+          aria-hidden="true" />
+      )}
+
       <div className="defaults-table">
         {DEFAULTS.map((d, i) => {
           const isFlipped = !!flipped[i];
           return (
-            <button key={i} onClick={() => toggle(i)} className="default-card"
+            <div key={i}
+              role="button" tabIndex={0}
+              onClick={() => toggle(i)}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(i); } }}
+              className="default-card"
               aria-pressed={isFlipped ? "true" : "false"}
+              aria-label={`Default ${String(i + 1).padStart(2, "0")} · ${d.default}`}
               style={{ transform: `rotate(${tilt(i)}deg)`, "--terra": "var(--terra)" }}>
               <div className="default-card__inner" style={{ transform: isFlipped ? "rotateY(180deg)" : "none" }}>
                 {/* Front — the SVG carries its own title; no extra header */}
@@ -631,11 +651,15 @@ const KeptDefaults = () => {
                 </div>
                 {/* Back — care reading */}
                 <div className="default-card__face default-card__back">
+                  <button type="button"
+                    className="default-card__close"
+                    onClick={(e) => close(i, e)}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    aria-label="Close card">×</button>
                   <div className="default-card__head">
                     <span className="mono" style={{ fontSize: 9.5, letterSpacing: "0.20em", color: "rgba(255,255,255,0.78)", textTransform: "uppercase" }}>
                       Care reading · {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="mono" style={{ fontSize: 9, letterSpacing: "0.14em", color: "rgba(255,255,255,0.78)", textTransform: "uppercase" }}>tap to close</span>
                   </div>
                   <div className="serif default-card__answer">{d.answer}</div>
                   <div className="default-card__body">{d.body}</div>
@@ -653,7 +677,7 @@ const KeptDefaults = () => {
                   )}
                 </div>
               </div>
-            </button>
+            </div>
           );
         })}
       </div>
@@ -1332,20 +1356,45 @@ const TabPlongees = () => {
             <FigHeuristicsMerged />
           </PFBlock>
           <PFBlock n="III" kicker="THE SIX MISMATCHES"
-            title="Six recurring mismatches matter in applied work."
-            lede="Spatial scale may not match lived scale. Temporal resolution may not match the timing of action. Classification categories may not match local meanings. Accuracy metrics may not match social consequences. Model outputs may not match institutional authority. Visibility may not match safety. These are not reasons to abandon remote sensing. They are reasons to design remote-sensing workflows around the decision context from the start."
-            caption="For each mismatch, what remote sensing privileges and what often matters in practice. Reveal one row, or all six.">
-            <FigMismatches />
+            title="Higher spatial resolution does not necessarily yield a more relational or contextually meaningful understanding."
+            lede="The following mismatches do not constitute a universal theory of remote-sensing failure. Rather, they represent a practical diagnosis that has emerged from my work across diverse applied projects, including disaster risk, community mapping, land-cover change, air-quality exposure, agricultural insurance, coastal transformation, and water governance. Repeatedly, the same pattern emerges: although the data may be technically robust, the resulting product can still fail to inform decisions if the scale, timing, classification, validation method, claim to objectivity, or visibility regime does not correspond to the realities on the ground.">
+            <Para>
+              These mismatches do not indicate an inherent weakness in remote sensing. Instead, they highlight areas where remote sensing methodologies require more careful design.
+            </Para>
+            <div style={{ marginTop: 22 }}>
+              <FigMismatches />
+            </div>
+            <Para style={{ marginTop: 22 }}>
+              The purpose of this table is not to argue against the pursuit of improved data. Enhanced spatial resolution, increased temporal frequency, refined classification, advanced models, and rigorous validation are often essential. However, improvements within the sensor system alone do not automatically address the challenges associated with serving the public good. For example, a high-resolution image may still fail to capture lived exposure; frequent revisit intervals may still miss critical moments for action; precise class labels may still misrepresent a location; high accuracy scores may obscure the social consequences of error; and public maps may inadvertently reveal information that should remain protected.
+            </Para>
+            <p className="serif" style={{ margin: "20px 0 0", padding: "16px 22px", fontSize: 18, lineHeight: 1.45, fontStyle: "italic", color: "var(--ink)", borderLeft: "3px solid var(--clay)", background: "var(--paper-2)", maxWidth: 820 }}>
+              The practical lesson I draw from these cases is that the core issue often lies not with the sensor itself, but with the underlying assumptions embedded in the workflow.
+            </p>
           </PFBlock>
-          <section style={{ padding: "20px 0 0" }}>
-            <p className="serif" style={{ margin: 0, fontSize: 22, lineHeight: 1.35, color: "var(--ink)", fontStyle: "italic", maxWidth: 820, borderLeft: "3px solid var(--clay)", paddingLeft: 22 }}>
-              The data may be good and still be misused. The problem is often not the sensor. The problem is the default question.
+
+          {/* § IV — THE DEFAULTS INDICTMENT */}
+          <PFBlock n="IV" kicker="THE DEFAULTS INDICTMENT"
+            title="The data itself is not inherently problematic. It is the default settings and assumptions that often introduce politics into the image."
+            lede="Introductory remote-sensing workflows instill valuable technical practices, such as removing shadow, masking cloud, smoothing speckle, assigning one class per pixel, suppressing edges, discarding uncertainty, resampling layers to a single grid, removing outliers, and refining the image to facilitate classification, modeling, or communication. These procedures are not inherently flawed and are often necessary. The problem arises when these steps are regarded as neutral, automatic, or universally applicable.">
+            <Para>
+              From the perspective of community resilience, certain default preprocessing choices may frame the problem inappropriately. A decision that enhances classifier performance can simultaneously eliminate conditions that are most significant to local populations. For instance, while shadow may be considered noise in a land-cover model, shade can serve as critical infrastructure during heat waves. Clouds may obstruct optical imagery, yet they also represent moisture in motion. SAR speckle may complicate image interpretation, but it can convey information about surface roughness, ice texture, soil moisture, inundation, or disturbance. Bare ground, which may appear empty in a residual class, can function as an evacuation point, market, schoolyard, sacred space, temporary shelter, or gathering place. Similarly, an edge may be rendered as a line in a raster but may function as a membrane in lived experience, characterized by openings, timing, surveillance, negotiation, fear, or refusal.
+            </Para>
+            <p className="serif" style={{ margin: "20px 0 0", padding: "16px 22px", fontSize: 18, lineHeight: 1.45, fontStyle: "italic", color: "var(--ink)", borderLeft: "3px solid var(--clay)", background: "var(--paper-2)", maxWidth: 820 }}>
+              The key lesson is not to abandon preprocessing, but rather to ensure that preprocessing choices are responsive to the specific research question.
             </p>
-            <p className="serif" style={{ margin: "16px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--ink-2)", maxWidth: 820 }}>
-              Standard preprocessing choices should be treated as methodological decisions, not automatic cleaning. Shadow may be noise in a land-cover classifier, but shade may be life-saving infrastructure during a heat wave. Cloud may obstruct an optical image, but cloud may also indicate the rain system that matters to farmers. SAR speckle may make an image harder to read, but it can also contain information about roughness, ice texture, soil moisture, or surface disturbance. A "bare" class may contain evacuation grounds, weekly markets, schoolyards, sacred spaces, or temporary shelters. An edge may be a fence in a raster but a membrane in lived experience, with openings, timing, surveillance, negotiation, and fear. Good remote sensing does not eliminate these complexities too early. It asks whether the default serves the problem.
-            </p>
-          </section>
-          <KeptDefaults />
+            <Para>
+              Each card identifies a standard default and considers how the same operation might be interpreted from a care-oriented perspective.
+            </Para>
+            <div style={{ marginTop: 22 }}>
+              <KeptDefaults />
+            </div>
+            <Para style={{ marginTop: 8 }}>
+              These cards do not constitute prescriptive rules; rather, they serve as prompts for methodological judgment. A project may still require masking clouds, filtering speckle, classifying bare ground, resampling layers, removing outliers, or reporting accuracy. However, each methodological choice should be justified in relation to the decision context, the affected populations, and the types of knowledge that remote-sensing imagery alone cannot convey.
+            </Para>
+            <Para italic>
+              The central question, therefore, is not merely whether the output is clean, accurate, or visually persuasive. Rather, it is whether the chosen method preserves what is most significant for the people, institutions, and places impacted by the decision.
+            </Para>
+          </PFBlock>
         </React.Fragment>
       )}
 
