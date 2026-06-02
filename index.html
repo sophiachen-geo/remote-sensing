@@ -95,7 +95,9 @@
     display: flex; gap: 0; max-width: 1280px; margin: 0 auto;
     padding: 0 56px;
     overflow-x: auto;
+    scrollbar-width: none;
   }
+  .chrome-tabs::-webkit-scrollbar { display: none; height: 0; width: 0; }
   .tab {
     appearance: none; background: none; border: none; cursor: pointer;
     padding: 14px 0 16px; margin-right: 36px;
@@ -103,18 +105,29 @@
     color: var(--ink-3); position: relative;
     display: inline-flex; align-items: baseline; gap: 10px;
     white-space: nowrap;
-    transition: color 120ms;
+    transition: color 160ms, opacity 160ms;
   }
   .tab .roman {
     font-family: var(--mono); font-size: 10px;
-    letter-spacing: 0.16em; color: var(--ink-4);
+    letter-spacing: 0.16em;
+    color: color-mix(in oklch, var(--tab-accent, var(--ink-4)) 65%, var(--ink-4));
     text-transform: uppercase;
+    transition: color 160ms;
+  }
+  .tab .glyph {
+    display: inline-block; width: 8px; height: 8px;
+    background: color-mix(in oklch, var(--tab-accent, var(--ink-4)) 55%, transparent);
+    transform: rotate(45deg);
+    transition: background 160ms, transform 160ms;
   }
   .tab:hover { color: var(--ink); }
+  .tab:hover .glyph { background: var(--tab-accent, var(--terra)); }
   .tab.on { color: var(--ink); }
+  .tab.on .roman { color: var(--tab-accent, var(--terra)); }
+  .tab.on .glyph { background: var(--tab-accent, var(--terra)); transform: rotate(45deg) scale(1.15); }
   .tab.on::after {
     content: ""; position: absolute; left: 0; right: 0; bottom: -1px;
-    height: 2px; background: var(--terra);
+    height: 2px; background: var(--tab-accent, var(--terra));
   }
 
   /* Layout */

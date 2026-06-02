@@ -175,21 +175,6 @@ const InteractivePainting = () => {
         )}
       </div>
 
-      {/* Non-interactive zoomed detail of the central figures */}
-      <div style={{
-        position: "relative",
-        height: "60vh", minHeight: 420, maxHeight: 700,
-        overflow: "hidden",
-      }} aria-hidden="true">
-        <div style={{
-          position: "absolute", inset: 0,
-          backgroundImage: "url(img/school-of-athens.jpg)",
-          backgroundSize: "300%",
-          backgroundPosition: "53% 38%",
-          backgroundRepeat: "no-repeat",
-        }} />
-      </div>
-
       <div className="wrap" style={{
         padding: "26px 56px 32px",
       }}>
