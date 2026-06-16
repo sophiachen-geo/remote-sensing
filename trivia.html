@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Sensing the Commons — OSM &amp; Humanitarian Mapping Trivia</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#ffffff; --paper-2:#eef3f9; --paper-3:#e3ebf4; --paper-4:#c2d0e0;
+    --ink:#11203a; --ink-2:#33415c; --ink-3:#5d6b86; --ink-4:#8e9bb3;
+    --rule:#d8e1ec; --rule-soft:#e8eef5;
+    --lapis:#1f6feb; --lapis-2:#5a90ef; --lapis-tint:#e8f1fe;
+    --terra:#c2410c; --terra-tint:#fbede2;
+    --moss:#0e7490; --moss-tint:#e6f1f3;
+    --plum:#6d5ac2; --plum-tint:#ede9fa;
+    --amber:#b8730f; --amber-tint:#fbf3e4;
+    --ok:#15803d; --ok-tint:#e6f4ea;
+    --bad:#b42318; --bad-tint:#fbeae8;
+    --shadow:0 1px 2px rgba(17,32,58,.06),0 8px 24px rgba(17,32,58,.08);
+    --sans:"IBM Plex Sans",system-ui,sans-serif;
+    --serif:"Spectral",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:var(--sans); color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, var(--lapis-tint), transparent 60%),
+      linear-gradient(180deg,#f7fafd,#eef3f9 40%,#e9eff7);
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--lapis)}
+  .wrap{max-width:880px;margin:0 auto;padding:32px 20px 80px}
+
+  /* ---------- Header ---------- */
+  header.site{
+    text-align:center; padding:18px 0 8px;
+  }
+  .kicker{
+    font-family:var(--mono); font-size:12px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--lapis); font-weight:600;
+  }
+  h1.title{
+    font-family:var(--serif); font-weight:600; font-size:clamp(28px,5vw,44px);
+    line-height:1.08; margin:.25em 0 .15em; letter-spacing:-.01em;
+  }
+  .subtitle{color:var(--ink-3); font-size:16px; max-width:560px; margin:0 auto;}
+
+  /* ---------- Tabs ---------- */
+  .tabs{
+    display:flex; gap:6px; justify-content:center; margin:26px auto 6px;
+    background:var(--paper); border:1px solid var(--rule); border-radius:999px;
+    padding:5px; width:max-content; box-shadow:var(--shadow);
+  }
+  .tab{
+    border:0; background:transparent; cursor:pointer; font-family:var(--sans);
+    font-weight:600; font-size:14px; color:var(--ink-3);
+    padding:9px 18px; border-radius:999px; transition:.18s;
+  }
+  .tab:hover{color:var(--ink)}
+  .tab[aria-selected="true"]{background:var(--ink); color:#fff;}
+
+  section.panel{display:none; margin-top:24px;}
+  section.panel.active{display:block; animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* ---------- Quiz ---------- */
+  .card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:18px;
+    box-shadow:var(--shadow); padding:26px 26px 24px;
+  }
+  .quizmeta{
+    display:flex; align-items:center; justify-content:space-between;
+    font-family:var(--mono); font-size:12px; color:var(--ink-3);
+    letter-spacing:.04em; margin-bottom:14px;
+  }
+  .chip{
+    display:inline-block; font-family:var(--mono); font-size:11px; font-weight:600;
+    letter-spacing:.08em; text-transform:uppercase; padding:4px 10px;
+    border-radius:999px; background:var(--lapis-tint); color:var(--lapis);
+  }
+  .progress{height:6px;background:var(--paper-3);border-radius:999px;overflow:hidden;margin-bottom:20px}
+  .progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--lapis),var(--moss));width:0;transition:width .4s ease}
+  .qtext{
+    font-family:var(--serif); font-weight:500; font-size:clamp(20px,3.2vw,26px);
+    line-height:1.25; margin:2px 0 20px;
+  }
+  .options{display:grid;gap:10px}
+  .opt{
+    display:flex; align-items:center; gap:12px; text-align:left; width:100%;
+    background:var(--paper); border:1.5px solid var(--rule); border-radius:12px;
+    padding:14px 16px; cursor:pointer; font-family:var(--sans); font-size:16px;
+    color:var(--ink); transition:.16s;
+  }
+  .opt:hover:not(:disabled){border-color:var(--lapis-2); background:var(--lapis-tint)}
+  .opt:disabled{cursor:default}
+  .opt .key{
+    flex:0 0 auto; width:28px;height:28px;border-radius:8px;
+    display:grid;place-items:center; font-family:var(--mono);font-weight:600;font-size:13px;
+    background:var(--paper-2); color:var(--ink-2); border:1px solid var(--rule);
+  }
+  .opt.correct{border-color:var(--ok); background:var(--ok-tint)}
+  .opt.correct .key{background:var(--ok); color:#fff; border-color:var(--ok)}
+  .opt.wrong{border-color:var(--bad); background:var(--bad-tint)}
+  .opt.wrong .key{background:var(--bad); color:#fff; border-color:var(--bad)}
+  .opt .mark{margin-left:auto; font-weight:700; font-size:15px}
+  .opt.correct .mark{color:var(--ok)}
+  .opt.wrong .mark{color:var(--bad)}
+
+  .explain{
+    margin-top:18px; border-left:3px solid var(--lapis); background:var(--lapis-tint);
+    padding:14px 16px; border-radius:0 10px 10px 0; font-size:15px; color:var(--ink-2);
+    display:none;
+  }
+  .explain.show{display:block; animation:fade .3s ease}
+  .explain b{color:var(--ink)}
+
+  .nav{display:flex; justify-content:space-between; align-items:center; margin-top:22px}
+  .btn{
+    font-family:var(--sans); font-weight:600; font-size:15px; cursor:pointer;
+    border-radius:10px; padding:11px 22px; border:1px solid var(--rule);
+    background:var(--paper); color:var(--ink); transition:.16s;
+  }
+  .btn:hover{border-color:var(--ink-3)}
+  .btn.primary{background:var(--ink); color:#fff; border-color:var(--ink)}
+  .btn.primary:hover{background:#0a1830}
+  .btn:disabled{opacity:.4; cursor:default}
+  .btn.ghost{background:transparent;border-color:transparent;color:var(--ink-3)}
+  .btn.ghost:hover{color:var(--ink)}
+
+  /* ---------- Results ---------- */
+  .results{text-align:center; padding:14px 6px}
+  .scorebig{font-family:var(--serif); font-size:64px; font-weight:600; line-height:1; margin:6px 0}
+  .scorebig small{font-size:26px; color:var(--ink-4)}
+  .scoremsg{font-size:18px; color:var(--ink-2); margin:8px auto 22px; max-width:460px}
+  .breakdown{display:grid;gap:8px;text-align:left;margin:20px auto 0;max-width:560px}
+  .brow{display:flex;gap:12px;align-items:flex-start;font-size:14px;padding:10px 12px;border-radius:10px;background:var(--paper-2)}
+  .brow .dot{flex:0 0 auto;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700;margin-top:1px}
+  .brow .dot.ok{background:var(--ok)} .brow .dot.no{background:var(--bad)}
+
+  /* ---------- Deep dive accordions ---------- */
+  .lead{font-size:16px;color:var(--ink-3);margin:0 0 18px;max-width:660px}
+  .group-h{
+    font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-4); font-weight:600; margin:28px 0 10px; padding-left:2px;
+  }
+  details.acc{
+    background:var(--paper); border:1px solid var(--rule); border-radius:14px;
+    margin-bottom:10px; overflow:hidden; box-shadow:0 1px 2px rgba(17,32,58,.04);
+  }
+  details.acc[open]{box-shadow:var(--shadow)}
+  details.acc summary{
+    list-style:none; cursor:pointer; padding:16px 18px; display:flex; gap:12px; align-items:flex-start;
+    font-family:var(--serif); font-weight:500; font-size:18px; color:var(--ink);
+  }
+  details.acc summary::-webkit-details-marker{display:none}
+  details.acc summary .tw{
+    flex:0 0 auto; width:22px;height:22px;border-radius:6px;border:1px solid var(--rule);
+    display:grid;place-items:center; color:var(--lapis); font-weight:700; margin-top:2px;
+    transition:.2s; background:var(--lapis-tint);
+  }
+  details.acc[open] summary .tw{transform:rotate(45deg)}
+  .acc-body{padding:0 18px 18px 52px; color:var(--ink-2); font-size:15.5px}
+  .acc-body p{margin:0 0 12px}
+  .acc-body ul{margin:0 0 12px; padding-left:18px}
+  .acc-body li{margin-bottom:6px}
+  .acc-body code{font-family:var(--mono); font-size:.88em; background:var(--paper-2); padding:1px 6px; border-radius:5px; color:var(--terra)}
+  .acc-body strong{color:var(--ink)}
+  .acc-body .takeaway{
+    border-left:3px solid var(--amber); background:var(--amber-tint);
+    padding:10px 14px; border-radius:0 8px 8px 0; margin:14px 0 4px; font-size:14.5px;
+  }
+  .prompt summary{font-style:italic}
+  .prompt summary .tw{background:var(--plum-tint); color:var(--plum)}
+  .ponder{color:var(--ink-3); font-size:14.5px}
+  .ponder em{color:var(--plum)}
+
+  footer{text-align:center;margin-top:44px;color:var(--ink-4);font-size:13px;font-family:var(--mono)}
+  .hide{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site">
+    <div class="kicker">CRSS · Open Mapping Companion</div>
+    <h1 class="title">Sensing the Commons</h1>
+    <p class="subtitle">An interactive trivia &amp; deep-dive on OpenStreetMap, humanitarian mapping, and remote sensing.</p>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" id="tab-quiz" role="tab" aria-selected="true" aria-controls="panel-quiz">🎯 Play the Quiz</button>
+    <button class="tab" id="tab-deep" role="tab" aria-selected="false" aria-controls="panel-deep">📖 Deep Dive</button>
+  </div>
+
+  <!-- ============ QUIZ PANEL ============ -->
+  <section class="panel active" id="panel-quiz" role="tabpanel" aria-labelledby="tab-quiz">
+    <div class="card" id="quizCard">
+
+      <div id="quizPlay">
+        <div class="quizmeta">
+          <span class="chip" id="qCategory">Category</span>
+          <span id="qCount">Question 1 / 7</span>
+        </div>
+        <div class="progress"><i id="qBar"></i></div>
+        <h2 class="qtext" id="qText"></h2>
+        <div class="options" id="qOptions"></div>
+        <div class="explain" id="qExplain"></div>
+        <div class="nav">
+          <button class="btn ghost" id="btnRestart">↺ Restart</button>
+          <button class="btn primary" id="btnNext" disabled>Next →</button>
+        </div>
+      </div>
+
+      <div id="quizResults" class="results hide"></div>
+    </div>
+  </section>
+
+  <!-- ============ DEEP DIVE PANEL ============ -->
+  <section class="panel" id="panel-deep" role="tabpanel" aria-labelledby="tab-deep">
+    <p class="lead">The questions that don't have a tidy A/B/C/D answer. Tap any card to expand — some carry an explanation, others are open prompts to chew on.</p>
+    <div id="deepContent"></div>
+  </section>
+
+  <footer>Built for the “Sensing for the Commons” companion · data &amp; explanations from the OSM / HOT Q&amp;A</footer>
+</div>
+
+<script>
+/* ============================================================
+   QUIZ DATA — multiple-choice questions
+   ============================================================ */
+const QUESTIONS = [
+  {
+    cat:"Missing Maps / HOT",
+    q:"In what year was the Missing Maps project founded?",
+    options:["2010","2014","2016","2009"],
+    answer:1,
+    explain:"<b>2014.</b> Launched November 2014 by the American Red Cross, British Red Cross, MSF, and the Humanitarian OpenStreetMap Team (HOT)."
+  },
+  {
+    cat:"Missing Maps / HOT",
+    q:"The Humanitarian OpenStreetMap Team was galvanized by the volunteer mapping response to which 2010 disaster?",
+    options:["Pakistan floods","Haiti earthquake","Eyjafjallajökull eruption","Deepwater Horizon spill"],
+    answer:1,
+    explain:"<b>The Haiti earthquake.</b> After the January 2010 quake, OSM volunteers turned a near-blank Port-au-Prince into the most detailed map available within weeks. (All four are real 2010 events — so it reads as a fair “which one.”)"
+  },
+  {
+    cat:"OSM History",
+    q:"OpenStreetMap was founded in what year, largely because national map data was locked behind licensing fees?",
+    options:["2004","2009","1999","2012"],
+    answer:0,
+    explain:"<b>2004.</b> Steve Coast started OSM in 2004 in the UK, reacting to Ordnance Survey paywalls."
+  },
+  {
+    cat:"OSM Licensing",
+    q:"All OpenStreetMap data is released under which licence, keeping it free and share-alike forever?",
+    options:["MIT License","Creative Commons CC-BY","Open Database License (ODbL)","Mapyright™ Eternal"],
+    answer:2,
+    explain:"<b>ODbL.</b> Use the data freely, but improvements stay open. (D is the joke.) <br><br>Follow-up — <b>whose imagery is this, anyway?</b> Most high-res commercial imagery is licensed to OSM contributors under specific tracing agreements (Maxar, Esri, Bing). The pixel remains proprietary; only the vector you trace becomes open. That structural compromise is what makes Missing Maps possible."
+  },
+  {
+    cat:"Flood / Disaster (Canada)",
+    q:"What is the costliest flood in Canadian history by insured losses (and, at the time, the costliest natural disaster of any kind)?",
+    options:["2011 Richelieu River flood, QC","2013 Southern Alberta floods","2017 Quebec spring floods","2019 Ottawa River flood"],
+    answer:1,
+    explain:"<b>The 2013 Southern Alberta floods.</b> June 2013, more than $1.7 billion in insured damage — the costliest natural disaster in Canadian history at the time. Source: Insurance Bureau of Canada."
+  },
+  {
+    cat:"Remote Sensing",
+    q:"Which satellite sensor can map flood extent at night and straight through storm clouds, making it a disaster-response workhorse?",
+    options:["Optical / multispectral (Landsat-style)","Synthetic Aperture Radar (SAR, e.g. Sentinel-1)","Thermal-only camera","A really good telescope"],
+    answer:1,
+    explain:"<b>Synthetic Aperture Radar (SAR).</b> SAR is active radar: its own microwave pulses pass through cloud and need no daylight, so it images floods mid-storm when optical sensors see only white. The bridge from “remote sensing” to “why we mapathon.”"
+  },
+  {
+    cat:"Flood / Disaster (Canada)",
+    q:"Roughly how many people were forced from their homes by the 2013 southern Alberta floods?",
+    options:["10,000","100,000","500,000","25,000"],
+    answer:1,
+    explain:"<b>100,000.</b> Four people died and 100,000 were forced from their homes. The trap is <i>25,000</i> — that was the number of insurance claims, not evacuees."
+  },
+  {
+    cat:"Imagery Alignment",
+    q:"Which reference became a de-facto standard for aligning paths in OSM editors — outperforming single GPS traces because aggregation averages out individual GPS error?",
+    options:["Google Street View","Strava Global Heatmap","Apple Look Around","A single survey-grade GPS fix"],
+    answer:1,
+    explain:"<b>The Strava Global Heatmap.</b> Aggregation across ~a billion uploads averages out individual GPS multipath and constellation error, and it's immune to relief displacement because it isn't orthorectified imagery. <br><br>Blind spot for humanitarian work: coverage follows athletic activity — concentrated in OECD urban/recreational areas. In the Sahel, conflict zones, or remote rural Asia, the heatmap is empty and you're back to GPS traces or the Imagery Offset Database."
+  },
+  {
+    cat:"Imagery Alignment",
+    q:"A Sentinel-2 tile over mountains shows ±10 m horizontal displacement across 99.8% of its pixels. What is the dominant physical cause?",
+    options:["Atmospheric refraction at the sensor","DEM vertical error propagated through the imaging geometry","Earth's rotation during capture","Camera lens distortion"],
+    answer:1,
+    explain:"<b>DEM vertical error propagated through orthorectification geometry.</b> Lateral offset ≈ vertical error × tan(view angle). ESA's L1C orthorectification historically used PlanetDEM 90 (recent baselines moved toward Copernicus DEM); a stale or wrong DEM over mining, landslides, or glaciers shifts the offset. Each provider's DEM choice adds a different, partly independent bias on top of pointing and ephemeris residuals — which is why your imagery layers disagree."
+  }
+];
+
+/* ============================================================
+   DEEP DIVE DATA — explained cards + open prompts
+   ============================================================ */
+const DEEP = [
+  { group:"Imagery & Provenance" },
+  {
+    type:"explain", accent:"moss",
+    q:"Where does Esri's World Imagery Clarity (used in this project) come from?",
+    body:`<p>A mosaic stitched from commercial providers (Maxar Vivid, Airbus), national programs (USDA NAIP, provincial/state aerial), and Esri's Community Maps contributor pipeline.</p>
+    <p>The Clarity layer is reprocessed for color balance, atmospheric correction, and sharpening <strong>optimized for visual interpretation</strong> (i.e. tracing), not radiometric analysis. Imagery is typically 2–4 years old. The design priority is visual consistency across tiles, not recency.</p>`
+  },
+  {
+    type:"explain", accent:"moss",
+    q:"Why does the imagery shift when you zoom in or out on the same tile sometimes?",
+    body:`<p>Tile pyramids stack pre-rendered tiles per zoom level, and different zooms pull from different source layers:</p>
+    <ul>
+      <li><strong>Low zoom (z5–10):</strong> downsampled Landsat/Sentinel mosaics or coarse commercial composites</li>
+      <li><strong>Mid zoom (z11–15):</strong> NAIP, Airbus, Maxar Vivid mosaics</li>
+      <li><strong>High zoom (z16–19):</strong> sub-meter WorldView, Pléiades, sometimes aerial orthophotos</li>
+    </ul>
+    <p>Each layer is captured on different dates by different sensors at different sun angles and off-nadir geometries. A house built in 2022 may appear at z18 (recent commercial) and vanish at z13 (older mosaic). The visual “morphing” you see while zooming is <strong>provenance leaking through the seams.</strong></p>`
+  },
+  {
+    type:"prompt",
+    q:"In open mapping, how do you reconcile imagery vintages when sources disagree?",
+    body:`<p class="ponder"><em>Open prompt.</em> When two layers show different realities, which do you trust — the sharpest, the most recent, or the one that matches ground truth? There's no single right answer; it's a judgement call every mapper makes.</p>`
+  },
+  {
+    type:"prompt",
+    q:"When did Landsat become free, and why does it matter?",
+    body:`<p class="ponder"><em>Open prompt.</em> A hint to chase: the USGS opened the full Landsat archive at no cost in 2008 — a policy shift that arguably did more for global remote sensing than any single satellite. Why would <em>free</em> change the science so much?</p>`
+  },
+  {
+    type:"prompt",
+    q:"The 2012 Apple Maps disaster — what did it expose?",
+    body:`<p class="ponder"><em>Open prompt.</em> Think about what happens when a single company replaces a mature, crowd-checked dataset overnight: melted bridges, misplaced towns, vanished cities. What does it say about the value of ground-truth and incremental correction?</p>`
+  },
+  {
+    type:"explain", accent:"moss",
+    q:"Why can a “complete” map of a settlement still be incomplete?",
+    body:`<p>Mapathons trace what is visible from nadir. Informal extensions, indoor structures, seasonal dwellings, sacred sites, contested boundaries, and overhanging tree-canopy-obscured features are systematically invisible.</p>
+    <p>Mapping is also <strong>ontological</strong>: what counts as “building,” “road,” or “place” is a tagging decision, not an objective fact.</p>`
+  },
+
+  { group:"How Tagging Actually Works" },
+  {
+    type:"explain", accent:"lapis",
+    q:"So how did OSM's tagging rules even come about? Who sat down and decided what counts as a valid tag?",
+    body:`<p>Nobody did, and that is the whole trick. OSM was built on a principle called <strong>“any tags you like.”</strong> Tags are just <code>key=value</code> pairs, and the database never checks whether any of them mean anything. So the rules were never legislated, they emerged, and they live in three places with wildly different amounts of real power.</p>
+    <p><strong>The wiki</strong> is the official documentation, with a proposal-and-vote process. Sounds authoritative. It mostly isn't — approval is non-binding, and the wiki itself admits the map is not the documentation.</p>
+    <p><strong>taginfo</strong> is just statistics on how often each tag gets used. This is what decides what is “real”: a tag is legitimate if a lot of people use it. Frequency hardens into a norm because everyone copies what's already common.</p>
+    <p><strong>Editor presets</strong> — the menus inside iD and JOSM — are where governance quietly bites hardest. Whatever the default editor puts in front of a newcomer is what they'll tag, so preset maintainers shape the schema far more than any vote does.</p>
+    <div class="takeaway"><strong>One-line takeaway:</strong> real authority drifted away from the voting layer into the infrastructure — presets plus usage stats. The proposal process is mostly ceremony now, and the schema is deeply path-dependent. The whole <code>highway</code> hierarchy was inherited from British road categories and now governs roads worldwide — not because it fits, but because it got there first and landed in the editor.</div>`
+  },
+  {
+    type:"explain", accent:"lapis",
+    q:"Can anyone just make up a new tag? And what if you want to change one that already exists?",
+    body:`<p>You can absolutely invent one. Two ways: run the formal proposal and collect your handful of votes, or just start tagging things with it. If it catches on in taginfo and someone slots it into a preset — congratulations, it's part of the schema.</p>
+    <p>Changing or retiring an existing tag is a completely different story, and that <strong>asymmetry</strong> is the important bit. Adding is cheap. Changing things at scale sets off alarms: mass edits fall under the automated edits code of conduct, and undiscussed systematic edits get treated as vandalism if they persist — partly because careless bulk edits can be impossible to roll back and create repair work for everyone else.</p>
+    <div class="takeaway">So the system keeps adding and almost never cleans up. Dead and deprecated tags pile up in a long tail. It's technical debt at the level of the vocabulary itself — there is no garbage collection for meaning.</div>`
+  },
+  {
+    type:"explain", accent:"lapis",
+    q:"Why does tagging look so different from one country to the next? Is that a feature or a bug?",
+    body:`<p>Both — and the reason is unavoidable: tags point at real things in the world, and those things mean different things in different places. The schema looks universal on the surface while being totally local underneath.</p>
+    <p><strong>Roads:</strong> the <code>highway</code> ladder (motorway, trunk, primary…) was designed around one country's network, so everyone else wrote a rulebook translating their road classes onto it. <code>highway=primary</code> means a meaningfully different road in Germany vs the US vs India.</p>
+    <p><strong>Boundaries:</strong> <code>admin_level</code> runs 1–11 but gets remapped country by country. Level 4 is a US state, a German Land, a region elsewhere. There are literally per-country lookup tables on the wiki.</p>
+    <p><strong>Addresses:</strong> the address tags assume Western street-and-number logic, so block-based addressing (e.g. Japan) fits awkwardly.</p>
+    <ul>
+      <li><strong>Good side:</strong> fidelity — you're not forcing a foreign category onto a place, and communities encode distinctions that matter to them.</li>
+      <li><strong>Bad side:</strong> broken global interoperability — routers and cross-border analysis need per-country logic. A tax on every data consumer: know the local convention or get it wrong.</li>
+    </ul>
+    <div class="takeaway">OSM pretends to be one global database while really being a federation of local mapping cultures. Universal on the surface, patchwork in fact — and whoever uses the data across borders pays for the gap.</div>`
+  },
+
+  { group:"Imagery Alignment & Offsets" },
+  {
+    type:"explain", accent:"amber",
+    q:"Why do correctly orthorectified imagery layers still disagree by several metres?",
+    body:`<p>Three primary physical sources, plus two often-missed ones:</p>
+    <ul>
+      <li><strong>1. DEM error through orthorectification geometry</strong> (the dominant contributor). Lateral offset ≈ DEM vertical error × tan(view angle). A 2018 study found 99.8% of Sentinel-2 pixels over Austria showed ±10 m (one pixel) displacement from PlanetDEM inaccuracies in ESA's L1C processing. A stale DEM over mining, landslides, or glacier movement shifts the offset further.</li>
+      <li><strong>2. Sensor pointing & platform ephemeris uncertainty.</strong> Each provider calibrates differently (Maxar GCPs + Vivid pre-mosaicking, Sentinel-2 GRI registration, NAIP aerotriangulation). Residual pointing errors are uncorrelated across providers, so two correct tiles disagree.</li>
+      <li><strong>3. Off-nadir geometry + relief displacement.</strong> WorldView routinely collects 15–30° off-nadir. Even with perfect DEM and pointing, a building's rooftop projects to different positions from different orbit passes — both "correctly orthorectified" against bare earth.</li>
+    </ul>
+    <p>Often-missed: <strong>geoid model differences</strong> (EGM96 vs EGM2008 vs national geoids) add sub-metre vertical reference shifts; and <strong>atmospheric refraction at low sun angles</strong> distorts geometry at high latitudes (a recurring Nordic complaint).</p>`
+  },
+  {
+    type:"explain", accent:"amber",
+    q:"What five overlapping solutions has the community built to fix alignment?",
+    body:`<ul>
+      <li><strong>1. GPS traces (since 2006)</strong> — the canonical ground reference. In JOSM, hide the data layer, add a "New offset," drag imagery until traces follow roads. Single traces are noisy, so use many across the same road to find the mean.</li>
+      <li><strong>2. Imagery Offset Database / IODB (Zverev, 2013)</strong> — centralized offset bookmarks + JOSM plugin. Flags you to check existing offsets and apply them in one step. Unresolved problem: it requires consciously checking before working, and is JOSM-only — and iD now dominates by edit volume.</li>
+      <li><strong>3. Strava Global Heatmap</strong> — current de-facto standard for paths. Averaged across ~a billion uploads, immune to relief displacement, sees paths under tree cover. OSM has permission (reconfirmed Nov 2019) to trace from it. Blind spot: coverage follows recreational activity.</li>
+      <li><strong>4. Mapillary & KartaView</strong> — street-level ground truth, integrated into iD/JOSM. Great for <em>what</em> is there (bus-stop names, building names), but imprecise geo-referencing means they need map-matching (5 m GPS tolerance, 10–30 m buffers) — ground truth for <em>what</em>, not always <em>exactly where</em>.</li>
+      <li><strong>5. iD "Fix Alignment" + Tasking Manager imagery lock</strong> — iD doesn't store offsets between sessions, so every newcomer starts unaligned. The HOT workaround: mandate one imagery layer per project so the offset is systematically <em>consistent</em>, even if not absolutely correct.</li>
+    </ul>
+    <div class="takeaway">A structural inversion: with Strava covering 55%+ of OSM ways, the alignment reference is now richer than the data being aligned.</div>`
+  },
+  {
+    type:"explain", accent:"amber",
+    q:"What actually happens to alignment in a humanitarian mapathon?",
+    body:`<p>The five-layer reality stack:</p>
+    <ul>
+      <li>Project manager picks Maxar Vivid or Bing as the mandatory layer.</li>
+      <li>Mappers in iD trace without aligning (most don't know they can).</li>
+      <li>Validators in JOSM may align using GPS traces, Strava, or IODB if a regional contributor seeded it.</li>
+      <li>Field teams ground-truth a sample with handheld GPS / smartphone (Field Papers, KoboCollect).</li>
+      <li>Long after, local mappers re-align using accumulated GPS traces and quietly move thousands of features 3–8 m.</li>
+    </ul>
+    <div class="takeaway">The result is <strong>systematically biased, internally consistent, and accurate enough for response coordination</strong>. Fine for routing, navigation, and admin-scale exposure modeling. Never use OSM directly for cadastral, infrastructure engineering, or legal property boundaries.</div>`
+  },
+
+  { group:"Power, Culture & the Future" },
+  {
+    type:"explain", accent:"plum",
+    q:"Is the tagging system culturally neutral? Because it feels like it might be smuggling in assumptions.",
+    body:`<p>It is not neutral, and the fact that it <em>looks</em> neutral is the real problem. Four tangled things:</p>
+    <p><strong>1. The vocabulary carries a worldview.</strong> Tags lean on Global North categories — a generic <code>place_of_worship</code> + religion subtag flattens everything outside the big traditions; land-use/ownership tags assume private, surveyed, cadastral property, so communal, customary, or Indigenous tenure fits badly. The schema has an ontology baked in — the decolonial-cartography critique.</p>
+    <p><strong>2. Place names & contested territory.</strong> OSM uses multilingual name tags plus an “on the ground” rule: use the name people actually use locally. Smart, but imperfect — Crimea, the India–China border, Israel/Palestine, colonial vs Indigenous names keep flaring. A Data Working Group referees the worst of it.</p>
+    <p><strong>3. Indigenous data sovereignty (structural, not fixable).</strong> OSM is one global namespace that openly replicates everywhere. It cannot encode “restricted to community members,” “seasonal,” or “sacred, not public.” CARE principles and TK Labels assume you can control access; ODbL + open replication assume you cannot.</p>
+    <p><strong>4. Who maps whom.</strong> When remote volunteers map the Global South off satellite imagery, you get maps very legible to outsiders (footprints, logistics roads) and not to residents (the informal economy, meaning, seasonal use).</p>
+    <div class="takeaway">Deciding the map should be one open namespace with a permanent public record, built on enumeration and private-property defaults, is not a neutral technical choice. It's a specific way of seeing the world, presented as just how maps work.</div>`
+  },
+  {
+    type:"explain", accent:"plum",
+    q:"Where's OSM headed in the age of AI? Is AI good or bad for it as a data source?",
+    body:`<p>Mostly it intensifies a pressure that was already there: <strong>centralization.</strong></p>
+    <p>The cautionary tale is <strong>Meta</strong> pushing computer-vision data into Egypt without following import rules — quality bad enough that the whole thing got reverted. That failure is a big reason import policies are strict.</p>
+    <p>The deliberate opposite is HOT's <strong>fAIr</strong>: a free, open-source AI service letting local communities build their own localized models. It runs on open imagery from OpenAerialMap, won't dump mass features into the map, and mapper corrections feed back to sharpen the model. One pilot pulled 18 million building footprints across Tanzania and Uganda and nearly doubled a mapper's daily output (~1,000–1,500 → 2,500–3,000). The settled principle: <strong>“AI suggests, a human decides.”</strong> Bulk machine import is still taboo.</p>
+    <p>A quieter use may matter more long-term: <strong>AI for quality control.</strong> Neural models now read changesets and flag suspicious ones. As editing outpaces human reviewers, the trust system leans on those models — handing a quiet authority to whoever runs them (tending to be the same big companies).</p>
+    <div class="takeaway">The worry: AI is great at the boring, uniform, satellite-visible stuff (buildings, roads) and bad at OSM's real value — local, ground-checked, meaningful detail. The risk is AI hollows OSM toward its most automatable layer while the real value gets captured downstream.</div>`
+  },
+  {
+    type:"explain", accent:"plum",
+    q:"I keep hearing about Overture Maps. What is it, and is it a threat to OSM?",
+    body:`<p>The live drama right now. <strong>Overture</strong> is a foundation backed by Meta, Amazon, Microsoft, and TomTom (with Esri now steering too). It takes open data and builds a clean, standardized, quality-controlled product for big enterprise and “spatial AI” customers. Key fact: roughly <strong>40% of Overture comes straight from OSM</strong> — it sits downstream of the volunteer project.</p>
+    <p>The fight blew up over <strong>GERS</strong>, a system of permanent unique IDs for real-world things. In early 2026 it went to the OGC for adoption as an official standard, and much of the OSM community pushed back, warning of corporate enclosure: a ~$300,000 pay-to-play membership, opaque governance, a 20% rate of IDs churning, and fear it could render volunteer mapping obsolete. (That's the critics' framing.)</p>
+    <p>Not a clean villain story, though — Overture also joined OpenStreetMap US as a strategic member and funds community tooling like MapRoulette. More parasite-meets-patron than pure enemy.</p>
+    <div class="takeaway">The fight isn't really about the data — Overture needs OSM's data. It's trying to own the layer <em>above</em> the data: the permanent ID system that makes stitching datasets together cheap. That “conflation” step is where the commercial value piles up. Enclosure-by-owning-the-abstraction-layer. And as LLMs become how people query maps, there'll be pressure to standardize tags toward whatever the models parse cleanly — one more force against local variety.</div>`
+  },
+  {
+    type:"explain", accent:"terra",
+    q:"How does mixing remote sensing with OSM play out differently when it's specifically for humanitarian work?",
+    body:`<p>This is where it gets ethically interesting — they're fundamentally different ways of knowing, and the humanitarian setting cranks up every difference.</p>
+    <ul>
+      <li><strong>Remote sensing</strong> looks down from above: repeatable, scalable, impartial, capturing physical form (roofs, road surfaces, flood extent, vegetation). Blind to function, ownership, meaning, use.</li>
+      <li><strong>OSM</strong> at its best is the opposite: ground-checked, attribute-rich, semantically tagged, locally meaningful — but patchy, depending entirely on who showed up to map.</li>
+      <li>The <strong>humanitarian workflow</strong> (HOT, Missing Maps) fuses them: imagery is what you trace over, OSM is the meaningful product. fAIr just automates the first step.</li>
+    </ul>
+    <p><strong>Detecting ≠ understanding.</strong> The fusion counts buildings and roads fast — great for responder logistics, but that's the responder's view, not the resident's (who owns what, where informal services are, how risk feels). The patchy map is the symptom; whose needs shaped it is the mechanism.</p>
+    <p><strong>A cruel timing problem.</strong> Crisis mapping is fastest off imagery exactly when ground-checking is hardest — during an active disaster. So the satellite-derived map is most authoritative when it's least verified.</p>
+    <p><strong>Visibility cuts both ways.</strong> Mapping an informal settlement, refugee camp, or conflict zone makes people visible to aid — and to states, militaries, and whoever wants to evict them. Remote sensing makes you visible without consent; OSM makes you visible permanently, publicly, openly, with no “restricted” setting. The do-no-harm problem at the center of it all.</p>
+    <ul>
+      <li><strong>Time:</strong> imagery gives cheap before/after; OSM is basically one snapshot with weak temporal tools.</li>
+      <li><strong>Accountability:</strong> satellite products carry an institutional paper trail; OSM edits come from a scattered, sometimes anonymous crowd. Fuse them and the “who's responsible” systems don't line up.</li>
+      <li><strong>Bias compounds:</strong> geometric bias (AI trained on one region's buildings) stacks with semantic bias (tagging), producing maps systematically wrong in precisely the under-resourced places they meant to help — which is why fAIr leans on local models + constant community feedback.</li>
+    </ul>
+    <div class="takeaway">Uniquely powerful (fast detection, real meaning, open access, free tools) and uniquely fraught (making people legible without consent; openness as exposure; remote strangers with authority over local reality). The responsible version looks like fAIr — local models, human in the loop, community steering, open imagery. But open data vs data sovereignty can't be solved inside OSM's open-everything design; humanitarian groups handle it by choosing what to map and, just as important, what to leave off.</div>`
+  }
+];
+
+/* ============================================================
+   TAB SWITCHING
+   ============================================================ */
+const tabs = {
+  quiz:{btn:document.getElementById('tab-quiz'), panel:document.getElementById('panel-quiz')},
+  deep:{btn:document.getElementById('tab-deep'), panel:document.getElementById('panel-deep')}
+};
+function selectTab(name){
+  for(const k in tabs){
+    const on = k===name;
+    tabs[k].btn.setAttribute('aria-selected', on?'true':'false');
+    tabs[k].panel.classList.toggle('active', on);
+  }
+}
+tabs.quiz.btn.onclick=()=>selectTab('quiz');
+tabs.deep.btn.onclick=()=>selectTab('deep');
+
+/* ============================================================
+   QUIZ ENGINE
+   ============================================================ */
+let idx=0, score=0, picked=null;
+const answeredLog=[];
+
+const el = {
+  cat:document.getElementById('qCategory'),
+  count:document.getElementById('qCount'),
+  bar:document.getElementById('qBar'),
+  text:document.getElementById('qText'),
+  opts:document.getElementById('qOptions'),
+  explain:document.getElementById('qExplain'),
+  next:document.getElementById('btnNext'),
+  restart:document.getElementById('btnRestart'),
+  play:document.getElementById('quizPlay'),
+  results:document.getElementById('quizResults')
+};
+const LETTERS=['A','B','C','D','E'];
+
+function renderQuestion(){
+  const q=QUESTIONS[idx];
+  picked=null;
+  el.cat.textContent=q.cat;
+  el.count.textContent=`Question ${idx+1} / ${QUESTIONS.length}`;
+  el.bar.style.width=`${(idx)/QUESTIONS.length*100}%`;
+  el.text.textContent=q.q;
+  el.explain.classList.remove('show');
+  el.explain.innerHTML='';
+  el.next.disabled=true;
+  el.next.textContent = idx===QUESTIONS.length-1 ? 'See results →' : 'Next →';
+  el.opts.innerHTML='';
+  q.options.forEach((opt,i)=>{
+    const b=document.createElement('button');
+    b.className='opt';
+    b.innerHTML=`<span class="key">${LETTERS[i]}</span><span>${opt}</span><span class="mark"></span>`;
+    b.onclick=()=>choose(i,b);
+    el.opts.appendChild(b);
+  });
+}
+
+function choose(i,btn){
+  if(picked!==null) return;
+  picked=i;
+  const q=QUESTIONS[idx];
+  const correct = i===q.answer;
+  if(correct) score++;
+  answeredLog[idx]={correct, picked:i};
+  const buttons=[...el.opts.children];
+  buttons.forEach((b,bi)=>{
+    b.disabled=true;
+    if(bi===q.answer){ b.classList.add('correct'); b.querySelector('.mark').textContent='✓'; }
+    if(bi===i && !correct){ b.classList.add('wrong'); b.querySelector('.mark').textContent='✗'; }
+  });
+  el.explain.innerHTML = (correct?'<b>Correct! </b>':'<b>Not quite. </b>') + q.explain;
+  el.explain.classList.add('show');
+  el.next.disabled=false;
+  el.bar.style.width=`${(idx+1)/QUESTIONS.length*100}%`;
+}
+
+el.next.onclick=()=>{
+  if(idx<QUESTIONS.length-1){ idx++; renderQuestion(); }
+  else showResults();
+};
+el.restart.onclick=startQuiz;
+
+function startQuiz(){
+  idx=0; score=0; picked=null; answeredLog.length=0;
+  el.results.classList.add('hide');
+  el.play.classList.remove('hide');
+  renderQuestion();
+}
+
+function showResults(){
+  el.play.classList.add('hide');
+  el.results.classList.remove('hide');
+  const pct=Math.round(score/QUESTIONS.length*100);
+  let msg;
+  if(pct===100) msg="Flawless. You could lead the next mapathon.";
+  else if(pct>=70) msg="Strong work — you know your commons.";
+  else if(pct>=40) msg="A solid start. The Deep Dive tab awaits.";
+  else msg="Plenty to explore — head to the Deep Dive and come back.";
+  let rows='';
+  QUESTIONS.forEach((q,i)=>{
+    const a=answeredLog[i];
+    const ok=a&&a.correct;
+    rows+=`<div class="brow"><span class="dot ${ok?'ok':'no'}">${ok?'✓':'✗'}</span>
+      <span><strong>${q.q}</strong><br><span style="color:var(--ink-3)">Answer: ${q.options[q.answer]}</span></span></div>`;
+  });
+  el.results.innerHTML=`
+    <div class="chip">Your score</div>
+    <div class="scorebig">${score}<small>/${QUESTIONS.length}</small></div>
+    <div class="scoremsg">${msg} (${pct}%)</div>
+    <button class="btn primary" onclick="window.__restartQuiz()">↺ Play again</button>
+    <button class="btn" onclick="window.__goDeep()">📖 Open the Deep Dive</button>
+    <div class="breakdown">${rows}</div>`;
+}
+window.__restartQuiz=startQuiz;
+window.__goDeep=()=>{selectTab('deep'); window.scrollTo({top:0,behavior:'smooth'});};
+
+/* ============================================================
+   DEEP DIVE RENDER
+   ============================================================ */
+const accentColor={lapis:'var(--lapis)',moss:'var(--moss)',plum:'var(--plum)',terra:'var(--terra)'};
+const deepEl=document.getElementById('deepContent');
+let html='';
+DEEP.forEach(item=>{
+  if(item.group){ html+=`<div class="group-h">${item.group}</div>`; return; }
+  const isPrompt=item.type==='prompt';
+  const cls=isPrompt?'acc prompt':'acc';
+  const tw=isPrompt?'?':'+';
+  const style=item.accent?`style="border-left:4px solid ${accentColor[item.accent]}"`:'';
+  html+=`<details class="${cls}" ${style}>
+    <summary><span class="tw">${tw}</span><span>${item.q}</span></summary>
+    <div class="acc-body">${item.body}</div>
+  </details>`;
+});
+deepEl.innerHTML=html;
+
+/* boot */
+startQuiz();
+</script>
+</body>
+</html>
