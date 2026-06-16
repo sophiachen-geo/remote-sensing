@@ -1,0 +1,915 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Sensing the Commons — Open Mapping Companion</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="A Canadian Red Cross companion to humanitarian open mapping: OpenStreetMap, remote sensing, and Missing Maps." />
+<style>
+  :root{
+    --crc-white:#FFFFFF; --crc-red:#EE0000; --crc-red-dark:#D60000; --crc-red-tint:#FE9E86;
+    --crc-black:#000000; --crc-black-tint:#474747; --crc-grey:#97999B; --crc-grey-tint:#AAADB1;
+    --crc-grey-50:#F4F4F5; --crc-grey-100:#E4E4E5;
+    --crc-brown:#653024; --crc-warm-grey:#746661; --crc-blue:#0085AD; --crc-blue-dark:#005670;
+    --shadow-card:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
+    --shadow-raised:0 4px 12px rgba(0,0,0,.08);
+    --shadow-overlay:0 8px 24px rgba(0,0,0,.12);
+    --motion-ease:cubic-bezier(0.4,0,0.2,1);
+    --font-sans:"Neue Haas Unica","Helvetica Neue",Arial,system-ui,sans-serif;
+    --pad:24px;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}
+  body{margin:0;font-family:var(--font-sans);font-size:16px;line-height:1.5;color:var(--crc-black);background:#fff}
+  img{max-width:100%}
+  button{font-family:inherit}
+  @keyframes crcFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .bar{background:#000;color:#fff}
+  .bar-in{max-width:960px;margin:0 auto;padding:9px var(--pad);display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .bar-in img{height:28px;width:auto;display:block}
+  .bar-tag{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--crc-grey-tint);font-weight:500}
+
+  header.hero{max-width:960px;margin:0 auto;padding:48px var(--pad) 0}
+  .eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--crc-red);margin-bottom:14px}
+  header.hero h1{font-size:clamp(32px,6vw,56px);line-height:1.04;margin:0 0 16px;max-width:17ch;font-weight:700;letter-spacing:-.02em}
+  header.hero p{font-size:18px;line-height:1.5;color:var(--crc-black-tint);max-width:62ch;margin:0}
+
+  nav.tabs{max-width:960px;margin:28px auto 0;padding:0 var(--pad);border-bottom:1px solid var(--crc-grey-tint);display:flex;gap:24px;flex-wrap:wrap}
+  nav.tabs button{background:none;border:0;font:inherit;font-weight:500;font-size:15px;color:var(--crc-black);padding:14px 0;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:color .15s var(--motion-ease)}
+  nav.tabs button:hover{color:var(--crc-red)}
+  nav.tabs button[aria-selected="true"]{color:var(--crc-red);border-bottom-color:var(--crc-red);font-weight:700}
+
+  main{max-width:960px;margin:0 auto;padding:32px var(--pad) 72px}
+  section.view{animation:crcFade .35s var(--motion-ease)}
+  .lead{font-size:18px;color:var(--crc-black-tint);max-width:64ch;margin:0 0 6px}
+
+  .btn{display:inline-block;font:inherit;font-weight:700;font-size:15px;cursor:pointer;border-radius:4px;padding:11px 22px;border:1.5px solid var(--crc-red);background:var(--crc-red);color:#fff;transition:all .15s var(--motion-ease);text-decoration:none}
+  .btn:hover{background:var(--crc-red-dark);border-color:var(--crc-red-dark)}
+  .btn.outline{background:#fff;color:var(--crc-black);border-color:var(--crc-grey-tint)}
+  .btn.outline:hover{border-color:var(--crc-red);color:var(--crc-red);background:#fff}
+  .btn.ghost{background:none;border-color:transparent;color:var(--crc-grey);padding:0;font-size:14px}
+  .btn.ghost:hover{color:var(--crc-red)}
+
+  /* ---------- Challenge ---------- */
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+  .stat{flex:1;min-width:96px;border:1px solid var(--crc-grey-tint);border-radius:4px;padding:10px 14px}
+  .stat .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--crc-grey);font-weight:700;margin-bottom:3px}
+  .stat .val{font-size:24px;font-weight:700;line-height:1}
+  .stat .val.red{color:var(--crc-red)}
+  .stat .val.pop{transform:scale(1.2);transition:transform .2s var(--motion-ease)}
+  .pbar{height:6px;background:var(--crc-grey-100);border-radius:999px;overflow:hidden;margin-bottom:20px}
+  .pbar>i{display:block;height:100%;background:var(--crc-red);border-radius:999px;transition:width .4s var(--motion-ease)}
+
+  .mapgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;max-width:520px;margin:0 auto 16px}
+  .tile{position:relative;aspect-ratio:1;padding:0;border:0;border-radius:2px;cursor:pointer;overflow:hidden;background-color:#fff;background-image:url(assets/earth-globe.png);background-repeat:no-repeat;background-size:600% 600%;outline-offset:2px;transition:transform .15s var(--motion-ease)}
+  .tile:hover{transform:scale(1.06)}
+  .tile.sel{outline:3px solid var(--crc-black)}
+  .tile .ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(12px,2.4vw,17px);color:#fff;transition:opacity .55s var(--motion-ease)}
+  .tile.correct .ov{opacity:0}
+  .rest-glyph{display:flex;flex-direction:column;align-items:center;gap:2px;opacity:.92}
+  .rest-glyph span{font-size:9px;font-weight:700;letter-spacing:.04em}
+  .mapcap{text-align:center;font-size:13px;margin:0 auto 22px;max-width:520px;color:var(--crc-grey)}
+  .mapcap.done{color:var(--crc-red);font-weight:700}
+  .legend{display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center;justify-content:center;margin:0 auto 26px;max-width:560px}
+  .legend span.it{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--crc-black-tint);font-weight:500}
+  .legend .dot{width:12px;height:12px;border-radius:2px;flex:none}
+
+  .pathcard{background:#fff;border:1px dashed var(--crc-grey-tint);border-radius:4px;padding:34px 24px;text-align:center}
+  .pathcard p{font-size:17px;color:var(--crc-black-tint);max-width:48ch;margin:0 auto 4px;line-height:1.5}
+
+  .qpanel{background:#fff;border:1px solid var(--crc-grey-tint);border-radius:4px;box-shadow:var(--shadow-card);padding:28px;animation:crcFade .3s var(--motion-ease)}
+  .qhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+  .chip{display:inline-flex;align-items:center;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#fff;padding:5px 12px;border-radius:3px}
+  .qmeta{font-size:13px;color:var(--crc-grey);margin-bottom:8px}
+  .qtext{font-size:clamp(20px,3vw,26px);line-height:1.3;font-weight:700;margin:0 0 20px;letter-spacing:-.01em}
+  .opts{display:grid;gap:10px}
+  .opt{display:flex;align-items:center;gap:14px;width:100%;background:#fff;border:1.5px solid var(--crc-grey-tint);border-radius:4px;padding:14px 16px;font:inherit;font-size:16px;color:var(--crc-black);cursor:pointer;transition:all .15s var(--motion-ease);text-align:left}
+  .opt:not(:disabled):hover{border-color:var(--crc-red);background:var(--crc-grey-50)}
+  .opt .key{flex:none;width:28px;height:28px;border-radius:4px;display:grid;place-items:center;font-weight:700;font-size:13px;background:var(--crc-grey-50);color:var(--crc-black-tint);border:1px solid var(--crc-grey-tint)}
+  .opt .lab{flex:1}
+  .opt .mark{margin-left:auto;font-weight:700;font-size:16px;color:var(--crc-grey)}
+  .opt.wrong{background:var(--crc-grey-50);opacity:.6;cursor:default;pointer-events:none}
+  .opt.wrong .key{background:var(--crc-grey);color:#fff;border-color:var(--crc-grey)}
+  .opt.right{border-color:var(--crc-red);cursor:default;pointer-events:none}
+  .opt.right .key{background:var(--crc-red);color:#fff;border-color:var(--crc-red)}
+  .opt.right .mark{color:var(--crc-red)}
+  .opt.dim{opacity:.5;cursor:default;pointer-events:none}
+  .attempts{margin-top:14px;font-size:14px;font-weight:700;color:var(--crc-red)}
+  .explain{margin-top:18px;border-left:3px solid var(--crc-red);background:var(--crc-grey-50);padding:14px 16px;border-radius:0 4px 4px 0;font-size:15px;line-height:1.55;color:var(--crc-black-tint);animation:crcFade .3s var(--motion-ease)}
+  .explain b{color:var(--crc-black)}
+  .qfoot{display:flex;justify-content:flex-end;margin-top:18px}
+
+  .breakp{background:#000;color:#fff;border-radius:4px;padding:26px 22px;text-align:center;animation:crcFade .3s var(--motion-ease)}
+  .breakp .eb{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--crc-red-tint)}
+  .breakp .clock{font-size:46px;font-weight:700;line-height:1;margin:10px 0;font-variant-numeric:tabular-nums;color:var(--crc-grey)}
+  .breakp .clock.on{color:#fff}
+  .breakp p{font-size:15px;color:#fff;max-width:46ch;margin:0 auto 18px;line-height:1.55}
+  .breakp .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .breakp button{border-radius:4px;padding:11px 20px;font:inherit;font-weight:700;font-size:14px;cursor:pointer;border:0}
+  .breakp .b-red{background:var(--crc-red);color:#fff}
+  .breakp .b-red:hover{background:var(--crc-red-dark)}
+  .breakp .b-wht{background:#fff;color:#000}
+  .breakp .b-out{background:none;color:#fff;border:1.5px solid #fff}
+
+  /* ---------- Results ---------- */
+  .results{background:#fff;border:1px solid var(--crc-grey-tint);border-radius:4px;box-shadow:var(--shadow-card);padding:44px 28px;text-align:center;animation:crcFade .4s var(--motion-ease)}
+  .results .globe{width:152px;height:152px;display:block;margin:16px auto 8px;animation:crcFade .5s var(--motion-ease)}
+  .results .pin{width:84px;height:84px;border-radius:50%;background:var(--crc-red);display:flex;align-items:center;justify-content:center;margin:14px auto}
+  .results .rank{font-size:28px;font-weight:700;margin:2px 0 0}
+  .results .big{font-size:56px;font-weight:700;line-height:1;margin:18px 0 4px}
+  .results .big small{font-size:24px;color:var(--crc-grey);font-weight:500}
+  .results .msg{font-size:17px;color:var(--crc-black-tint);max-width:44ch;margin:8px auto 0}
+  .results .sub{font-size:14px;color:var(--crc-grey);margin-top:8px}
+  .results .actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:26px 0 4px}
+  .breakdown{display:grid;gap:8px;text-align:left;max-width:640px;margin:28px auto 0}
+  .brow{display:flex;gap:12px;align-items:flex-start;font-size:14px;padding:12px 14px;border-radius:4px;background:var(--crc-grey-50)}
+  .brow .bd{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700;margin-top:1px}
+  .brow .bd.ok{background:var(--crc-red)} .brow .bd.no{background:var(--crc-grey)}
+  .brow strong{color:var(--crc-black)} .brow .ans{color:var(--crc-grey)} .brow .pending{color:var(--crc-blue-dark);font-weight:600}
+
+  /* ---------- Compare ---------- */
+  .fresh{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 16px}
+  .fresh .c{flex:1;min-width:200px;border:1px solid var(--crc-grey-tint);border-radius:4px;padding:12px 16px}
+  .fresh .c.osm{border-left:3px solid var(--crc-red)}
+  .fresh .c .k{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  .fresh .c.osm .k{color:var(--crc-red)} .fresh .c.goo .k{color:var(--crc-grey)}
+  .fresh .c .d{font-size:16px;font-weight:700;margin-top:2px}
+  .slider{position:relative;width:100%;aspect-ratio:1400/683;border:1px solid var(--crc-grey-tint);border-radius:4px;overflow:hidden;box-shadow:var(--shadow-card);user-select:none}
+  .slider img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .slider .lab{position:absolute;top:12px;color:#fff;font-size:12px;font-weight:700;letter-spacing:.03em;padding:5px 10px;border-radius:4px;pointer-events:none}
+  .slider .lab.l{left:12px;background:var(--crc-red)} .slider .lab.r{right:12px;background:#000}
+  .slider .handle{position:absolute;top:0;bottom:0;width:2px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.28);pointer-events:none}
+  .slider .knob{position:absolute;top:50%;width:36px;height:36px;border-radius:50%;background:#fff;box-shadow:var(--shadow-raised);transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;pointer-events:none;color:var(--crc-black);font-weight:700;font-size:18px}
+  .slider input[type=range]{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
+  .scaption{font-size:13px;color:var(--crc-grey);margin-top:8px}
+  .ghead{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--crc-grey);margin:34px 0 12px}
+  .seg{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .seg button{background:#fff;color:var(--crc-black);border:1.5px solid var(--crc-grey-tint);border-radius:4px;padding:9px 18px;font:inherit;font-weight:700;font-size:14px;cursor:pointer;transition:all .15s var(--motion-ease)}
+  .seg button[aria-pressed="true"]{background:var(--crc-red);color:#fff;border-color:var(--crc-red)}
+  .cards2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+  .icard{background:#fff;border:1px solid var(--crc-grey-tint);border-radius:4px;padding:20px 22px;box-shadow:var(--shadow-card)}
+  .icard .k{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+  .icard.s .k{color:var(--crc-red)} .icard.w .k{color:var(--crc-grey)}
+  .icard ul{margin:0;padding-left:18px} .icard li{margin-bottom:8px;color:var(--crc-black-tint)}
+  .cards3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .ch{background:#fff;border:1px solid var(--crc-grey-tint);border-top:3px solid var(--crc-red);border-radius:4px;padding:20px 22px;box-shadow:var(--shadow-card)}
+  .ch .n{font-size:32px;font-weight:700;line-height:1;color:var(--crc-red)}
+  .ch .t{font-size:18px;font-weight:700;margin:10px 0 6px}
+  .ch p{font-size:14.5px;color:var(--crc-black-tint);margin:0;max-width:none}
+
+  /* ---------- Deep Dive ---------- */
+  details.acc{background:#fff;border:1px solid var(--crc-grey-tint);border-radius:4px;margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow-card)}
+  details.acc.explain-c{border-left:3px solid var(--crc-red)}
+  details.acc.prompt-c{border-left:3px solid var(--crc-grey)}
+  details.acc[open]{box-shadow:var(--shadow-raised)}
+  details.acc>summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;gap:12px;align-items:flex-start;font-size:17px;font-weight:600;color:var(--crc-black)}
+  details.acc>summary::-webkit-details-marker{display:none}
+  details.acc .tw{flex:none;width:22px;height:22px;border-radius:3px;border:1px solid var(--crc-grey-tint);display:grid;place-items:center;font-weight:700;margin-top:2px;transition:transform .2s var(--motion-ease);background:var(--crc-grey-50)}
+  details.acc.explain-c .tw{color:var(--crc-red)} details.acc.prompt-c .tw{color:var(--crc-grey)}
+  details.acc[open] .tw{transform:rotate(45deg)}
+  .acc-body{padding:2px 18px 18px 52px;color:var(--crc-black-tint);font-size:15px;line-height:1.6}
+  .acc-body p{max-width:64ch} .acc-body ul{padding-left:18px} .acc-body code{color:var(--crc-red-dark);background:var(--crc-grey-50);padding:.1em .35em;border-radius:2px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9em}
+  .acc-body .takeaway{border-left:3px solid var(--crc-red);background:var(--crc-grey-50);padding:12px 16px;border-radius:0 4px 4px 0;margin:16px 0 4px;font-size:15px;color:var(--crc-black-tint)}
+  .acc-body .ponder{border-left:3px solid var(--crc-grey-tint);padding:2px 0 2px 16px;color:var(--crc-black-tint);font-size:15px;margin:0;max-width:64ch}
+
+  /* ---------- Missing Maps ---------- */
+  .grp{margin-bottom:22px}
+  .grp .gl{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;font-size:13px;font-weight:700;color:var(--crc-black);margin:0 0 10px}
+  .grp .gl small{font-size:11px;font-weight:600;color:var(--crc-grey);letter-spacing:.02em}
+  .car{position:relative}
+  .car-track{display:flex;gap:8px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x proximity;padding:2px 0 8px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  .mtile{flex:none;width:210px;height:76px;scroll-snap-align:start;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--crc-grey-tint);border-radius:4px;padding:0 14px;box-shadow:var(--shadow-card)}
+  .mtile.f{border-color:var(--crc-red);background:var(--crc-grey-50)}
+  .mtile .star{color:var(--crc-red);flex:none;font-size:14px}
+  .mtile .nm{font-size:14px;font-weight:500;line-height:1.25;color:var(--crc-black)}
+  .car-btn{position:absolute;top:50%;transform:translateY(-60%);width:34px;height:34px;border-radius:50%;background:#fff;border:1px solid var(--crc-grey-tint);box-shadow:var(--shadow-card);cursor:pointer;display:grid;place-items:center;font-size:16px;color:var(--crc-black);z-index:2}
+  .car-btn:hover{color:var(--crc-red);border-color:var(--crc-red)}
+  .car-btn.prev{left:-6px} .car-btn.next{right:-6px}
+  @media(hover:none){.car-btn{display:none}}
+
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .filters button{background:#fff;color:var(--crc-black-tint);border:1px solid var(--crc-grey-tint);border-radius:999px;padding:7px 15px;font:inherit;font-weight:600;font-size:13px;cursor:pointer;transition:all .15s var(--motion-ease)}
+  .filters button:hover{border-color:var(--crc-red);color:var(--crc-red)}
+  .filters button[aria-pressed="true"]{background:var(--crc-black);color:#fff;border-color:var(--crc-black)}
+  .tool{display:flex;gap:16px;background:#fff;border:1px solid var(--crc-grey-tint);border-radius:4px;padding:16px 18px;margin-bottom:10px;box-shadow:var(--shadow-card);text-decoration:none;color:inherit;transition:box-shadow .15s var(--motion-ease),border-color .15s var(--motion-ease)}
+  .tool:hover{box-shadow:var(--shadow-raised);border-color:var(--crc-grey)}
+  .tool .ic{flex:none;width:44px;height:44px;border-radius:4px;background:#000;color:#fff;display:flex;align-items:center;justify-content:center}
+  .tool .role{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--crc-red);margin-bottom:4px}
+  .tool .nm{font-size:18px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .tool .nm .ext{font-size:12px;font-weight:600;color:var(--crc-grey)}
+  .tool p{font-size:14.5px;color:var(--crc-black-tint);margin:0;max-width:none}
+  .tool .badge{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--crc-blue-dark);background:#fff;border:1px solid var(--crc-grey-tint);border-radius:999px;padding:2px 8px}
+
+  /* ---------- Guide ---------- */
+  .guide .glede{font-size:18px;color:var(--crc-black-tint);max-width:66ch;margin:0 0 8px}
+  .guide h2{font-size:clamp(28px,5vw,40px);line-height:1.06;margin:6px 0 6px;font-weight:700;letter-spacing:-.02em}
+  .guide h3{font-size:clamp(20px,2.6vw,26px);font-weight:700;margin:34px 0 10px;letter-spacing:-.01em}
+  .guide h4{font-size:18px;font-weight:700;margin:0 0 6px}
+  .guide p{font-size:15.5px;color:var(--crc-black-tint);max-width:68ch;margin:0 0 13px}
+  .guide ul{margin:0 0 14px;padding-left:18px;max-width:68ch;color:var(--crc-black-tint);font-size:15px}
+  .guide li{margin-bottom:7px}
+  .truths{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0 8px}
+  .truth{background:#fff;border:1px solid var(--crc-grey-tint);border-left:4px solid var(--crc-red);border-radius:4px;padding:16px 18px;box-shadow:var(--shadow-card)}
+  .truth.b{border-left-color:var(--crc-blue-dark)}
+  .truth p{margin:0;font-size:14.5px;max-width:none}
+  .xref{background:var(--crc-grey-50);border:1px solid var(--crc-grey-tint);border-left:4px solid var(--crc-red);border-radius:0 4px 4px 0;padding:16px 18px;margin:12px 0 22px;font-size:14.5px;color:var(--crc-black-tint);max-width:none}
+  .xref b{color:var(--crc-black)} .xref .btn{margin-top:12px}
+  .gstep{background:#fff;border:1px solid var(--crc-grey-tint);border-radius:4px;padding:18px 20px;margin-bottom:12px;box-shadow:var(--shadow-card)}
+  .gstep .num{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--crc-red);font-weight:700}
+  .gstep h3{font-size:20px;margin:3px 0 9px}
+  .gnote{border-left:3px solid var(--crc-blue-dark);background:var(--crc-grey-50);padding:12px 15px;border-radius:0 4px 4px 0;margin:14px 0 2px;font-size:14.5px;color:var(--crc-black-tint)}
+  .gwarn{border-left:3px solid var(--crc-red);background:#FCEEEA;padding:12px 15px;border-radius:0 4px 4px 0;margin:0 0 10px;font-size:14.5px;color:var(--crc-black-tint)}
+  ul.checklist{list-style:none;padding-left:0}
+  ul.checklist li{position:relative;padding-left:26px;margin-bottom:10px}
+  ul.checklist li::before{content:"→";position:absolute;left:3px;top:0;color:var(--crc-red);font-weight:700}
+  .signoff{font-style:italic;color:var(--crc-grey)}
+
+  footer.site{background:#000}
+  footer.site .in{max-width:960px;margin:0 auto;padding:40px var(--pad);display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
+  footer.site img{height:34px;width:auto;display:block}
+  footer.site p{font-size:12px;line-height:1.6;color:var(--crc-grey);max-width:52ch;margin:0}
+
+  /* ---------- Responsive ---------- */
+  @media(max-width:640px){
+    :root{--pad:16px}
+    header.hero{padding-top:32px}
+    main{padding-top:24px}
+    nav.tabs{gap:18px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
+    nav.tabs::-webkit-scrollbar{display:none}
+    .qpanel{padding:20px 16px}
+    .results{padding:32px 18px}
+    .truths{grid-template-columns:1fr}
+    .lead,.guide .glede{font-size:16px}
+    .opt{font-size:15px;padding:13px 14px}
+    .mtile{width:180px;height:72px}
+  }
+  @media(max-width:380px){
+    .mapgrid{gap:4px}
+    .stat .val{font-size:20px}
+  }
+</style>
+</head>
+<body>
+<div class="bar"><div class="bar-in"><img src="assets/wordmark-white.svg" alt="Canadian Red Cross" /><span class="bar-tag">Open Mapping Companion</span></div></div>
+
+<header class="hero">
+  <div class="eyebrow">Sensing the Commons</div>
+  <h1>Map the need, one tile at a time</h1>
+  <p>A companion to humanitarian mapping. Test what you know about OpenStreetMap, remote sensing, and the Missing Maps work the Canadian Red Cross helps carry out around the world.</p>
+</header>
+
+<nav class="tabs" id="tabs"></nav>
+<main id="app"></main>
+
+<footer class="site"><div class="in">
+  <img src="assets/wordmark-white.svg" alt="Canadian Red Cross" />
+  <p>A “Sensing for the Commons” companion. Trivia and explanations adapted from the OpenStreetMap and HOT community Q and A. Member list per the Missing Maps 2025 annual report.</p>
+</div></footer>
+
+<script>
+/* ===================================================================
+   DATA
+   =================================================================== */
+const QUESTIONS = [
+  { cat:"Missing Maps / HOT", q:"In what year was the Missing Maps project founded?", options:["2010","2014","2016","2009"], answer:1, explain:"<b>2014.</b> Launched November 2014 by the American Red Cross, British Red Cross, MSF, and the Humanitarian OpenStreetMap Team (HOT)." },
+  { cat:"Missing Maps / HOT", q:"The Humanitarian OpenStreetMap Team was galvanized by the volunteer mapping response to which 2010 disaster?", options:["Pakistan floods","Haiti earthquake","Eyjafjallajökull eruption","Deepwater Horizon spill"], answer:1, explain:"<b>The Haiti earthquake.</b> After the January 2010 quake, OSM volunteers turned a near-blank Port-au-Prince into the most detailed map available within weeks. All four are real 2010 events, so it reads as a fair which-one." },
+  { cat:"OSM History", q:"OpenStreetMap was founded in what year, largely because national map data was locked behind licensing fees?", options:["2004","2009","1999","2012"], answer:0, explain:"<b>2004.</b> Steve Coast started OSM in 2004 in the UK, reacting to Ordnance Survey paywalls." },
+  { cat:"OSM Licensing", q:"All OpenStreetMap data is released under which licence, keeping it free and share-alike forever?", options:["MIT License","Creative Commons CC-BY","Open Database License (ODbL)","Mapyright Eternal"], answer:2, explain:"<b>ODbL.</b> Use the data freely, but improvements stay open. The fourth option is the joke. <br><br>Follow-up: whose imagery is this, anyway? Most high-res commercial imagery is licensed to OSM contributors under specific tracing agreements (Maxar, Esri, Bing). The pixel remains proprietary; only the vector you trace becomes open. That structural compromise is what makes Missing Maps possible." },
+  { cat:"Flood / Disaster (Canada)", q:"What is the costliest flood in Canadian history by insured losses, and at the time the costliest natural disaster of any kind?", options:["2011 Richelieu River flood, QC","2013 Southern Alberta floods","2017 Quebec spring floods","2019 Ottawa River flood"], answer:1, explain:"<b>The 2013 Southern Alberta floods.</b> June 2013, more than 1.7 billion dollars in insured damage, the costliest natural disaster in Canadian history at the time. Source: Insurance Bureau of Canada." },
+  { cat:"Remote Sensing", q:"Which satellite sensor can map flood extent at night and straight through storm clouds, making it a disaster-response workhorse?", options:["Optical / multispectral (Landsat-style)","Synthetic Aperture Radar (SAR, e.g. Sentinel-1)","Thermal-only camera","A really good telescope"], answer:1, explain:"<b>Synthetic Aperture Radar (SAR).</b> SAR is active radar: its own microwave pulses pass through cloud and need no daylight, so it images floods mid-storm when optical sensors see only white. The bridge from remote sensing to why we mapathon." },
+  { cat:"Flood / Disaster (Canada)", q:"Roughly how many people were forced from their homes by the 2013 southern Alberta floods?", options:["10,000","100,000","500,000","25,000"], answer:1, explain:"<b>100,000.</b> Four people died and 100,000 were forced from their homes. The trap is 25,000, which was the number of insurance claims, not evacuees." },
+  { cat:"Imagery Alignment", q:"Which reference became a de-facto standard for aligning paths in OSM editors, outperforming single GPS traces because aggregation averages out individual GPS error?", options:["Google Street View","Strava Global Heatmap","Apple Look Around","A single survey-grade GPS fix"], answer:1, explain:"<b>The Strava Global Heatmap.</b> Aggregation across about a billion uploads averages out individual GPS multipath and constellation error, and it is immune to relief displacement because it is not orthorectified imagery. <br><br>Blind spot for humanitarian work: coverage follows athletic activity, concentrated in OECD urban and recreational areas. In the Sahel, conflict zones, or remote rural Asia, the heatmap is empty and you are back to GPS traces or the Imagery Offset Database." },
+  { cat:"Imagery Alignment", q:"A Sentinel-2 tile over mountains shows plus-or-minus 10 m horizontal displacement across 99.8 per cent of its pixels. What is the dominant physical cause?", options:["Atmospheric refraction at the sensor","DEM vertical error propagated through the imaging geometry","Earth's rotation during capture","Camera lens distortion"], answer:1, explain:"<b>DEM vertical error propagated through orthorectification geometry.</b> Lateral offset is roughly vertical error times tan(view angle). ESA's L1C orthorectification historically used PlanetDEM 90 (recent baselines moved toward Copernicus DEM); a stale or wrong DEM over mining, landslides, or glaciers shifts the offset. Each provider's DEM choice adds a different, partly independent bias on top of pointing and ephemeris residuals, which is why your imagery layers disagree." },
+  { cat:"OSM History", q:"Who started OpenStreetMap in 2004?", options:["Steve Coast","Mikel Maron","Linus Torvalds","Marie Curie"], answer:0, explain:"<b>Steve Coast.</b> He started the project in the United Kingdom in 2004." },
+  { cat:"OSM Basics", q:"Which of these is NOT one of OpenStreetMap's data building blocks?", options:["Node","Way","Relation","Pixel"], answer:3, explain:"<b>Pixel.</b> OSM is vector data: nodes, ways, and relations. Pixels belong to imagery, not the map." },
+  { cat:"Tools", q:"Which tool splits a project area into a grid and locks each square to one mapper?", options:["iD Editor","HOT Tasking Manager","MapSwipe","Mapillary"], answer:1, explain:"<b>The HOT Tasking Manager.</b> It hands each volunteer a square so hundreds map the same area without colliding." },
+  { cat:"Tools", q:"In which app do volunteers swipe through satellite tiles to flag where buildings exist?", options:["MapSwipe","JOSM","Field Papers","OSMCha"], answer:0, explain:"<b>MapSwipe.</b> Swiping points detailed tracing at the right places." },
+  { cat:"Tools", q:"What is the default in-browser editor that most mapathon tracing uses?", options:["JOSM","iD","Photoshop","ArcGIS"], answer:1, explain:"<b>iD.</b> It has a low barrier to entry and runs in the browser." },
+  { cat:"Tools", q:"Which powerful desktop editor is recommended for validation?", options:["JOSM","iD","MapSwipe","Bing"], answer:0, explain:"<b>JOSM.</b> A desktop editor with plugins and data-quality tools." },
+  { cat:"AI and Mapping", q:"What is the guiding principle of HOT's fAIr mapping service?", options:["AI maps everything automatically","AI suggests, a human decides","Humans are replaced by AI","No AI is ever used"], answer:1, explain:"<b>AI suggests, a human decides.</b> Bulk machine import is still off limits." },
+  { cat:"Tools", q:"Which workflow means print an atlas, walk it, annotate by hand, then photograph it?", options:["Field Papers","Street View","Tasking Manager","Strava"], answer:0, explain:"<b>Field Papers.</b> It captures local detail that satellite imagery cannot show." },
+  { cat:"Tools", q:"Which street-level photo layer helps read signs and building names?", options:["Mapillary","Landsat","Sentinel-1","ODbL"], answer:0, explain:"<b>Mapillary.</b> Crowdsourced street-level photos, viewable inside iD and JOSM." },
+  { cat:"Tagging", q:"How are OpenStreetMap tags structured?", options:["key=value pairs","full sentences","secret codes","colour swatches"], answer:0, explain:"<b>key=value pairs.</b> Simple pairs like building=yes describe every feature." },
+  { cat:"Tagging", q:"What does the any tags you like principle mean?", options:["every tag must be approved first","the database never checks whether tags mean anything","only experts can add tags","tags cost money"], answer:1, explain:"<b>The database never checks meaning.</b> Norms emerge from how often a tag gets used, not from a vote." },
+  { cat:"Tagging", q:"What does the admin_level tag describe?", options:["administrative boundaries","road surface","building height","tree species"], answer:0, explain:"<b>Administrative boundaries.</b> The levels get remapped country by country." },
+  { cat:"Tagging", q:"Why does highway=primary cause cross-border confusion?", options:["it is banned in most countries","it means a different kind of road in different countries","it only works offline","it changes colour"], answer:1, explain:"<b>It means a different road in different countries.</b> The ladder was built around one country's network." },
+  { cat:"Remote Sensing", q:"In what year did the USGS open the full Landsat archive for free?", options:["1972","2008","2020","1999"], answer:1, explain:"<b>2008.</b> Free access did more for global remote sensing than any single satellite." },
+  { cat:"Remote Sensing", q:"What does SAR stand for?", options:["Synthetic Aperture Radar","Satellite Aerial Reconnaissance","Standard Atmospheric Reading","Spatial Analysis Routine"], answer:0, explain:"<b>Synthetic Aperture Radar.</b> Active radar that sees through cloud and works at night." },
+  { cat:"Red Cross", q:"The Red Cross emblem is protected under which of these?", options:["the Geneva Conventions","copyright law only","a trademark registry","no rules at all"], answer:0, explain:"<b>The Geneva Conventions.</b> Treat the emblem as a regulated symbol, not a logo." },
+  { cat:"Missing Maps / HOT", q:"Which of these is NOT a founding member of Missing Maps?", options:["American Red Cross","British Red Cross","Médecins Sans Frontières","Google"], answer:3, explain:"<b>Google.</b> The founders were the American and British Red Cross, MSF, and HOT." },
+  { cat:"Red Cross", q:"The Canadian Red Cross is part of which global movement?", options:["International Red Cross and Red Crescent Movement","the United Nations","the World Bank","NATO"], answer:0, explain:"<b>The International Red Cross and Red Crescent Movement.</b>" },
+  { cat:"Imagery", q:"Most high-resolution imagery is licensed to OSM tracers from providers such as which?", options:["Maxar, Bing, and Esri","only government agencies","social media sites","nobody, it is all public domain"], answer:0, explain:"<b>Maxar, Bing, and Esri.</b> The pixels stay proprietary; only the vector you trace becomes open." },
+  { cat:"Imagery Alignment", q:"Why does a mapathon ask everyone to use one imagery layer?", options:["to save bandwidth","so the alignment offset stays consistent","to make it look nicer","to slow mappers down"], answer:1, explain:"<b>So the offset stays consistent.</b> The data may be systematically shifted, but at least it agrees with itself." },
+  { cat:"Power and Future", q:"Overture Maps is backed mainly by which companies?", options:["Meta, Amazon, Microsoft, and TomTom","a single volunteer","the Canadian Red Cross","OpenStreetMap alone"], answer:0, explain:"<b>Meta, Amazon, Microsoft, and TomTom.</b> Esri now helps steer it too." },
+  { cat:"Power and Future", q:"Roughly how much of Overture's data comes straight from OpenStreetMap?", options:["About 40 per cent","About 2 per cent","None","All of it"], answer:0, explain:"<b>About 40 per cent.</b> Overture sits downstream of the volunteer project." },
+  { cat:"Power and Future", q:"GERS, the system at the centre of the Overture debate, is what?", options:["a system of permanent unique IDs","a new satellite","a mapping game","a type of road"], answer:0, explain:"<b>A system of permanent unique IDs.</b> Owning the ID layer is where the commercial value piles up." },
+  { cat:"AI and Mapping", q:"Meta's reverted computer-vision import happened in which country?", options:["Egypt","Canada","Japan","Brazil"], answer:0, explain:"<b>Egypt.</b> The quality was bad enough that the whole import got reverted." },
+  { cat:"AI and Mapping", q:"fAIr trains its local models on open imagery from where?", options:["OpenAerialMap","Instagram","Google Street View","private drones only"], answer:0, explain:"<b>OpenAerialMap.</b> Open imagery keeps the models community-controlled." },
+  { cat:"OSM Basics", q:"Mapathons trace features as seen from which viewpoint?", options:["straight overhead (nadir)","street level","inside buildings","underground"], answer:0, explain:"<b>Straight overhead (nadir).</b> Which is why informal or canopy-covered features are easy to miss." },
+  { cat:"Humanitarian Use", q:"OpenStreetMap humanitarian data is a good fit for which of these?", options:["legal property boundaries","response coordination and routing","tax assessment","land-ownership disputes"], answer:1, explain:"<b>Response coordination and routing.</b> It is fast and good enough to coordinate help. Never use it for cadastral or legal boundaries." }
+];
+
+const DEEP = [
+  { group:"Imagery and Provenance" },
+  { type:"explain", q:"Where does Esri's World Imagery Clarity (used in this project) come from?",
+    body:`<p>A mosaic stitched from commercial providers (Maxar Vivid, Airbus), national programs (USDA NAIP, provincial and state aerial), and Esri's Community Maps contributor pipeline.</p>
+    <p>The Clarity layer is reprocessed for color balance, atmospheric correction, and sharpening <strong>optimized for visual interpretation</strong> (that is, tracing), not radiometric analysis. Imagery is typically 2 to 4 years old. The design priority is visual consistency across tiles, not recency.</p>` },
+  { type:"explain", q:"Why does the imagery shift when you zoom in or out on the same tile sometimes?",
+    body:`<p>Tile pyramids stack pre-rendered tiles per zoom level, and different zooms pull from different source layers:</p>
+    <ul><li><strong>Low zoom (z5 to z10):</strong> downsampled Landsat / Sentinel mosaics or coarse commercial composites</li>
+    <li><strong>Mid zoom (z11 to z15):</strong> NAIP, Airbus, Maxar Vivid mosaics</li>
+    <li><strong>High zoom (z16 to z19):</strong> sub-meter WorldView, Pléiades, sometimes aerial orthophotos</li></ul>
+    <p>Each layer is captured on different dates by different sensors at different sun angles and off-nadir geometries. A house built in 2022 may appear at z18 (recent commercial) and vanish at z13 (older mosaic). The visual morphing you see while zooming is <strong>provenance leaking through the seams.</strong></p>` },
+  { type:"prompt", q:"In open mapping, how do you reconcile imagery vintages when sources disagree?",
+    body:`<p class="ponder"><em>Open prompt.</em> When two layers show different realities, which do you trust: the sharpest, the most recent, or the one that matches ground truth? There is no single right answer; it is a judgement call every mapper makes.</p>` },
+  { type:"prompt", q:"When did Landsat become free, and why does it matter?",
+    body:`<p class="ponder"><em>Open prompt.</em> A hint to chase: the USGS opened the full Landsat archive at no cost in 2008, a policy shift that arguably did more for global remote sensing than any single satellite. Why would free change the science so much?</p>` },
+  { type:"prompt", q:"The 2012 Apple Maps disaster: what did it expose?",
+    body:`<p class="ponder"><em>Open prompt.</em> Think about what happens when a single company replaces a mature, crowd-checked dataset overnight: melted bridges, misplaced towns, vanished cities. What does it say about the value of ground-truth and incremental correction?</p>` },
+  { type:"explain", q:"Why can a complete map of a settlement still be incomplete?",
+    body:`<p>Mapathons trace what is visible from nadir. Informal extensions, indoor structures, seasonal dwellings, sacred sites, contested boundaries, and tree-canopy-obscured features are systematically invisible.</p>
+    <p>Mapping is also <strong>ontological</strong>: what counts as building, road, or place is a tagging decision, not an objective fact.</p>` },
+
+  { group:"How tagging actually works" },
+  { type:"explain", q:"How did OSM's tagging rules even come about? Who decided what counts as a valid tag?",
+    body:`<p>Nobody did, and that is the whole trick. OSM was built on a principle called <strong>any tags you like.</strong> Tags are just <code>key=value</code> pairs, and the database never checks whether any of them mean anything. So the rules were never legislated, they emerged, and they live in three places with wildly different amounts of real power.</p>
+    <p><strong>The wiki</strong> is the official documentation, with a proposal-and-vote process. Sounds authoritative. It mostly is not: approval is non-binding, and the wiki itself admits the map is not the documentation.</p>
+    <p><strong>taginfo</strong> is just statistics on how often each tag gets used. This is what decides what is real: a tag is legitimate if a lot of people use it. Frequency hardens into a norm because everyone copies what is already common.</p>
+    <p><strong>Editor presets</strong>, the menus inside iD and JOSM, are where governance quietly bites hardest. Whatever the default editor puts in front of a newcomer is what they will tag, so preset maintainers shape the schema far more than any vote does.</p>
+    <div class="takeaway"><strong>One-line takeaway:</strong> real authority drifted away from the voting layer into the infrastructure, presets plus usage stats. The proposal process is mostly ceremony now, and the schema is deeply path-dependent. The whole <code>highway</code> hierarchy was inherited from British road categories and now governs roads worldwide, not because it fits, but because it got there first and landed in the editor.</div>` },
+  { type:"explain", q:"Can anyone just make up a new tag? And what if you want to change one that already exists?",
+    body:`<p>You can absolutely invent one. Two ways: run the formal proposal and collect your handful of votes, or just start tagging things with it. If it catches on in taginfo and someone slots it into a preset, congratulations, it is part of the schema.</p>
+    <p>Changing or retiring an existing tag is a completely different story, and that <strong>asymmetry</strong> is the important bit. Adding is cheap. Changing things at scale sets off alarms: mass edits fall under the automated edits code of conduct, and undiscussed systematic edits get treated as vandalism if they persist, partly because careless bulk edits can be impossible to roll back and create repair work for everyone else.</p>
+    <div class="takeaway">So the system keeps adding and almost never cleans up. Dead and deprecated tags pile up in a long tail. It is technical debt at the level of the vocabulary itself: there is no garbage collection for meaning.</div>` },
+  { type:"explain", q:"Why does tagging look so different from one country to the next? Is that a feature or a bug?",
+    body:`<p>Both, and the reason is unavoidable: tags point at real things in the world, and those things mean different things in different places. The schema looks universal on the surface while being totally local underneath.</p>
+    <p><strong>Roads:</strong> the <code>highway</code> ladder (motorway, trunk, primary) was designed around one country's network, so everyone else wrote a rulebook translating their road classes onto it. <code>highway=primary</code> means a meaningfully different road in Germany versus the US versus India.</p>
+    <p><strong>Boundaries:</strong> <code>admin_level</code> runs 1 to 11 but gets remapped country by country. Level 4 is a US state, a German Land, a region elsewhere. There are literally per-country lookup tables on the wiki.</p>
+    <p><strong>Addresses:</strong> the address tags assume Western street-and-number logic, so block-based addressing (e.g. Japan) fits awkwardly.</p>
+    <ul><li><strong>Good side:</strong> fidelity. You are not forcing a foreign category onto a place, and communities encode distinctions that matter to them.</li>
+    <li><strong>Bad side:</strong> broken global interoperability. Routers and cross-border analysis need per-country logic. A tax on every data consumer: know the local convention or get it wrong.</li></ul>
+    <div class="takeaway">OSM pretends to be one global database while really being a federation of local mapping cultures. Universal on the surface, patchwork in fact, and whoever uses the data across borders pays for the gap.</div>` },
+
+  { group:"Imagery alignment and offsets" },
+  { type:"explain", q:"Why do correctly orthorectified imagery layers still disagree by several metres?",
+    body:`<p>Three primary physical sources, plus two often-missed ones:</p>
+    <ul><li><strong>1. DEM error through orthorectification geometry</strong> (the dominant contributor). Lateral offset is roughly DEM vertical error times tan(view angle). A 2018 study found 99.8 per cent of Sentinel-2 pixels over Austria showed plus-or-minus 10 m (one pixel) displacement from PlanetDEM inaccuracies in ESA's L1C processing. A stale DEM over mining, landslides, or glacier movement shifts the offset further.</li>
+    <li><strong>2. Sensor pointing and platform ephemeris uncertainty.</strong> Each provider calibrates differently (Maxar GCPs plus Vivid pre-mosaicking, Sentinel-2 GRI registration, NAIP aerotriangulation). Residual pointing errors are uncorrelated across providers, so two correct tiles disagree.</li>
+    <li><strong>3. Off-nadir geometry plus relief displacement.</strong> WorldView routinely collects 15 to 30 degrees off-nadir. Even with perfect DEM and pointing, a building's rooftop projects to different positions from different orbit passes, both correctly orthorectified against bare earth.</li></ul>
+    <p>Often-missed: <strong>geoid model differences</strong> (EGM96 versus EGM2008 versus national geoids) add sub-metre vertical reference shifts; and <strong>atmospheric refraction at low sun angles</strong> distorts geometry at high latitudes (a recurring Nordic complaint).</p>` },
+  { type:"explain", q:"What five overlapping solutions has the community built to fix alignment?",
+    body:`<ul><li><strong>1. GPS traces (since 2006):</strong> the canonical ground reference. In JOSM, hide the data layer, add a new offset, drag imagery until traces follow roads. Single traces are noisy, so use many across the same road to find the mean.</li>
+    <li><strong>2. Imagery Offset Database / IODB (Zverev, 2013):</strong> centralized offset bookmarks plus a JOSM plugin. Flags you to check existing offsets and apply them in one step. Unresolved problem: it requires consciously checking before working, and is JOSM-only, while iD now dominates by edit volume.</li>
+    <li><strong>3. Strava Global Heatmap:</strong> current de-facto standard for paths. Averaged across about a billion uploads, immune to relief displacement, sees paths under tree cover. OSM has permission (reconfirmed Nov 2019) to trace from it. Blind spot: coverage follows recreational activity.</li>
+    <li><strong>4. Mapillary and KartaView:</strong> street-level ground truth, integrated into iD and JOSM. Great for what is there (bus-stop names, building names), but imprecise geo-referencing means they need map-matching (5 m GPS tolerance, 10 to 30 m buffers): ground truth for what, not always exactly where.</li>
+    <li><strong>5. iD fix alignment plus Tasking Manager imagery lock:</strong> iD does not store offsets between sessions, so every newcomer starts unaligned. The HOT workaround: mandate one imagery layer per project so the offset is systematically consistent, even if not absolutely correct.</li></ul>
+    <div class="takeaway">A structural inversion: with Strava covering 55 per cent or more of OSM ways, the alignment reference is now richer than the data being aligned.</div>` },
+  { type:"explain", q:"What actually happens to alignment in a humanitarian mapathon?",
+    body:`<p>The five-layer reality stack:</p>
+    <ul><li>Project manager picks Maxar Vivid or Bing as the mandatory layer.</li>
+    <li>Mappers in iD trace without aligning (most do not know they can).</li>
+    <li>Validators in JOSM may align using GPS traces, Strava, or IODB if a regional contributor seeded it.</li>
+    <li>Field teams ground-truth a sample with handheld GPS or smartphone (Field Papers, KoboCollect).</li>
+    <li>Long after, local mappers re-align using accumulated GPS traces and quietly move thousands of features 3 to 8 m.</li></ul>
+    <div class="takeaway">The result is <strong>systematically biased, internally consistent, and accurate enough for response coordination.</strong> Fine for routing, navigation, and admin-scale exposure modeling. Never use OSM directly for cadastral, infrastructure engineering, or legal property boundaries.</div>` },
+
+  { group:"Power, culture and the future" },
+  { type:"explain", q:"Is the tagging system culturally neutral? Because it feels like it might be smuggling in assumptions.",
+    body:`<p>It is not neutral, and the fact that it looks neutral is the real problem. Four tangled things:</p>
+    <p><strong>1. The vocabulary carries a worldview.</strong> Tags lean on Global North categories. A generic <code>place_of_worship</code> plus religion subtag flattens everything outside the big traditions; land-use and ownership tags assume private, surveyed, cadastral property, so communal, customary, or Indigenous tenure fits badly. The schema has an ontology baked in, the decolonial-cartography critique.</p>
+    <p><strong>2. Place names and contested territory.</strong> OSM uses multilingual name tags plus an on-the-ground rule: use the name people actually use locally. Smart, but imperfect. Crimea, the India-China border, Israel and Palestine, colonial versus Indigenous names keep flaring. A Data Working Group referees the worst of it.</p>
+    <p><strong>3. Indigenous data sovereignty (structural, not fixable).</strong> OSM is one global namespace that openly replicates everywhere. It cannot encode restricted to community members, seasonal, or sacred, not public. CARE principles and TK Labels assume you can control access; ODbL plus open replication assume you cannot.</p>
+    <p><strong>4. Who maps whom.</strong> When remote volunteers map the Global South off satellite imagery, you get maps very legible to outsiders (footprints, logistics roads) and not to residents (the informal economy, meaning, seasonal use).</p>
+    <div class="takeaway">Deciding the map should be one open namespace with a permanent public record, built on enumeration and private-property defaults, is not a neutral technical choice. It is a specific way of seeing the world, presented as just how maps work.</div>` },
+  { type:"explain", q:"Where is OSM headed in the age of AI? Is AI good or bad for it as a data source?",
+    body:`<p>Mostly it intensifies a pressure that was already there: <strong>centralization.</strong></p>
+    <p>The cautionary tale is <strong>Meta</strong> pushing computer-vision data into Egypt without following import rules, quality bad enough that the whole thing got reverted. That failure is a big reason import policies are strict.</p>
+    <p>The deliberate opposite is HOT's <strong>fAIr</strong>: a free, open-source AI service letting local communities build their own localized models. It runs on open imagery from OpenAerialMap, will not dump mass features into the map, and mapper corrections feed back to sharpen the model. One pilot pulled 18 million building footprints across Tanzania and Uganda and nearly doubled a mapper's daily output. The settled principle: <strong>AI suggests, a human decides.</strong> Bulk machine import is still taboo.</p>
+    <p>A quieter use may matter more long-term: <strong>AI for quality control.</strong> Neural models now read changesets and flag suspicious ones. As editing outpaces human reviewers, the trust system leans on those models, handing a quiet authority to whoever runs them (tending to be the same big companies).</p>
+    <div class="takeaway">The worry: AI is great at the boring, uniform, satellite-visible stuff (buildings, roads) and bad at OSM's real value, the local, ground-checked, meaningful detail. The risk is AI hollows OSM toward its most automatable layer while the real value gets captured downstream.</div>` },
+  { type:"explain", q:"I keep hearing about Overture Maps. What is it, and is it a threat to OSM?",
+    body:`<p>The live drama right now. <strong>Overture</strong> is a foundation backed by Meta, Amazon, Microsoft, and TomTom (with Esri now steering too). It takes open data and builds a clean, standardized, quality-controlled product for big enterprise and spatial-AI customers. Key fact: roughly <strong>40 per cent of Overture comes straight from OSM</strong>, it sits downstream of the volunteer project.</p>
+    <p>The fight blew up over <strong>GERS</strong>, a system of permanent unique IDs for real-world things. In early 2026 it went to the OGC for adoption as an official standard, and much of the OSM community pushed back, warning of corporate enclosure: a pay-to-play membership around 300,000 dollars, opaque governance, a 20 per cent rate of IDs churning, and fear it could render volunteer mapping obsolete (the critics' framing).</p>
+    <p>Not a clean villain story, though. Overture also joined OpenStreetMap US as a strategic member and funds community tooling like MapRoulette. More parasite-meets-patron than pure enemy.</p>
+    <div class="takeaway">The fight is not really about the data, Overture needs OSM's data. It is trying to own the layer above the data: the permanent ID system that makes stitching datasets together cheap. That conflation step is where the commercial value piles up. Enclosure by owning the abstraction layer. And as LLMs become how people query maps, there will be pressure to standardize tags toward whatever the models parse cleanly, one more force against local variety.</div>` },
+  { type:"explain", q:"How does mixing remote sensing with OSM play out differently when it is specifically for humanitarian work?",
+    body:`<p>This is where it gets ethically interesting. They are fundamentally different ways of knowing, and the humanitarian setting cranks up every difference.</p>
+    <ul><li><strong>Remote sensing</strong> looks down from above: repeatable, scalable, impartial, capturing physical form (roofs, road surfaces, flood extent, vegetation). Blind to function, ownership, meaning, use.</li>
+    <li><strong>OSM</strong> at its best is the opposite: ground-checked, attribute-rich, semantically tagged, locally meaningful, but patchy, depending entirely on who showed up to map.</li>
+    <li>The <strong>humanitarian workflow</strong> (HOT, Missing Maps) fuses them: imagery is what you trace over, OSM is the meaningful product. fAIr just automates the first step.</li></ul>
+    <p><strong>Detecting is not understanding.</strong> The fusion counts buildings and roads fast, great for responder logistics, but that is the responder's view, not the resident's (who owns what, where informal services are, how risk feels).</p>
+    <p><strong>A cruel timing problem.</strong> Crisis mapping is fastest off imagery exactly when ground-checking is hardest, during an active disaster. So the satellite-derived map is most authoritative when it is least verified.</p>
+    <p><strong>Visibility cuts both ways.</strong> Mapping an informal settlement, refugee camp, or conflict zone makes people visible to aid, and to states, militaries, and whoever wants to evict them. Remote sensing makes you visible without consent; OSM makes you visible permanently, publicly, openly, with no restricted setting. The do-no-harm problem at the center of it all.</p>
+    <div class="takeaway">Uniquely powerful (fast detection, real meaning, open access, free tools) and uniquely fraught (making people legible without consent; openness as exposure; remote strangers with authority over local reality). The responsible version looks like fAIr: local models, human in the loop, community steering, open imagery. But open data versus data sovereignty cannot be solved inside OSM's open-everything design; humanitarian groups handle it by choosing what to map and, just as important, what to leave off.</div>` }
+];
+
+const MM_GROUPS = [
+  { key:"rcrc", label:"Red Cross / Red Crescent Movement", note:"National societies and the IFRC" },
+  { key:"ngo", label:"Humanitarian & mapping organizations", note:"Medical and open-mapping NGOs" },
+  { key:"academic", label:"Academic & research", note:"Universities, institutes and student networks" },
+  { key:"community", label:"Local & community mapping", note:"Locally led mapping initiatives" }
+];
+const MM_MEMBERS = [
+  {name:"American Red Cross", founder:true, group:"rcrc"},
+  {name:"British Red Cross", founder:true, group:"rcrc"},
+  {name:"Canadian Red Cross", group:"rcrc"},
+  {name:"German Red Cross", group:"rcrc"},
+  {name:"IFRC", group:"rcrc"},
+  {name:"Kenya Red Cross", group:"rcrc"},
+  {name:"Netherlands Red Cross (510)", group:"rcrc"},
+  {name:"Spanish Red Cross", group:"rcrc"},
+  {name:"Médecins Sans Frontières (MSF)", founder:true, group:"ngo"},
+  {name:"Humanitarian OpenStreetMap Team (HOT)", founder:true, group:"ngo"},
+  {name:"CartONG", group:"ngo"},
+  {name:"Cadasta", group:"ngo"},
+  {name:"ADF Haiti", group:"ngo"},
+  {name:"3iS", group:"academic"},
+  {name:"GW Dept. of Geography", group:"academic"},
+  {name:"HeiGIT", group:"academic"},
+  {name:"Heidelberg University", group:"academic"},
+  {name:"YouthMappers", group:"academic"},
+  {name:"Crowd2Map Tanzania", group:"community"},
+  {name:"Map Kibera", group:"community"},
+  {name:"healthsites.io", group:"community"}
+];
+
+const MM_TOOLS = [
+  {key:"osm", type:"Platform", name:"OpenStreetMap", role:"The database", url:"https://www.openstreetmap.org", desc:"The free, editable world map that every Missing Maps contribution feeds into. Everything else is a way of getting data in or checking it."},
+  {key:"swipe", type:"Mobile", name:"MapSwipe", role:"Mobile · find the work", url:"https://mapswipe.org", desc:"Open-source app launched in 2016 for Missing Maps. Volunteers swipe through satellite tiles to flag where buildings and settlements exist, compare two dates for change, or validate existing data, so detailed tracing is aimed at the right places."},
+  {key:"grid", type:"Coordination", name:"HOT Tasking Manager", role:"Web · coordinate", url:"https://tasks.hotosm.org", desc:"Splits a project area into a grid and locks each square to one mapper, so hundreds of volunteers map the same activation at once without colliding. Specifies the mandatory imagery layer for the project."},
+  {key:"pencil", type:"Editing", name:"iD Editor", role:"Browser · trace", url:"https://wiki.openstreetmap.org/wiki/ID", desc:"The default in-browser OSM editor. Low barrier to entry, used for the bulk of mapathon tracing. Validation is possible but limited compared with JOSM."},
+  {key:"sliders", type:"Editing", name:"JOSM", role:"Desktop · trace and validate", url:"https://josm.openstreetmap.de", desc:"Powerful desktop Java editor with plugins and data-quality tools. Recommended for validation and for resolving conflicts via its three-pane my / their / merged dialog."},
+  {key:"doc", type:"Field", name:"Field Papers", role:"Field · collect", url:"https://fieldpapers.org", desc:"Print an atlas of the area, walk it, annotate by hand, then photograph the sheets to digitize local detail (street names, points of interest, evacuation centers) that satellite imagery cannot show."},
+  {key:"camera", type:"Field", name:"Mapillary / KartaView", role:"Field · street-level", url:"https://www.mapillary.com", desc:"Crowdsourced street-level photo layers, viewable in iD and JOSM, used to read signs, building names, and other ground-level detail invisible from nadir."},
+  {key:"ai", type:"AI", name:"fAIr (HOT)", role:"AI · assist", url:"https://www.hotosm.org/tech-suite/fair", desc:"HOT's open-source AI mapping service: communities train localized models on open imagery (OpenAerialMap) to suggest building footprints. Principle: AI suggests, a human decides. No bulk import."},
+  {key:"qa", type:"Validation", name:"OSMCha and MapRoulette", role:"Web · validate and fix", url:"https://osmcha.org", desc:"OSMCha analyzes changesets to catch errors and vandalism; MapRoulette serves small, focused fix-it micro-tasks. Both are widely used in the quality-assurance stage of the workflow."}
+];
+
+const CMP = {
+  osm:{ strengths:["Built for people on foot — it includes pathways, parks, and parking lots.","A clearer, simpler picture of a place.","Locals can verify and update the map themselves.","You can switch between different imagery sources."],
+    watch:["Coverage can be incomplete — informal settlements may be left off.","Buildings are sometimes merged together or roughly drawn.","No curves, and multi-use buildings often get just one purpose.","Quality varies with who maps and how well validators are trained."] },
+  google:{ strengths:["Strong at showing businesses and shops.","Familiar, polished, and quick to recognize.","Wide multi-language support."],
+    watch:["Less reliable in developing regions; it leans on automated imagery.","Parks, community spaces, and walkways are underrepresented.","Google owns the data and sets the priorities.","Language support is inconsistent, especially for Indigenous languages."] }
+};
+const CHALLENGES = [
+  {n:"1", t:"Imagery consistency", d:"Different satellite sources show different things. Everyone on a project should trace from the same imagery. Unlike Google Maps, OpenStreetMap lets you switch between sources."},
+  {n:"2", t:"Tagging coherence", d:"Features are described with tags: building, road, school. Consistent tagging across the map keeps the data clear and usable."},
+  {n:"3", t:"Mapping complex connections", d:"Roads that do not clearly link up, multi-level roads, bridges, and tunnels are all hard to represent accurately."}
+];
+
+const TYPES = {
+  origins:      {label:"Origins & open data",        color:"#005670"},
+  tools:        {label:"Tools & tagging",            color:"#0085AD"},
+  sensing:      {label:"Remote sensing & imagery",   color:"#653024"},
+  humanitarian: {label:"Humanitarian & Red Cross",   color:"#EE0000"},
+  future:       {label:"Power, AI & the future",     color:"#000000"}
+};
+const CAT2TYPE = {
+  "OSM History":"origins","OSM Licensing":"origins","OSM Basics":"origins",
+  "Tools":"tools","Tagging":"tools",
+  "Remote Sensing":"sensing","Imagery":"sensing","Imagery Alignment":"sensing",
+  "Missing Maps / HOT":"humanitarian","Red Cross":"humanitarian","Humanitarian Use":"humanitarian","Flood / Disaster (Canada)":"humanitarian",
+  "AI and Mapping":"future","Power and Future":"future"
+};
+const typeOf = q => CAT2TYPE[q.cat] || "origins";
+
+const TOOL_ICONS = {
+  osm:["M3 7l9-4 9 4-9 4-9-4z","M3 12l9 4 9-4","M3 17l9 4 9-4"],
+  swipe:["M8 3h8a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z","M10.5 18h3"],
+  grid:["M4 4h7v7H4z","M13 4h7v7h-7z","M4 13h7v7H4z","M13 13h7v7h-7z"],
+  pencil:["M4 20l1-4L16 5l3 3L8 19l-4 1z","M14 7l3 3"],
+  sliders:["M4 8h9","M17 8h3","M15 6v4","M4 16h3","M11 16h9","M9 14v4"],
+  doc:["M7 3h8l3 3v15H7z","M10 9h6","M10 13h6","M10 17h4"],
+  camera:["M4 8h3l1.5-2h7L17 8h3v11H4z","M12 17a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"],
+  ai:["M12 3l1.7 5.1L19 9.8l-5.3 1.7L12 17l-1.7-5.5L5 9.8l5.3-.7z","M18.6 14.6l.6 1.8 1.8 .6-1.8 .6-.6 1.8-.6-1.8-1.8-.6 1.8-.6z"],
+  qa:["M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14z","M20 20l-3.4-3.4","M8 11l2 2 3.6-3.6"]
+};
+const svgIcon = key => {
+  const paths = (TOOL_ICONS[key]||[]).map(d=>`<path d="${d}"></path>`).join("");
+  return `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+};
+
+const TABS = [
+  {id:"quiz", label:"The Challenge"},
+  {id:"compare", label:"OSM vs Google"},
+  {id:"deep", label:"Deep Dive"},
+  {id:"mm", label:"Missing Maps"},
+  {id:"guide", label:"The Guide"}
+];
+const LETTERS = ["A","B","C","D","E"];
+const N = QUESTIONS.length;
+
+/* ===================================================================
+   STATE
+   =================================================================== */
+const S = {
+  tab:"quiz", selected:null, score:0,
+  answered:[], attemptsMap:{}, wrongMap:{},
+  finished:false, displayScore:0, pop:false,
+  cmpPos:50, cmpSide:"osm",
+  breakActive:false, breakLeft:60,
+  toolFilter:"All"
+};
+let breakTimer=null;
+
+/* ===================================================================
+   HELPERS
+   =================================================================== */
+const restingCount = () => S.answered.filter(x=>x==="resting").length;
+const remainingCount = () => N - S.score - restingCount();
+const someProgress = () => S.score>0 || restingCount()>0;
+const attempted = i => S.answered[i]==="correct" || S.answered[i]==="resting" || (S.attemptsMap[i]||0)>0;
+function scrollTop(){ try{ window.scrollTo({top:0,behavior:"smooth"}); }catch(e){} }
+
+/* ===================================================================
+   ACTIONS
+   =================================================================== */
+function goTab(name){ S.tab=name; render(); scrollTop(); }
+function selectTile(i){
+  clearBreak();
+  if(S.answered[i]==="resting"){ S.attemptsMap[i]=0; S.wrongMap[i]=[]; S.answered[i]=undefined; }
+  S.selected=i; S.breakActive=false; render(); scrollTop();
+}
+function choose(opt){
+  const i=S.selected;
+  if(i===null || S.answered[i]==="correct" || S.answered[i]==="resting") return;
+  if((S.wrongMap[i]||[]).indexOf(opt)!==-1) return;
+  const q=QUESTIONS[i];
+  if(opt===q.answer){
+    S.answered[i]="correct"; S.score++; S.pop=true; render();
+    setTimeout(()=>{S.pop=false; render();}, 320);
+    if(S.score===N) setTimeout(showResults, 900);
+    return;
+  }
+  S.wrongMap[i]=(S.wrongMap[i]||[]).concat([opt]);
+  S.attemptsMap[i]=(S.attemptsMap[i]||0)+1;
+  if(S.attemptsMap[i]>=3){ S.answered[i]="resting"; S.breakActive=false; S.breakLeft=60; }
+  render();
+}
+function backToMap(){ clearBreak(); S.selected=null; S.breakActive=false; render(); scrollTop(); }
+function retryTile(){ const i=S.selected; clearBreak(); S.attemptsMap[i]=0; S.wrongMap[i]=[]; S.answered[i]=undefined; S.breakActive=false; render(); }
+function toggleBreak(){
+  if(S.breakActive){ clearBreak(); S.breakActive=false; render(); return; }
+  S.breakActive=true; S.breakLeft=60; render();
+  breakTimer=setInterval(()=>{
+    S.breakLeft--;
+    const el=document.getElementById("breakClock");
+    if(S.breakLeft<=0){ clearBreak(); S.breakActive=false; render(); }
+    else if(el){ el.textContent=fmtClock(S.breakLeft); }
+  },1000);
+}
+function clearBreak(){ if(breakTimer){ clearInterval(breakTimer); breakTimer=null; } }
+function fmtClock(s){ return Math.floor(s/60)+":"+String(s%60).padStart(2,"0"); }
+function showResults(){ clearBreak(); S.finished=true; S.selected=null; S.displayScore=0; render(); animateScore(S.score); }
+function keepMapping(){ S.finished=false; S.selected=null; render(); scrollTop(); }
+function restart(){ clearBreak(); S.selected=null; S.score=0; S.answered=[]; S.attemptsMap={}; S.wrongMap={}; S.finished=false; S.displayScore=0; S.pop=false; S.breakActive=false; S.breakLeft=60; render(); scrollTop(); }
+function animateScore(target){
+  const start=performance.now(), dur=600;
+  const tick=now=>{ const p=Math.min(1,(now-start)/dur); S.displayScore=Math.round(p*target); const el=document.getElementById("bigScore"); if(el) el.firstChild.textContent=S.displayScore; if(p<1) requestAnimationFrame(tick); };
+  requestAnimationFrame(tick);
+}
+
+/* ===================================================================
+   RENDER
+   =================================================================== */
+function render(){
+  document.getElementById("tabs").innerHTML = TABS.map(t=>
+    `<button data-act="tab" data-v="${t.id}" aria-selected="${S.tab===t.id}">${t.label}</button>`).join("");
+  const app=document.getElementById("app");
+  if(S.tab==="quiz") app.innerHTML = viewQuiz();
+  else if(S.tab==="compare") app.innerHTML = viewCompare();
+  else if(S.tab==="deep") app.innerHTML = viewDeep();
+  else if(S.tab==="mm") app.innerHTML = viewMM();
+  else if(S.tab==="guide") app.innerHTML = viewGuide();
+  postRender();
+}
+
+function viewQuiz(){
+  if(S.finished) return viewResults();
+  const stats = `
+    <div class="stats">
+      <div class="stat"><div class="lbl">Mapped</div><div class="val red ${S.pop?'pop':''}">${S.score} / ${N}</div></div>
+      <div class="stat"><div class="lbl">On a break</div><div class="val">${restingCount()}</div></div>
+      <div class="stat"><div class="lbl">Remaining</div><div class="val">${remainingCount()}</div></div>
+    </div>
+    <div class="pbar"><i style="width:${S.score/N*100}%"></i></div>`;
+
+  const tiles = QUESTIONS.map((q,i)=>{
+    const a=S.answered[i], col=i%6, row=Math.floor(i/6);
+    const tcolor=TYPES[typeOf(q)].color;
+    const cls=["tile"]; if(i===S.selected) cls.push("sel"); if(a==="correct") cls.push("correct");
+    let ov;
+    if(a==="correct") ov=`<div class="ov"></div>`;
+    else if(a==="resting") ov=`<div class="ov" style="background:${tcolor}"><span class="rest-glyph"><svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg><span>${i+1}</span></span></div>`;
+    else ov=`<div class="ov" style="background:${tcolor}">${i+1}</div>`;
+    const aria=`Question ${i+1}, ${TYPES[typeOf(q)].label}${a==="correct"?", mapped":a==="resting"?", on a break":""}`;
+    return `<button class="${cls.join(' ')}" style="background-position:${col*20}% ${row*20}%" data-act="selTile" data-v="${i}" aria-label="${aria}">${ov}</button>`;
+  }).join("");
+  const allMapped=S.score===N;
+  const map = `
+    <div class="mapgrid">${tiles}</div>
+    <p class="mapcap ${allMapped?'done':''}">${allMapped?"You mapped the whole world.":"Tap any tile to answer that question. Map all thirty-six to reveal the planet."}</p>
+    <div class="legend">${Object.keys(TYPES).map(k=>`<span class="it"><span class="dot" style="background:${TYPES[k].color}"></span>${TYPES[k].label}</span>`).join("")}</div>`;
+
+  let panel;
+  if(S.selected===null){
+    panel = `<div class="pathcard">
+        <div class="eyebrow">Choose your own path</div>
+        <p>Pick any tile above to answer that question first. Get it right and the tile turns into a piece of the planet. Map all thirty-six and the whole Earth appears.</p>
+      </div>` +
+      (someProgress()? `<div style="text-align:center;margin-top:16px"><button class="btn outline" data-act="results">See my results so far</button></div>`:"");
+  } else {
+    const i=S.selected, q=QUESTIONS[i], tcolor=TYPES[typeOf(q)].color;
+    const correct=S.answered[i]==="correct", resting=S.answered[i]==="resting";
+    const wrong=S.wrongMap[i]||[], attempts=S.attemptsMap[i]||0;
+    const head=`<div class="qhead"><span class="chip" style="background:${tcolor}">${TYPES[typeOf(q)].label}</span>
+        <button class="btn ghost" data-act="back">← Back to the map</button></div>
+      <div class="qmeta">Tile ${i+1} of 36</div>
+      <h2 class="qtext">${q.q}</h2>`;
+    let body;
+    if(resting){
+      body=`<div class="breakp">
+          <div class="eb">Take a movement break</div>
+          <div class="clock ${S.breakActive?'on':''}" id="breakClock">${fmtClock(S.breakLeft)}</div>
+          <p>Three tries used on this tile. Stand up and do squats or stretch — or head to another tab and explore. Come back whenever you are ready and you will get three fresh tries to light this tile up.</p>
+          <div class="row">
+            <button class="b-red" data-act="toggleBreak">${S.breakActive?"Stop timer":"Start 60-second timer"}</button>
+            <button class="b-wht" data-act="retry">Try this tile again</button>
+            <button class="b-out" data-act="back">Back to the map</button>
+          </div>
+        </div>`;
+    } else {
+      const opts=q.options.map((label,oi)=>{
+        const isAns=oi===q.answer, isWrong=wrong.indexOf(oi)!==-1;
+        const cls=["opt"]; let mark="";
+        if(correct){ if(isAns){cls.push("right");mark="✓";} else cls.push("dim"); }
+        else if(isWrong){ cls.push("wrong"); mark="✗"; }
+        const dis=(correct||isWrong)?"disabled":"";
+        return `<button class="${cls.join(' ')}" data-act="choose" data-v="${oi}" ${dis}>
+            <span class="key">${LETTERS[oi]}</span><span class="lab">${label}</span><span class="mark">${mark}</span></button>`;
+      }).join("");
+      const attemptsLine = (!correct && attempts>0) ? `<div class="attempts">${3-attempts} of 3 tries left on this tile — take another look.</div>`:"";
+      const explain = correct ? `<div class="explain"><b>Correct. </b>${q.explain}</div>
+        <div class="qfoot"><button class="btn" data-act="${S.score===N?'results':'back'}">${S.score===N?"See results":"Back to the map"}</button></div>`:"";
+      body=`<div class="opts">${opts}</div>${attemptsLine}${explain}`;
+    }
+    panel=`<div class="qpanel">${head}${body}</div>`;
+  }
+  return `<section class="view">${stats}${map}${panel}</section>`;
+}
+
+function viewResults(){
+  const allMapped=S.score===N, pct=Math.round(S.score/N*100);
+  const rank = pct===100?"Mapathon Lead": pct>=70?"Validator": pct>=40?"Field Mapper":"New Recruit";
+  const msg = allMapped?"Flawless. You mapped every tile and revealed the whole planet.": pct>=70?"Strong work. You know the commons.": pct>=40?"A solid start. The Deep Dive is where it gets deeper.":"Plenty to explore. Try the Deep Dive, then keep mapping.";
+  const top = allMapped
+    ? `<img class="globe" src="assets/earth-globe.png" alt="A globe assembled from every correct answer"><div class="eyebrow" style="text-align:center">You mapped the whole world</div>`
+    : `<div class="pin"><svg width="40" height="40" viewBox="0 0 24 24" fill="#fff"><path d="M12 22s7-7 7-12a7 7 0 0 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.6" fill="#EE0000"/></svg></div>`;
+  const rows = QUESTIONS.map((q,i)=>{
+    if(!attempted(i)) return "";
+    const ok=S.answered[i]==="correct";
+    const detail = ok ? `<span class="ans">Answer: ${q.options[q.answer]}</span>` : `<span class="pending">Still on the map — give it another go.</span>`;
+    return `<div class="brow"><span class="bd ${ok?'ok':'no'}">${ok?'✓':'✗'}</span><span><strong>${q.q}</strong><br>${detail}</span></div>`;
+  }).join("");
+  const breakdown = rows ? `<div class="breakdown">${rows}</div>` : `<p class="sub" style="margin-top:24px">You have not answered any tiles yet — head back and pick one.</p>`;
+  const keepBtn = !allMapped ? `<button class="btn outline" data-act="keep">← Back to mapping</button>`:"";
+  return `<section class="view"><div class="results">
+      <div class="eyebrow" style="color:var(--crc-grey)">Your result</div>
+      ${top}
+      <div class="eyebrow" style="color:var(--crc-grey);margin-top:6px">Rank</div>
+      <div class="rank">${rank}</div>
+      <div class="big" id="bigScore">${S.displayScore}<small> / ${N}</small></div>
+      <p class="msg">${msg}</p>
+      <div class="sub">${S.score} of ${N} tiles mapped correctly</div>
+      <div class="actions">
+        ${keepBtn}
+        <button class="btn" data-act="restart">Play again</button>
+        <button class="btn outline" data-act="tab" data-v="deep">Open the Deep Dive</button>
+      </div>
+      ${breakdown}
+    </div></section>`;
+}
+
+function viewCompare(){
+  const pos=S.cmpPos, side=S.cmpSide, d=CMP[side];
+  const sideTitle = side==="osm"?"OpenStreetMap":"Google Maps";
+  return `<section class="view">
+    <p class="lead">Same town, two maps. Here is one corner of Squamish, British Columbia, in OpenStreetMap and in Google Maps. Drag the handle to compare, and notice how much more the open map shows on the ground.</p>
+    <div class="fresh">
+      <div class="c osm"><div class="k">OpenStreetMap</div><div class="d">Last updated July 15, 2025</div></div>
+      <div class="c goo"><div class="k">Google Maps</div><div class="d">Last updated June 25, 2023</div></div>
+    </div>
+    <div class="slider" id="slider">
+      <img src="assets/squamish-google.png" alt="Google Maps view of Squamish, British Columbia">
+      <img id="osmLayer" src="assets/squamish-osm.png" alt="OpenStreetMap view of Squamish, British Columbia" style="clip-path:inset(0 ${100-pos}% 0 0)">
+      <div class="lab l">OpenStreetMap</div><div class="lab r">Google Maps</div>
+      <div class="handle" id="cmpHandle" style="left:${pos}%"></div>
+      <div class="knob" id="cmpKnob" style="left:${pos}%">↔</div>
+      <input type="range" min="0" max="100" value="${pos}" id="cmpRange" aria-label="Drag to compare the two maps">
+    </div>
+    <div class="scaption">Map data: OpenStreetMap contributors and Google. The two captures are georeferenced to the same extent, so features line up as you drag.</div>
+
+    <div class="ghead">Why it matters</div>
+    <div class="seg">
+      <button data-act="setSide" data-v="osm" aria-pressed="${side==='osm'}">OpenStreetMap</button>
+      <button data-act="setSide" data-v="google" aria-pressed="${side==='google'}">Google Maps</button>
+    </div>
+    <div class="cards2">
+      <div class="icard s"><div class="k">${sideTitle} — strengths</div><ul>${d.strengths.map(s=>`<li>${s}</li>`).join("")}</ul></div>
+      <div class="icard w"><div class="k">${sideTitle} — watch-outs</div><ul>${d.watch.map(w=>`<li>${w}</li>`).join("")}</ul></div>
+    </div>
+
+    <div class="ghead">Three challenges open mapping has to solve</div>
+    <div class="cards3">${CHALLENGES.map(c=>`<div class="ch"><div class="n">${c.n}</div><div class="t">${c.t}</div><p>${c.d}</p></div>`).join("")}</div>
+  </section>`;
+}
+
+function accCard(it){
+  const cls = it.type==="prompt" ? "prompt-c" : "explain-c";
+  return `<details class="acc ${cls}"><summary><span class="tw">+</span><span>${it.q}</span></summary><div class="acc-body">${it.body}</div></details>`;
+}
+function viewDeep(){
+  const groups=[]; let cur=null; const prompts=[];
+  DEEP.forEach(it=>{
+    if(it.group){ cur={title:it.group, items:[]}; groups.push(cur); return; }
+    if(it.type==="prompt"){ prompts.push(it); return; }
+    cur.items.push(it);
+  });
+  const groupHtml = groups.filter(g=>g.items.length).map(g=>
+    `<div class="ghead">${g.title}</div>${g.items.map(accCard).join("")}`).join("");
+  const promptHtml = prompts.length
+    ? `<div class="ghead">Open prompts to sit with</div>
+       <p class="lead" style="margin:-2px 0 12px;font-size:15px">No tidy answer here — these are questions to reflect on rather than resolve.</p>
+       ${prompts.map(accCard).join("")}` : "";
+  return `<section class="view">
+    <p class="lead">The questions that do not have a tidy A, B, C, D answer. Open any card to expand. Explanations come first, with the open prompts gathered on their own at the end.</p>
+    ${groupHtml}${promptHtml}
+  </section>`;
+}
+
+function viewMM(){
+  const membersHtml = MM_GROUPS.map(g=>{
+    const items = MM_MEMBERS.filter(m=>m.group===g.key).map(m=>
+      `<div class="mtile ${m.founder?'f':''}">${m.founder?'<span class="star">★</span>':''}<span class="nm">${m.name}</span></div>`).join("");
+    return `<div class="grp">
+        <div class="gl">${g.label} <small>${g.note}</small></div>
+        <div class="car">
+          <button class="car-btn prev" data-act="car" data-dir="-1" data-car="${g.key}" aria-label="Scroll left">‹</button>
+          <div class="car-track" id="car-${g.key}">${items}</div>
+          <button class="car-btn next" data-act="car" data-dir="1" data-car="${g.key}" aria-label="Scroll right">›</button>
+        </div>
+      </div>`;
+  }).join("");
+
+  const toolTypes = ["All", ...MM_TOOLS.map(t=>t.type).filter((v,i,a)=>a.indexOf(v)===i)];
+  const filters = toolTypes.map(t=>`<button data-act="toolFilter" data-v="${t}" aria-pressed="${S.toolFilter===t}">${t}</button>`).join("");
+  const tools = MM_TOOLS.filter(t=>S.toolFilter==="All"||t.type===S.toolFilter).map(t=>
+    `<a class="tool" href="${t.url}" target="_blank" rel="noopener noreferrer">
+        <div class="ic">${svgIcon(t.key)}</div>
+        <div style="min-width:0">
+          <div class="role">${t.role}</div>
+          <div class="nm">${t.name} <span class="badge">${t.type}</span><span class="ext">↗ visit site</span></div>
+          <p>${t.desc}</p>
+        </div>
+      </a>`).join("");
+
+  return `<section class="view">
+    <p class="lead">Missing Maps is a coalition launched in <strong>November 2014</strong> by the American Red Cross, British Red Cross, Médecins Sans Frontières, and the Humanitarian OpenStreetMap Team. It has since grown to roughly twenty non-profit and academic members, grouped below by the kind of organization they are.</p>
+    <div class="ghead">Member organizations <span style="color:var(--crc-red);text-transform:none;letter-spacing:0">★ = founding member</span></div>
+    ${membersHtml}
+    <div class="ghead">The tooling stack <span style="color:var(--crc-grey);text-transform:none;letter-spacing:0">— filter by type, tap a card to visit</span></div>
+    <div class="filters">${filters}</div>
+    <div id="toolList">${tools}</div>
+  </section>`;
+}
+
+function viewGuide(){
+  return `<section class="view guide">
+    <div class="eyebrow">Mentor's letter · for the remote sensing scientist</div>
+    <h2>From Pixels to People</h2>
+    <p class="glede">A remote sensing scientist's path into open, humanitarian, and disaster mapping — “how can I contribute meaningfully, and where do I begin?”</p>
+
+    <p>You already know how to read an image, and that skill is rarer and more needed here than you would guess. So let me spare you the months of working out where you fit. I will tell you what to do, but more than that, how to think while you do it, because the second thing lasts longer than the first. Two truths first. Carry them everywhere.</p>
+
+    <div class="truths">
+      <div class="truth"><h4>Your skill is real, and it is the scarce one.</h4><p>This community is superb at producing map geometry through thousands of volunteers, and quietly weak at the thing you treat as routine: knowing how good the data is, and proving it. Many will trace a building. Almost no one will compute a confusion matrix on the result. You arrive already fluent in the missing discipline.</p></div>
+      <div class="truth b"><h4>Your sight is partial, and that matters more.</h4><p>Your instruments see form: a roof, a road surface, the edge of a flood. They cannot see meaning: whether that roof shelters a clinic or a family, whether that road drowns every rainy season, who is inside and what they need. Nearly all the humanitarian value lives in that meaning layer, and you cannot reach it from orbit. Be excellent at form, and stand beside the people who hold the meaning — never imagine you replace them.</p></div>
+    </div>
+
+    <h3>Let me orient you</h3>
+    <p>A few names recur. Learn them once and the rest reads easily.</p>
+    <ul>
+      <li><strong>OpenStreetMap (OSM)</strong> — the free, openly licensed, editable world map.</li>
+      <li><strong>HOT (Humanitarian OpenStreetMap Team)</strong> — builds most of the humanitarian tooling on top of OSM.</li>
+      <li><strong>Missing Maps</strong> — a coalition (Red Cross societies, MSF, HOT, universities) that maps vulnerable places before and during crises.</li>
+      <li>A <strong>mapathon</strong> is an organized tracing event; a <strong>mapper</strong> traces, a <strong>validator</strong> checks a mapper's work. Validation is the more senior, more trusted role — and the one your eye is built for.</li>
+    </ul>
+
+    <div class="xref"><b>About the tools.</b> This guide names a working stack — OpenAerialMap, the Tasking Manager, fAIr, the drone tools, Field-TM, the Sketch Map Tool, ohsome. Rather than redefine them here, the <b>Missing Maps</b> tab already describes what each one does. This letter does something different: it shows where <em>your</em> skills plug into each. Think of that tab as the parts catalogue and this one as the wiring diagram.<br><button class="btn" data-act="tab" data-v="mm">Open the Missing Maps tab →</button></div>
+
+    <h3>The path I would walk you down</h3>
+    <p>Ordered from where you should start to where you can eventually lead. Resist skipping to the clever parts; the early steps earn you the right to be heard later.</p>
+
+    <div class="gstep"><div class="num">Step 1 · Earn the eye</div><h3>First, map. Then validate.</h3>
+      <p>Before you contribute a single image or model, spend a few hours as a mapper, then work toward validating — not as a rite of passage, but because you cannot judge the quality of work you have never done.</p>
+      <ul><li>Open the HOT Tasking Manager, take a beginner project, and trace.</li><li>Do the built-in training and aim to become a validator. Validators are always scarce, and quality control is where your instincts pay off.</li><li>Try MapSwipe on your phone to feel how triage and AI-checking work.</li></ul>
+      <p>Notice while you do it: roof outlines offset from footprints because of off-nadir imagery, basemaps that do not line up, shadows a tired volunteer mistakes for a structure. You will see these in seconds. That noticing is your first gift — and the moment you stop treating crowdsourced data as a black box.</p></div>
+
+    <div class="gstep"><div class="num">Step 2 · Highest-leverage early move</div><h3>Give imagery.</h3>
+      <p>Mappers can only trace what they can see, and good, current, well-registered imagery is the bottleneck. Preparing it is your home ground.</p>
+      <ul><li>Upload openly licensed orthomosaics to OpenAerialMap. One careful upload can unblock an entire effort.</li><li>Apply the craft you already have: mosaicking, pan-sharpening, georeferencing, cloud handling, radiometric consistency across scenes. Careless imagery breeds careless maps.</li></ul>
+      <div class="gnote">Feel the stakes of speed. After a disaster, the gap between imagery <em>existing</em> and being <em>usable</em> by mappers runs from hours to weeks, and people wait inside that gap. In your day job imagery is an input you consume; here it is an output others depend on, and releasing it openly multiplies its worth.</div></div>
+
+    <div class="gstep"><div class="num">Step 3 · The contribution only you make well</div><h3>Bring accuracy assessment to a field hungry for it.</h3>
+      <ul><li>Evaluate AI-generated or volunteer-traced features properly: confusion matrices, precision, recall, F1 for detections; IoU (Jaccard) and Dice for outlines.</li><li>Ground-truth a sample via field surveys (Field-TM) and report <em>fitness for purpose</em>, not a lone accuracy number. A map can be excellent for counting buildings and useless for property lines — a colleague deserves to know which.</li><li>Learn the community's quality language through ohsome and OQT: completeness, currentness, comparison against population grids. Speak their vocabulary and they will hear you.</li></ul>
+      <p>Push, gently and persistently, to make “how accurate is this, and how do we know?” a normal question in humanitarian mapping, the way it is in remote sensing. Somewhere downstream a decision is being made on data whose quality no one measured.</p></div>
+
+    <div class="gstep"><div class="num">Step 4 · If you do machine learning</div><h3>Build local, and build open.</h3>
+      <ul><li>Global building-detection models ship as outputs, but their training data and code are usually closed, and they are biased toward the imagery they learned from. They fail on thatched roofs, dense informal settlements, walled compounds — the places that most need mapping.</li><li>The open answer is to fine-tune on local imagery and local building types. Studies in refugee settlements in Malawi and Kenya found global models stumbling on thatched roofs while a locally trained model coped. The gains are real but directional, so cite them as such.</li><li>In practice: use fAIr to fine-tune an open base model (RAMP is the standard) on ground you know, then publish your trained model openly.</li><li>Evaluate before you promote. Let suggestions reach mappers only if they clear a bar set in advance — say F1 above 0.8 on a held-out local area — and document the failure modes, not just the headline score.</li></ul>
+      <div class="gnote">Two stances worth defending: open the model, not just the output, because a commons cannot trust what it cannot inspect. And AI suggests while humans decide — never bulk-import machine geometry. That design protects both the data and the agency of the people whose places are being drawn.</div></div>
+
+    <div class="gstep"><div class="num">Step 5 · If you fly drones or do photogrammetry</div><h3>Plan, process, publish.</h3>
+      <ul><li>Use the Drone Tasking Manager to plan multi-pilot coverage with low-cost drones, and OpenDroneMap to process flights into orthomosaics, elevation models, and point clouds.</li><li>Bring expertise to flight planning (ground sample distance, overlap), structure-from-motion quality, and harmonizing imagery from different operators.</li><li>Publish orthomosaics to OpenAerialMap, and keep the elevation byproducts for flood and risk modeling.</li></ul></div>
+
+    <div class="gstep"><div class="num">Step 6 · When disaster comes</div><h3>This is where your field earns its keep.</h3>
+      <p>Optical mapping fails exactly when it is most needed: under cloud, at night, mid-event. Your toolkit does not.</p>
+      <ul><li><strong>SAR for floods.</strong> Sentinel-1 radar sees through cloud, day or night. A flood-extent map can show responders where the water is within hours, and decide where volunteers map first. State the limits too: radar struggles in cities (shadow, layover) and in mountains.</li><li><strong>Change detection for damage.</strong> Pair before/after imagery to flag destroyed or damaged buildings, which mappers then tag.</li><li><strong>Anticipatory action.</strong> Agencies increasingly act <em>before</em> a disaster, releasing funds against pre-agreed triggers. Your exposure layers (where people and buildings are) plus hazard forecasts feed those triggers — and OSM footprints are often the exposure baseline. Helping before the harm is some of the most meaningful work you can touch.</li></ul>
+      <div class="gnote">The rhythm: an event happens, agencies define the affected area, open imagery is released, volunteers mobilize through the Tasking Manager, damage gets tagged, data flows to responders. You can add imagery, prioritization, or validation at any link in that chain.</div></div>
+
+    <h3>The weight you are picking up</h3>
+    <p>Putting people on a map helps responders reach them. It can also expose them. This is not a disclaimer to nod past; it has changed how serious organizations behave, and it should change how you do.</p>
+    <div class="gwarn"><strong>Visibility can endanger.</strong> Mapping settlements, medical facilities, or the movements of vulnerable people can hand targeting information to the wrong hands. HOT suspended all mapping of Ukraine at the community's request over fears of military misuse, and restricts mapping in active conflicts to vetted contributors on private projects. Sometimes the most responsible map is the one you choose not to make.</div>
+    <div class="gwarn"><strong>Openness sits in tension with control.</strong> OSM's strength is that everything is open and permanent — which collides with the principle that communities, especially Indigenous and at-risk groups, should control data about themselves. OSM has no “restricted” setting. This tension is not solved; treat it as live, and let it make you careful rather than cynical.</div>
+    <div class="gwarn"><strong>The view from above is not neutral.</strong> The satellite gaze can reinforce the perspective of states and powerful actors over the people observed; watching from a distance still acts upon the watched. Carry that humility — it will make you better, not slower.</div>
+    <p>A few rules to hold:</p>
+    <ul><li>Before mapping anything touching conflict or persecuted populations, route it through HOT's Protection Framework and a do-no-harm assessment. Do not freelance this — bring it to people.</li><li>Where visibility could enable harm, default to aggregating or withholding detail.</li><li>Work <em>with</em> local mappers and communities, not over them. You supply the form; they own the meaning. That is the correct division of authority, not a courtesy.</li></ul>
+    <p>And one thing for you, not the work: it is right to feel the weight of this. That feeling is your conscience doing its job. Do not let it tip into paralysis, or harden into detachment. The people who do this for a long time stay tender and rigorous at once.</p>
+
+    <h3>Ways to matter that are not code or maps</h3>
+    <ul><li><strong>Mentor and validate</strong> at mapathons. Your eye and standards make you a strong teacher — and teaching is how this knowledge survives you.</li><li><strong>Write the documentation the field is missing</strong> (the shared resource is LearnOSM). It lacks remote-sensing-grade method, metadata, and provenance habits.</li><li><strong>Peer-review open models and training data</strong> the way you would review a paper.</li><li><strong>Join the working groups</strong> — HOT's data-quality group, MapSwipe's volunteer governance. They shape how the whole system treats quality.</li><li><strong>Publish.</strong> Work on crowdsourced-vs-AI accuracy, OSM completeness, and the ethics of humanitarian remote sensing is read at the State of the Map academic track and in the ISCRAM crisis-informatics community. One landmark study found global urban OSM building completeness averaging only about 21% per urban center, with humanitarian mapping the main force closing the gap in the poorest regions.</li></ul>
+
+    <h3>What I would have you do first</h3>
+    <ul class="checklist">
+      <li><strong>This week:</strong> make an account, trace a beginner Tasking Manager project, and try MapSwipe. Feel the workflow from the inside.</li>
+      <li><strong>This month:</strong> work toward validator status; prepare and upload one well-registered, openly licensed imagery set to OpenAerialMap; run ohsome or OQT on an area you care about and write up its quality honestly.</li>
+      <li><strong>This quarter:</strong> if you model, fine-tune and openly publish one localized fAIr model with a full evaluation and a frank list of failure modes. If you work in SAR or change detection, build one flood-extent or damage product that prioritizes where volunteers map, paired with explicit uncertainty.</li>
+      <li><strong>Throughout:</strong> ask the accuracy question out loud, open your models and not just your outputs, never bulk-import machine geometry, and put local knowledge above the satellite view.</li>
+    </ul>
+
+    <h3>Where to plug in</h3>
+    <ul><li><strong>Imagery:</strong> OpenAerialMap, plus the open archives you already know — Sentinel, Landsat, Maxar's Open Data program for disasters, Planet's NICFI tropical imagery.</li><li><strong>Code:</strong> HOT's GitHub hosts fAIr and its model repository, the drone and field tools, and the data tooling. The RAMP open building model lives on Radiant Earth's site.</li><li><strong>People:</strong> HOT runs public Slack channels for imagery coordination, machine learning, and the Tasking Manager, and welcomes newcomers. Do not stay a stranger — the point is for you to belong here, and in time to bring the next person in yourself.</li></ul>
+
+    <div class="gnote"><strong>One honest word.</strong> Some newer features — parts of fAIr especially — sit on published roadmaps rather than being fully delivered, and several accuracy figures here come from single studies, not universal benchmarks. Check the current state of a tool before building on it, and cite specific numbers as the single studies they are. The direction is solid even where a date or statistic is provisional.</div>
+
+    <p class="signoff">Begin small, stay rigorous, stay humane.</p>
+  </section>`;
+}
+
+/* ===================================================================
+   POST-RENDER (non-delegated listeners)
+   =================================================================== */
+function postRender(){
+  const range=document.getElementById("cmpRange");
+  if(range){
+    range.oninput=e=>{
+      S.cmpPos=+e.target.value;
+      const o=document.getElementById("osmLayer"), h=document.getElementById("cmpHandle"), k=document.getElementById("cmpKnob");
+      if(o) o.style.clipPath=`inset(0 ${100-S.cmpPos}% 0 0)`;
+      if(h) h.style.left=S.cmpPos+"%";
+      if(k) k.style.left=S.cmpPos+"%";
+    };
+  }
+}
+
+/* ===================================================================
+   EVENT DELEGATION
+   =================================================================== */
+document.addEventListener("click", e=>{
+  const el=e.target.closest("[data-act]");
+  if(!el) return;
+  const act=el.dataset.act, v=el.dataset.v;
+  switch(act){
+    case "tab": goTab(v); break;
+    case "selTile": selectTile(+v); break;
+    case "choose": choose(+v); break;
+    case "back": backToMap(); break;
+    case "retry": retryTile(); break;
+    case "toggleBreak": toggleBreak(); break;
+    case "results": showResults(); break;
+    case "keep": keepMapping(); break;
+    case "restart": restart(); break;
+    case "setSide": S.cmpSide=v; render(); break;
+    case "toolFilter": S.toolFilter=v; render(); break;
+    case "car": {
+      const track=document.getElementById("car-"+el.dataset.car);
+      if(track) track.scrollBy({left:(+el.dataset.dir)*Math.min(track.clientWidth*0.8, 440), behavior:"smooth"});
+      break;
+    }
+  }
+});
+
+render();
+</script>
+</body>
+</html>
