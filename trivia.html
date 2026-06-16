@@ -179,6 +179,26 @@
   .ponder{color:var(--ink-3); font-size:14.5px}
   .ponder em{color:var(--plum)}
 
+  /* ---------- Missing Maps ---------- */
+  .mm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+  .mm-member{
+    display:flex;align-items:center;gap:9px;background:var(--paper);border:1px solid var(--rule);
+    border-radius:10px;padding:11px 13px;font-size:14px;font-weight:500;color:var(--ink);
+    box-shadow:0 1px 2px rgba(17,32,58,.04);
+  }
+  .mm-member .star{color:var(--terra);font-size:13px;flex:0 0 auto}
+  .mm-member.founder{border-color:var(--terra);background:var(--terra-tint)}
+  .mm-tool{
+    display:flex;gap:14px;background:var(--paper);border:1px solid var(--rule);border-radius:14px;
+    padding:16px 18px;margin-bottom:10px;box-shadow:0 1px 2px rgba(17,32,58,.04);
+  }
+  .mm-tool .ico{
+    flex:0 0 auto;width:42px;height:42px;border-radius:11px;display:grid;place-items:center;
+    font-size:21px;background:var(--lapis-tint);
+  }
+  .mm-tool h4{margin:0 0 3px;font-family:var(--serif);font-weight:600;font-size:18px;color:var(--ink)}
+  .mm-tool .role{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--lapis);font-weight:600;margin:0 0 5px}
+  .mm-tool p{margin:0;font-size:14.5px;color:var(--ink-2)}
   footer{text-align:center;margin-top:44px;color:var(--ink-4);font-size:13px;font-family:var(--mono)}
   .hide{display:none!important}
 </style>
@@ -195,6 +215,7 @@
   <div class="tabs" role="tablist">
     <button class="tab" id="tab-quiz" role="tab" aria-selected="true" aria-controls="panel-quiz">🎯 Play the Quiz</button>
     <button class="tab" id="tab-deep" role="tab" aria-selected="false" aria-controls="panel-deep">📖 Deep Dive</button>
+    <button class="tab" id="tab-mm" role="tab" aria-selected="false" aria-controls="panel-mm">🧭 Missing Maps</button>
   </div>
 
   <!-- ============ QUIZ PANEL ============ -->
@@ -226,7 +247,18 @@
     <div id="deepContent"></div>
   </section>
 
-  <footer>Built for the “Sensing for the Commons” companion · data &amp; explanations from the OSM / HOT Q&amp;A</footer>
+  <!-- ============ MISSING MAPS PANEL ============ -->
+  <section class="panel" id="panel-mm" role="tabpanel" aria-labelledby="tab-mm">
+    <p class="lead">Missing Maps is a coalition launched in <strong>November 2014</strong> by the American Red Cross, British Red Cross, Médecins Sans Frontières, and the Humanitarian OpenStreetMap Team. It has since grown to roughly twenty non-profit and academic member organizations, supported by a small stack of open-source tools.</p>
+
+    <div class="group-h">Member Organizations <span style="color:var(--terra)">★ = founding member</span></div>
+    <div class="mm-grid" id="mmMembers"></div>
+
+    <div class="group-h">The Tooling Stack</div>
+    <div id="mmTools"></div>
+  </section>
+
+  <footer>Built for the “Sensing for the Commons” companion · data &amp; explanations from the OSM / HOT Q&amp;A · members per the Missing Maps 2025 Annual Report</footer>
 </div>
 
 <script>
@@ -462,11 +494,51 @@ const DEEP = [
 ];
 
 /* ============================================================
+   MISSING MAPS DATA
+   ============================================================ */
+const MM_MEMBERS = [
+  {name:"American Red Cross", founder:true},
+  {name:"British Red Cross", founder:true},
+  {name:"Médecins Sans Frontières (MSF)", founder:true},
+  {name:"Humanitarian OpenStreetMap Team (HOT)", founder:true},
+  {name:"3iS"},
+  {name:"ADF Haiti"},
+  {name:"Canadian Red Cross"},
+  {name:"Cadasta"},
+  {name:"CartONG"},
+  {name:"Crowd2Map Tanzania"},
+  {name:"George Washington Dept. of Geography"},
+  {name:"German Red Cross"},
+  {name:"healthsites.io"},
+  {name:"HeiGIT (Heidelberg Inst. for Geoinformation Technology)"},
+  {name:"Heidelberg University"},
+  {name:"IFRC"},
+  {name:"Kenya Red Cross"},
+  {name:"Map Kibera"},
+  {name:"Netherlands Red Cross (510)"},
+  {name:"Spanish Red Cross"},
+  {name:"YouthMappers"}
+];
+
+const MM_TOOLS = [
+  {ico:"🗺️", name:"OpenStreetMap", role:"The database", desc:"The free, editable world map that every Missing Maps contribution feeds into. Everything else is a way of getting data in or checking it."},
+  {ico:"📱", name:"MapSwipe", role:"Mobile · find the work", desc:"Open-source mobile/web app launched in 2016 for Missing Maps. Volunteers swipe through satellite tiles to flag where buildings and settlements exist, compare two dates for change, or validate existing data — so detailed tracing is aimed at the right places."},
+  {ico:"🧩", name:"HOT Tasking Manager", role:"Web · coordinate", desc:"Splits a project area into a grid and locks each square to one mapper, so hundreds of volunteers map the same activation simultaneously without colliding. Specifies the mandatory imagery layer for the project."},
+  {ico:"✏️", name:"iD Editor", role:"Browser · trace", desc:"The default in-browser OSM editor. Low barrier to entry, used for the bulk of mapathon tracing. Validation is possible but limited compared with JOSM."},
+  {ico:"🛠️", name:"JOSM", role:"Desktop · trace & validate", desc:"Powerful desktop Java editor with plugins and data-quality tools. Recommended for validation and for resolving conflicts via its three-pane my/their/merged dialog."},
+  {ico:"📄", name:"Field Papers", role:"Field · collect", desc:"Print an atlas of the area, walk it, annotate by hand, then photograph the sheets to digitize local detail — street names, POIs, evacuation centers — that satellite imagery can't show."},
+  {ico:"📷", name:"Mapillary / KartaView", role:"Field · street-level", desc:"Crowdsourced street-level photo layers, viewable in iD and JOSM, used to read signs, building names, and other ground-level detail invisible from nadir."},
+  {ico:"🤖", name:"fAIr (HOT)", role:"AI · assist", desc:"HOT's open-source AI mapping service: communities train localized models on open imagery (OpenAerialMap) to suggest building footprints. Principle: AI suggests, a human decides — no bulk import."},
+  {ico:"🔍", name:"OSMCha & MapRoulette", role:"Web · validate & fix", desc:"OSMCha analyzes changesets to catch errors and vandalism; MapRoulette serves small, focused fix-it micro-tasks. Both are widely used in the quality-assurance stage of the workflow."}
+];
+
+/* ============================================================
    TAB SWITCHING
    ============================================================ */
 const tabs = {
   quiz:{btn:document.getElementById('tab-quiz'), panel:document.getElementById('panel-quiz')},
-  deep:{btn:document.getElementById('tab-deep'), panel:document.getElementById('panel-deep')}
+  deep:{btn:document.getElementById('tab-deep'), panel:document.getElementById('panel-deep')},
+  mm:{btn:document.getElementById('tab-mm'), panel:document.getElementById('panel-mm')}
 };
 function selectTab(name){
   for(const k in tabs){
@@ -477,6 +549,7 @@ function selectTab(name){
 }
 tabs.quiz.btn.onclick=()=>selectTab('quiz');
 tabs.deep.btn.onclick=()=>selectTab('deep');
+tabs.mm.btn.onclick=()=>selectTab('mm');
 
 /* ============================================================
    QUIZ ENGINE
@@ -596,6 +669,19 @@ DEEP.forEach(item=>{
   </details>`;
 });
 deepEl.innerHTML=html;
+
+/* ============================================================
+   MISSING MAPS RENDER
+   ============================================================ */
+document.getElementById('mmMembers').innerHTML = MM_MEMBERS.map(m=>
+  `<div class="mm-member ${m.founder?'founder':''}">${m.founder?'<span class="star">★</span>':''}<span>${m.name}</span></div>`
+).join('');
+
+document.getElementById('mmTools').innerHTML = MM_TOOLS.map(t=>
+  `<div class="mm-tool"><div class="ico">${t.ico}</div><div>
+     <div class="role">${t.role}</div><h4>${t.name}</h4><p>${t.desc}</p>
+   </div></div>`
+).join('');
 
 /* boot */
 startQuiz();
