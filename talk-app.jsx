@@ -33,7 +33,11 @@ const Chrome = ({ active, go, introOpen }) => (
   <header className="chrome">
     <div className="chrome-strip">
       <span>Canadian Remote Sensing Society · Presentation Companion Guide</span>
-      <span className="chrome-byline">Sophia Chen · May 2026</span>
+      <span className="chrome-byline">
+        Sophia Chen · May 2026
+        {" · "}
+        <a href="trivia-osm/" style={{ color: "inherit", fontWeight: 600 }}>🎯 OSM Trivia →</a>
+      </span>
     </div>
     <nav className="chrome-tabs">
       {TABS.map(t => {
