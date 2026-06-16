@@ -201,6 +201,31 @@
   .mm-tool p{margin:0;font-size:14.5px;color:var(--ink-2)}
   footer{text-align:center;margin-top:44px;color:var(--ink-4);font-size:13px;font-family:var(--mono)}
   .hide{display:none!important}
+
+  /* ---------- Guide ---------- */
+  .guide-h{font-family:var(--serif); font-weight:600; font-size:clamp(24px,4vw,36px); line-height:1.1; margin:6px 0 4px; letter-spacing:-.01em;}
+  .guide-sub{color:var(--ink-3); font-size:15.5px; font-style:italic; margin:0 0 22px; max-width:660px;}
+  .guide-panel p{margin:0 0 13px; color:var(--ink-2); font-size:15.5px; max-width:690px;}
+  .guide-panel strong{color:var(--ink)}
+  .guide-panel>h3{font-family:var(--serif); font-weight:600; font-size:clamp(20px,2.6vw,25px); color:var(--ink); margin:30px 0 10px; padding-top:6px; border-top:1px solid var(--rule-soft);}
+  .guide-panel ul{margin:0 0 14px; padding-left:18px; max-width:690px; color:var(--ink-2); font-size:15px;}
+  .guide-panel li{margin-bottom:7px}
+  .truths{display:grid; gap:12px; margin:18px 0 8px}
+  .truth{background:var(--paper); border:1px solid var(--rule); border-left:4px solid var(--lapis); border-radius:12px; padding:15px 17px; box-shadow:0 1px 2px rgba(17,32,58,.04)}
+  .truth.b{border-left-color:var(--terra)}
+  .truth h4{margin:0 0 6px; font-family:var(--serif); font-weight:600; font-size:18px; color:var(--ink)}
+  .truth p{margin:0; font-size:14.5px; max-width:none}
+  .xref{background:var(--lapis-tint); border:1px solid var(--rule); border-left:4px solid var(--lapis); border-radius:0 10px 10px 0; padding:15px 17px; margin:10px 0 22px; font-size:14.5px; color:var(--ink-2); max-width:none}
+  .xref b{color:var(--ink)}
+  .xref .btn{margin-top:12px}
+  .gstep{background:var(--paper); border:1px solid var(--rule); border-radius:14px; padding:18px 20px; margin-bottom:12px; box-shadow:0 1px 2px rgba(17,32,58,.04)}
+  .gstep .num{font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--lapis); font-weight:600}
+  .gstep>h3{font-family:var(--serif); font-weight:600; font-size:20px; color:var(--ink); margin:3px 0 9px; border:0; padding:0;}
+  .gnote{border-left:3px solid var(--amber); background:var(--amber-tint); padding:11px 14px; border-radius:0 8px 8px 0; margin:14px 0 2px; font-size:14.5px; color:var(--ink-2)}
+  .gwarn{border-left:3px solid var(--bad); background:var(--bad-tint); padding:11px 14px; border-radius:0 8px 8px 0; margin:0 0 10px; font-size:14.5px; color:var(--ink-2)}
+  ul.checklist{list-style:none; padding-left:0}
+  ul.checklist li{position:relative; padding-left:26px; margin-bottom:10px}
+  ul.checklist li::before{content:"→"; position:absolute; left:3px; top:0; color:var(--lapis); font-weight:700}
 </style>
 </head>
 <body>
@@ -216,6 +241,7 @@
     <button class="tab" id="tab-quiz" role="tab" aria-selected="true" aria-controls="panel-quiz">🎯 Play the Quiz</button>
     <button class="tab" id="tab-deep" role="tab" aria-selected="false" aria-controls="panel-deep">📖 Deep Dive</button>
     <button class="tab" id="tab-mm" role="tab" aria-selected="false" aria-controls="panel-mm">🧭 Missing Maps</button>
+    <button class="tab" id="tab-guide" role="tab" aria-selected="false" aria-controls="panel-guide">🛰️ The Guide</button>
   </div>
 
   <!-- ============ QUIZ PANEL ============ -->
@@ -249,13 +275,159 @@
 
   <!-- ============ MISSING MAPS PANEL ============ -->
   <section class="panel" id="panel-mm" role="tabpanel" aria-labelledby="tab-mm">
-    <p class="lead">Missing Maps is a coalition launched in <strong>November 2014</strong> by the American Red Cross, British Red Cross, Médecins Sans Frontières, and the Humanitarian OpenStreetMap Team. It has since grown to roughly twenty non-profit and academic member organizations, supported by a small stack of open-source tools.</p>
+    <p class="lead">Missing Maps is a coalition launched in <strong>November 2014</strong> by the American Red Cross, British Red Cross, Médecins Sans Frontières, and the Humanitarian OpenStreetMap Team. It has since grown to roughly twenty non-profit and academic member organizations, supported by a growing stack of open-source tools.</p>
 
     <div class="group-h">Member Organizations <span style="color:var(--terra)">★ = founding member</span></div>
     <div class="mm-grid" id="mmMembers"></div>
 
     <div class="group-h">The Tooling Stack</div>
     <div id="mmTools"></div>
+  </section>
+
+  <!-- ============ GUIDE PANEL ============ -->
+  <section class="panel guide-panel" id="panel-guide" role="tabpanel" aria-labelledby="tab-guide">
+    <div class="kicker" style="text-align:left">Mentor's letter · for the remote sensing scientist</div>
+    <h2 class="guide-h">From Pixels to People</h2>
+    <p class="guide-sub">A remote sensing scientist's path into open, humanitarian, and disaster mapping — “how can I contribute meaningfully, and where do I begin?”</p>
+
+    <p>You already know how to read an image, and that skill is rarer and more needed here than you would guess. So let me spare you the months of working out where you fit. I will tell you what to do, but more than that, how to think while you do it, because the second thing lasts longer than the first. Two truths first. Carry them everywhere.</p>
+
+    <div class="truths">
+      <div class="truth">
+        <h4>Your skill is real, and it is the scarce one.</h4>
+        <p>This community is superb at producing map geometry through thousands of volunteers, and quietly weak at the thing you treat as routine: knowing how good the data is, and proving it. Many will trace a building. Almost no one will compute a confusion matrix on the result. You arrive already fluent in the missing discipline.</p>
+      </div>
+      <div class="truth b">
+        <h4>Your sight is partial, and that matters more.</h4>
+        <p>Your instruments see form: a roof, a road surface, the edge of a flood. They cannot see meaning: whether that roof shelters a clinic or a family, whether that road drowns every rainy season, who is inside and what they need. Nearly all the humanitarian value lives in that meaning layer, and you cannot reach it from orbit. Be excellent at form, and stand beside the people who hold the meaning — never imagine you replace them.</p>
+      </div>
+    </div>
+
+    <h3>Let me orient you</h3>
+    <p>A few names recur. Learn them once and the rest reads easily.</p>
+    <ul>
+      <li><strong>OpenStreetMap (OSM)</strong> — the free, openly licensed, editable world map.</li>
+      <li><strong>HOT (Humanitarian OpenStreetMap Team)</strong> — builds most of the humanitarian tooling on top of OSM.</li>
+      <li><strong>Missing Maps</strong> — a coalition (Red Cross societies, MSF, HOT, universities) that maps vulnerable places before and during crises.</li>
+      <li>A <strong>mapathon</strong> is an organized tracing event; a <strong>mapper</strong> traces, a <strong>validator</strong> checks a mapper's work. Validation is the more senior, more trusted role — and the one your eye is built for.</li>
+    </ul>
+
+    <div class="xref">
+      <b>About the tools.</b> This guide names a working stack — OpenAerialMap, the Tasking Manager, fAIr, the drone tools, Field-TM, the Sketch Map Tool, ohsome. Rather than redefine them here, the <b>Missing Maps</b> tab already describes what each one does. This letter does something different: it shows where <em>your</em> skills plug into each. Think of that tab as the parts catalogue and this one as the wiring diagram.
+      <br><button class="btn" onclick="window.__goMM()">🧭 Open the Missing Maps tab →</button>
+    </div>
+
+    <h3>The path I would walk you down</h3>
+    <p>Ordered from where you should start to where you can eventually lead. Resist skipping to the clever parts; the early steps earn you the right to be heard later.</p>
+
+    <div class="gstep">
+      <div class="num">Step 1 · Earn the eye</div>
+      <h3>First, map. Then validate.</h3>
+      <p>Before you contribute a single image or model, spend a few hours as a mapper, then work toward validating — not as a rite of passage, but because you cannot judge the quality of work you have never done.</p>
+      <ul>
+        <li>Open the HOT Tasking Manager, take a beginner project, and trace.</li>
+        <li>Do the built-in training and aim to become a validator. Validators are always scarce, and quality control is where your instincts pay off.</li>
+        <li>Try MapSwipe on your phone to feel how triage and AI-checking work.</li>
+      </ul>
+      <p>Notice while you do it: roof outlines offset from footprints because of off-nadir imagery, basemaps that do not line up, shadows a tired volunteer mistakes for a structure. You will see these in seconds. That noticing is your first gift — and the moment you stop treating crowdsourced data as a black box.</p>
+    </div>
+
+    <div class="gstep">
+      <div class="num">Step 2 · Highest-leverage early move</div>
+      <h3>Give imagery.</h3>
+      <p>Mappers can only trace what they can see, and good, current, well-registered imagery is the bottleneck. Preparing it is your home ground.</p>
+      <ul>
+        <li>Upload openly licensed orthomosaics to OpenAerialMap. One careful upload can unblock an entire effort.</li>
+        <li>Apply the craft you already have: mosaicking, pan-sharpening, georeferencing, cloud handling, radiometric consistency across scenes. Careless imagery breeds careless maps.</li>
+      </ul>
+      <div class="gnote">Feel the stakes of speed. After a disaster, the gap between imagery <em>existing</em> and being <em>usable</em> by mappers runs from hours to weeks, and people wait inside that gap. In your day job imagery is an input you consume; here it is an output others depend on, and releasing it openly multiplies its worth.</div>
+    </div>
+
+    <div class="gstep">
+      <div class="num">Step 3 · The contribution only you make well</div>
+      <h3>Bring accuracy assessment to a field hungry for it.</h3>
+      <ul>
+        <li>Evaluate AI-generated or volunteer-traced features properly: confusion matrices, precision, recall, F1 for detections; IoU (Jaccard) and Dice for outlines.</li>
+        <li>Ground-truth a sample via field surveys (Field-TM) and report <em>fitness for purpose</em>, not a lone accuracy number. A map can be excellent for counting buildings and useless for property lines — a colleague deserves to know which.</li>
+        <li>Learn the community's quality language through ohsome and OQT: completeness, currentness, comparison against population grids. Speak their vocabulary and they will hear you.</li>
+      </ul>
+      <p>Push, gently and persistently, to make “how accurate is this, and how do we know?” a normal question in humanitarian mapping, the way it is in remote sensing. Somewhere downstream a decision is being made on data whose quality no one measured.</p>
+    </div>
+
+    <div class="gstep">
+      <div class="num">Step 4 · If you do machine learning</div>
+      <h3>Build local, and build open.</h3>
+      <ul>
+        <li>Global building-detection models ship as outputs, but their training data and code are usually closed, and they are biased toward the imagery they learned from. They fail on thatched roofs, dense informal settlements, walled compounds — the places that most need mapping.</li>
+        <li>The open answer is to fine-tune on local imagery and local building types. Studies in refugee settlements in Malawi and Kenya found global models stumbling on thatched roofs while a locally trained model coped. The gains are real but directional, so cite them as such.</li>
+        <li>In practice: use fAIr to fine-tune an open base model (RAMP is the standard) on ground you know, then publish your trained model openly.</li>
+        <li>Evaluate before you promote. Let suggestions reach mappers only if they clear a bar set in advance — say F1 above 0.8 on a held-out local area — and document the failure modes, not just the headline score.</li>
+      </ul>
+      <div class="gnote">Two stances worth defending: open the model, not just the output, because a commons cannot trust what it cannot inspect. And AI suggests while humans decide — never bulk-import machine geometry. That design protects both the data and the agency of the people whose places are being drawn.</div>
+    </div>
+
+    <div class="gstep">
+      <div class="num">Step 5 · If you fly drones or do photogrammetry</div>
+      <h3>Plan, process, publish.</h3>
+      <ul>
+        <li>Use the Drone Tasking Manager to plan multi-pilot coverage with low-cost drones, and OpenDroneMap to process flights into orthomosaics, elevation models, and point clouds.</li>
+        <li>Bring expertise to flight planning (ground sample distance, overlap), structure-from-motion quality, and harmonizing imagery from different operators.</li>
+        <li>Publish orthomosaics to OpenAerialMap, and keep the elevation byproducts for flood and risk modeling.</li>
+      </ul>
+    </div>
+
+    <div class="gstep">
+      <div class="num">Step 6 · When disaster comes</div>
+      <h3>This is where your field earns its keep.</h3>
+      <p>Optical mapping fails exactly when it is most needed: under cloud, at night, mid-event. Your toolkit does not.</p>
+      <ul>
+        <li><strong>SAR for floods.</strong> Sentinel-1 radar sees through cloud, day or night. A flood-extent map can show responders where the water is within hours, and decide where volunteers map first. State the limits too: radar struggles in cities (shadow, layover) and in mountains.</li>
+        <li><strong>Change detection for damage.</strong> Pair before/after imagery to flag destroyed or damaged buildings, which mappers then tag.</li>
+        <li><strong>Anticipatory action.</strong> Agencies increasingly act <em>before</em> a disaster, releasing funds against pre-agreed triggers. Your exposure layers (where people and buildings are) plus hazard forecasts feed those triggers — and OSM footprints are often the exposure baseline. Helping before the harm is some of the most meaningful work you can touch.</li>
+      </ul>
+      <div class="gnote">The rhythm: an event happens, agencies define the affected area, open imagery is released, volunteers mobilize through the Tasking Manager, damage gets tagged, data flows to responders. You can add imagery, prioritization, or validation at any link in that chain.</div>
+    </div>
+
+    <h3>The weight you are picking up</h3>
+    <p>Putting people on a map helps responders reach them. It can also expose them. This is not a disclaimer to nod past; it has changed how serious organizations behave, and it should change how you do.</p>
+    <div class="gwarn"><strong>Visibility can endanger.</strong> Mapping settlements, medical facilities, or the movements of vulnerable people can hand targeting information to the wrong hands. HOT suspended all mapping of Ukraine at the community's request over fears of military misuse, and restricts mapping in active conflicts to vetted contributors on private projects. Sometimes the most responsible map is the one you choose not to make.</div>
+    <div class="gwarn"><strong>Openness sits in tension with control.</strong> OSM's strength is that everything is open and permanent — which collides with the principle that communities, especially Indigenous and at-risk groups, should control data about themselves. OSM has no “restricted” setting. This tension is not solved; treat it as live, and let it make you careful rather than cynical.</div>
+    <div class="gwarn"><strong>The view from above is not neutral.</strong> The satellite gaze can reinforce the perspective of states and powerful actors over the people observed; watching from a distance still acts upon the watched. Carry that humility — it will make you better, not slower.</div>
+    <p>A few rules to hold:</p>
+    <ul>
+      <li>Before mapping anything touching conflict or persecuted populations, route it through HOT's Protection Framework and a do-no-harm assessment. Do not freelance this — bring it to people.</li>
+      <li>Where visibility could enable harm, default to aggregating or withholding detail.</li>
+      <li>Work <em>with</em> local mappers and communities, not over them. You supply the form; they own the meaning. That is the correct division of authority, not a courtesy.</li>
+    </ul>
+    <p>And one thing for you, not the work: it is right to feel the weight of this. That feeling is your conscience doing its job. Do not let it tip into paralysis, or harden into detachment. The people who do this for a long time stay tender and rigorous at once.</p>
+
+    <h3>Ways to matter that are not code or maps</h3>
+    <ul>
+      <li><strong>Mentor and validate</strong> at mapathons. Your eye and standards make you a strong teacher — and teaching is how this knowledge survives you.</li>
+      <li><strong>Write the documentation the field is missing</strong> (the shared resource is LearnOSM). It lacks remote-sensing-grade method, metadata, and provenance habits.</li>
+      <li><strong>Peer-review open models and training data</strong> the way you would review a paper.</li>
+      <li><strong>Join the working groups</strong> — HOT's data-quality group, MapSwipe's volunteer governance. They shape how the whole system treats quality.</li>
+      <li><strong>Publish.</strong> Work on crowdsourced-vs-AI accuracy, OSM completeness, and the ethics of humanitarian remote sensing is read at the State of the Map academic track and in the ISCRAM crisis-informatics community. One landmark study found global urban OSM building completeness averaging only about 21% per urban center, with humanitarian mapping the main force closing the gap in the poorest regions.</li>
+    </ul>
+
+    <h3>What I would have you do first</h3>
+    <ul class="checklist">
+      <li><strong>This week:</strong> make an account, trace a beginner Tasking Manager project, and try MapSwipe. Feel the workflow from the inside.</li>
+      <li><strong>This month:</strong> work toward validator status; prepare and upload one well-registered, openly licensed imagery set to OpenAerialMap; run ohsome or OQT on an area you care about and write up its quality honestly.</li>
+      <li><strong>This quarter:</strong> if you model, fine-tune and openly publish one localized fAIr model with a full evaluation and a frank list of failure modes. If you work in SAR or change detection, build one flood-extent or damage product that prioritizes where volunteers map, paired with explicit uncertainty.</li>
+      <li><strong>Throughout:</strong> ask the accuracy question out loud, open your models and not just your outputs, never bulk-import machine geometry, and put local knowledge above the satellite view.</li>
+    </ul>
+
+    <h3>Where to plug in</h3>
+    <ul>
+      <li><strong>Imagery:</strong> OpenAerialMap, plus the open archives you already know — Sentinel, Landsat, Maxar's Open Data program for disasters, Planet's NICFI tropical imagery.</li>
+      <li><strong>Code:</strong> HOT's GitHub hosts fAIr and its model repository, the drone and field tools, and the data tooling. The RAMP open building model lives on Radiant Earth's site.</li>
+      <li><strong>People:</strong> HOT runs public Slack channels for imagery coordination, machine learning, and the Tasking Manager, and welcomes newcomers. Do not stay a stranger — the point is for you to belong here, and in time to bring the next person in yourself.</li>
+    </ul>
+
+    <div class="gnote"><strong>One honest word.</strong> Some newer features — parts of fAIr especially — sit on published roadmaps rather than being fully delivered, and several accuracy figures here come from single studies, not universal benchmarks. Check the current state of a tool before building on it, and cite specific numbers as the single studies they are. The direction is solid even where a date or statistic is provisional.</div>
+
+    <p style="font-style:italic; color:var(--ink-3)">Begin small, stay rigorous, stay humane.</p>
   </section>
 
   <footer>Built for the “Sensing for the Commons” companion · data &amp; explanations from the OSM / HOT Q&amp;A · members per the Missing Maps 2025 Annual Report</footer>
@@ -328,6 +500,153 @@ const QUESTIONS = [
     options:["Atmospheric refraction at the sensor","DEM vertical error propagated through the imaging geometry","Earth's rotation during capture","Camera lens distortion"],
     answer:1,
     explain:"<b>DEM vertical error propagated through orthorectification geometry.</b> Lateral offset ≈ vertical error × tan(view angle). ESA's L1C orthorectification historically used PlanetDEM 90 (recent baselines moved toward Copernicus DEM); a stale or wrong DEM over mining, landslides, or glaciers shifts the offset. Each provider's DEM choice adds a different, partly independent bias on top of pointing and ephemeris residuals — which is why your imagery layers disagree."
+  },
+  {
+    cat:"Imagery & Provenance",
+    q:"Why can a basemap seem to “morph” — a building present at one zoom level, gone at another — over the same spot?",
+    options:["The satellite re-images the area as you zoom","Different zoom levels are served from different source layers captured on different dates","Your screen interpolates the missing pixels","The map is correcting for the curvature of the Earth"],
+    answer:1,
+    explain:"<b>Tile pyramids stack different sources per zoom level.</b> Low zooms pull coarse Landsat/Sentinel mosaics; mid zooms use NAIP or Maxar Vivid; high zooms use sub-metre commercial imagery — each captured on different dates by different sensors. A house built in 2022 can appear at z18 and vanish at z13. The morphing is provenance leaking through the seams."
+  },
+  {
+    cat:"Remote Sensing",
+    q:"Which 2008 policy change is often called more consequential for global remote sensing than any single satellite launch?",
+    options:["The EU opening Copernicus and Sentinel data","The USGS opening the entire Landsat archive for free","Google launching Earth Engine","SAR imagery becoming commercially available"],
+    answer:1,
+    explain:"<b>The USGS made the full Landsat archive free in 2008.</b> Dropping the per-scene price (previously hundreds of dollars) unlocked time-series analysis, global land-cover monitoring, and cloud-scale processing. Free access, not new hardware, was the unlock. Copernicus open data and Earth Engine came later and built on the same principle."
+  },
+  {
+    cat:"How Tagging Works",
+    q:"In practice, where does real authority over OpenStreetMap's tagging schema actually sit?",
+    options:["The wiki proposal-and-vote process","Editor presets plus real usage tracked by taginfo","The OpenStreetMap Foundation board","The Data Working Group"],
+    answer:1,
+    explain:"<b>Editor presets plus real usage.</b> Wiki approval is non-binding; a newcomer tags whatever iD or JOSM puts in front of them, and a tag becomes “real” once taginfo shows enough people using it. Authority drifted from the voting layer into the infrastructure — the proposal process is now mostly ceremony."
+  },
+  {
+    cat:"How Tagging Works",
+    q:"Why does OpenStreetMap accumulate dead and deprecated tags rather than cleaning them up?",
+    options:["The database deletes unused tags automatically","Inventing a tag is cheap, but changing tags at scale triggers automated-edit and vandalism rules","A committee must approve every removal","Deprecated tags are hidden from all editors"],
+    answer:1,
+    explain:"<b>Adding is cheap; mass-changing is policed.</b> Anyone can coin a tag, but systematic retagging falls under the Automated Edits code of conduct and is treated as vandalism if undiscussed — partly because careless bulk edits are hard to reverse. So the vocabulary keeps growing and is almost never garbage-collected."
+  },
+  {
+    cat:"Humanitarian Mapping",
+    q:"OpenStreetMap data produced in a humanitarian mapathon is best described as:",
+    options:["Survey-grade and suitable for legal property boundaries","Systematically biased but internally consistent — fine for response logistics, not for cadastral use","Less reliable than having no map at all","Identical in quality to national topographic data"],
+    answer:1,
+    explain:"<b>Systematically biased, internally consistent, and accurate enough for response coordination.</b> Imagery offsets can place features several metres off true position, but consistently so — fine for routing, navigation, and exposure modelling. It should never be used directly for cadastral, engineering, or legal boundary work."
+  },
+  {
+    cat:"Mapping & AI",
+    q:"What is the settled principle behind HOT's fAIr, its open AI-assisted mapping service?",
+    options:["“AI suggests, a human decides”","“Import first, validate later”","“Machine output replaces tracing”","“One global model serves every region”"],
+    answer:0,
+    explain:"<b>“AI suggests, a human decides.”</b> fAIr lets communities train localized models on open OpenAerialMap imagery and never bulk-imports features; mapper corrections feed back to sharpen the model. The cautionary opposite was Meta's computer-vision import into Egypt, whose poor quality got the whole effort reverted — a major reason import rules are strict."
+  },
+  {
+    cat:"Mapping & AI",
+    q:"Roughly what share of the Overture Maps dataset comes directly from OpenStreetMap?",
+    options:["About 5%","About 40%","About 90%","None — it is built entirely from scratch"],
+    answer:1,
+    explain:"<b>About 40%.</b> Overture — backed by Meta, Amazon, Microsoft, and TomTom — sits downstream of the volunteer project. The 2026 dispute is less about the data (it needs OSM's) than about owning the layer above it: GERS, a system of permanent unique IDs that makes stitching datasets together cheap. Enclosure by owning the abstraction layer."
+  },
+  {
+    cat:"Canadian Red Cross",
+    q:"The first red cross flag in Canada was improvised on a battlefield in 1885, from strips of “turkey red” cloth sewn onto white cotton to mark an ambulance wagon. Who made it?",
+    options:["Henry Dunant","Clara Barton","George Sterling Ryerson","Sir Frederick Borden"],
+    answer:2,
+    explain:"<b>George Sterling Ryerson.</b> A militia surgeon at the Battle of Batoche during the 1885 North-West Resistance, he flew it eleven years before formally founding the Canadian branch in 1896. He later co-founded St. John Ambulance in Ontario. The distractors are all real Red Cross figures: Dunant founded the whole Movement after Solferino (1859), and Barton founded the American Red Cross."
+  },
+  {
+    cat:"Canadian Red Cross",
+    q:"When it was organized in 1896, what distinction did the Canadian Red Cross hold?",
+    options:["It was the first overseas branch of the British Red Cross","It predated the British Red Cross itself","It was the first National Society in the Americas","It began as a branch of the American Red Cross"],
+    answer:0,
+    explain:"<b>The first overseas branch of the British Red Cross Society.</b> It operated under the British society until the Canadian Red Cross Society Act of 1909 made it an independent national charity, auxiliary to the Government of Canada."
+  },
+  {
+    cat:"Red Cross Movement",
+    q:"The seven Fundamental Principles — humanity, impartiality, neutrality, independence, voluntary service, unity, universality — were formally proclaimed where and when?",
+    options:["Geneva, 1863","Paris, 1919","Vienna, 1965","Geneva, 1949"],
+    answer:2,
+    explain:"<b>Vienna, 1965</b>, at the 20th International Conference of the Red Cross. The trap is Geneva 1863, when Dunant's committee (the future ICRC) formed. The other options are also real milestones: the League of Red Cross Societies (Paris, 1919) and the Geneva Conventions (1949)."
+  },
+  {
+    cat:"Canadian Red Cross",
+    q:"After the 2016 Fort McMurray wildfire, the Red Cross appeal reached $323 million. How much of that was the federal government matching individual donations?",
+    options:["$30 million","$104 million","$189 million","$323 million"],
+    answer:1,
+    explain:"<b>$104 million.</b> Ottawa matched $104M and Alberta added $30M, on top of roughly $189M from individual donors — totalling $323M, the largest appeal in the organization's history. Every figure here is real and from the same response, which is what makes it a fair trap."
+  },
+  {
+    cat:"Canadian Red Cross",
+    q:"Which single disaster response saw the Canadian Red Cross assist the most households in its history?",
+    options:["2016 Fort McMurray wildfire","2013 southern Alberta floods","2022 Hurricane Fiona","2021 British Columbia floods"],
+    answer:2,
+    explain:"<b>Hurricane Fiona (2022)</b>, which reached more than 96,000 households across Atlantic Canada — edging out Fort McMurray's roughly 88,000, even though Fort McMurray raised far more money and is the better-known event. Dollars raised and households reached are not the same ranking."
+  },
+  {
+    cat:"Canadian Red Cross",
+    q:"On the Krever Commission's recommendation, the Red Cross left the blood business in 1998 after roughly fifty years. Which organizations took over Canada's blood supply?",
+    options:["Canadian Blood Services and Héma-Québec","Health Canada alone","Each province individually","Connaught Laboratories"],
+    answer:0,
+    explain:"<b>Canadian Blood Services</b> (rest of Canada) and <b>Héma-Québec</b> (Quebec). The Krever Inquiry — the Commission of Inquiry on the Blood System in Canada, final report November 1997 — found the great majority of roughly 30,000 hepatitis C infections had been preventable."
+  },
+  {
+    cat:"Canadian Red Cross",
+    q:"In 2005 the Canadian Red Cross pleaded guilty to distributing contaminated blood. What was the criminal fine?",
+    options:["$5,000","$1.5 million","$55 million","$1.2 billion"],
+    answer:0,
+    explain:"<b>$5,000</b> — the statutory maximum under the Food and Drugs Act. Separately it paid $1.5M to the University of Ottawa for research and scholarships for affected families. The larger distractors are real too: about $55M was paid to victims through a fund, and $1.2B was the federal-provincial compensation package for those infected from 1986 to 1990."
+  },
+  {
+    cat:"Canadian Red Cross",
+    q:"The Canadian Red Cross operates a Rapid Deployment Emergency Hospital that is one of a kind on the continent. What is notable about it?",
+    options:["It is the only Red Cross field hospital in North America","It is the largest hospital in Canada","It is the only fully solar-powered hospital in the world","It is the oldest field hospital still in service"],
+    answer:0,
+    explain:"<b>The only Red Cross field hospital in North America.</b> It deploys within 48 hours, runs self-sufficiently for about a month, and can treat up to roughly 300 patients a day. It has supported responses from the 2015 Nepal earthquake to Hurricane Matthew in Haiti."
+  },
+  {
+    cat:"HOT Tasking Manager",
+    q:"You are mapping a task and want to know when the background imagery was actually captured. How do you check?",
+    options:["The Tasking Manager prints the capture date on every project page","In iD, Ctrl+Shift+B opens the “Background” panel and shows a “Vintage” date; in JOSM, right-click the imagery and choose “Show tile info”","Imagery capture dates are never recorded anywhere","Hover over any building and its imagery date appears"],
+    answer:1,
+    explain:"<b>Use the editor's imagery info, not the project page.</b> iD's Ctrl+Shift+B “Background” panel reports a “Vintage” date or range (or “Unknown”); JOSM's right-click “Show tile info” lists it per tile. The catch: only Bing publishes a per-tile date for its mosaic, so the same spot can read “Vintage Unknown” in iD yet show a date in JOSM. Vintage matters because stale imagery misses newer buildings."
+  },
+  {
+    cat:"HOT Tasking Manager",
+    q:"While mapping, you need the exact latitude and longitude of a specific point. How do the standard editors give it to you?",
+    options:["You cannot read coordinates in any OSM editor","JOSM shows the cursor's live coordinates in its status bar; iD encodes the map-centre lat/lon in the URL (and in its Location panel, Ctrl+Shift+L)","Only a handheld GPS unit can report coordinates","Coordinates stay hidden until the changeset is uploaded"],
+    answer:1,
+    explain:"<b>JOSM's status bar tracks the cursor live</b>, updating latitude and longitude as you move it. In iD the URL carries the map-centre coordinates as #map=zoom/lat/lon (five-decimal WGS84), and the Location info panel (Ctrl+Shift+L) reports the pointer position. Neither editor lets you type a coordinate to drop a node directly, which is a long-standing feature request."
+  },
+  {
+    cat:"Open Mapping Tools",
+    q:"Organized mapathons rely on two OpenStreetMap editors above all others. Which pair?",
+    options:["iD and JOSM","Photoshop and GIMP","QGIS and ArcGIS Pro","Potlatch and Merkaartor"],
+    answer:0,
+    explain:"<b>iD and JOSM.</b> iD is the default in-browser editor (low barrier, used for most mapathon tracing); JOSM is the powerful desktop editor (validation, plugins, conflict handling). Others exist — Rapid (iD plus AI suggestions) and mobile editors like Vespucci, Every Door, and StreetComplete — but iD and JOSM are the mainstays. Potlatch and Merkaartor are real but largely retired; QGIS and ArcGIS are GIS suites, not OSM editors."
+  },
+  {
+    cat:"Open Mapping Tools",
+    q:"Why do validators and advanced mappers reach for JOSM rather than the browser editor?",
+    options:["It runs with no installation inside any web browser","It automatically traces every building with AI and uploads them","Plugins, a validator that flags geometry and tagging errors, multiple imagery layers, offline editing, and three-pane conflict resolution","It is the only editor permitted to upload to OpenStreetMap"],
+    answer:2,
+    explain:"<b>Power and control.</b> JOSM adds a validation engine (catching overlaps, untagged features, and crossing geometry), an extensible plugin ecosystem, simultaneous imagery layers, keyboard-driven speed, true offline editing with later upload, and its three-pane my/their/merged conflict resolver. The trade-off is a steeper learning curve than iD — which is why beginners start in iD and validators graduate to JOSM."
+  },
+  {
+    cat:"Flood / Disaster (Canada)",
+    q:"Which of these major Canadian cities is NOT located in a high-risk area for flooding?",
+    options:["Edmonton, AB","Montreal, QC","Fredericton, NB","Regina, SK"],
+    answer:3,
+    explain:"<b>Regina, SK.</b> Public Safety Canada lists Edmonton, Montreal, and Fredericton — all on major rivers — among the big cities sitting in high-risk flood areas. Regina has no major river (only the small Wascana Creek), so it escapes that riverine designation. Its real exposure is pluvial: intense rainstorms overwhelming the storm sewers, as in the 2014 deluge that flooded streets and basements."
+  },
+  {
+    cat:"Remote Sensing",
+    q:"In Petawawa, ON (45.8983° latitude), what is the finest detail mappable from Bing imagery at its highest zoom level (z18) — roughly the ground size of one pixel?",
+    options:["1 cm","2 m","42 cm","50 mm"],
+    answer:2,
+    explain:"<b>About 42 cm.</b> Web Mercator ground resolution = 156543.03 × cos(latitude) ÷ 2^zoom metres per pixel. At z18: 156543.03 ÷ 262144 = 0.597 m/px at the equator, then × cos(45.8983°) ≈ 0.696 gives ≈ 0.416 m. Resolution sharpens with zoom but coarsens with latitude (the cosine term), so the same zoom level resolves finer detail at the equator than in Canada."
   }
 ];
 
@@ -529,7 +848,15 @@ const MM_TOOLS = [
   {ico:"📄", name:"Field Papers", role:"Field · collect", desc:"Print an atlas of the area, walk it, annotate by hand, then photograph the sheets to digitize local detail — street names, POIs, evacuation centers — that satellite imagery can't show."},
   {ico:"📷", name:"Mapillary / KartaView", role:"Field · street-level", desc:"Crowdsourced street-level photo layers, viewable in iD and JOSM, used to read signs, building names, and other ground-level detail invisible from nadir."},
   {ico:"🤖", name:"fAIr (HOT)", role:"AI · assist", desc:"HOT's open-source AI mapping service: communities train localized models on open imagery (OpenAerialMap) to suggest building footprints. Principle: AI suggests, a human decides — no bulk import."},
-  {ico:"🔍", name:"OSMCha & MapRoulette", role:"Web · validate & fix", desc:"OSMCha analyzes changesets to catch errors and vandalism; MapRoulette serves small, focused fix-it micro-tasks. Both are widely used in the quality-assurance stage of the workflow."}
+  {ico:"🔍", name:"OSMCha & MapRoulette", role:"Web · validate & fix", desc:"OSMCha analyzes changesets to catch errors and vandalism; MapRoulette serves small, focused fix-it micro-tasks. Both are widely used in the quality-assurance stage of the workflow."},
+  {ico:"🛰️", name:"OpenAerialMap (HOT)", role:"Imagery · open commons", desc:"An open repository of openly licensed aerial, drone, and satellite imagery — searchable on a map and served as tile layers into iD and JOSM. It is where drone orthophotos get published, and it is the open imagery that fAIr's models train on, keeping the pipeline free of proprietary tracing restrictions."},
+  {ico:"🚁", name:"Drone Tasking Manager (HOT)", role:"Drone · capture", desc:"Coordinates community-flown drone surveys the way the Tasking Manager coordinates remote tracing, dividing a site into flight tasks. Captured imagery is processed with OpenDroneMap into a single orthophoto, then published to OpenAerialMap for everyone to map over — the front end of HOT's end-to-end pipeline."},
+  {ico:"📋", name:"Field Mapping Tasking Manager (HOT)", role:"Field · coordinate", desc:"The on-the-ground counterpart to the Tasking Manager, built on ODK (Open Data Kit). It splits an area into field tasks, hands each surveyor a QR code, and guides them building by building to add field-verified attributes — names, conditions, services — that no overhead view can supply."},
+  {ico:"💬", name:"HOT ChatMap", role:"Field · chat reporting", desc:"Turns exported WhatsApp, Telegram, or Signal conversations into instant maps, extracting the shared GPS locations, text, photos, and video that residents already send. It needs nothing installed and works offline by relying on the phone's GPS, so communities with minimal technical experience can report during a fast-moving disaster."},
+  {ico:"🖊️", name:"Sketch Map Tool (HeiGIT)", role:"Field · participatory", desc:"HeiGIT's successor to Field Papers for participatory risk mapping. It prints a clean OSM basemap, lets people mark local knowledge by hand, then scans the sheets and automatically georeferences the annotations, bringing non-digital community input into the map. Developed in collaboration with Red Cross societies."},
+  {ico:"📦", name:"HOT Export Tool", role:"Data · extract", desc:"Generates customized extracts of current OSM data for any area in the formats GIS work actually uses — Shapefile, KML, GeoPackage, MBTiles, GeoJSON. The standard way to take what a mapathon produced out of the live database and into ArcGIS, QGIS, or a field device."},
+  {ico:"🛣️", name:"openrouteservice (HeiGIT)", role:"Routing · response", desc:"An OSM-based routing and isochrone engine tuned for humanitarian use, with near-real-time updates across much of the Global South. Its disaster profile steers around blocked or flooded roads, and travel-time isochrones combined with population data expose gaps in access to clinics and shelters."},
+  {ico:"📊", name:"ohsome / ohsomeHeX (HeiGIT)", role:"Analytics · OSM history", desc:"A toolset for querying the full edit history of OSM to measure data completeness, quality, and mapping activity over time. ohsomeHeX renders coverage as hexbin heatmaps, and the HOT-built ohsomeNow Stats tracks how much each mapathon hashtag has added since 2009."}
 ];
 
 /* ============================================================
@@ -538,7 +865,8 @@ const MM_TOOLS = [
 const tabs = {
   quiz:{btn:document.getElementById('tab-quiz'), panel:document.getElementById('panel-quiz')},
   deep:{btn:document.getElementById('tab-deep'), panel:document.getElementById('panel-deep')},
-  mm:{btn:document.getElementById('tab-mm'), panel:document.getElementById('panel-mm')}
+  mm:{btn:document.getElementById('tab-mm'), panel:document.getElementById('panel-mm')},
+  guide:{btn:document.getElementById('tab-guide'), panel:document.getElementById('panel-guide')}
 };
 function selectTab(name){
   for(const k in tabs){
@@ -550,6 +878,7 @@ function selectTab(name){
 tabs.quiz.btn.onclick=()=>selectTab('quiz');
 tabs.deep.btn.onclick=()=>selectTab('deep');
 tabs.mm.btn.onclick=()=>selectTab('mm');
+tabs.guide.btn.onclick=()=>selectTab('guide');
 
 /* ============================================================
    QUIZ ENGINE
@@ -650,6 +979,7 @@ function showResults(){
 }
 window.__restartQuiz=startQuiz;
 window.__goDeep=()=>{selectTab('deep'); window.scrollTo({top:0,behavior:'smooth'});};
+window.__goMM=()=>{selectTab('mm'); window.scrollTo({top:0,behavior:'smooth'});};
 
 /* ============================================================
    DEEP DIVE RENDER
