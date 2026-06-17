@@ -111,6 +111,7 @@
   .breakp .b-red:hover{background:var(--crc-red-dark)}
   .breakp .b-wht{background:#fff;color:#000}
   .breakp .b-out{background:none;color:#fff;border:1.5px solid #fff}
+  .breakp .lockline{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--crc-grey)}
 
   /* ---------- Results ---------- */
   .results{background:#fff;border:1px solid var(--crc-grey-tint);border-radius:4px;box-shadow:var(--shadow-card);padding:44px 28px;text-align:center;animation:crcFade .4s var(--motion-ease)}
@@ -527,6 +528,7 @@ function scrollTop(){ try{ window.scrollTo({top:0,behavior:"smooth"}); }catch(e)
    =================================================================== */
 function goTab(name){ S.tab=name; render(); scrollTop(); }
 function selectTile(i){
+  if(S.breakActive) return; // mapping is locked during a movement break
   clearBreak();
   if(S.answered[i]==="resting"){ S.attemptsMap[i]=0; S.wrongMap[i]=[]; S.answered[i]=undefined; }
   S.selected=i; S.breakActive=false; render(); scrollTop();
@@ -544,14 +546,15 @@ function choose(opt){
   }
   S.wrongMap[i]=(S.wrongMap[i]||[]).concat([opt]);
   S.attemptsMap[i]=(S.attemptsMap[i]||0)+1;
-  if(S.attemptsMap[i]>=3){ S.answered[i]="resting"; S.breakActive=false; S.breakLeft=60; }
+  if(S.attemptsMap[i]>=3){ S.answered[i]="resting"; startBreak(); return; }
   render();
 }
 function backToMap(){ clearBreak(); S.selected=null; S.breakActive=false; render(); scrollTop(); }
 function retryTile(){ const i=S.selected; clearBreak(); S.attemptsMap[i]=0; S.wrongMap[i]=[]; S.answered[i]=undefined; S.breakActive=false; render(); }
-function toggleBreak(){
-  if(S.breakActive){ clearBreak(); S.breakActive=false; render(); return; }
-  S.breakActive=true; S.breakLeft=60; render();
+// A movement break starts automatically after three misses and locks the quiz
+// for sixty seconds. There is no manual start, and no way to skip it.
+function startBreak(){
+  clearBreak(); S.breakActive=true; S.breakLeft=60; render();
   breakTimer=setInterval(()=>{
     S.breakLeft--;
     const el=document.getElementById("breakClock");
@@ -595,6 +598,24 @@ function viewQuiz(){
     </div>
     <div class="pbar"><i style="width:${S.score/N*100}%"></i></div>`;
 
+  // Hard movement-break gate: while the 60s timer runs, the map is hidden and
+  // every question is locked. The timer auto-started and cannot be skipped.
+  if(S.selected!==null && S.answered[S.selected]==="resting" && S.breakActive){
+    const i=S.selected, q=QUESTIONS[i], tcolor=TYPES[typeOf(q)].color;
+    return `<section class="view">${stats}
+      <div class="qpanel">
+        <div class="qhead"><span class="chip" style="background:${tcolor}">${TYPES[typeOf(q)].label}</span></div>
+        <div class="qmeta">Tile ${i+1} of 36</div>
+        <h2 class="qtext">${q.q}</h2>
+        <div class="breakp">
+          <div class="eb">Take a movement break</div>
+          <div class="clock on" id="breakClock">${fmtClock(S.breakLeft)}</div>
+          <p>Three tries used on this tile. Mapping is paused for sixty seconds — stand up and do squats or stretch, or switch to another tab and read. When the timer reaches zero you will get three fresh tries on this tile.</p>
+          <div class="lockline">Mapping is paused until the timer ends</div>
+        </div>
+      </div></section>`;
+  }
+
   const tiles = QUESTIONS.map((q,i)=>{
     const a=S.answered[i], col=i%6, row=Math.floor(i/6);
     const tcolor=TYPES[typeOf(q)].color;
@@ -629,13 +650,13 @@ function viewQuiz(){
       <h2 class="qtext">${q.q}</h2>`;
     let body;
     if(resting){
+      // timer has finished (breakActive is false here) — offer the fresh round
       body=`<div class="breakp">
-          <div class="eb">Take a movement break</div>
-          <div class="clock ${S.breakActive?'on':''}" id="breakClock">${fmtClock(S.breakLeft)}</div>
-          <p>Three tries used on this tile. Stand up and do squats or stretch — or head to another tab and explore. Come back whenever you are ready and you will get three fresh tries to light this tile up.</p>
+          <div class="eb">Break complete</div>
+          <div class="clock on">0:00</div>
+          <p>Nice work taking a breather. You now have three fresh tries on this tile.</p>
           <div class="row">
-            <button class="b-red" data-act="toggleBreak">${S.breakActive?"Stop timer":"Start 60-second timer"}</button>
-            <button class="b-wht" data-act="retry">Try this tile again</button>
+            <button class="b-red" data-act="retry">Try this tile again</button>
             <button class="b-out" data-act="back">Back to the map</button>
           </div>
         </div>`;
@@ -895,7 +916,6 @@ document.addEventListener("click", e=>{
     case "choose": choose(+v); break;
     case "back": backToMap(); break;
     case "retry": retryTile(); break;
-    case "toggleBreak": toggleBreak(); break;
     case "results": showResults(); break;
     case "keep": keepMapping(); break;
     case "restart": restart(); break;
