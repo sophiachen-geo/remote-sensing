@@ -32,6 +32,7 @@
   .bar-in{max-width:var(--maxw);margin:0 auto;padding:9px var(--pad);display:flex;align-items:center;justify-content:space-between;gap:16px}
   .bar-in img{height:28px;width:auto;display:block}
   .bar-in{gap:12px}
+  .bar-left{display:flex;align-items:center;gap:14px;min-width:0}
   .bar-link{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#fff;font-weight:600;text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;transition:color .15s var(--motion-ease),border-color .15s var(--motion-ease)}
   .bar-link:hover{color:var(--crc-red-tint);border-bottom-color:var(--crc-red-tint)}
   @media(max-width:560px){ .bar-link{font-size:10.5px;letter-spacing:.02em} .bar-in img{height:24px} }
@@ -240,6 +241,21 @@
   .acc-body .ponder{border-left:3px solid var(--crc-grey-tint);padding:2px 0 2px 16px;color:var(--crc-black-tint);font-size:15px;margin:0;max-width:64ch}
 
   /* ---------- Missing Maps ---------- */
+  /* circular flip discs — uniform size, scroll to discover, tap to flip */
+  .discs{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin-bottom:8px}
+  .disc{width:168px;height:168px;flex:none;background:none;border:0;padding:0;cursor:pointer;perspective:900px;font:inherit}
+  .disc-inner{position:relative;width:100%;height:100%;transition:transform .55s var(--motion-ease);transform-style:preserve-3d;display:block}
+  .disc.flipped .disc-inner{transform:rotateY(180deg)}
+  .disc-face{position:absolute;inset:0;border-radius:50%;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;border:1px solid var(--crc-grey-tint);box-shadow:var(--shadow-card)}
+  .disc-face.front{background:#fff}
+  .disc-face.front.f{border:2px solid var(--crc-red);background:var(--crc-grey-50)}
+  .disc-face.front .nm{font-size:14px;font-weight:700;line-height:1.18;color:var(--crc-black)}
+  .disc-face.front .star{color:var(--crc-red);font-size:15px;margin-bottom:4px}
+  .disc-face.back{transform:rotateY(180deg);background:var(--crc-red);color:#fff;border-color:var(--crc-red);gap:8px}
+  .disc-face.back .bk-desc{font-size:11px;line-height:1.28;font-weight:500;overflow:hidden}
+  .disc-face.back .bk-link{font-size:12px;font-weight:700;color:#fff;text-decoration:underline;text-underline-offset:2px}
+  .disc:hover .disc-face.front{border-color:var(--crc-red)}
+  @media(max-width:480px){ .disc{width:150px;height:150px} .disc-face.back .bk-desc{font-size:10.5px} }
   .grp{margin-bottom:22px}
   .grp .gl{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;font-size:13px;font-weight:700;color:var(--crc-black);margin:0 0 10px}
   .grp .gl small{font-size:11px;font-weight:600;color:var(--crc-grey);letter-spacing:.02em}
@@ -326,7 +342,10 @@
 </head>
 <body>
 <div class="bar"><div class="bar-in">
-  <img src="assets/wordmark-white.svg" alt="Canadian Red Cross" />
+  <div class="bar-left">
+    <img src="assets/wordmark-white.svg" alt="Canadian Red Cross" />
+    <a class="bar-link" href="https://www.missingmaps.org" target="_blank" rel="noopener noreferrer">Missing Maps&nbsp;↗</a>
+  </div>
   <a class="bar-link" href="https://sophiachen-geo.github.io/remote-sensing/" target="_blank" rel="noopener noreferrer">About Sensing the Commons&nbsp;↗</a>
 </div></div>
 
@@ -491,27 +510,27 @@ const MM_GROUPS = [
   { key:"community", label:"Local & community mapping", note:"Locally led mapping initiatives" }
 ];
 const MM_MEMBERS = [
-  {name:"American Red Cross", founder:true, group:"rcrc", url:"https://www.redcross.org"},
-  {name:"British Red Cross", founder:true, group:"rcrc", url:"https://www.redcross.org.uk"},
-  {name:"Canadian Red Cross", group:"rcrc", url:"https://www.redcross.ca"},
-  {name:"German Red Cross", group:"rcrc", url:"https://www.drk.de"},
-  {name:"IFRC", group:"rcrc", url:"https://www.ifrc.org"},
-  {name:"Kenya Red Cross", group:"rcrc", url:"https://www.redcross.or.ke"},
-  {name:"Netherlands Red Cross (510)", group:"rcrc", url:"https://www.510.global"},
-  {name:"Spanish Red Cross", group:"rcrc", url:"https://www.cruzroja.es"},
-  {name:"Médecins Sans Frontières (MSF)", founder:true, group:"ngo", url:"https://www.msf.org"},
-  {name:"Humanitarian OpenStreetMap Team (HOT)", founder:true, group:"ngo", url:"https://www.hotosm.org"},
-  {name:"CartONG", group:"ngo", url:"https://cartong.org"},
-  {name:"Cadasta", group:"ngo", url:"https://cadasta.org"},
-  {name:"ADF Haiti", group:"ngo", url:"https://www.adf.ht"},
-  {name:"3iS", group:"academic", url:"https://3is.org"},
-  {name:"GW Dept. of Geography", group:"academic", url:"https://geography.columbian.gwu.edu"},
-  {name:"HeiGIT", group:"academic", url:"https://heigit.org"},
-  {name:"Heidelberg University", group:"academic", url:"https://www.uni-heidelberg.de/en"},
-  {name:"YouthMappers", group:"academic", url:"https://www.youthmappers.org"},
-  {name:"Crowd2Map Tanzania", group:"community", url:"https://crowd2map.org"},
-  {name:"Map Kibera", group:"community", url:"https://mapkibera.org"},
-  {name:"healthsites.io", group:"community", url:"https://healthsites.io"}
+  {name:"American Red Cross", founder:true, url:"https://www.redcross.org", desc:"U.S. humanitarian organization providing disaster relief, emergency assistance, and preparedness education."},
+  {name:"British Red Cross", founder:true, url:"https://www.redcross.org.uk", desc:"UK charity that helps people in crisis, whoever and wherever they are, at home and overseas."},
+  {name:"Canadian Red Cross", url:"https://www.redcross.ca", desc:"Helps people and communities in Canada and around the world prepare for, respond to, and recover from disasters."},
+  {name:"German Red Cross", url:"https://www.drk.de", desc:"Germany's national Red Cross society: relief, rescue services, blood donation, and social care."},
+  {name:"IFRC", url:"https://www.ifrc.org", desc:"The International Federation of Red Cross and Red Crescent Societies — the world's largest humanitarian network."},
+  {name:"Kenya Red Cross", url:"https://www.redcross.or.ke", desc:"Responds to disasters and builds resilient communities across Kenya."},
+  {name:"Netherlands Red Cross — 510", url:"https://www.510.global", desc:"510 is the data and digital team of the Netherlands Red Cross, turning data into faster humanitarian action."},
+  {name:"Spanish Red Cross", url:"https://www.cruzroja.es", desc:"Spain's Red Cross society, supporting vulnerable people through humanitarian and social programs."},
+  {name:"Médecins Sans Frontières (MSF)", founder:true, url:"https://www.msf.org", desc:"Doctors Without Borders — independent emergency medical care in crises and conflicts worldwide."},
+  {name:"Humanitarian OpenStreetMap Team (HOT)", founder:true, url:"https://www.hotosm.org", desc:"Uses open mapping and OpenStreetMap to support humanitarian action and community resilience."},
+  {name:"CartONG", url:"https://cartong.org", desc:"French NGO specializing in maps and data management for humanitarian and development programs."},
+  {name:"Cadasta", url:"https://cadasta.org", desc:"Provides tools and support to document, analyze, and manage land and resource rights."},
+  {name:"ADF Haiti", url:"https://www.adf.ht", desc:"Haitian-led nonprofit strengthening civil-society organizations serving Fond-des-Blancs, one of Haiti's poorest areas."},
+  {name:"3iS", url:"https://3is.org", desc:"Turns data, machine learning, and remote sensing into insight for humanitarian and development decisions."},
+  {name:"George Washington University, Department of Geography", url:"https://geography.columbian.gwu.edu", desc:"The Department of Geography at George Washington University in Washington, D.C., teaching geography and GIS."},
+  {name:"HeiGIT", url:"https://heigit.org", desc:"Heidelberg Institute for Geoinformation Technology — research and open-source tools in geoinformatics."},
+  {name:"Heidelberg University", url:"https://www.uni-heidelberg.de/en", desc:"One of Germany's oldest research universities, contributing geoinformatics research to open mapping."},
+  {name:"YouthMappers", url:"https://www.youthmappers.org", desc:"A global network of university student chapters creating open geospatial data for development."},
+  {name:"Crowd2Map Tanzania", url:"https://crowd2map.org", desc:"Volunteers mapping rural Tanzania on OpenStreetMap to help protect girls from female genital mutilation."},
+  {name:"Map Kibera", url:"https://mapkibera.org", desc:"Community project that put Nairobi's Kibera settlement on the map and supports local information initiatives."},
+  {name:"healthsites.io", url:"https://healthsites.io", desc:"Building an open, accessible global map of every health facility, in collaboration with communities."}
 ];
 
 const MM_TOOLS = [
@@ -647,7 +666,7 @@ const TABS = [
   {id:"compare", label:"The See-Saw"},
   {id:"deep", label:"The Sandbox"},
   {id:"mm", label:"The Tool Shed"},
-  {id:"guide", label:"Choose Your Path", right:true}
+  {id:"guide", label:"The Field Guide", right:true}
 ];
 const LETTERS = ["A","B","C","D","E"];
 const N = QUESTIONS.length;
@@ -664,8 +683,8 @@ const S = {
   obsActive:null, obsAns:{},              // obsAns[key] = chosen option index
   claimPick:null, claimDone:false, claimHint:false,
   cards:{}, cardHint:{},                  // cards[key]=true once solved
-  breakActive:false, breakLeft:60,
-  toolFilter:"All"
+  memFlip:{},                             // member card flip state
+  breakActive:false, breakLeft:60
 };
 let breakTimer=null;
 
@@ -696,7 +715,7 @@ const obsBy = k => OBS.find(o=>o.key===k);
 const obsCount = () => Object.keys(S.obsAns).length;
 function openObs(key){
   S.obsActive = (S.obsActive===key) ? null : key;
-  if(S.obsActive){ const o=obsBy(key); S.cmpTarget = o.side==="osm" ? 100 : 0; } // glide to reveal that map
+  if(S.obsActive){ S.cmpTarget = 50; } // glide to centre so both maps share the view — neither "leads"
   render();
 }
 function answerObs(key, idx){ S.obsAns[key]=idx; render(); }
@@ -908,7 +927,7 @@ function viewCompare(){
   const pos=S.cmpPos;
   const active = S.obsActive ? obsBy(S.obsActive) : null;
   const wash = active ? `<div class="cmp-wash" style="background:${active.color}1f"></div>
-       <div class="cmp-tag" style="background:${active.color}"><span class="d">${active.side==="osm"?"OpenStreetMap is richer here":"Google leads here"}</span>${active.label}</div>` : "";
+       <div class="cmp-tag" style="background:${active.color}"><span class="d">Comparing — drag to look closely</span>${active.label}</div>` : "";
 
   // chips row
   const chips = OBS.map(o=>{
@@ -1039,44 +1058,43 @@ function viewDeep(){
 }
 
 function viewMM(){
-  const membersHtml = MM_GROUPS.map(g=>{
-    const items = MM_MEMBERS.filter(m=>m.group===g.key).map(m=>
-      `<a class="mtile ${m.founder?'f':''}" href="${m.url}" target="_blank" rel="noopener noreferrer" title="Visit ${m.name}">${m.founder?'<span class="star">★</span>':''}<span class="nm">${m.name}</span><span class="ext">↗</span></a>`).join("");
-    return `<div class="grp">
-        <div class="gl">${g.label} <small>${g.note}</small></div>
-        <div class="car">
-          <button class="car-btn prev" data-act="car" data-dir="-1" data-car="${g.key}" aria-label="Scroll left">‹</button>
-          <div class="car-track" id="car-${g.key}">${items}</div>
-          <button class="car-btn next" data-act="car" data-dir="1" data-car="${g.key}" aria-label="Scroll right">›</button>
-        </div>
-      </div>`;
+  // flat set of circular flip-cards; tap to reveal a short description on the back
+  const members = MM_MEMBERS.map((m,i)=>{
+    const flipped = S.memFlip[i] ? "flipped" : "";
+    return `<button class="disc ${flipped}" data-act="flip" data-v="${i}" aria-label="${m.name}">
+        <span class="disc-inner">
+          <span class="disc-face front ${m.founder?'f':''}">
+            ${m.founder?'<span class="star">★</span>':''}<span class="nm">${m.name}</span>
+          </span>
+          <span class="disc-face back">
+            <span class="bk-desc">${m.desc}</span>
+            <a class="bk-link" href="${m.url}" target="_blank" rel="noopener noreferrer">Visit&nbsp;↗</a>
+          </span>
+        </span>
+      </button>`;
   }).join("");
 
-  const toolTypes = ["All", ...MM_TOOLS.map(t=>t.type).filter((v,i,a)=>a.indexOf(v)===i)];
-  const filters = toolTypes.map(t=>`<button data-act="toolFilter" data-v="${t}" aria-pressed="${S.toolFilter===t}">${t}</button>`).join("");
-  const tools = MM_TOOLS.filter(t=>S.toolFilter==="All"||t.type===S.toolFilter).map(t=>
+  const tools = MM_TOOLS.map(t=>
     `<a class="tool" href="${t.url}" target="_blank" rel="noopener noreferrer">
         <div class="ic">${svgIcon(t.key)}</div>
         <div style="min-width:0">
           <div class="role">${t.role}</div>
-          <div class="nm">${t.name} <span class="badge">${t.type}</span><span class="ext">↗ visit site</span></div>
+          <div class="nm">${t.name} <span class="ext">↗ visit site</span></div>
           <p>${t.desc}</p>
         </div>
       </a>`).join("");
 
   return `<section class="view">
-    <p class="lead">Missing Maps is a coalition launched in <strong>November 2014</strong> by the American Red Cross, British Red Cross, Médecins Sans Frontières, and the Humanitarian OpenStreetMap Team. It has since grown to roughly twenty non-profit and academic members, grouped below by the kind of organization they are.</p>
-    <div class="ghead">Member organizations <span style="color:var(--crc-red);text-transform:none;letter-spacing:0">★ = founding member</span></div>
-    ${membersHtml}
-    <div class="ghead">The tooling stack <span style="color:var(--crc-grey);text-transform:none;letter-spacing:0">— filter by type, tap a card to visit</span></div>
-    <div class="filters">${filters}</div>
+    <p class="lead">Missing Maps is a coalition launched in <strong>November 2014</strong> by the American Red Cross, British Red Cross, Médecins Sans Frontières, and the Humanitarian OpenStreetMap Team. It has since grown to roughly twenty non-profit and academic members.</p>
+    <div class="ghead">Member organizations <span style="color:var(--crc-red);text-transform:none;letter-spacing:0">★ = founding member · tap a card to flip it</span></div>
+    <div class="discs">${members}</div>
+    <div class="ghead">The tooling stack <span style="color:var(--crc-grey);text-transform:none;letter-spacing:0">— tap a card to visit</span></div>
     <div id="toolList">${tools}</div>
   </section>`;
 }
 
 function viewGuide(){
   return `<section class="view guide">
-    <div class="eyebrow">Mentor's letter · for the remote sensing scientist</div>
     <h2>From Pixels to People</h2>
     <p class="glede">A remote sensing scientist's path into open, humanitarian, and disaster mapping — “how can I contribute meaningfully, and where do I begin?”</p>
 
@@ -1205,7 +1223,7 @@ document.addEventListener("click", e=>{
     case "claim": chooseClaim(+v); break;
     case "card": answerCard(el.dataset.k, +v); break;
     case "resetSeesaw": resetSeesaw(); break;
-    case "toolFilter": S.toolFilter=v; render(); break;
+    case "flip": S.memFlip[+v]=!S.memFlip[+v]; render(); break;
     case "car": {
       const track=document.getElementById("car-"+el.dataset.car);
       if(track) track.scrollBy({left:(+el.dataset.dir)*Math.min(track.clientWidth*0.8, 440), behavior:"smooth"});
