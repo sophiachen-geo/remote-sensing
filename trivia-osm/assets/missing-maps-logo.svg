@@ -5,15 +5,15 @@
   <g clip-path="url(#mmclip)">
     <rect x="0" y="0" width="120" height="120" fill="#ffffff"/>
     <!-- green top band -->
-    <rect x="40" y="2" width="56" height="22" fill="#7AC143"/>
+    <rect x="40" y="2" width="56" height="22" fill="#9cc652"/>
     <!-- blue upper-left -->
-    <rect x="2" y="16" width="30" height="38" fill="#4FC3E8"/>
+    <rect x="2" y="16" width="30" height="38" fill="#5bc1ee"/>
     <!-- orange right -->
-    <rect x="54" y="32" width="42" height="26" fill="#F58220"/>
+    <rect x="54" y="32" width="42" height="26" fill="#ef7b22"/>
     <!-- yellow bottom -->
-    <rect x="34" y="64" width="62" height="56" fill="#FFD200"/>
+    <rect x="34" y="64" width="62" height="56" fill="#f5eb01"/>
   </g>
   <!-- red bar overhangs the left edge, with a white keyline -->
   <rect x="-3" y="66" width="78" height="26" rx="1.5" fill="#ffffff"/>
-  <rect x="-1" y="68" width="74" height="22" rx="1" fill="#ED1C24"/>
+  <rect x="-1" y="68" width="74" height="22" rx="1" fill="#e42b27"/>
 </svg>

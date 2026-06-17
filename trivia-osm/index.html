@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Sensing the Commons — Open Mapping Companion</title>
+<title>The Open Mapping Playground — A Missing Maps Event Companion</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content="A Canadian Red Cross companion to humanitarian open mapping: OpenStreetMap, remote sensing, and Missing Maps." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --crc-white:#FFFFFF; --crc-red:#EE0000; --crc-red-dark:#D60000; --crc-red-tint:#FE9E86;
@@ -28,21 +31,23 @@
   .bar{background:#000;color:#fff}
   .bar-in{max-width:var(--maxw);margin:0 auto;padding:9px var(--pad);display:flex;align-items:center;justify-content:space-between;gap:16px}
   .bar-in img{height:28px;width:auto;display:block}
-  .bar-tag{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--crc-grey-tint);font-weight:500}
+  .bar-in{gap:12px}
+  .bar-link{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#fff;font-weight:600;text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;transition:color .15s var(--motion-ease),border-color .15s var(--motion-ease)}
+  .bar-link:hover{color:var(--crc-red-tint);border-bottom-color:var(--crc-red-tint)}
+  @media(max-width:560px){ .bar-link{font-size:10.5px;letter-spacing:.02em} .bar-in img{height:24px} }
 
   header.hero{max-width:var(--maxw);margin:0 auto;padding:48px var(--pad) 0}
   .eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--crc-red);margin-bottom:14px}
   .titlerow{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:16px}
   .mm-logo{height:60px;width:auto;flex:none;display:block}
   header.hero h1{font-size:clamp(32px,6vw,56px);line-height:1.04;margin:0;max-width:16ch;font-weight:700;letter-spacing:-.02em}
-  header.hero p.tagline{font-size:18px;line-height:1.5;color:var(--crc-black-tint);max-width:62ch;margin:0}
-  .guide-link{display:inline-block;margin-top:14px;font-size:15px;font-weight:700;color:var(--crc-red);text-decoration:none;border-bottom:2px solid transparent;transition:border-color .15s var(--motion-ease)}
-  .guide-link:hover{border-bottom-color:var(--crc-red)}
+  header.hero p.tagline{font-family:"Caveat","Segoe Script",cursive;font-weight:700;font-size:clamp(20px,3.4vw,34px);line-height:1.1;color:var(--crc-red);max-width:none;margin:6px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transform:rotate(-1.2deg);transform-origin:left center}
 
   nav.tabs{max-width:var(--maxw);margin:28px auto 0;padding:0 var(--pad);border-bottom:1px solid var(--crc-grey-tint);display:flex;gap:24px;flex-wrap:wrap}
   nav.tabs button{background:none;border:0;font:inherit;font-weight:500;font-size:15px;color:var(--crc-black);padding:14px 0;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:color .15s var(--motion-ease)}
   nav.tabs button:hover{color:var(--crc-red)}
   nav.tabs button[aria-selected="true"]{color:var(--crc-red);border-bottom-color:var(--crc-red);font-weight:700}
+  nav.tabs button.tab-right{margin-left:auto}
 
   main{max-width:var(--maxw);margin:0 auto;padding:32px var(--pad) 72px}
   section.view{animation:crcFade .35s var(--motion-ease)}
@@ -155,7 +160,52 @@
   .slider .handle{position:absolute;top:0;bottom:0;width:2px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.28);pointer-events:none}
   .slider .knob{position:absolute;top:50%;width:36px;height:36px;border-radius:50%;background:#fff;box-shadow:var(--shadow-raised);transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;pointer-events:none;color:var(--crc-black);font-weight:700;font-size:18px}
   .slider input[type=range]{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
+  .slider #osmLayer{transition:clip-path .55s var(--motion-ease)}
+  .slider .handle,.slider .knob{transition:left .55s var(--motion-ease)}
+  .slider .cmp-wash{position:absolute;inset:0;pointer-events:none;animation:crcFade .4s var(--motion-ease)}
+  .slider .cmp-tag{position:absolute;left:50%;top:14px;transform:translateX(-50%);color:#fff;font-size:13px;font-weight:700;padding:7px 14px;border-radius:999px;pointer-events:none;box-shadow:var(--shadow-raised);text-align:center;animation:crcFade .4s var(--motion-ease);z-index:3}
+  .slider .cmp-tag .d{display:block;font-size:10px;font-weight:600;letter-spacing:.04em;opacity:.92;text-transform:uppercase}
   .scaption{font-size:13px;color:var(--crc-grey);margin-top:8px}
+  .ss-intro,.ss-mission{font-size:16px;color:var(--crc-black-tint);max-width:68ch;margin:0 0 12px}
+  .ss-mission{margin-bottom:14px}
+  /* observation chips */
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+  .chip-btn{background:#fff;border:1.5px solid var(--crc-grey-tint);border-radius:999px;padding:8px 16px;font:inherit;font-weight:700;font-size:14px;cursor:pointer;transition:all .15s var(--motion-ease)}
+  .chip-btn:hover{border-color:var(--crc-red);color:var(--crc-red)}
+  .chip-btn.on{background:var(--crc-black);color:#fff;border-color:var(--crc-black)}
+  .chip-btn.done{border-color:var(--crc-red);color:var(--crc-red)}
+  .chip-btn.done.on{background:var(--crc-red);color:#fff}
+  /* question + reveal */
+  .ss-q,.ss-reveal{background:#fff;border:1px solid var(--crc-grey-tint);border-left:4px solid var(--crc-red);border-radius:0 4px 4px 0;padding:18px 20px;margin:0 0 6px;box-shadow:var(--shadow-card);animation:crcFade .3s var(--motion-ease)}
+  .ss-qh{font-size:18px;font-weight:700;margin-bottom:12px}
+  .ss-opts{display:grid;gap:9px}
+  .ss-opt{text-align:left;background:#fff;border:1.5px solid var(--crc-grey-tint);border-radius:4px;padding:12px 15px;font:inherit;font-size:15px;color:var(--crc-black);cursor:pointer;transition:all .15s var(--motion-ease)}
+  .ss-opt:hover{border-color:var(--crc-red);background:var(--crc-grey-50)}
+  .ss-opt.unsure{color:var(--crc-grey);font-style:italic}
+  .ss-opt.picked{border-color:var(--crc-red);background:var(--crc-grey-50)}
+  .ss-rev-opt{padding:10px 14px;border-radius:4px;font-size:15px;border:1.5px solid transparent}
+  .ss-rev-opt.rev-ok{border-color:var(--crc-red);color:var(--crc-black);font-weight:700;background:#fff}
+  .ss-rev-opt.rev-no{color:var(--crc-grey);background:var(--crc-grey-50)}
+  .ss-rev-opt.rev-dim{color:var(--crc-grey);opacity:.6}
+  .ss-reveal .rev-eye{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--crc-red);margin-bottom:10px}
+  .ss-reveal p{font-size:15px;color:var(--crc-black-tint);margin:12px 0 0;max-width:64ch}
+  .ss-hint{margin-top:12px;border-left:3px solid var(--crc-grey-tint);background:var(--crc-grey-50);padding:10px 14px;font-size:14px;color:var(--crc-black-tint);border-radius:0 4px 4px 0}
+  .ss-progress{font-size:13px;font-weight:700;color:var(--crc-grey);margin:10px 0 4px}
+  .ss-step{margin-top:8px}
+  .btn.sm{padding:8px 16px;font-size:14px;margin-top:14px}
+  /* puzzle cards */
+  .puzzles{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+  .puz{position:relative;background:#fff;border:1px solid var(--crc-grey-tint);border-top:3px solid var(--crc-grey-tint);border-radius:4px;padding:20px 20px 18px;box-shadow:var(--shadow-card)}
+  .puz.solved{border-top-color:var(--crc-red);animation:crcFade .35s var(--motion-ease)}
+  .puz-badge{width:26px;height:26px;border-radius:50%;background:var(--crc-grey);color:#fff;font-weight:700;font-size:13px;display:grid;place-items:center;margin-bottom:10px}
+  .puz.solved .puz-badge,.puz-badge.open{background:var(--crc-red)}
+  .puz-t{font-size:17px;font-weight:700;margin-bottom:6px}
+  .puz-q{font-size:14.5px;color:var(--crc-black-tint);margin-bottom:12px}
+  .puz .rev-eye{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--crc-red);margin-bottom:6px}
+  .puz p{font-size:14.5px;color:var(--crc-black-tint);margin:0;max-width:none}
+  .ss-final{background:var(--crc-grey-50);border:1px solid var(--crc-grey-tint);border-left:4px solid var(--crc-red);border-radius:0 4px 4px 0;padding:22px 24px;margin-top:18px;animation:crcFade .4s var(--motion-ease)}
+  .ss-final .rev-eye{font-size:14px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+  .ss-final p{font-size:16px;color:var(--crc-black-tint);max-width:68ch;margin:0}
   .ghead{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--crc-grey);margin:34px 0 12px}
   .seg{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
   .seg button{background:#fff;color:var(--crc-black);border:1.5px solid var(--crc-grey-tint);border-radius:4px;padding:9px 18px;font:inherit;font-weight:700;font-size:14px;cursor:pointer;transition:all .15s var(--motion-ease)}
@@ -266,7 +316,10 @@
 </style>
 </head>
 <body>
-<div class="bar"><div class="bar-in"><img src="assets/wordmark-white.svg" alt="Canadian Red Cross" /><span class="bar-tag">Open Mapping Companion</span></div></div>
+<div class="bar"><div class="bar-in">
+  <img src="assets/wordmark-white.svg" alt="Canadian Red Cross" />
+  <a class="bar-link" href="https://sophiachen-geo.github.io/remote-sensing/" target="_blank" rel="noopener noreferrer">Sensing the Commons Presentation Companion Guide&nbsp;↗</a>
+</div></div>
 
 <header class="hero">
   <div class="eyebrow">A Missing Maps Event Companion</div>
@@ -275,7 +328,6 @@
     <h1>The Open Mapping Playground</h1>
   </div>
   <p class="tagline">For curious mappers, bored humans, and anyone who likes learning by clicking.</p>
-  <a class="guide-link" href="https://sophiachen-geo.github.io/remote-sensing/" target="_blank" rel="noopener noreferrer">Sensing the Commons Presentation Companion Guide ↗</a>
 </header>
 
 <nav class="tabs" id="tabs"></nav>
@@ -466,16 +518,86 @@ const MM_TOOLS = [
   {key:"target", type:"Validation", name:"MapRoulette", role:"Web · fix-it micro-tasks", url:"https://maproulette.org/", desc:"A separate micro-tasking platform that breaks larger data problems into thousands of small, focused tasks (a missing name, a disconnected road) that mappers solve one at a time. OSMCha can even feed flagged changesets to it as challenges."}
 ];
 
-const CMP = {
-  osm:{ strengths:["Built for people on foot — it includes pathways, parks, and parking lots.","A clearer, simpler picture of a place.","Locals can verify and update the map themselves.","You can switch between different imagery sources."],
-    watch:["Coverage can be incomplete — informal settlements may be left off.","Buildings are sometimes merged together or roughly drawn.","No curves, and multi-use buildings often get just one purpose.","Quality varies with who maps and how well validators are trained."] },
-  google:{ strengths:["Strong at showing businesses and shops.","Familiar, polished, and quick to recognize.","Wide multi-language support."],
-    watch:["Less reliable in developing regions; it leans on automated imagery.","Parks, community spaces, and walkways are underrepresented.","Google owns the data and sets the priorities.","Language support is inconsistent, especially for Indigenous languages."] }
+// See-Saw observation chips. side = which map this reveals (drives the slider);
+// color tints the highlight wash on the map.
+const OBS = [
+  { key:"buildings", label:"Buildings", side:"osm", color:"#e42b27",
+    q:"What do you notice about buildings?",
+    options:[ {t:"OpenStreetMap shows more individual building footprints.", ok:true},
+              {t:"Google Maps shows more building outlines here.", ok:false},
+              {t:"Both show exactly the same buildings.", ok:false} ],
+    reveal:"OpenStreetMap traces many individual <strong>building footprints</strong> and ground-level structures; Google leans on named destinations instead. In a response, footprints can indicate where people live." },
+  { key:"paths", label:"Paths", side:"osm", color:"#9cc652",
+    q:"Which map shows more pedestrian detail?",
+    options:[ {t:"OpenStreetMap — trails, paths, small corridors.", ok:true},
+              {t:"Google Maps — it focuses on walking.", ok:false},
+              {t:"Neither shows paths.", ok:false} ],
+    reveal:"OSM maps <strong>pedestrian-scale movement</strong> — trails, paths, small corridors. Google prioritizes roads and navigation logic. Paths show how people actually move on the ground." },
+  { key:"water", label:"Water", side:"osm", color:"#5bc1ee",
+    q:"Where does the water geometry change?",
+    options:[ {t:"OSM shows finer channels and shoreline detail.", ok:true},
+              {t:"Google shows more detailed marshland.", ok:false},
+              {t:"The water is identical on both.", ok:false} ],
+    reveal:"OSM represents finer <strong>hydrology</strong> — smaller channels, marshy edges, shoreline complexity. Google simplifies water into a clean base. Water can affect access, risk and evacuation." },
+  { key:"green", label:"Green space", side:"osm", color:"#2e9e5b",
+    q:"How is land use shown?",
+    options:[ {t:"OSM makes fields, parks and open land more visible.", ok:true},
+              {t:"Google labels every field and park.", ok:false},
+              {t:"Neither shows green space.", ok:false} ],
+    reveal:"OSM surfaces <strong>fields, parks and managed natural areas</strong>; Google generalizes the landscape at this scale. Open land can become a gathering point, shelter or landmark." },
+  { key:"labels", label:"Labels", side:"google", color:"#6d5ac2",
+    q:"A missing label means…",
+    options:[ {t:"Not always missing data — it can be style, zoom or purpose.", ok:true},
+              {t:"Always missing data.", ok:false},
+              {t:"The map is broken.", ok:false} ],
+    reveal:"A <strong>missing label</strong> does not always mean missing data. It can reflect the map style, the zoom level, the platform's purpose, or how the data is governed." },
+  { key:"roads", label:"Roads", side:"google", color:"#474747",
+    q:"Who emphasizes road navigation?",
+    options:[ {t:"Google Maps — roads and routing come first.", ok:true},
+              {t:"OpenStreetMap — it hides roads.", ok:false},
+              {t:"Neither shows roads.", ok:false} ],
+    reveal:"Google centres <strong>roads, destinations and navigation logic</strong>. OSM shows roads too, but alongside pedestrian and physical detail. Different priorities, same place." },
+  { key:"places", label:"Places", side:"google", color:"#ef7b22",
+    q:"Which map shows more shops and services?",
+    options:[ {t:"Google Maps — restaurants, businesses, facilities.", ok:true},
+              {t:"OpenStreetMap — it lists every business.", ok:false},
+              {t:"Both show the same places.", ok:false} ],
+    reveal:"Google shows more consumer-facing <strong>points of interest</strong> — restaurants, businesses, churches, public facilities. OSM focuses on physical features and infrastructure." }
+];
+
+const CLAIM = {
+  q:"Choose the best claim:",
+  options:[
+    { t:"OpenStreetMap shows more ground-level physical detail.", best:false },
+    { t:"Google Maps shows more consumer-facing places and navigation labels.", best:false },
+    { t:"Both maps simplify the area, but for different purposes.", best:true }
+  ],
+  hint:"Close. Look again at the paths, buildings and named businesses. Which map is acting more like a database of physical features, and which one is acting more like a navigation product?",
+  reveal:"Exactly. The two maps aren't showing different <em>amounts</em> of detail — they're showing different <strong>models of the same place</strong>. OpenStreetMap asks: what physical features exist, and how can a community map, correct and reuse them? Google Maps asks: what does a user need to find, navigate to, or recognize quickly?"
 };
-const CHALLENGES = [
-  {n:"1", t:"Imagery consistency", d:"Different satellite sources show different things. Everyone on a project should trace from the same imagery. Unlike Google Maps, OpenStreetMap lets you switch between sources."},
-  {n:"2", t:"Tagging coherence", d:"Features are described with tags: building, road, school. Consistent tagging across the map keeps the data clear and usable."},
-  {n:"3", t:"Mapping complex connections", d:"Roads that do not clearly link up, multi-level roads, bridges, and tunnels are all hard to represent accurately."}
+
+const PUZZLE = [
+  { key:"coverage", reveal:"Coverage", title:"What is missing?",
+    q:"Some areas have lots of buildings, roads and names; others have almost none. What should open mapping do first?",
+    options:[ {t:"Find where map data is absent or incomplete.", ok:true},
+              {t:"Assume the map is already complete.", ok:false},
+              {t:"Delete the empty areas.", ok:false} ],
+    hint:"Not quite — the goal isn't to assume or erase. Think about what Missing Maps and MapSwipe look for first.",
+    body:"This is why projects such as <strong>Missing Maps</strong> and <strong>MapSwipe</strong> focus first on finding where map data is absent or incomplete." },
+  { key:"interpretation", reveal:"Interpretation", title:"What is this feature, really?",
+    q:"From directly above, a roof, a pond, a drainage ditch and a track can look alike. What does that tell us?",
+    options:[ {t:"Imagery needs careful interpretation.", ok:true},
+              {t:"A roof is always a house.", ok:false},
+              {t:"Every track is a road.", ok:false} ],
+    hint:"Look again — things that look alike from above are often different on the ground.",
+    body:"Open mapping must turn imagery into <strong>correct geographic features</strong>. Remote mapping is powerful, but imagery alone cannot answer every question." },
+  { key:"validation", reveal:"Validation", title:"Who can confirm it?",
+    q:"You traced a building and a path from imagery. Who confirms its name, use, access and condition?",
+    options:[ {t:"Local communities and field teams.", ok:true},
+              {t:"Nobody — it is automatic.", ok:false},
+              {t:"The satellite itself.", ok:false} ],
+    hint:"Imagery can show the shape, but not the meaning. Who holds that knowledge?",
+    body:"Open mapping must connect remote observation with <strong>local knowledge</strong>. The strongest humanitarian map isn't just detailed — it's checked, maintained and useful to the people who rely on it." }
 ];
 
 const TYPES = {
@@ -512,11 +634,11 @@ const svgIcon = key => {
 };
 
 const TABS = [
-  {id:"quiz", label:"The Challenge"},
-  {id:"compare", label:"OSM vs Google"},
-  {id:"deep", label:"Deep Dive"},
-  {id:"mm", label:"Missing Maps"},
-  {id:"guide", label:"The Guide"}
+  {id:"quiz", label:"The Tile Game"},
+  {id:"compare", label:"The See-Saw"},
+  {id:"deep", label:"The Sandbox"},
+  {id:"mm", label:"The Tool Shed"},
+  {id:"guide", label:"Choose Your Path", right:true}
 ];
 const LETTERS = ["A","B","C","D","E"];
 const N = QUESTIONS.length;
@@ -528,7 +650,11 @@ const S = {
   tab:"quiz", selected:null, score:0,
   answered:[], attemptsMap:{}, wrongMap:{},
   finished:false, displayScore:0, pop:false,
-  cmpPos:50, cmpSide:"osm",
+  // See-Saw
+  cmpPos:50, cmpTarget:null,
+  obsActive:null, obsAns:{},              // obsAns[key] = chosen option index
+  claimPick:null, claimDone:false, claimHint:false,
+  cards:{}, cardHint:{},                  // cards[key]=true once solved
   breakActive:false, breakLeft:60,
   toolFilter:"All"
 };
@@ -555,6 +681,32 @@ function revealPanel(){
    ACTIONS
    =================================================================== */
 function goTab(name){ S.tab=name; render(); scrollTop(); }
+
+/* ---- The See-Saw ---- */
+const obsBy = k => OBS.find(o=>o.key===k);
+const obsCount = () => Object.keys(S.obsAns).length;
+function openObs(key){
+  S.obsActive = (S.obsActive===key) ? null : key;
+  if(S.obsActive){ const o=obsBy(key); S.cmpTarget = o.side==="osm" ? 100 : 0; } // glide to reveal that map
+  render();
+}
+function answerObs(key, idx){ S.obsAns[key]=idx; render(); }
+function chooseClaim(idx){
+  S.claimPick=idx;
+  if(CLAIM.options[idx].best){ S.claimDone=true; S.claimHint=false; }
+  else { S.claimHint=true; }
+  render();
+}
+function answerCard(key, idx){
+  const card=PUZZLE.find(c=>c.key===key);
+  if(card.options[idx].ok){ S.cards[key]=true; S.cardHint[key]=false; }
+  else { S.cardHint[key]=idx; }
+  render();
+}
+function resetSeesaw(){
+  S.obsActive=null; S.obsAns={}; S.claimPick=null; S.claimDone=false; S.claimHint=false; S.cards={}; S.cardHint={}; S.cmpPos=50; S.cmpTarget=null; render(); scrollTop();
+}
+
 function selectTile(i){
   if(S.breakActive) return; // mapping is locked during a movement break
   clearBreak();
@@ -606,7 +758,7 @@ function animateScore(target){
    =================================================================== */
 function render(){
   document.getElementById("tabs").innerHTML = TABS.map(t=>
-    `<button data-act="tab" data-v="${t.id}" aria-selected="${S.tab===t.id}">${t.label}</button>`).join("");
+    `<button class="${t.right?'tab-right':''}" data-act="tab" data-v="${t.id}" aria-selected="${S.tab===t.id}">${t.label}</button>`).join("");
   const app=document.getElementById("app");
   if(S.tab==="quiz") app.innerHTML = viewQuiz();
   else if(S.tab==="compare") app.innerHTML = viewCompare();
@@ -744,10 +896,91 @@ function viewResults(){
 }
 
 function viewCompare(){
-  const pos=S.cmpPos, side=S.cmpSide, d=CMP[side];
-  const sideTitle = side==="osm"?"OpenStreetMap":"Google Maps";
-  return `<section class="view">
-    <p class="lead">Same town, two maps. Here is one corner of Squamish, British Columbia, in OpenStreetMap and in Google Maps. Drag the handle to compare, and notice how much more the open map shows on the ground.</p>
+  const pos=S.cmpPos;
+  const active = S.obsActive ? obsBy(S.obsActive) : null;
+  const wash = active ? `<div class="cmp-wash" style="background:${active.color}1f"></div>
+       <div class="cmp-tag" style="background:${active.color}"><span class="d">${active.side==="osm"?"OpenStreetMap is richer here":"Google leads here"}</span>${active.label}</div>` : "";
+
+  // chips row
+  const chips = OBS.map(o=>{
+    const done = S.obsAns[o.key]!=null;
+    const on = S.obsActive===o.key;
+    return `<button class="chip-btn ${on?'on':''} ${done?'done':''}" data-act="openObs" data-v="${o.key}">${done?'✓ ':''}${o.label}</button>`;
+  }).join("");
+
+  // open observation question / reveal
+  let obsPanel="";
+  if(active){
+    const chosen=S.obsAns[active.key];
+    if(chosen==null){
+      const opts=active.options.map((op,oi)=>`<button class="ss-opt" data-act="answerObs" data-k="${active.key}" data-v="${oi}">${op.t}</button>`).join("")
+        + `<button class="ss-opt unsure" data-act="answerObs" data-k="${active.key}" data-v="-1">I'm not sure</button>`;
+      obsPanel=`<div class="ss-q" style="border-left-color:${active.color}">
+          <div class="ss-qh">${active.q}</div><div class="ss-opts">${opts}</div></div>`;
+    } else {
+      const opts=active.options.map((op,oi)=>{
+        const cls = op.ok ? "rev-ok" : (oi===chosen ? "rev-no" : "rev-dim");
+        return `<div class="ss-rev-opt ${cls}">${op.ok?'✓ ':(oi===chosen?'✕ ':'')}${op.t}</div>`;
+      }).join("");
+      obsPanel=`<div class="ss-reveal" style="border-left-color:${active.color}">
+          <div class="rev-eye" style="color:${active.color}">Reveal · ${active.label}</div>
+          <div class="ss-opts rev">${opts}</div>
+          <p>${active.reveal}</p>
+          <button class="btn outline sm" data-act="openObs" data-v="${active.key}">Close</button>
+        </div>`;
+    }
+  }
+
+  const n=obsCount();
+  const progress = `<div class="ss-progress">${n} of ${OBS.length} layers probed${n>=3?' — claim unlocked below':''}</div>`;
+
+  // claim step (unlocks after 3 observations)
+  let claimBlock="";
+  if(n>=3){
+    if(!S.claimDone){
+      const opts=CLAIM.options.map((op,oi)=>`<button class="ss-opt ${S.claimPick===oi?'picked':''}" data-act="claim" data-v="${oi}">${op.t}</button>`).join("");
+      claimBlock=`<div class="ss-step">
+        <div class="ghead">Make a claim</div>
+        <div class="ss-q"><div class="ss-qh">${CLAIM.q}</div><div class="ss-opts">${opts}</div>
+          ${S.claimHint?`<div class="ss-hint">${CLAIM.hint}</div>`:""}</div></div>`;
+    } else {
+      claimBlock=`<div class="ss-step">
+        <div class="ghead">Your claim</div>
+        <div class="ss-reveal" style="border-left-color:var(--crc-red)"><div class="rev-eye">Nice call</div><p>${CLAIM.reveal}</p></div></div>`;
+    }
+  }
+
+  // three puzzle cards (after claim done)
+  let puzzleBlock="";
+  if(S.claimDone){
+    const cards=PUZZLE.map((c,idx)=>{
+      if(S.cards[c.key]){
+        return `<div class="puz solved"><div class="puz-badge">${idx+1}</div>
+            <div class="rev-eye">Reveal · ${c.reveal}</div>
+            <div class="puz-t">${c.title}</div><p>${c.body}</p></div>`;
+      }
+      const hint = S.cardHint[c.key]!=null ? `<div class="ss-hint">${c.hint}</div>`:"";
+      const opts=c.options.map((op,oi)=>`<button class="ss-opt" data-act="card" data-k="${c.key}" data-v="${oi}">${op.t}</button>`).join("");
+      return `<div class="puz"><div class="puz-badge open">${idx+1}</div>
+          <div class="puz-t">${c.title}</div><div class="puz-q">${c.q}</div>
+          <div class="ss-opts">${opts}</div>${hint}</div>`;
+    }).join("");
+    const solved=PUZZLE.filter(c=>S.cards[c.key]).length;
+    puzzleBlock=`<div class="ss-step">
+      <div class="ghead">Solve the three mapping questions <span style="color:var(--crc-grey);text-transform:none;letter-spacing:0">${solved}/3 uncovered</span></div>
+      <div class="puzzles">${cards}</div></div>`;
+    if(solved===PUZZLE.length){
+      puzzleBlock+=`<div class="ss-final">
+        <div class="rev-eye" style="color:var(--crc-red)">You solved the open mapping puzzle</div>
+        <p>OpenStreetMap and Google Maps aren't only two different maps — they're two different ways of <strong>organizing reality</strong>. One is strongest as an open, editable geographic database; the other as a navigation and place-search product. Humanitarian mapping depends on knowing the difference: what's visible, what's missing, what can be interpreted remotely, and what must be validated with local knowledge.</p>
+        <button class="btn outline sm" data-act="resetSeesaw">Play the See-Saw again</button>
+      </div>`;
+    }
+  }
+
+  return `<section class="view seesaw">
+    <p class="lead"><strong>Same town, two map logics.</strong></p>
+    <p class="ss-intro">This is one corner of Squamish, British Columbia, shown in OpenStreetMap and Google Maps. Drag the handle to compare. Your task isn't to decide which one is “better” — it's to notice what each map chooses to make visible, what it simplifies, and what that says about how each tool represents reality.</p>
     <div class="fresh">
       <div class="c osm"><div class="k">OpenStreetMap</div><div class="d">Last updated July 15, 2025</div></div>
       <div class="c goo"><div class="k">Google Maps</div><div class="d">Last updated June 25, 2023</div></div>
@@ -756,24 +989,20 @@ function viewCompare(){
       <img src="assets/squamish-google.png" alt="Google Maps view of Squamish, British Columbia">
       <img id="osmLayer" src="assets/squamish-osm.png" alt="OpenStreetMap view of Squamish, British Columbia" style="clip-path:inset(0 ${100-pos}% 0 0)">
       <div class="lab l">OpenStreetMap</div><div class="lab r">Google Maps</div>
+      ${wash}
       <div class="handle" id="cmpHandle" style="left:${pos}%"></div>
       <div class="knob" id="cmpKnob" style="left:${pos}%">↔</div>
       <input type="range" min="0" max="100" value="${pos}" id="cmpRange" aria-label="Drag to compare the two maps">
     </div>
     <div class="scaption">Map data: OpenStreetMap contributors and Google. The two captures are georeferenced to the same extent, so features line up as you drag.</div>
 
-    <div class="ghead">Why it matters</div>
-    <div class="seg">
-      <button data-act="setSide" data-v="osm" aria-pressed="${side==='osm'}">OpenStreetMap</button>
-      <button data-act="setSide" data-v="google" aria-pressed="${side==='google'}">Google Maps</button>
-    </div>
-    <div class="cards2">
-      <div class="icard s"><div class="k">${sideTitle} — strengths</div><ul>${d.strengths.map(s=>`<li>${s}</li>`).join("")}</ul></div>
-      <div class="icard w"><div class="k">${sideTitle} — watch-outs</div><ul>${d.watch.map(w=>`<li>${w}</li>`).join("")}</ul></div>
-    </div>
-
-    <div class="ghead">Three challenges open mapping has to solve</div>
-    <div class="cards3">${CHALLENGES.map(c=>`<div class="ch"><div class="n">${c.n}</div><div class="t">${c.t}</div><p>${c.d}</p></div>`).join("")}</div>
+    <div class="ghead">Your mission — probe each layer</div>
+    <p class="ss-mission">Move the slider slowly, then tap a chip to make an observation. Each one you probe uncovers a piece of the logic — exactly the way the planet appears tile by tile. A missing label doesn't always mean missing data.</p>
+    <div class="chips">${chips}</div>
+    ${obsPanel}
+    ${progress}
+    ${claimBlock}
+    ${puzzleBlock}
   </section>`;
 }
 
@@ -924,13 +1153,25 @@ function viewGuide(){
 function postRender(){
   const range=document.getElementById("cmpRange");
   if(range){
+    const o=document.getElementById("osmLayer"), h=document.getElementById("cmpHandle"), k=document.getElementById("cmpKnob");
     range.oninput=e=>{
       S.cmpPos=+e.target.value;
-      const o=document.getElementById("osmLayer"), h=document.getElementById("cmpHandle"), k=document.getElementById("cmpKnob");
+      [o,h,k].forEach(el=>{ if(el) el.style.transition="none"; }); // instant while dragging
       if(o) o.style.clipPath=`inset(0 ${100-S.cmpPos}% 0 0)`;
       if(h) h.style.left=S.cmpPos+"%";
       if(k) k.style.left=S.cmpPos+"%";
     };
+    // programmatic glide when a chip auto-reveals one side
+    if(S.cmpTarget!=null){
+      const t=S.cmpTarget; S.cmpTarget=null;
+      requestAnimationFrame(()=>{
+        S.cmpPos=t;
+        if(o) o.style.clipPath=`inset(0 ${100-t}% 0 0)`;
+        if(h) h.style.left=t+"%";
+        if(k) k.style.left=t+"%";
+        if(range) range.value=t;
+      });
+    }
   }
 }
 
@@ -950,7 +1191,11 @@ document.addEventListener("click", e=>{
     case "results": showResults(); break;
     case "keep": keepMapping(); break;
     case "restart": restart(); break;
-    case "setSide": S.cmpSide=v; render(); break;
+    case "openObs": openObs(v); break;
+    case "answerObs": answerObs(el.dataset.k, +v); break;
+    case "claim": chooseClaim(+v); break;
+    case "card": answerCard(el.dataset.k, +v); break;
+    case "resetSeesaw": resetSeesaw(); break;
     case "toolFilter": S.toolFilter=v; render(); break;
     case "car": {
       const track=document.getElementById("car-"+el.dataset.car);
