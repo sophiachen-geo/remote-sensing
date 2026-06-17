@@ -16,7 +16,7 @@
     --shadow-overlay:0 8px 24px rgba(0,0,0,.12);
     --motion-ease:cubic-bezier(0.4,0,0.2,1);
     --font-sans:"Neue Haas Unica","Helvetica Neue",Arial,system-ui,sans-serif;
-    --pad:24px;
+    --pad:24px; --maxw:1140px;
   }
   *,*::before,*::after{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}
@@ -26,21 +26,25 @@
   @keyframes crcFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
   .bar{background:#000;color:#fff}
-  .bar-in{max-width:960px;margin:0 auto;padding:9px var(--pad);display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .bar-in{max-width:var(--maxw);margin:0 auto;padding:9px var(--pad);display:flex;align-items:center;justify-content:space-between;gap:16px}
   .bar-in img{height:28px;width:auto;display:block}
   .bar-tag{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--crc-grey-tint);font-weight:500}
 
-  header.hero{max-width:960px;margin:0 auto;padding:48px var(--pad) 0}
+  header.hero{max-width:var(--maxw);margin:0 auto;padding:48px var(--pad) 0}
   .eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--crc-red);margin-bottom:14px}
-  header.hero h1{font-size:clamp(32px,6vw,56px);line-height:1.04;margin:0 0 16px;max-width:17ch;font-weight:700;letter-spacing:-.02em}
-  header.hero p{font-size:18px;line-height:1.5;color:var(--crc-black-tint);max-width:62ch;margin:0}
+  .titlerow{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:16px}
+  .mm-logo{height:60px;width:auto;flex:none;display:block}
+  header.hero h1{font-size:clamp(32px,6vw,56px);line-height:1.04;margin:0;max-width:16ch;font-weight:700;letter-spacing:-.02em}
+  header.hero p.tagline{font-size:18px;line-height:1.5;color:var(--crc-black-tint);max-width:62ch;margin:0}
+  .guide-link{display:inline-block;margin-top:14px;font-size:15px;font-weight:700;color:var(--crc-red);text-decoration:none;border-bottom:2px solid transparent;transition:border-color .15s var(--motion-ease)}
+  .guide-link:hover{border-bottom-color:var(--crc-red)}
 
-  nav.tabs{max-width:960px;margin:28px auto 0;padding:0 var(--pad);border-bottom:1px solid var(--crc-grey-tint);display:flex;gap:24px;flex-wrap:wrap}
+  nav.tabs{max-width:var(--maxw);margin:28px auto 0;padding:0 var(--pad);border-bottom:1px solid var(--crc-grey-tint);display:flex;gap:24px;flex-wrap:wrap}
   nav.tabs button{background:none;border:0;font:inherit;font-weight:500;font-size:15px;color:var(--crc-black);padding:14px 0;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:color .15s var(--motion-ease)}
   nav.tabs button:hover{color:var(--crc-red)}
   nav.tabs button[aria-selected="true"]{color:var(--crc-red);border-bottom-color:var(--crc-red);font-weight:700}
 
-  main{max-width:960px;margin:0 auto;padding:32px var(--pad) 72px}
+  main{max-width:var(--maxw);margin:0 auto;padding:32px var(--pad) 72px}
   section.view{animation:crcFade .35s var(--motion-ease)}
   .lead{font-size:18px;color:var(--crc-black-tint);max-width:64ch;margin:0 0 6px}
 
@@ -50,6 +54,14 @@
   .btn.outline:hover{border-color:var(--crc-red);color:var(--crc-red);background:#fff}
   .btn.ghost{background:none;border-color:transparent;color:var(--crc-grey);padding:0;font-size:14px}
   .btn.ghost:hover{color:var(--crc-red)}
+
+  /* Challenge: tiles and question sit side by side on wide screens */
+  .challenge{display:grid;grid-template-columns:minmax(0,1fr);gap:24px}
+  @media(min-width:900px){
+    .challenge{grid-template-columns:minmax(420px,500px) minmax(0,1fr);gap:36px;align-items:start}
+    .ch-left{position:sticky;top:16px}
+  }
+  .ch-right{min-width:0}
 
   /* ---------- Challenge ---------- */
   .stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
@@ -114,7 +126,7 @@
   .breakp .lockline{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--crc-grey)}
 
   /* ---------- Results ---------- */
-  .results{background:#fff;border:1px solid var(--crc-grey-tint);border-radius:4px;box-shadow:var(--shadow-card);padding:44px 28px;text-align:center;animation:crcFade .4s var(--motion-ease)}
+  .results{background:#fff;border:1px solid var(--crc-grey-tint);border-radius:4px;box-shadow:var(--shadow-card);padding:44px 28px;text-align:center;animation:crcFade .4s var(--motion-ease);max-width:720px;margin:0 auto}
   .results .globe{width:152px;height:152px;display:block;margin:16px auto 8px;animation:crcFade .5s var(--motion-ease)}
   .results .pin{width:84px;height:84px;border-radius:50%;background:var(--crc-red);display:flex;align-items:center;justify-content:center;margin:14px auto}
   .results .rank{font-size:28px;font-weight:700;margin:2px 0 0}
@@ -227,7 +239,7 @@
   .signoff{font-style:italic;color:var(--crc-grey)}
 
   footer.site{background:#000}
-  footer.site .in{max-width:960px;margin:0 auto;padding:40px var(--pad);display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
+  footer.site .in{max-width:var(--maxw);margin:0 auto;padding:40px var(--pad);display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
   footer.site img{height:34px;width:auto;display:block}
   footer.site p{font-size:12px;line-height:1.6;color:var(--crc-grey);max-width:52ch;margin:0}
 
@@ -244,6 +256,8 @@
     .lead,.guide .glede{font-size:16px}
     .opt{font-size:15px;padding:13px 14px}
     .mtile{width:180px;height:72px}
+    .mm-logo{height:46px}
+    .titlerow{gap:12px;margin-bottom:12px}
   }
   @media(max-width:380px){
     .mapgrid{gap:4px}
@@ -255,9 +269,13 @@
 <div class="bar"><div class="bar-in"><img src="assets/wordmark-white.svg" alt="Canadian Red Cross" /><span class="bar-tag">Open Mapping Companion</span></div></div>
 
 <header class="hero">
-  <div class="eyebrow">Sensing the Commons</div>
-  <h1>Map the need, one tile at a time</h1>
-  <p>A companion to humanitarian mapping. Test what you know about OpenStreetMap, remote sensing, and the Missing Maps work the Canadian Red Cross helps carry out around the world.</p>
+  <div class="eyebrow">A Missing Maps Event Companion</div>
+  <div class="titlerow">
+    <img class="mm-logo" src="assets/missing-maps-logo.svg" alt="Missing Maps logo" />
+    <h1>The Open Mapping Playground</h1>
+  </div>
+  <p class="tagline">For curious mappers, bored humans, and anyone who likes learning by clicking.</p>
+  <a class="guide-link" href="https://sophiachen-geo.github.io/remote-sensing/" target="_blank" rel="noopener noreferrer">Sensing the Commons Presentation Companion Guide ↗</a>
 </header>
 
 <nav class="tabs" id="tabs"></nav>
@@ -524,6 +542,14 @@ const remainingCount = () => N - S.score - restingCount();
 const someProgress = () => S.score>0 || restingCount()>0;
 const attempted = i => S.answered[i]==="correct" || S.answered[i]==="resting" || (S.attemptsMap[i]||0)>0;
 function scrollTop(){ try{ window.scrollTo({top:0,behavior:"smooth"}); }catch(e){} }
+// On phones the question sits below the tiles, so bring it into view; on wide
+// screens the question is already beside the tiles, so no scroll is needed.
+function revealPanel(){
+  try{
+    if(window.innerWidth<900){ const p=document.getElementById("chRight"); if(p){ p.scrollIntoView({behavior:"smooth",block:"start"}); return; } }
+  }catch(e){}
+  scrollTop();
+}
 
 /* ===================================================================
    ACTIONS
@@ -533,7 +559,7 @@ function selectTile(i){
   if(S.breakActive) return; // mapping is locked during a movement break
   clearBreak();
   if(S.answered[i]==="resting"){ S.attemptsMap[i]=0; S.wrongMap[i]=[]; S.answered[i]=undefined; }
-  S.selected=i; S.breakActive=false; render(); scrollTop();
+  S.selected=i; S.breakActive=false; render(); revealPanel();
 }
 function choose(opt){
   const i=S.selected;
@@ -679,7 +705,10 @@ function viewQuiz(){
     }
     panel=`<div class="qpanel">${head}${body}</div>`;
   }
-  return `<section class="view">${stats}${map}${panel}</section>`;
+  return `<section class="view"><div class="challenge">
+      <div class="ch-left">${stats}${map}</div>
+      <div class="ch-right" id="chRight">${panel}</div>
+    </div></section>`;
 }
 
 function viewResults(){
