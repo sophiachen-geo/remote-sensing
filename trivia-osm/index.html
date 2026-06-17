@@ -91,7 +91,7 @@
   .rest-glyph span{font-size:9px;font-weight:700;letter-spacing:.04em}
   .mapcap{text-align:center;font-size:13px;margin:0 auto 22px;max-width:520px;color:var(--crc-grey)}
   .mapcap.done{color:var(--crc-red);font-weight:700}
-  .legend{display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center;justify-content:center;margin:0 auto 26px;max-width:560px}
+  .legend{display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center;justify-content:flex-start;margin:0 0 26px;max-width:560px}
   .legend span.it{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--crc-black-tint);font-weight:500}
   .legend .dot{width:12px;height:12px;border-radius:2px;flex:none}
 
@@ -241,21 +241,26 @@
   .acc-body .ponder{border-left:3px solid var(--crc-grey-tint);padding:2px 0 2px 16px;color:var(--crc-black-tint);font-size:15px;margin:0;max-width:64ch}
 
   /* ---------- Missing Maps ---------- */
-  /* circular flip discs — uniform size, scroll to discover, tap to flip */
-  .discs{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin-bottom:8px}
-  .disc{width:168px;height:168px;flex:none;background:none;border:0;padding:0;cursor:pointer;perspective:900px;font:inherit}
-  .disc-inner{position:relative;width:100%;height:100%;transition:transform .55s var(--motion-ease);transform-style:preserve-3d;display:block}
-  .disc.flipped .disc-inner{transform:rotateY(180deg)}
-  .disc-face{position:absolute;inset:0;border-radius:50%;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;border:1px solid var(--crc-grey-tint);box-shadow:var(--shadow-card)}
-  .disc-face.front{background:#fff}
+  /* 3D carousel ring of circular member cards */
+  .ring3d{position:relative;display:flex;align-items:center;justify-content:center;gap:6px;margin:6px 0 6px}
+  .ring-vp{position:relative;flex:1;min-width:0;height:240px;perspective:1200px}
+  .ring-stage{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .6s var(--motion-ease);--theta:17.142857deg;--r:560px;transform:translateZ(calc(var(--r) * -1)) rotateY(calc(var(--cur) * var(--theta) * -1))}
+  .ring-card{position:absolute;left:50%;top:50%;width:190px;height:190px;margin:-95px 0 0 -95px;transform-style:preserve-3d;cursor:pointer;transition:opacity .4s var(--motion-ease);transform:rotateY(calc(var(--i) * var(--theta))) translateZ(var(--r))}
+  .disc-inner{position:relative;width:100%;height:100%;transition:transform .55s var(--motion-ease);transform-style:preserve-3d}
+  .ring-card.flipped .disc-inner{transform:rotateY(180deg)}
+  .disc-face{position:absolute;inset:0;border-radius:50%;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:22px;border:1px solid var(--crc-grey-tint);box-shadow:var(--shadow-card);background:#fff}
+  .ring-card.front .disc-face.front{border-color:var(--crc-red);box-shadow:var(--shadow-raised)}
   .disc-face.front.f{border:2px solid var(--crc-red);background:var(--crc-grey-50)}
   .disc-face.front .nm{font-size:14px;font-weight:700;line-height:1.18;color:var(--crc-black)}
   .disc-face.front .star{color:var(--crc-red);font-size:15px;margin-bottom:4px}
   .disc-face.back{transform:rotateY(180deg);background:var(--crc-red);color:#fff;border-color:var(--crc-red);gap:8px}
-  .disc-face.back .bk-desc{font-size:11px;line-height:1.28;font-weight:500;overflow:hidden}
+  .disc-face.back .bk-desc{font-size:11px;line-height:1.3;font-weight:500;overflow:hidden}
   .disc-face.back .bk-link{font-size:12px;font-weight:700;color:#fff;text-decoration:underline;text-underline-offset:2px}
-  .disc:hover .disc-face.front{border-color:var(--crc-red)}
-  @media(max-width:480px){ .disc{width:150px;height:150px} .disc-face.back .bk-desc{font-size:10.5px} }
+  .ring-btn{flex:none;width:40px;height:40px;border-radius:50%;background:#fff;border:1.5px solid var(--crc-grey-tint);box-shadow:var(--shadow-card);cursor:pointer;font-size:20px;color:var(--crc-black);display:grid;place-items:center;z-index:2}
+  .ring-btn:hover{color:var(--crc-red);border-color:var(--crc-red)}
+  .ring-meta{text-align:center;font-size:13px;color:var(--crc-grey);margin:0 0 6px}
+  .ring-meta strong{color:var(--crc-black)}
+  @media(max-width:560px){ .ring-stage{--r:360px} .ring-card{width:150px;height:150px;margin:-75px 0 0 -75px} .ring-vp{height:200px} }
   .grp{margin-bottom:22px}
   .grp .gl{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;font-size:13px;font-weight:700;color:var(--crc-black);margin:0 0 10px}
   .grp .gl small{font-size:11px;font-weight:600;color:var(--crc-grey);letter-spacing:.02em}
@@ -352,7 +357,6 @@
 <header class="hero">
   <div class="eyebrow">A Missing Maps Event Companion</div>
   <div class="titlerow">
-    <img class="mm-logo" src="assets/missing-maps-logo.svg" alt="Missing Maps logo" />
     <h1>The Open Mapping <span class="play">Playground</span></h1>
   </div>
   <p class="tagline">For curious mappers, bored humans, and anyone who likes learning by clicking.</p>
@@ -363,7 +367,6 @@
 
 <footer class="site"><div class="in">
   <img src="assets/wordmark-white.svg" alt="Canadian Red Cross" />
-  <p>A “Sensing for the Commons” companion. Trivia and explanations adapted from the OpenStreetMap and HOT community Q and A. Member list per the Missing Maps 2025 annual report.</p>
 </div></footer>
 
 <script>
@@ -629,11 +632,11 @@ const PUZZLE = [
 ];
 
 const TYPES = {
-  origins:      {label:"Origins & open data",        color:"#005670"},
-  tools:        {label:"Tools & tagging",            color:"#0085AD"},
-  sensing:      {label:"Remote sensing & imagery",   color:"#653024"},
+  origins:      {label:"Origins & Open Data",        color:"#005670"},
+  tools:        {label:"Tools & Tagging",            color:"#0085AD"},
+  sensing:      {label:"Remote Sensing & Imagery",   color:"#653024"},
   humanitarian: {label:"Humanitarian & Red Cross",   color:"#EE0000"},
-  future:       {label:"Power, AI & the future",     color:"#000000"}
+  future:       {label:"Power, AI & the Future",     color:"#000000"}
 };
 const CAT2TYPE = {
   "OSM History":"origins","OSM Licensing":"origins","OSM Basics":"origins",
@@ -683,7 +686,7 @@ const S = {
   obsActive:null, obsAns:{},              // obsAns[key] = chosen option index
   claimPick:null, claimDone:false, claimHint:false,
   cards:{}, cardHint:{},                  // cards[key]=true once solved
-  memFlip:{},                             // member card flip state
+  memFlip:{}, carIndex:0,                  // member 3D carousel: flip state + front index
   breakActive:false, breakLeft:60
 };
 let breakTimer=null;
@@ -699,8 +702,10 @@ function scrollTop(){ try{ window.scrollTo({top:0,behavior:"smooth"}); }catch(e)
 // On phones the question sits below the tiles, so bring it into view; on wide
 // screens the question is already beside the tiles, so no scroll is needed.
 function revealPanel(){
+  // bring the open question fully into view, centred, so it reads without scrolling
   try{
-    if(window.innerWidth<900){ const p=document.getElementById("chRight"); if(p){ p.scrollIntoView({behavior:"smooth",block:"start"}); return; } }
+    const p=document.getElementById("chRight");
+    if(p){ requestAnimationFrame(()=>p.scrollIntoView({behavior:"smooth",block:"center"})); return; }
   }catch(e){}
   scrollTop();
 }
@@ -838,7 +843,7 @@ function viewQuiz(){
   const allMapped=S.score===N;
   const map = `
     <div class="mapgrid">${tiles}</div>
-    <p class="mapcap ${allMapped?'done':''}">${allMapped?"You mapped the whole world.":"Tap any tile to answer that question. Map all thirty-six to reveal the planet."}</p>
+    <p class="mapcap ${allMapped?'done':''}">${allMapped?"You mapped the whole world.":"Tap any tile to answer that question."}</p>
     <div class="legend">${Object.keys(TYPES).map(k=>`<span class="it"><span class="dot" style="background:${TYPES[k].color}"></span>${TYPES[k].label}</span>`).join("")}</div>`;
 
   let panel;
@@ -1058,21 +1063,27 @@ function viewDeep(){
 }
 
 function viewMM(){
-  // flat set of circular flip-cards; tap to reveal a short description on the back
-  const members = MM_MEMBERS.map((m,i)=>{
-    const flipped = S.memFlip[i] ? "flipped" : "";
-    return `<button class="disc ${flipped}" data-act="flip" data-v="${i}" aria-label="${m.name}">
-        <span class="disc-inner">
-          <span class="disc-face front ${m.founder?'f':''}">
-            ${m.founder?'<span class="star">★</span>':''}<span class="nm">${m.name}</span>
-          </span>
-          <span class="disc-face back">
-            <span class="bk-desc">${m.desc}</span>
-            <a class="bk-link" href="${m.url}" target="_blank" rel="noopener noreferrer">Visit&nbsp;↗</a>
-          </span>
-        </span>
-      </button>`;
+  // 3D carousel ring: all member cards sit around one circle; spin with the
+  // arrows, tap the front card to flip it and read a short description.
+  const NM=MM_MEMBERS.length, cur=S.carIndex;
+  const cards = MM_MEMBERS.map((m,i)=>{
+    let d=((i-cur)%NM+NM)%NM; if(d>NM/2) d-=NM;     // signed distance from front
+    const ad=Math.abs(d), front=ad===0, near=ad<=3;
+    const op = front?1 : near ? (1-ad*0.24) : 0;
+    const flipped = front && S.memFlip[i] ? "flipped" : "";
+    return `<div class="ring-card ${front?'front':''} ${flipped}" style="--i:${i};opacity:${op.toFixed(2)};${near?'':'pointer-events:none;visibility:hidden'}" data-act="ringCard" data-v="${i}">
+        <div class="disc-inner">
+          <div class="disc-face front ${m.founder?'f':''}">${m.founder?'<span class="star">★</span>':''}<span class="nm">${m.name}</span></div>
+          <div class="disc-face back"><span class="bk-desc">${m.desc}</span><a class="bk-link" href="${m.url}" target="_blank" rel="noopener noreferrer">Visit&nbsp;↗</a></div>
+        </div>
+      </div>`;
   }).join("");
+  const ring = `<div class="ring3d">
+      <button class="ring-btn prev" data-act="ringRot" data-dir="-1" aria-label="Previous">‹</button>
+      <div class="ring-vp"><div class="ring-stage" style="--cur:${cur}">${cards}</div></div>
+      <button class="ring-btn next" data-act="ringRot" data-dir="1" aria-label="Next">›</button>
+    </div>
+    <div class="ring-meta">${cur+1} / ${NM} · <strong>${MM_MEMBERS[cur].name}</strong> — tap the front card to flip it</div>`;
 
   const tools = MM_TOOLS.map(t=>
     `<a class="tool" href="${t.url}" target="_blank" rel="noopener noreferrer">
@@ -1086,8 +1097,8 @@ function viewMM(){
 
   return `<section class="view">
     <p class="lead">Missing Maps is a coalition launched in <strong>November 2014</strong> by the American Red Cross, British Red Cross, Médecins Sans Frontières, and the Humanitarian OpenStreetMap Team. It has since grown to roughly twenty non-profit and academic members.</p>
-    <div class="ghead">Member organizations <span style="color:var(--crc-red);text-transform:none;letter-spacing:0">★ = founding member · tap a card to flip it</span></div>
-    <div class="discs">${members}</div>
+    <div class="ghead">Member organizations <span style="color:var(--crc-red);text-transform:none;letter-spacing:0">★ = founding member · spin the ring</span></div>
+    ${ring}
     <div class="ghead">The tooling stack <span style="color:var(--crc-grey);text-transform:none;letter-spacing:0">— tap a card to visit</span></div>
     <div id="toolList">${tools}</div>
   </section>`;
@@ -1223,7 +1234,8 @@ document.addEventListener("click", e=>{
     case "claim": chooseClaim(+v); break;
     case "card": answerCard(el.dataset.k, +v); break;
     case "resetSeesaw": resetSeesaw(); break;
-    case "flip": S.memFlip[+v]=!S.memFlip[+v]; render(); break;
+    case "ringRot": { const NM=MM_MEMBERS.length; S.carIndex=(S.carIndex+(+el.dataset.dir)+NM)%NM; render(); break; }
+    case "ringCard": { const i=+v; if(i===S.carIndex){ S.memFlip[i]=!S.memFlip[i]; } else { S.memFlip[S.carIndex]=false; S.carIndex=i; } render(); break; }
     case "car": {
       const track=document.getElementById("car-"+el.dataset.car);
       if(track) track.scrollBy({left:(+el.dataset.dir)*Math.min(track.clientWidth*0.8, 440), behavior:"smooth"});
